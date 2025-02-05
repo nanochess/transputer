@@ -1,0 +1,2142 @@
+; Programa: Compilador de Pascal para el Inmos T805
+;
+; Módulo  : Rutinas de apoyo durante la ejecución
+;
+; Programador(es):  Oscar Toledo Gutierrez
+;
+;          (c) Copyright 1993-1994 Oscar Toledo Gutierrez
+;          Todos los derechos reservados.
+;
+; Historia de modificaciones:
+;
+; 20-jun-93  Se crea el archivo LIBRERIA.LEN
+;
+;    ...     Varias mejoras.
+;
+; 26-oct-93  Se agregan las funciones trigonometricas SIN y COS, tienen muy
+;            alta precisión.
+; 28-oct-93  Se agregan las funciones ARCTAN, EXP, y LN, sin embargo son un
+;            poco imprecisas (máximo 3 digitos de precisión)
+;  8-nov-93  Se rehacen las funciones ARCTAN, EXP, y LN, ahora con una
+;            precisión de 7 digitos.
+; 23-feb-94  Se hace más rapida la salida de cadenas de caracteres.
+;            Se agregan las rutinas para manejo de conjuntos.
+; 25-feb-94  Se agregan las rutinas RANDOMIZE y RANDOM.
+; 26-feb-94  Se corrige un error en la rutina de impresión de cadenas para
+;            cadenas de tamaño cero.
+;  2-mar-94  Se agregan las rutinas para manejo de cadenas STRING
+;  3-mar-94  Se corrigen las rutinas para manejo de cadenas STRING
+;  1-may-94  Se reescribe la rutina de comparación MAYORSTR para
+;            corregir un defecto.
+;  8-dic-96  Se corrige un defecto en la rutina L0
+;
+
+VRANDOM:
+equ -5
+BLOQUE:
+equ -4
+MEMORIA:
+equ -3
+APDIN:
+equ -2
+CARACT:
+equ -1
+
+TECLADO: equ 0 ; Canal de entrada
+; donde la terminal pone
+; los datos del teclado.
+;
+; Poner 0-3, para los canales
+; 0-3 respectivamente
+
+VIDEO: equ 0 ; Canal de salida
+; donde la terminal recibe
+; los datos para ilustrarlos.
+;
+; Poner 0-3, para los canales
+; 0-3 respectivamente.
+
+;
+; Valores ASCII para el retorno
+; de carro, y el cambio de linea.
+;
+CR: equ 13
+LF: equ 10
+
+;
+; Las siguientes definiciones
+; no deben ser alteradas, pues
+; indican la posicion local de
+; los registros despues de una
+; llamada.
+;
+A: equ 1
+B: equ 2
+C: equ 3
+
+; Obtencion de un caracter
+; por el canal definido en el
+; registro A.
+;
+ES0:
+ldc 0
+stl C
+ldlp C
+mint
+ldnlp TECLADO+4
+ldc 1
+in
+ldl A
+ldl C
+ret
+
+; Envio de un caracter
+; del registro A por el
+; canal definido.
+;
+ES1:
+ldlp A
+mint
+ldnlp VIDEO
+ldc 1
+out
+ret
+
+; Envio de un caracter
+; procesado.
+;
+ENCAR:
+ldl A ; Envia el caracter
+call ES1
+ldl A
+eqc CR ; Era un retorno de carro ?
+cj ENCAR2 ; No, retorna.
+ldc LF ; Envia un LF compañero
+call ES1
+ENCAR2:
+ret
+
+; Lectura de un caracter.
+;
+L1:
+ldl A
+call CHAR
+stl B
+ldl A
+call OBTCAR
+ldl B
+eqc 13
+ldl B
+eqc 26
+or
+cj L11
+ldc 32
+ret
+L11:
+ldl B
+ret
+
+L3:
+ldl A
+call EOLN
+eqc 0
+cj L31
+ldl A
+call OBTCAR
+j L3
+L31:
+ldl A
+call OBTCAR
+ret
+
+; Obtencion de un numero
+; decimal ASCII por el
+; canal 0 en el registro A.
+;
+OBTCAR:
+mint
+ldl A
+stnl CARACT
+ret
+
+L0:
+ajw -4
+ldc 0
+stl 0
+L02:
+ldl 5
+call CHAR
+stl 1
+ldl 1
+eqc 32
+ldl 1
+eqc 13
+or
+cj L01
+ldl 1
+call ENCAR
+ldl 5
+call OBTCAR
+j L02
+L01:
+ldc 0
+stl 2
+ldl 1
+eqc '-'
+cj L03
+ldl 1
+call ENCAR
+ldl 5
+call OBTCAR
+ldc 1
+stl 2
+j L04
+L03:
+ldl 1
+eqc '+'
+cj L041
+ldl 1
+call ENCAR
+ldl 5
+call OBTCAR
+L04:
+ldl 5
+call CHAR
+stl 1
+L041:
+ldc '0'
+ldl 1
+gt
+eqc 0
+cj L05
+ldc ':'
+ldl 1
+gt
+cj L05
+ldl 1
+adc -'0'
+ldl 0
+ldc 10
+prod
+add
+stl 0
+ldl 1
+call ENCAR
+ldl 5
+call OBTCAR
+j L04
+L05:
+ldl 2
+cj L06
+ldl 0
+not
+adc 1
+ajw 4
+ret
+L06:
+ldl 0
+ajw 4
+ret
+
+; Envia un numero decimal
+; formateado en ASCII por
+; el canal 0, el registro
+; B debe contener el numero,
+; y el registro A el ancho
+; de la franja.
+;
+E0:
+ES3:
+ldc 1
+ldl A
+ldl B
+call ES31
+ret
+
+ES31:
+ldl A
+ldc 10
+div
+cj ES32
+ldl B
+cj ES33
+ldl B
+adc -1
+stl B
+ES33:
+ldc 1
+ldl A
+ldc 10
+div
+ldl B
+rev
+call ES31
+ldc 0
+stl B
+ldc 0
+stl C
+ES32:
+ldl A
+ldc 10
+rem
+stl A
+ldc 0
+ldl A
+gt
+cj ES34
+ldl C
+cj ES35
+ldl B
+cj ES36
+ldl B
+adc -1
+stl B
+ldl B
+cj ES36
+ES37:
+ldl B
+adc -1
+stl B
+ldl B
+cj ES36
+ldc ' '
+call ES1
+j ES37
+ES36:
+ldc '-'
+call ES1
+ldc 0
+stl B
+ES35:
+ldl A
+not
+adc 1
+stl A
+ES34:
+ldl B
+cj ES38
+ldl B
+adc -1
+stl B
+ldl B
+cj ES38
+ldc ' '
+call ES1
+j ES34
+ES38:
+ldl A
+adc '0'
+call ES1
+ret
+
+; Escribe valor boleano.
+;
+E3:
+ldl B
+cj E32
+ldc VERDAD-APINS
+ldpi
+APINS:
+ldc 6
+call E4
+ret
+E32:
+ldc FALSO-APINS2
+ldpi
+APINS2:
+ldc 5
+call E4
+ret
+FALSO:
+db "FALSO"
+VERDAD:
+db "VERDAD"
+
+; Escribe caracter.
+;
+E1:
+ldl A
+eqc 0
+cj E12
+ret
+E12:
+ldl B
+call ES1
+ldl A
+adc -1
+stl A
+j E1
+
+; Nueva linea.
+;
+E5:
+ldc CR
+call ENCAR
+RET
+
+; Envia la cadena de
+; caracteres apuntada
+; por el registro B,
+; del tamaño indicado
+; por el registro A,
+; en el canal 0.
+;
+E4:
+ES7:
+ldl A
+cj ES71
+ldl B
+mint
+ldnlp VIDEO
+ldl A
+out
+ES71:
+ret
+
+; Convierte a valor
+; absoluto el registro A.
+;
+; No pierde ningun valor
+; en B o C.
+;
+; A = ABS(A)
+;
+ABS:
+ldc 0
+ldl A
+gt
+cj ABS2
+ldl A
+not
+adc 1
+stl A
+ABS2:
+ldl C
+ldl B
+ldl A
+ret
+
+; Compara si una cadena es
+; mayor que otra.
+;
+; A = tamaño
+; B = cadena 2
+; C = cadena 1
+;
+; A = C > B
+;
+MAYOR:
+ldl C
+lb
+ldl B
+lb
+gt
+cj MAYOR2
+ldc 1
+ret
+MAYOR2:
+ldl B
+lb
+ldl C
+lb
+gt
+cj MAYOR3
+ldc 0
+ret
+MAYOR3:
+ldl C
+adc 1
+stl C
+ldl B
+adc 1
+stl B
+ldl A
+adc -1
+stl A
+ldl A
+eqc 0
+cj MAYOR
+ldc 0
+ret
+
+; Compara si una cadena es
+; igual a la otra.
+;
+; A = tamaño
+; B = cadena 2
+; C = cadena 1
+;
+; A = (C=B)
+;
+IGUAL:
+ldl C
+lb
+ldl B
+lb
+diff
+cj IGUAL2
+ldc 0
+ret
+IGUAL2:
+ldl C
+adc 1
+stl C
+ldl B
+adc 1
+stl B
+ldl A
+adc -1
+stl A
+ldl A
+eqc 0
+cj IGUAL
+ldc 1
+ret
+
+NOIGUAL:
+ldl C
+ldl B
+ldl A
+call IGUAL
+eqc 0
+ret
+
+MENORIGUAL:
+ldl C
+ldl B
+ldl A
+call MAYOR
+eqc 0
+ret
+
+; FA=sin(FA)
+;
+; El siguiente codigo fue transladado
+; a partir del listado en el libro
+; ®29027 aritmethic accelerator¯
+; capítulo 3.
+;
+; Sin informaciones cómo esta
+; seguramente esta rutina no
+; estaria o no seria tan
+; precisa.
+;
+SIN:
+ajw -2
+ldlp 0
+fpstnlsn
+ldlp 0
+fpldnlsn
+ldl 3
+ldnlp 6
+fpldnlmulsn
+fpdup
+ldl 3
+ldnlp 7
+fpldnladdsn
+fpudivby2
+fpudivby2
+fpurm
+fpint
+fpumulby2
+fpumulby2
+fpsub
+fpdup
+ldl 3
+ldnlp 7
+fpldnlsn
+fpgt
+cj COSSIN3
+ldl 3
+ldnlp 8
+fpldnlsn
+fprev
+fpsub
+COSSIN3:
+fpdup
+ldlp 0
+fpstnlsn
+fpdup
+fpmul
+fpumulby2
+ldl 3
+ldnlp 7
+fpldnlsn
+fpsub
+ldlp 1
+fpstnlsn
+ldlp 1
+fpldnlsn
+ldl 3
+ldnlp 5
+fpldnlmulsn
+ldl 3
+ldnlp 4
+fpldnladdsn
+ldlp 1
+fpldnlmulsn
+ldl 3
+ldnlp 3
+fpldnladdsn
+ldlp 1
+fpldnlmulsn
+ldl 3
+ldnlp 2
+fpldnladdsn
+ldlp 1
+fpldnlmulsn
+ldl 3
+ldnlp 1
+fpldnladdsn
+ldlp 1
+fpldnlmulsn
+ldl 3
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ajw 2
+ret
+
+; FA=cos(FA)
+;
+; Usa la rutina de SIN
+; para sacar el COS.
+;
+; FA=sin(FA+(pi/2))
+;
+COS:
+ldl 1
+ldnlp 9
+fpldnladdsn
+ldl 1
+call SIN
+ret
+
+; Saca el arco tangente
+;
+; FA = arctan(FA)
+;
+ARCTAN:
+ajw -4
+ldlp 0
+fpstnlsn
+ldc 0
+stl 1
+fpldzerosn
+ldlp 0
+fpldnlsn
+fpgt
+cj ARCTAN5
+ldc 1
+stl 1
+ARCTAN5:
+ldc 0
+stl 2
+ldlp 0
+fpldnlsn
+fpuabs
+fpdup
+ldlp 0
+fpstnlsn
+ldl 5
+ldnlp 24
+fpldnlsn
+fpgt
+cj ARCTAN6
+ldc 1
+stl 2
+ldl 5
+ldnlp 24
+fpldnlsn
+ldlp 0
+fpldnlsn
+fpdiv
+ldlp 0
+fpstnlsn
+ARCTAN6:
+ldlp 0
+fpldnlsn
+fpdup
+fpmul
+ldlp 3
+fpstnlsn
+ldl 5
+ldnlp 10
+fpldnlsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 11
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 12
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 13
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 14
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 15
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 16
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 17
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 18
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 19
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 20
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 21
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 22
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldlp 0
+fpstnlsn
+ldl 2
+cj ARCTAN7
+ldl 5
+ldnlp 23
+fpldnlsn
+ldlp 0
+fpldnlsn
+fpsub
+ldlp 0
+fpstnlsn
+ARCTAN7:
+ldl 1
+cj ARCTAN8
+fpldzerosn
+ldlp 0
+fpldnlsn
+fpsub
+ajw 4
+ret
+ARCTAN8:
+ldlp 0
+fpldnlsn
+ajw 4
+ret
+
+; Saca el logaritmo natural.
+;
+; FA=ln(FA)
+;
+LN:
+ajw -3
+ldlp 0
+fpstnlsn
+fpldzerosn
+ldlp 0
+fpldnlsn
+fpgt
+cj LN2
+fpldzerosn
+ajw 3
+ret
+LN2:
+ldl 0 ; Extrae la caracteristica
+ldc 23
+shr
+ldc 255
+and
+adc -126
+stl 1
+ldl 0
+ldc 0x807fffff ; Reduce el exponente
+and
+ldc 0x3f000000
+or
+stl 0
+ldlp 0
+fpldnlsn
+ldl 4
+ldnlp 25
+fpldnlsn
+fpsub
+ldlp 0
+fpldnlsn
+ldl 4
+ldnlp 25
+fpldnladdsn
+fpdiv
+fpdup
+ldlp 0
+fpstnlsn
+fpdup
+fpmul
+ldlp 2
+fpstnlsn
+ldl 4
+ldnlp 27
+fpldnlsn
+ldlp 2
+fpldnlmulsn
+ldl 4
+ldnlp 28
+fpldnladdsn
+ldlp 2
+fpldnlmulsn
+ldl 4
+ldnlp 29
+fpldnladdsn
+ldlp 2
+fpldnlmulsn
+ldl 4
+ldnlp 30
+fpldnladdsn
+ldlp 2
+fpldnlmulsn
+ldl 4
+ldnlp 31
+fpldnladdsn
+ldlp 2
+fpldnlmulsn
+ldl 4
+ldnlp 32
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 4
+ldnlp 33
+fpldnladdsn
+ldlp 1 ; Suma la caracteristica.
+fpi32tor32
+fpadd
+ldl 4
+ldnlp 34
+fpldnlmulsn
+ajw 3
+ret
+
+; Exponente.
+;
+; FA=exp(FA)
+;
+EXP:
+ajw -2
+ldl 3
+ldnlp 35
+fpldnlmulsn
+fpdup
+ldlp 0
+fpstnlsn
+ldlp 1
+fpstnli32
+ldlp 0
+fpldnlsn
+ldlp 1
+fpi32tor32
+fpsub
+ldlp 0
+fpstnlsn
+ldl 3
+ldnlp 36
+fpldnlsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 37
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 38
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 39
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 40
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 41
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 42
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 43
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 44
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 45
+fpldnladdsn
+ldlp 0
+fpstnlsn
+ldl 0
+ldc 23
+shr
+ldc 255
+and
+ldl 1
+add
+ldc 23
+shl
+ldl 0
+ldc 0x807fffff ; Pone la caracteristica.
+and
+or
+stl 0
+ldlp 0
+fpldnlsn
+ajw 2
+ret
+
+; Escribe un numero real
+; por el canal.
+;
+E2:
+ret
+
+; Lee un numero real
+; a traves del canal.
+;
+L2:
+ldl A
+call L0
+stl B
+ldlp B
+fpi32tor32
+ret
+
+; Verifica cual va a
+; ser el proximo
+; caracter que se va
+; a leer.
+;
+; Rutina buffereada.
+;
+CHAR:
+ldl A
+ldnl CARACT
+mint
+diff
+cj CHAR2
+ldl A
+ldnl CARACT
+ret
+CHAR2:
+call ES0
+stl B
+ldl B
+eqc 10
+eqc 0
+cj CHAR2
+ldl B
+ldl A
+stnl CARACT
+ldl B
+ret
+
+; Rutinas de deteccion de
+; fin de linea y archivo.
+;
+EOF:
+ldl A
+call CHAR
+eqc 26
+ret
+
+EOLN:
+ldl A
+call CHAR
+eqc 13
+ret
+
+; Inicializa el manejo de
+; la memoria dinámicamente.
+;
+; Estas rutinas fueron elaboradas
+; a partir del boceto del libro
+;
+; ®El Lenguaje de Programación C¯
+;
+; Dennis M. Ritchie.
+; Brian W. Kernighan.
+;
+DINAMICA:
+ldc FINLIB-DINAMICA2
+ldpi
+DINAMICA2:
+adc 3
+ldc 2
+shr
+ldc 2
+shl
+stl 1
+ldl 1
+ldl 1
+stnl 0
+ldc 0
+ldl 1
+stnl 1
+ldl 1
+ldnlp 2
+ldl 1
+ret
+
+; Rutina para obtener espacio
+; dinámicamente.
+;
+; Entrada B= Apuntador al apuntador
+;         A= Memoria necesitada
+;
+NEW:
+ajw -3
+ldl 5
+adc 7
+ldc 8
+div
+adc 1
+stl 2
+ldl 4
+ldnl APDIN
+dup
+stl 1
+mint
+diff
+eqc 0
+cj NEW2
+ldl 4
+ldnl BLOQUE
+dup
+stl 1
+dup
+ldl 4
+stnl APDIN
+dup
+ldl 4
+ldnl BLOQUE
+stnl 0
+ldc 0
+ldl 4
+ldnl BLOQUE
+stnl 1
+NEW2:
+ldl 1
+ldnl 0
+stl 0
+NEW3:
+ldl 2
+ldl 0
+ldnl 1
+gt
+eqc 0
+cj NEW4
+ldl 0
+ldnl 1
+ldl 2
+diff
+eqc 0
+cj NEW5
+ldl 0
+ldnl 0
+ldl 1
+stnl 0
+j NEW6
+NEW5:
+ldl 0
+ldnl 1
+ldl 2
+sub
+ldl 0
+stnl 1
+ldl 0
+ldnl 1
+ldc 8
+prod
+ldl 0
+add
+stl 0
+ldl 2
+ldl 0
+stnl 1
+NEW6:
+ldl 1
+ldl 4
+stnl APDIN
+ldl 0
+adc 8
+ldl 6
+stnl 0
+ajw 3
+ret
+NEW4:
+ldl 0
+ldl 4
+ldnl APDIN
+diff
+eqc 0
+cj NEW7
+ldl 2
+adc 127
+ldc 128
+div
+ldc 128 ; Pide la memoria en bloques de 128 bytes.
+prod
+ajw -2
+stl 0
+ldl 0
+ldc 8
+prod
+stl 1
+ldl 6
+ldnl MEMORIA
+dup
+ldl 1
+add
+ldl 6
+stnl MEMORIA
+stl 1
+ldl 0
+ldl 1
+stnl 1
+ldl 1
+adc 8
+ldl 6
+call DISPOSE ; Libera el espacio que no se usa.
+ajw 2
+ldl 4
+ldnl APDIN
+stl 0
+NEW7:
+ldl 0
+stl 1
+ldl 0
+ldnl 0
+stl 0
+j NEW3
+
+; Esta rutina libera el
+; espacio dinámicamente.
+;
+; A = Apuntador al bloque.
+;
+DISPOSE:
+ajw -2
+ldl 4
+adc -8
+stl 0
+ldl 3
+ldnl APDIN
+stl 1
+DISPOSE2:
+ldl 0
+ldl 1
+gt
+ldl 1
+ldnl 0
+ldl 0
+gt
+and
+eqc 0
+cj DISPOSE3
+ldl 0
+ldl 1
+gt
+ldl 1
+ldnl 0
+ldl 0
+gt
+or
+ldl 1
+ldnl 0
+ldl 1
+gt
+eqc 0
+and
+eqc 0
+cj DISPOSE3
+ldl 1
+ldnl 0
+stl 1
+j DISPOSE2
+DISPOSE3:
+ldl 0
+ldnl 1
+ldc 8
+prod
+ldl 0
+add
+ldl 1
+ldnl 0
+diff
+eqc 0
+cj DISPOSE4
+ldl 1
+ldnl 0
+ldnl 1
+ldl 0
+ldnl 1
+add
+ldl 0
+stnl 1
+ldl 1
+ldnl 0
+ldnl 0
+ldl 0
+stnl 0
+j DISPOSE5
+DISPOSE4:
+ldl 1
+ldnl 0
+ldl 0
+stnl 0
+DISPOSE5:
+ldl 1
+ldnl 1
+ldc 8
+prod
+ldl 1
+add
+ldl 0
+diff
+eqc 0
+cj DISPOSE6
+ldl 0
+ldnl 1
+ldl 1
+ldnl 1
+add
+ldl 1
+stnl 1
+ldl 0
+ldnl 0
+ldl 1
+stnl 0
+j DISPOSE7
+DISPOSE6:
+ldl 0
+ldl 1
+stnl 0
+DISPOSE7:
+ldl 1
+ldl 3
+stnl APDIN
+ajw 2
+ret
+
+LLAMADA:
+gcall
+
+; Limpia un conjunto.
+;
+; Crea 8 palabras de espacio
+; de trabajo, cuando retorna
+; el conjunto limpio se encuentra
+; en (WP+0)
+;
+LIMPIASET:
+ajw -8
+ldl 8
+stl 0
+ldc 0
+stl 4
+ldc 0
+stl 5
+ldc 0
+stl 6
+ldc 0
+stl 7
+ldc 0
+stl 8
+ldc 0
+stl 9
+ldc 0
+stl 10
+ldc 0
+stl 11
+ret
+
+; Carga un conjunto.
+;
+; A= Apuntador al conjunto.
+;
+; Carga el conjunto en (WP+0)
+; automaticamente hace 8 palabras
+; de espacio.
+;
+CARGASET:
+ajw -8
+ldl 8
+stl 0
+ldl 9
+ldlp 4
+ldc 32
+move
+ret
+
+; Agrega un bit al conjunto
+; en (WP+0)
+;
+; A = Bit (0-255)
+;
+GENBIT:
+ldc 256
+ldl A
+gt
+cj GENBIT2
+ldl A
+ldc -1
+gt
+cj GENBIT2
+ldc 0x80
+ldl A
+ldc 7
+and
+shr
+ldl A
+ldc 3
+shr
+ldlp 4
+bsub
+stl B
+ldl B
+lb
+or
+ldl B
+sb
+GENBIT2:
+ret
+
+RANGO:
+ldl A
+ldc 255
+gt
+cj RANGO2
+ldc 255
+ret
+RANGO2:
+ldc 0
+ldl A
+gt
+cj RANGO3
+ldc 0
+ret
+RANGO3:
+ldl A
+ret
+
+;
+; Agrega bits a un conjunto.
+;
+; B= Bit inicial.
+; A= Bit final.
+;
+GENBITS:
+ldl B
+call RANGO
+stl B
+ldl A
+call RANGO
+stl A
+ldl B
+ldl A
+gt
+eqc 0
+cj GENBITS2
+ldc 0x80
+ldl B
+ldc 7
+and
+shr
+ldl B
+ldc 3
+shr
+ldlp 4
+bsub
+stl C
+ldl C
+lb
+or
+ldl C
+sb
+ldl B
+adc 1
+stl B
+j GENBITS
+GENBITS2:
+ret
+
+;
+; Genera la union de dos conjuntos.
+;
+UNIONSET:
+ajw -2
+ldlp 6
+stl 3
+ldlp 14
+stl 4
+ldc 0
+stl 0
+ldc 8
+stl 1
+UNIONSET2:
+ldl 4
+ldnl 0
+ldl 3
+ldnl 0
+or
+ldl 4
+stnl 0
+ldl 4
+adc 4
+stl 4
+ldl 3
+adc 4
+stl 3
+ldlp 0
+ldc UNIONSET3-UNIONSET2
+lend
+UNIONSET3:
+ldl 2
+stl 10
+ajw 10
+ret
+
+; Genera la intersección de dos conjuntos.
+;
+INTERSET:
+ajw -2
+ldlp 6
+stl 3
+ldlp 14
+stl 4
+ldc 0
+stl 0
+ldc 8
+stl 1
+INTERSET2:
+ldl 4
+ldnl 0
+ldl 3
+ldnl 0
+and
+ldl 4
+stnl 0
+ldl 4
+adc 4
+stl 4
+ldl 3
+adc 4
+stl 3
+ldlp 0
+ldc INTERSET3-INTERSET2
+lend
+INTERSET3:
+ldl 2
+stl 10
+ajw 10
+ret
+
+; Genera la diferencia de dos conjuntos.
+;
+DIFERSET:
+ajw -2
+ldlp 6
+stl 3
+ldlp 14
+stl 4
+ldc 0
+stl 0
+ldc 8
+stl 1
+DIFERSET2:
+ldl 4
+ldnl 0
+ldl 3
+ldnl 0
+not
+and
+ldl 4
+stnl 0
+ldl 4
+adc 4
+stl 4
+ldl 3
+adc 4
+stl 3
+ldlp 0
+ldc DIFERSET3-DIFERSET2
+lend
+DIFERSET3:
+ldl 2
+stl 10
+ajw 10
+ret
+
+; Verifica que no haya bits puestos en un conjunto.
+;
+; Usado por IN, y por <= y >=
+;
+; Resultado: A= 0/1.
+;
+ALGOENSET:
+ldc 0
+stl 1
+ldc 8
+stl 2
+ALGOSET2:
+ldl 1
+ldlp 4
+wsub
+ldnl 0
+cj ALGOSET4
+ldl 0
+stl 8
+ajw 8
+ldc 0
+ret
+ALGOSET4:
+ldlp 1
+ldc ALGOSET3-ALGOSET2
+lend
+ALGOSET3:
+ldl 0
+stl 8
+ajw 8
+ldc 1
+ret
+
+;
+; Compara dos conjuntos.
+;
+COMPASET:
+ldlp 4
+ldlp 12
+ldc 32
+call IGUAL
+ldl 0
+ajw 16
+stl 0
+ret
+
+RANDOMIZE:
+ldtimer
+ldc 0x007FFFFF
+and
+ldc 0x3f000000
+or
+ldl 1
+stnl VRANDOM
+ret
+
+RANDOM:
+ldc 0x42a2e7c8 ; Un valor cualquiera
+stl 2
+ldl 1
+ldnlp VRANDOM
+fpldnlsn
+ldlp 2
+fpldnlmulsn    ; Multiplica
+fpdup          ; Saca la fracción.
+fpurz
+fpint
+fpsub
+fpdup
+ldl 1
+ldnlp VRANDOM
+fpstnlsn
+ret
+
+;
+; Crea una cadena limpia en los
+; primeros 256 bytes de espacio
+; de trabajo.
+;
+LIMPIASTR:
+ldl 0
+ajw -64
+stl 0
+ldc 0
+stl 4
+ret
+
+;
+; Crea una cadena con el caracter
+; indicado en el registro A, en los
+; primeros 256 bytes del espacio de
+; trabajo.
+;
+LIMPIASTRA:
+ldl 1
+ldl 0
+ajw -64
+stl 0
+ldc 8
+shl
+adc 1
+stl 4
+ret
+
+;
+; Carga en los primeros 256 bytes
+; del espacio de trabajo la cadena
+; apuntada por A.
+;
+CARGASTR:
+ldl 1
+ldl 0
+ajw -64
+stl 0
+stl 1
+ldlp 4
+stl 3
+ldl 1
+lb
+adc 1
+stl 2
+CARGASTR3:
+ldl 1
+lb
+ldl 3
+sb
+ldl 3
+adc 1
+stl 3
+ldlp 1
+ldc CARGASTR2-CARGASTR3
+lend
+CARGASTR2:
+ret
+
+;
+; Concatena las últimas dos
+; cadenas en el espacio de trabajo.
+;
+CONCATSTR:
+ldlp 4
+lb
+stl 2
+ldlp 4
+adc 1
+stl 1
+ldlp 68
+ldlp 68
+lb
+adc 1
+bsub
+stl 3
+ldl 2
+ldlp 68
+lb
+bsub
+ldlp 68
+sb
+ldl 2
+cj CONCATSTR2
+CONCATSTR3:
+ldl 1
+lb
+ldl 3
+sb
+ldl 3
+adc 1
+stl 3
+ldlp 1
+ldc CONCATSTR2-CONCATSTR3
+lend
+CONCATSTR2:
+ldl 0
+ajw 64
+stl 0
+ret
+
+;
+; Copia la fracción indicada de la
+; cadena que esta en el espacio de
+; trabajo, B indica el comienzo (empieza en 1),
+; y A indica la longitud.
+;
+COPYSTR:
+ldc 1
+ldl 2
+gt
+cj COPYSTR2
+ldc 1
+stl 2
+COPYSTR2:
+ldl 2
+ldlp 4
+lb
+gt
+cj COPYSTR6
+ldc 0
+ldlp 4
+sb
+ret
+COPYSTR6:
+ldl 2
+ldl 1
+bsub
+adc -1
+ldlp 4
+lb
+gt
+cj COPYSTR4
+ldlp 4
+lb
+ldl 2
+diff
+adc 1
+stl 1
+COPYSTR4:
+ldl 1
+ldlp 4
+sb
+ldl 2
+ldlp 4
+bsub
+ldl 1
+stl 2
+stl 1
+ldlp 4
+adc 1
+stl 3
+ldl 2
+cj COPYSTR3
+COPYSTR5:
+ldl 1
+lb
+ldl 3
+sb
+ldl 3
+adc 1
+stl 3
+ldlp 1
+ldc COPYSTR3-COPYSTR5
+lend
+COPYSTR3:
+ret
+
+;
+; Busca la penúltima cadena en la
+; última cadena, y retorna la posición
+; donde la encontro en A, si la cadena
+; no existe, retorna 0.
+;
+POSSTR:
+ldlp 68
+lb
+cj POSSTR2
+ldlp 68
+lb
+ldlp 4
+lb
+gt
+eqc 0
+cj POSSTR2
+ldlp 4
+lb
+ldlp 68
+lb
+diff
+adc 1
+stl 2
+ldlp 4
+adc 1
+stl 1
+ldc 1
+stl 3
+POSSTR3:
+ldl 1
+ldlp 68
+adc 1
+ldlp 68
+lb
+call NOIGUAL
+cj POSSTR4
+ldl 3
+adc 1
+stl 3
+ldlp 1
+ldc POSSTR2-POSSTR3
+lend
+POSSTR2:
+ldl 0
+ajw 128
+stl 0
+ldc 0
+ret
+POSSTR4:
+ldl 3
+ldl 0
+ajw 128
+stl 0
+ret
+
+;
+; Inserta en la última cadena la
+; penúltima cadena en la posición indicada
+; por el registro A.
+;
+INSERTSTR:
+ldlp 4
+call CARGASTR
+ldl 65
+ldc 255
+call DELETESTR
+ldlp 132
+call CARGASTR
+call CONCATSTR
+ldlp 68
+call CARGASTR
+ldl 129
+ldc 255
+call COPYSTR
+call CONCATSTR
+ldlp 0
+ldlp 132
+ldc 256
+move
+ldl 64
+ajw 128
+stl 0
+ret
+
+;
+; Borra a partir del lugar indicado por
+; el registro B, A caracteres.
+;
+DELETESTR:
+ldc 1
+ldl 1
+gt
+cj DELETESTR7
+ldc 1
+stl 1
+DELETESTR7:
+ldl 2
+ldl 1
+bsub
+adc -1
+ldlp 4
+lb
+gt
+cj DELETESTR3
+ldl 2
+adc -1
+ldlp 4
+lb
+gt
+cj DELETESTR4
+ldlp 4
+lb
+adc 1
+stl 2
+DELETESTR4:
+ldl 2
+adc -1
+ldlp 4
+sb
+ret
+DELETESTR3:
+ajw -1
+ldlp 5
+lb
+ldl 2
+diff
+stl 0
+ldlp 5
+ldl 3
+bsub
+ldl 2
+ldl 3
+adc -1
+bsub
+ldlp 5
+lb
+rev
+diff
+stl 3
+stl 4
+ldl 4
+ldl 2
+bsub
+stl 2
+ldl 3
+cj DELETESTR6
+DELETESTR5:
+ldl 2
+lb
+ldl 4
+sb
+ldl 4
+adc 1
+stl 4
+ldlp 2
+ldc DELETESTR6-DELETESTR5
+lend
+DELETESTR6:
+ldl 0
+ajw 1
+ldlp 4
+sb
+DELETESTR2:
+ret
+
+;
+; Verifíca si las últimas dos
+; cadenas son iguales.
+;
+IGUALSTR:
+ldlp 4
+ldlp 68
+ldlp 4
+lb
+adc 1
+call IGUAL
+ldl 0
+ajw 128
+stl 0
+ret
+
+;
+; Verifíca si la penúltima
+; cadena es mayor que la última.
+;
+MAYORSTR:
+ajw -4
+ldlp 72
+lb
+stl 0
+ldlp 8
+lb
+stl 1
+ldlp 72
+adc 1
+stl 2
+ldlp 8
+adc 1
+stl 3
+MAYORSTR2:
+ldl 0
+eqc 0
+cj MAYORSTR3
+MAYORSTR4:
+ldl 4
+ajw 132
+stl 0
+ldc 0
+ret
+MAYORSTR3:
+ldl 1
+eqc 0
+cj MAYORSTR5
+MAYORSTR6:
+ldl 4
+ajw 132
+stl 0
+ldc 1
+ret
+MAYORSTR5:
+ldl 2
+lb
+ldl 3
+lb
+diff
+cj MAYORSTR7
+ldl 2
+lb
+ldl 3
+lb
+gt
+cj MAYORSTR4
+j MAYORSTR6
+MAYORSTR7:
+ldl 2
+adc 1
+stl 2
+ldl 3
+adc 1
+stl 3
+ldl 0
+adc -1
+stl 0
+ldl 1
+adc -1
+stl 1
+j MAYORSTR2
+
+;
+; Convierte una matriz en
+; una cadena, en B esta el
+; apuntador a la matriz, y en
+; A el tamaño de la matriz.
+;
+ARRAYASTR:
+ldl 2
+ldl 1
+ldl 0
+ajw -64
+stl 0
+stl 1
+stl 2
+ldl 1
+ldlp 4
+sb
+ldl 2
+ldlp 4
+adc 1
+ldl 1
+move
+ret
+
+;
+; Copia la última cadena en el
+; espacio de trabajo en la posición
+; apuntada por el registro B, de
+; tamaño A.
+;
+ASIGNASTR:
+ldlp 4
+lb
+adc 1
+stl 3
+ldl 3
+ldl 1
+gt
+cj ASIGNASTR4
+ldl 1
+stl 3
+ldl 1
+adc -1
+ldlp 4
+sb
+ASIGNASTR4:
+ldl 2
+stl 1
+ldl 3
+stl 2
+ldlp 4
+stl 3
+ASIGNASTR2:
+ldl 3
+lb
+ldl 1
+sb
+ldl 3
+adc 1
+stl 3
+ldlp 1
+ldc ASIGNASTR3-ASIGNASTR2
+lend
+ASIGNASTR3:
+ldl 0
+ajw 64
+stl 0
+ret
+
+CONSLIB:
+TABLASIN:
+db 0x5E,0x32,0xA2,0x3F
+db 0x1A,0xD8,0x91,0xBE
+db 0xDA,0x4F,0x95,0x3C
+db 0xEF,0x2F,0x0F,0xBA
+db 0XFB,0x0A,0x1F,0x37
+db 0x62,0x4E,0xE6,0xB3
+db 0x8C,0xF9,0x22,0x3F
+db 0x00,0x00,0x80,0x3F
+db 0x00,0x00,0x00,0x40
+
+TABLACOS:
+db 0xCF,0x0F,0xC9,0x3F
+
+ARCTAN3:
+db 0xba,0xfe,0xe2,0x39
+db 0xce,0xd8,0x56,0xbb
+db 0x7d,0xd1,0x3e,0x3c
+db 0x23,0xc4,0xd7,0xbc
+db 0x0a,0x17,0x34,0x3d
+db 0xa3,0x81,0x77,0xbd
+db 0x61,0xae,0x99,0x3d
+db 0x8f,0x60,0xb9,0xbd
+db 0x12,0x72,0xe3,0x3d
+db 0xfb,0x47,0x12,0xbe
+db 0xbf,0xcc,0x4c,0x3e
+db 0xaa,0xaa,0xaa,0xbe
+db 0xff,0xff,0x7f,0x3f
+db 0xda,0x0f,0xc9,0x3f
+db 0x00,0x00,0x80,0x3f
+
+LN3:
+db 0xf3,0x04,0x35,0x3f
+db 0x00,0x00,0x80,0x3f
+db 0xac,0xc3,0x91,0x3e
+db 0x9e,0xb7,0xa3,0x3e
+db 0xa6,0x0d,0xd3,0x3e
+db 0x60,0xbb,0x13,0x3f
+db 0x4e,0x38,0x76,0x3f
+db 0x3b,0xaa,0x38,0x40
+db 0x00,0x00,0x00,0xbf
+db 0x17,0x72,0x31,0x3f
+
+EXP3:
+db 0x3b,0xaa,0xb8,0x3f
+db 0x45,0x56,0x15,0x34
+db 0xa0,0x92,0xa7,0x35
+db 0xee,0x93,0x80,0x37
+db 0xa7,0x78,0x21,0x39
+db 0x82,0xc4,0xae,0x3a
+db 0x58,0x95,0x1d,0x3c
+db 0x46,0x58,0x63,0x3d
+db 0xef,0xfd,0x75,0x3e
+db 0x17,0x72,0x31,0x3f
+db 0x00,0x00,0x80,0x3f
+
+NUMCONSLIB:
+equ 46
+
+FINLIB:
+

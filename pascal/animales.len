@@ -1,0 +1,947 @@
+j INIC
+P2:
+ldl 1
+ldnlp 2
+ldc 264
+ldl 1
+ldnl 0
+ldnlp -NUMCONSLIB
+call NEW
+ldc P3-P4
+ldpi
+P4:
+ajw -2
+ldc 13
+call ARRAYASTR
+ldl 67
+ldnl 2
+ldc 256
+call ASIGNASTR
+ldlp 1
+ldc 264
+ldl 3
+ldnl 0
+ldnlp -NUMCONSLIB
+call NEW
+ldl 1
+ldl 3
+ldnl 2
+ldnlp 64
+stnl 0
+ldc P5-P6
+ldpi
+P6:
+ldc 5
+call ARRAYASTR
+ldl 65
+ldc 256
+call ASIGNASTR
+mint
+ldl 1
+ldnlp 64
+stnl 0
+mint
+ldl 1
+ldnlp 65
+stnl 0
+ldlp 1
+ldc 264
+ldl 3
+ldnl 0
+ldnlp -NUMCONSLIB
+call NEW
+ldl 1
+ldl 3
+ldnl 2
+ldnlp 65
+stnl 0
+ldc P7-P8
+ldpi
+P8:
+ldc 4
+call ARRAYASTR
+ldl 65
+ldc 256
+call ASIGNASTR
+mint
+ldl 1
+ldnlp 64
+stnl 0
+mint
+ldl 1
+ldnlp 65
+stnl 0
+ldc 2
+ldl 3
+stnl 3
+ajw 2
+ret
+P3:
+db 73,115,32,105,116,32,97,113
+db 117,97,116,105,99
+P5:
+db 119,104,97,108,101
+P7:
+db 108,105,111,110
+P9:
+call E5
+ldc P10-P11
+ldpi
+P11:
+ldc 28
+call E4
+call E5
+ldc P12-P13
+ldpi
+P13:
+ldc 34
+call E4
+call E5
+call E5
+ret
+P10:
+db 65,32,78,32,73,32,77,32
+db 65,32,76,32,83,46,32,86
+db 101,114,46,32,50,51,45,48
+db 52,45,57,54
+P12:
+db 40,99,41,32,67,111,112,121
+db 114,105,103,104,116,32,49,57
+db 57,54,32,79,115,99,97,114
+db 32,84,111,108,101,100,111,32
+db 71,46
+P14:
+ldc P15-P16
+ldpi
+P16:
+ldc 3
+call E4
+ajw -2
+call LIMPIASTR
+ldl 68
+ldc 256
+call ASIGNASTR
+ldl 3
+stl 0
+P17:
+ldl 0
+ldnl 0
+ldnlp -NUMCONSLIB
+call EOLN
+eqc 0
+cj P18
+ldlp 1
+ajw -1
+stl 0
+ldl 1
+ldnl 0
+ldnlp -NUMCONSLIB
+call L1
+ldl 0
+stnl 0
+ldlp 2
+lb
+ldc 1
+call E1
+ldlp 2
+lb
+eqc 8
+ajw 1
+cj P19
+ldl 4
+call CARGASTR
+ldl 68
+call CARGASTR
+ldlp 0
+lb
+adc -1
+ldc 1
+rev
+ajw 64
+call COPYSTR
+ldl 68
+ldc 256
+call ASIGNASTR
+j P20
+P15:
+db 32,63,32
+P19:
+ldl 4
+call CARGASTR
+ldlp 65
+lb
+call LIMPIASTRA
+call CONCATSTR
+ldl 68
+ldc 256
+call ASIGNASTR
+P20:
+j P17
+P18:
+ldl 0
+ldnl 0
+ldnlp -NUMCONSLIB
+call L3
+call E5
+ajw 2
+ret
+P21:
+ldc 97
+ldlp 2
+lb
+gt
+eqc 0
+ldlp 2
+lb
+ldc 122
+gt
+eqc 0
+and
+ajw -1
+ldl 2
+stl 0
+cj P22
+ldlp 3
+lb
+adc -32
+stl 5
+j P23
+P22:
+ldlp 3
+lb
+stl 5
+P23:
+ajw 1
+ldl 4
+ret
+P24:
+ldc 65
+ldlp 2
+lb
+gt
+eqc 0
+ldlp 2
+lb
+ldc 90
+gt
+eqc 0
+and
+ajw -1
+ldl 2
+stl 0
+cj P25
+ldlp 3
+lb
+ldnlp 8
+stl 5
+j P26
+P25:
+ldlp 3
+lb
+stl 5
+P26:
+ajw 1
+ldl 4
+ret
+P27:
+ldc 1
+ajw -4
+stl 1
+ldl 6
+call CARGASTR
+ldlp 0
+lb
+stl 64
+ldl 65
+ldl 64
+gt
+eqc 0
+ajw 64
+ldl 5
+stl 2
+cj P29
+P28:
+ldl 1
+stl 3
+ldl 3
+ldl 6
+bsub
+lb
+ldl 2
+ajw -1
+call P21
+ldl 4
+ldl 7
+bsub
+sb
+ldl 2
+ldl 1
+diff
+eqc 0
+ldl 2
+adc 1
+stl 2
+ajw 1
+cj P28
+P29:
+ldl 6
+ajw 2
+call CARGASTR
+ldc 89
+call LIMPIASTRA
+call IGUALSTR
+ajw -1
+stl 0
+ldl 5
+call CARGASTR
+ldc P31-P32
+ldpi
+P32:
+ldc 3
+call ARRAYASTR
+call IGUALSTR
+ldl 0
+or
+ajw 1
+cj P30
+ldc 1
+stl 6
+j P33
+P31:
+db 89,69,83
+P30:
+ldl 4
+call CARGASTR
+ldc 78
+call LIMPIASTRA
+call IGUALSTR
+ajw -1
+stl 0
+ldl 5
+call CARGASTR
+ldc P35-P36
+ldpi
+P36:
+ldc 2
+call ARRAYASTR
+call IGUALSTR
+ldl 0
+or
+ajw 1
+cj P34
+ldc 2
+stl 6
+j P37
+P35:
+db 78,79
+P34:
+ldc P38-P39
+ldpi
+P39:
+ldc 24
+call E4
+call E5
+ldc 0
+stl 6
+P37:
+P33:
+ajw 2
+ldl 4
+ret
+P38:
+db 80,108,101,97,115,101,32,97
+db 110,115,119,101,114,32,89,69
+db 83,32,111,114,32,78,79,46
+P40:
+ldc 1
+ajw -66
+stl 65
+ldl 67
+stl 0
+P41:
+ldl 65
+cj P42
+ldc P43-P44
+ldpi
+P44:
+ldc 19
+call E4
+ldlp 1
+ldl 0
+call P14
+ldlp 1
+ldl 0
+ajw -1
+call P27
+eqc 1
+ajw 1
+cj P45
+ldc 0
+stl 65
+ldc 1
+stl 70
+j P46
+P43:
+db 68,111,32,121,111,117,32,119
+db 97,110,116,32,116,111,32,112
+db 108,97,121
+P45:
+ldlp 1
+ldl 0
+ajw -1
+call P27
+eqc 2
+ajw 1
+cj P47
+ldc 0
+stl 65
+ldc 0
+stl 70
+P47:
+P46:
+j P41
+P42:
+ajw 66
+ldl 4
+ret
+P48:
+ldc 1
+ajw -4
+stl 1
+ldl 6
+call CARGASTR
+ldlp 0
+lb
+stl 64
+ldl 65
+ldl 64
+gt
+eqc 0
+ajw 64
+ldl 5
+stl 2
+cj P50
+P49:
+ldl 1
+stl 3
+ldl 3
+ldl 6
+bsub
+lb
+ldl 2
+ajw -1
+call P24
+ldc 1
+call E1
+ldl 2
+ldl 1
+diff
+eqc 0
+ldl 2
+adc 1
+stl 2
+ajw 1
+cj P49
+P50:
+ajw 4
+ret
+P51:
+ldl 2
+adc 1
+lb
+ldl 1
+ajw -3
+call P21
+ldc 1
+call E1
+ldc 2
+stl 0
+ldl 5
+ajw -1
+call CARGASTR
+ldlp 0
+lb
+stl 64
+ldl 65
+ldl 64
+gt
+eqc 0
+ajw 64
+ldl 5
+stl 2
+cj P53
+P52:
+ldl 1
+stl 3
+ldl 3
+ldl 6
+bsub
+lb
+ldl 2
+ajw -1
+call P24
+ldc 1
+call E1
+ldl 2
+ldl 1
+diff
+eqc 0
+ldl 2
+adc 1
+stl 2
+ajw 1
+cj P52
+P53:
+ajw 4
+ret
+P54:
+ldl 2
+ajw -2
+call CARGASTR
+ldlp 0
+lb
+ldl 68
+bsub
+lb
+ldl 67
+ajw 64
+call P21
+eqc 65
+ajw 1
+ldl 2
+stl 0
+cj P55
+ldc P56-P57
+ldpi
+P57:
+ldc 3
+call E4
+j P58
+P56:
+db 97,110,32
+P55:
+ldc P59-P60
+ldpi
+P60:
+ldc 2
+call E4
+P58:
+ldl 3
+ldl 0
+call P48
+ajw 1
+ret
+P59:
+db 97,32
+P61:
+call E5
+ajw -68
+ldlp 65
+ldc 264
+ldl 69
+ldnl 0
+ldnlp -NUMCONSLIB
+call NEW
+ldc P62-P63
+ldpi
+P63:
+ldc 31
+call E4
+ldl 65
+ldl 69
+call P14
+mint
+ldl 65
+ldnlp 64
+stnl 0
+mint
+ldl 65
+ldnlp 65
+stnl 0
+ldlp 66
+ldc 264
+ldl 69
+ldnl 0
+ldnlp -NUMCONSLIB
+call NEW
+ldl 70
+call CARGASTR
+ldl 130
+ldc 256
+call ASIGNASTR
+mint
+ldl 66
+ldnlp 64
+stnl 0
+mint
+ldl 66
+ldnlp 65
+stnl 0
+ldc P64-P65
+ldpi
+P65:
+ldc 40
+call E4
+call E5
+ldl 65
+ldl 69
+call P54
+ldc P66-P67
+ldpi
+P67:
+ldc 6
+call E4
+ldl 66
+ldl 69
+call P54
+ldl 70
+ldl 69
+call P14
+ldc 1
+stl 67
+ldl 69
+stl 0
+P68:
+ldl 67
+cj P69
+ldc P70-P71
+ldpi
+P71:
+ldc 4
+call E4
+ldl 66
+ldl 0
+call P54
+ldc P72-P73
+ldpi
+P73:
+ldc 20
+call E4
+ldlp 1
+ldl 0
+call P14
+ldlp 1
+ldl 0
+ajw -1
+call P27
+eqc 1
+ajw 1
+cj P74
+ldc 0
+stl 67
+ldl 66
+ldl 70
+ldnlp 64
+stnl 0
+ldl 65
+ldl 70
+ldnlp 65
+stnl 0
+j P75
+P62:
+db 73,32,115,117,114,114,101,110
+db 100,101,114,46,32,87,104,97
+db 116,39,115,32,121,111,117,114
+db 32,97,110,105,109,97,108
+P64:
+db 73,110,116,114,111,100,117,99
+db 101,32,97,32,113,117,101,115
+db 116,105,111,110,32,116,104,97
+db 116,32,100,105,115,116,105,110
+db 103,117,105,115,104,101,115,32
+P66:
+db 32,102,114,111,109,32
+P70:
+db 70,111,114,32
+P72:
+db 32,116,104,101,32,97,110,115
+db 119,101,114,32,119,111,117,108
+db 100,32,98,101
+P74:
+ldlp 1
+ldl 0
+ajw -1
+call P27
+eqc 2
+ajw 1
+cj P76
+ldc 0
+stl 67
+ldl 65
+ldl 70
+ldnlp 64
+stnl 0
+ldl 66
+ldl 70
+ldnlp 65
+stnl 0
+P76:
+P75:
+j P68
+P69:
+ldl 0
+ldnl 3
+adc 1
+ldl 0
+stnl 3
+call E5
+ldc P77-P78
+ldpi
+P78:
+ldc 11
+call E4
+ldl 0
+ldnl 3
+ldc 0
+call E0
+ldc P79-P80
+ldpi
+P80:
+ldc 19
+call E4
+call E5
+call E5
+ajw 68
+ret
+P77:
+db 78,111,119,32,73,32,107,110
+db 111,119,32
+P79:
+db 32,100,105,102,102,101,114,101
+db 110,116,32,97,110,105,109,97
+db 108,115,33
+P81:
+call E5
+ldl 1
+ldnl 2
+ajw -67
+stl 1
+ldl 68
+stl 0
+P82:
+ldl 1
+ldnl 64
+mint
+diff
+eqc 0
+eqc 0
+ldl 1
+ldnl 65
+mint
+diff
+eqc 0
+eqc 0
+and
+cj P83
+ldl 1
+ldl 0
+call P51
+ldlp 2
+ldl 0
+call P14
+ldlp 2
+ldl 0
+ajw -1
+call P27
+eqc 1
+ajw 1
+cj P84
+ldl 1
+ldnl 64
+stl 1
+j P85
+P84:
+ldlp 2
+ldl 0
+ajw -1
+call P27
+eqc 2
+ajw 1
+cj P86
+ldl 1
+ldnl 65
+stl 1
+P86:
+P85:
+j P82
+P83:
+ldc 0
+stl 66
+P87:
+ldl 66
+eqc 0
+cj P88
+ldc P89-P90
+ldpi
+P90:
+ldc 15
+call E4
+ldl 1
+ldl 0
+call P54
+ldlp 2
+ldl 0
+call P14
+ldlp 2
+ldl 0
+ajw -1
+call P27
+eqc 1
+ajw 1
+cj P91
+ldc 1
+stl 66
+call E5
+ldc P92-P93
+ldpi
+P93:
+ldc 20
+call E4
+ldl 1
+ldl 0
+call P54
+call E5
+call E5
+j P94
+P89:
+db 89,111,117,114,32,97,110,105
+db 109,97,108,32,105,115,32
+P92:
+db 73,32,103,117,101,115,115,101
+db 100,32,105,116,33,32,73,116
+db 32,105,115,32
+P91:
+ldlp 2
+ldl 0
+ajw -1
+call P27
+eqc 2
+ajw 1
+cj P95
+ldc 1
+stl 66
+ldl 1
+ldl 0
+call P61
+P95:
+P94:
+j P87
+P88:
+ajw 67
+ret
+P96:
+ldl 2
+mint
+diff
+eqc 0
+eqc 0
+ajw -1
+ldl 2
+stl 0
+cj P97
+ldl 3
+ldnl 64
+ldl 0
+call P96
+ldl 3
+ldnl 65
+ldl 0
+call P96
+ldl 3
+ldl 0
+ldnl 0
+ldnlp -NUMCONSLIB
+call DISPOSE
+P97:
+ajw 1
+ret
+P98:
+call E5
+ldl 1
+ldnl 1
+ajw -1
+ldl 2
+stl 0
+cj P99
+ldc P100-P101
+ldpi
+P101:
+ldc 26
+call E4
+call E5
+j P102
+P100:
+db 84,104,97,110,107,115,32,102
+db 111,114,32,112,108,97,121,105
+db 110,103,32,65,110,105,109,97
+db 108,115
+P99:
+ldc P103-P104
+ldpi
+P104:
+ldc 14
+call E4
+call E5
+P102:
+call E5
+ldl 0
+ldnl 2
+ldl 0
+call P96
+ajw 1
+ret
+P103:
+db 84,114,121,32,105,116,32,115
+db 111,109,101,100,97,121
+P1:
+ldc 0
+ajw -4
+stl 1
+ldl 5
+stl 0
+ldlp 0
+call P2
+ldlp 0
+call P9
+P105:
+ldlp 0
+ajw -1
+call P40
+ajw 1
+cj P106
+ldlp 0
+call P81
+ldc 1
+stl 1
+j P105
+P106:
+ldlp 0
+call P98
+ajw 4
+ret
+INIC:
+ajw -(NUMCONS+NUMCONSLIB)
+ldc CONSLIB-CONS1
+ldpi
+CONS1:
+ldlp 0
+ldc NUMCONSLIB*4
+move
+call DINAMICA
+ajw -5
+stl 1
+stl 2
+mint
+stl 3
+mint
+stl 4
+ldc 0x3F579834
+stl 0
+ldlp 5+NUMCONSLIB
+call P1
+ajw NUMCONS+NUMCONSLIB+5
+ret
+CONS:
+NUMCONS:
+equ 0
+FINPROG:
