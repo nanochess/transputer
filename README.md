@@ -8,7 +8,7 @@ It was the convergence of several things I had been learning that year: Pascal (
 
 It was a time when the INMOS transputer promised parallel computing for everyone, but it was too expensive. They did a few things good, like a very fast T805 transputer with floating-point before the Intel 486DX2 was a thing.
 
-In case you want to read the complete article: (https://nanochess.org/pascal.html)[https://nanochess.org/pascal.html]
+In case you want to read the complete article: [https://nanochess.org/pascal.html](https://nanochess.org/pascal.html)
 
 ## What we have here
 
