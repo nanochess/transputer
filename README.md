@@ -1,16 +1,16 @@
-# Transputer T805 emulator and assembler
+## Transputer T805 emulator, assembler, and Pascal compiler
 
-## by Oscar Toledo G. https://nanochess.org/
+### by Oscar Toledo G. https://nanochess.org/
 
 Once upon a time when I was a teen (1993), I wrote an almost full Pascal compiler for a transputer processor (the FILE type wasn't never completed)
 
 It was the convergence of several things I had been learning that year: Pascal (The BYTE Book of Pascal), code generation (Compilers: Principles, Techniques and Tools), and transputer programming.
 
-It was a time when the INMOS transputer promised parallel computing for everyone, but it was too expensive. They did a few things good, like a very fast T805 transputer with floating-point before the Intel 486DX2 was a thing.
+It was a time when the INMOS transputer promised parallel computing for everyone, but it was too expensive. They did a few good things, like a very fast 32-bit T805 transputer with 64-bit floating-point before the Intel 486DX2 was a thing.
 
 In case you want to read the complete article: [https://nanochess.org/pascal.html](https://nanochess.org/pascal.html)
 
-## What we have here
+### What we have here
 
 In order for you to experience my Pascal compiler, I needed to write two tools in modern C. Namely, the emulator for the transputer from the ground up, and port the assembler that ran on my Z280 host machine (the transputer was a board for the Z280 computer)
 
@@ -26,7 +26,7 @@ Compilation instructions:
     
     cc tasm.c -o tasm
 
-## Pascal compiler
+### Pascal compiler
 
 The Pascal compiler follows the Niklaus Wirth's 1971 specification, and it is composed of the following files:
 
