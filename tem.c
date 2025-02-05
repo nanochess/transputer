@@ -13,7 +13,7 @@
 #include <math.h>
 
 /*
- ** The supported machine is a T805 homebrew board made by Oscar Toledo E. Year????
+ ** The supported machine is a T805 homebrew board made by Oscar Toledo E. circa 1992
  **
  ** It connected to a host machine based on the Zilog Z280 processor.
  **
