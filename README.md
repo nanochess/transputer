@@ -54,7 +54,7 @@ Two example programs are provided:
 
 To compile a Pascal program use this (also in *compile.sh*):
 
-    ./tem pascal/pascal.cmg animales.pas animales.len
+    ./tem pascal/pascal.cmg animales.pas >animales.len
     ./tasm animales.len animales.cmg library.len
     
 To execute the compiled result:
@@ -68,7 +68,7 @@ The file *library.len* contains the support library for the Pascal compiler.
 The len extension means Listado ENsamblador (Assembler listing), while the CMG extension means (Codigo Maquina G10, or G10 machine code, where G10 was the name given to the transputer board)
  
  
-## FURTHER NOTES
+## Further notes
 
 The original programs are under pascal/original because I translated Animales.pas to English. I intend to translate also the compiler error messages, but in the meanwhile it isn't urgent.
 
