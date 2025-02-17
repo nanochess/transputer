@@ -68,6 +68,27 @@ The file *library.len* contains the support library for the Pascal compiler.
 The len extension means Listado ENsamblador (Assembler listing), while the CMG extension means (Codigo Maquina G10, or G10 machine code, where G10 was the name given to the transputer board)
  
  
+## Ray tracer
+
+Once my Pascal compiler was working, I ported the Ray Tracer from the book "Programming in 3 Dimensions: 3-D Graphics, Ray Tracing, and Animation" by Watkins & Sharp.
+
+You can compile it doing this:
+
+    ./tem pascal/pascal.cmg pascal/m3d.pas >m3d.len
+    ./tasm m3d.len m3d.cmg library.len
+    
+To execute it:
+
+    ./tem m3d.cmg m3d/BOLACRIS.M3D
+    
+Although originally the image was displayed directly on the screen using a different "driver" program, I considered the complications of adding the libSDL library to handle display weren't worth it, and instead I've adapted the code as necessary to avoid making yet another emulator executable, so a BMP image file named image001.bmp will appear on your directory.
+
+I did a few demos and animations. I still haven't found the animations.
+
+You can also find a Julia demo as pascal/julia.pas ported from the same book.
+
+![image](README.png)
+
 ## Further notes
 
 The original programs are under pascal/original because I translated Animales.pas to English. I intend to translate also the compiler error messages, but in the meanwhile it isn't urgent.
