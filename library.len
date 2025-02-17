@@ -124,15 +124,15 @@ call CHAR
 stl B
 ldl A
 call OBTCAR
-ldl B
-eqc 13
-ldl B
-eqc 26
-or
-cj L11
-ldc 32
-ret
-L11:
+;ldl B
+;eqc 13
+;ldl B
+;eqc 26
+;or
+;cj L11
+;ldc 32
+;ret
+;L11:
 ldl B
 ret
 

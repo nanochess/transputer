@@ -5,12 +5,14 @@
  ** https://nanochess.org/
  **
  ** Creation date: Feb/01/2025. Based on my emulator written in 29K assembler (Apr/08/2002)
+ ** Revision date: Feb/17/2025. Added support code for the raytracer and Julia sets.
  */
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
+#include <ctype.h>
 
 /*
  ** The supported machine is a T805 homebrew board made by Oscar Toledo E. circa 1992
@@ -46,6 +48,20 @@ unsigned char boot_image[] = {
     0x40, 0xf7, 0x24, 0x9c, 0x2f, 0xff, /*0x60, 0x0c*/
 };
 
+/*
+ ** Instead of integrating a graphic library, we simply make a framebuffer that
+ ** will be saved into a file.
+ */
+#define X_WIDTH     640
+#define Y_HEIGHT    480
+
+int next_image;
+
+unsigned int framebuffer[X_WIDTH * Y_HEIGHT];
+
+/*
+ ** Prototypes and variables.
+ */
 void start_emulation(unsigned int, unsigned int);
 
 int pascal_mode;
@@ -74,6 +90,7 @@ int main(int argc, char *argv[])
         fprintf(stderr, "The use of a Pascal input file triggers a special mode\n");
         fprintf(stderr, "to display the source code on stderr, and the assembler\n");
         fprintf(stderr, "result on stdout.\n\n");
+        fprintf(stderr, "The same mode is used to feed scene files into the raytracer.\n\n");
         exit(1);
     }
     if (argc == 2)
@@ -185,6 +202,16 @@ void handle_input(unsigned int addr, unsigned int channel, unsigned int bytes)
                         }
                         offset_channel0 = 0;
                         bytes_channel0 = p2 - channel0;
+#if 0
+                        {
+                            FILE *a;
+                            
+                            a = fopen("output.bin", "wb");
+                            fwrite(channel0, 1, sizeof(channel0), a);
+                            fclose(a);
+                        }
+#endif
+                        
                     }
                     next_file++;
                 } else {
@@ -206,8 +233,124 @@ void handle_input(unsigned int addr, unsigned int channel, unsigned int bytes)
     }
 }
 
-char output_buffer[256];
+char output_buffer[1024];
 char *output_pointer;
+
+char ansi[256];
+char *p2 = NULL;
+
+/*
+ ** Process output
+ */
+void process_output(int c)
+{
+    if (p2 != NULL) {
+        *p2++ = c;
+        if (isalpha(c)) {  /* End of sequence */
+            if (c == 'G') {
+                memset(framebuffer, 0, sizeof(framebuffer));
+            } else if (c == 'T') {
+                FILE *a;
+                char output_file[256];
+                int c;
+                int y;
+                int x;
+                unsigned char header[54];
+                
+                next_image++;
+                sprintf(output_file, "image%03d.bmp", next_image);
+                
+                a = fopen(output_file, "wb");
+                if (a == NULL) {
+                    fprintf(stderr, "Unable to write output file \"%s\"\n", output_file);
+                } else {
+                    memset(header, 0, sizeof(header));
+                    header[0x00] = 'B';     /* Header */
+                    header[0x01] = 'M';
+                    c = X_WIDTH * Y_HEIGHT * 3 + 54;
+                    header[0x02] = c;       /* Complete size of file */
+                    header[0x03] = c >> 8;
+                    header[0x04] = c >> 16;
+                    header[0x05] = c >> 24;
+                    c = 54;
+                    header[0x0a] = c;       /* Size of header plus palette */
+                    c = 40;
+                    header[0x0e] = c;       /* Size of header */
+                    header[0x12] = X_WIDTH & 0xff;
+                    header[0x13] = X_WIDTH >> 8;
+                    header[0x16] = Y_HEIGHT & 0xff;
+                    header[0x17] = Y_HEIGHT >> 8;
+                    header[0x1a] = 0x01;    /* 1 plane */
+                    header[0x1c] = 0x18;    /* 24 bits */
+                    c = X_WIDTH * Y_HEIGHT * 3;
+                    header[0x22] = c;       /* Complete size of file */
+                    header[0x23] = c >> 8;
+                    header[0x24] = c >> 16;
+                    header[0x25] = c >> 24;
+                    c = 0x0ec4;             /* 96 dpi */
+                    header[0x26] = c;       /* X */
+                    header[0x27] = c >> 8;
+                    header[0x2a] = c;       /* Y */
+                    header[0x2b] = c >> 8;
+                    fwrite(header, 1, sizeof(header), a);
+                    
+                    for (y = Y_HEIGHT - 1; y >= 0; y--) {
+                        for (x = 0; x < X_WIDTH; x++) {
+                            header[0x00] = framebuffer[y * X_WIDTH + x];
+                            header[0x01] = framebuffer[y * X_WIDTH + x] >> 8;
+                            header[0x02] = framebuffer[y * X_WIDTH + x] >> 16;
+                            fwrite(header, 1, 3, a);
+                        }
+                    }
+                    fclose(a);
+                }
+            } else if (c == 'P') {
+                int x;
+                int y;
+                int r;
+                int g;
+                int b;
+                
+#if 0
+                {
+                    static int debug;
+                    FILE *a;
+                    
+                    a = fopen("pixel.txt", "a");
+                    *p2 = '\0';
+                        fprintf(a, "%s\n", ansi);
+                    fclose(a);
+                }
+#endif
+                p2 = ansi;
+                if (*p2 == '[')
+                    p2++;
+                x = strtol(p2, &p2, 10);
+                if (*p2 == ';')
+                    p2++;
+                y = strtol(p2, &p2, 10);
+                if (*p2 == ';')
+                    p2++;
+                r = strtol(p2, &p2, 10);
+                if (*p2 == ';')
+                    p2++;
+                g = strtol(p2, &p2, 10);
+                if (*p2 == ';')
+                    p2++;
+                b = strtol(p2, &p2, 10);
+                if (x >= 0 && x < X_WIDTH && y >= 0 && y < Y_HEIGHT)
+                    framebuffer[y * X_WIDTH + x] = (r << 16) | (g << 8) | b;
+            }
+            p2 = NULL;
+        }
+    } else {
+        if (c == 0x1b) {   /* ANSI sequence */
+            p2 = ansi;
+        } else {
+            fputc(c, stdout);
+        }
+    }
+}
 
 /*
  ** Handle OUT
@@ -224,19 +367,25 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
             c = read_memory(addr);
             addr++;
             bytes--;
-            if (c == '\r')
-                continue;
-            fputc(c, stdout);
+            process_output(c);
         }
         return;
     }
     while (bytes) {
         if (output_pointer == NULL)
             output_pointer = output_buffer;
-        *output_pointer++ = read_memory(addr);
+        if (output_pointer >= output_buffer + sizeof(output_buffer)) {
+            output_buffer[sizeof(output_buffer) - 1] = '\0';
+            fprintf(stderr, "Error: Too much data unprocessed\n");
+            for (c = 0; c < sizeof(output_buffer); c++)
+                fprintf(stderr, "%02x", output_buffer[c]);
+            exit(1);
+        }
+        c = read_memory(addr);
+        *output_pointer++ = c;
         addr++;
         bytes--;
-        if (output_pointer[-1] == '\n') {
+        if (output_pointer[-1] == '\n' || (output_buffer[0] == 0x1b && isalpha(output_pointer[-1]))) {
             c = output_pointer - output_buffer;
             p = output_buffer;
             output_pointer = NULL;
@@ -265,8 +414,9 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
                 fprintf(stderr, "Compilation successful!\n");
                 exit(0);
             } else {
-                while (c--)
-                    fputc(*p++, stdout);
+                while (c--) {
+                    process_output(*p++);
+                }
             }
         }
     }
@@ -445,6 +595,9 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
     unsigned int transputer_error = 0;
     unsigned int transputer_halterr = 0;
     unsigned int transputer_fperr = 0;
+    enum {
+        ROUND_MINUS, ROUND_NEAREST, ROUND_POSITIVE, ROUND_ZERO,
+    } RoundMode = ROUND_NEAREST;
     unsigned int temp;
     struct {
         int type;
@@ -1121,7 +1274,53 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         fp[0].v.d = 0.0;
                         break;
                     case 0xa1:  /* fpint */
-                        not_handled();
+                        switch (RoundMode) {
+                            case ROUND_MINUS:
+                                if (fp[0].type == 0) {
+                                    fp[0].v.f = floor(fp[0].v.f);
+                                } else {
+                                    fp[0].v.d = floor(fp[0].v.d);
+                                }
+                                break;
+                            case ROUND_POSITIVE:
+                                if (fp[0].type == 0) {
+                                    fp[0].v.f = ceil(fp[0].v.f);
+                                } else {
+                                    fp[0].v.d = ceil(fp[0].v.d);
+                                }
+                                break;
+                            case ROUND_ZERO:
+                                if (fp[0].type == 0) {
+                                    if (fp[0].v.f < 0) {
+                                        fp[0].v.f = -floor(-fp[0].v.f);
+                                    } else {
+                                        fp[0].v.f = floor(fp[0].v.f);
+                                    }
+                                } else {
+                                    if (fp[0].v.d < 0) {
+                                        fp[0].v.d = -floor(-fp[0].v.d);
+                                    } else {
+                                        fp[0].v.d = floor(fp[0].v.d);
+                                    }
+                                }
+                                break;
+                            case ROUND_NEAREST:
+                                if (fp[0].type == 0) {
+                                    if (fp[0].v.f < 0) {
+                                        fp[0].v.f = ceil(fp[0].v.f - 0.5f);
+                                    } else {
+                                        fp[0].v.f = floor(fp[0].v.f + 0.5f);
+                                    }
+                                } else {
+                                    if (fp[0].v.d < 0) {
+                                        fp[0].v.d = ceil(fp[0].v.d - 0.5);
+                                    } else {
+                                        fp[0].v.d = floor(fp[0].v.d + 0.5);
+                                    }
+                                }
+                                break;
+                        }
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0xa3:  /* fpdup */
                         fp[2] = fp[1];
@@ -1156,7 +1355,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                     case 0xac:  /* fpldnlmulsn */
                         fp[3].type = 0;
                         read_memory_fp32(Areg, &fp[3].v.f);
-                        fp[0].v.f += fp[3].v.f;
+                        fp[0].v.f *= fp[3].v.f;
                         Areg = Breg;
                         Breg = Creg;
                         break;
@@ -1178,10 +1377,16 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                                     fp[0].v.d = sqrt(fp[0].v.d);
                                 break;
                             case 0x06:  /* fpurz */
+                                RoundMode = ROUND_ZERO;
+                                break;
                             case 0x22:  /* fpurn */
+                                RoundMode = ROUND_NEAREST;
+                                break;
                             case 0x04:  /* fpurp */
+                                RoundMode = ROUND_POSITIVE;
+                                break;
                             case 0x05:  /* fpurm */
-                                /* !!! Do something */
+                                RoundMode = ROUND_MINUS;
                                 break;
                             case 0x12:  /* fpumulby2 */
                                 if (fp[0].type == 0)
