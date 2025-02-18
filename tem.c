@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
     copy_argc = argc;
     copy_argv = argv;
     fprintf(stderr, "\n");
-    fprintf(stderr, "Transputer emulator v0.1. Feb/01/2025\n");
+    fprintf(stderr, "Transputer emulator v0.2. Feb/17/2025\n");
     fprintf(stderr, "by Oscar Toledo G. https://nanochess.org/\n\n");
     if (sizeof(float) != 4)
         fprintf(stderr, "WARNING: float size isn't 4.\n");
@@ -465,7 +465,7 @@ char *instruction_table[] = {
     "fpremstep", "fpnan", "fpordered", "fpnotfinite",
     "fpgt", "fpeq", "fpi32tor32", "?",
     "fpi32tor64", "?", "fpb32tor64", "?",
-    "fptesterror", "fprtoi32", "fpstnli32", "fpldzerosn",
+    "fptesterr", "fprtoi32", "fpstnli32", "fpldzerosn",
     "fpldzerodb", "fpint", "?", "fpdup", "fprev", "?", "fpldnladddb", "?",
     "fpldnlmuldb", "?", "fpldnladdsn", "fpentry", "fpldnlmulsn", "?", "?", "?",
     "?", "break", "clrj0break", "setj0break", "testj0break", "?", "?", "?",
@@ -488,7 +488,7 @@ char *instruction_table[] = {
     "?", "fpunoround", "fpuchki32", "fpuchki64",
     "?", "fpudivby2", "fpumulby2", "?", "?", "?", "?", "?",
     "?", "?", "?", "?", "?", "?", "?", "?",
-    "?", "?", "fpurn", "fpuseterror", "?", "?", "?", "?",
+    "?", "?", "fpurn", "fpuseterr", "?", "?", "?", "?",
     "?", "?", "?", "?", "?", "?", "?", "?",
     "?", "?", "?", "?", "?", "?", "?", "?",
     "?", "?", "?", "?", "?", "?", "?", "?",
@@ -503,7 +503,7 @@ char *instruction_table[] = {
     "?", "?", "?", "?", "?", "?", "?", "?",
     "?", "?", "?", "?", "?", "?", "?", "?",
     "?", "?", "?", "?", "?", "?", "?", "?",
-    "?", "?", "?", "?", "fpuclearerror", "?", "?", "?",
+    "?", "?", "?", "?", "fpuclearerr", "?", "?", "?",
     "?", "?", "?", "?", "?", "?", "?", "?",
     "?", "?", "?", "?", "?", "?", "?", "?",
     "?", "?", "?", "?", "?", "?", "?", "?",
@@ -1105,9 +1105,11 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         read_memory_fp64(Areg, &fp[0].v.d);
                         Areg = Breg;
                         Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x83:  /* fpchkerr */
-                        not_handled();
+                        transputer_error |= transputer_fperr;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x84:  /* fpstnldb */
                         write_memory_fp64(Areg, fp[0].v.d);
@@ -1115,6 +1117,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         fp[1] = fp[2];
                         Areg = Breg;
                         Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x86:  /* fpldnlsni */
                         Areg = Areg + Breg * 8;
@@ -1125,6 +1128,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         read_memory_fp32(Areg, &fp[0].v.f);
                         Areg = Breg;
                         Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x87:  /* fpadd */
                         if (fp[0].type == 0)
@@ -1132,6 +1136,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         else
                             fp[0].v.d = fp[1].v.d + fp[0].v.d;
                         fp[1] = fp[2];
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x88:  /* fpstnlsn */
                         write_memory_fp32(Areg, fp[0].v.f);
@@ -1139,6 +1144,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         fp[1] = fp[2];
                         Areg = Breg;
                         Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x89:  /* fpsub */
                         if (fp[0].type == 0)
@@ -1146,6 +1152,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         else
                             fp[0].v.d = fp[1].v.d - fp[0].v.d;
                         fp[1] = fp[2];
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x8a:  /* fpldnldb */
                         fp[2] = fp[1];
@@ -1154,6 +1161,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         read_memory_fp64(Areg, &fp[0].v.d);
                         Areg = Breg;
                         Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x8b:  /* fpmul */
                         if (fp[0].type == 0)
@@ -1161,6 +1169,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         else
                             fp[0].v.d = fp[1].v.d * fp[0].v.d;
                         fp[1] = fp[2];
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x8c:  /* fpdiv */
                         if (fp[0].type == 0)
@@ -1168,6 +1177,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         else
                             fp[0].v.d = fp[1].v.d / fp[0].v.d;
                         fp[1] = fp[2];
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x8e:  /* fpldnlsn */
                         fp[2] = fp[1];
@@ -1176,29 +1186,37 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         read_memory_fp32(Areg, &fp[0].v.f);
                         Areg = Breg;
                         Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x8f:  /* fpremfirst */
                         not_handled();
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x90:  /* fpremstep */
                         not_handled();
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x91:  /* fpnan */
                         not_handled();
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x92:  /* fpordered */
                         not_handled();
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x93:  /* fpnotfinite */
                         not_handled();
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x9c:  /* fptesterr */
                         Creg = Breg;
                         Breg = Areg;
                         Areg = transputer_fperr;
                         transputer_fperr = 0;
-                        break;
+                        RoundMode = ROUND_NEAREST;
+                       break;
                     case 0x94:  /* fpgt */
+                        /* !!! Set transputer_fperr if operands are NaN or Inf */
                         Creg = Breg;
                         Breg = Areg;
                         if (fp[0].type == 0)
@@ -1206,8 +1224,10 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         else
                             Areg = (fp[1].v.d > fp[0].v.d) ? 1 : 0;
                         fp[0] = fp[2];
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x95:  /* fpeq */
+                        /* !!! Set transputer_fperr if operands are NaN or Inf */
                         Creg = Breg;
                         Breg = Areg;
                         if (fp[0].type == 0)
@@ -1215,6 +1235,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         else
                             Areg = (fp[1].v.d == fp[0].v.d) ? 1 : 0;
                         fp[0] = fp[2];
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x96:  /* fpi32tor32 */
                         temp = read_memory_32(Areg);
@@ -1224,6 +1245,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         fp[1] = fp[0];
                         fp[0].type = 0;
                         fp[0].v.f = (int) temp;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x98:  /* fpi32tor64 */
                         temp = read_memory_32(Areg);
@@ -1233,6 +1255,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         fp[1] = fp[0];
                         fp[0].type = 1;
                         fp[0].v.d = (int) temp;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x9a:  /* fpb32tor64 */
                         temp = read_memory_32(Areg);
@@ -1242,13 +1265,15 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         fp[1] = fp[0];
                         fp[0].type = 1;
                         fp[0].v.d = temp;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x9d:  /* fprtoi32 */
                         if (fp[0].type == 0)
                             fp[0].v.f = (int) fp[0].v.f;
                         else
                             fp[0].v.d = (int) fp[0].v.d;
-                        /* !!! Validate */
+                        /* !!! Validate or set transputer_fperr */
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x9e:  /* fpstnli32 */
                         if (fp[0].type == 0) {
@@ -1260,18 +1285,21 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         fp[1] = fp[2];
                         Areg = Breg;
                         Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0x9f:  /* fpldzerosn */
                         fp[2] = fp[1];
                         fp[1] = fp[0];
                         fp[0].type = 0;
                         fp[0].v.f = 0.0f;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0xa0:  /* fpldzerodb */
                         fp[2] = fp[1];
                         fp[1] = fp[0];
                         fp[0].type = 1;
                         fp[0].v.d = 0.0;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0xa1:  /* fpint */
                         switch (RoundMode) {
@@ -1325,11 +1353,13 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                     case 0xa3:  /* fpdup */
                         fp[2] = fp[1];
                         fp[1] = fp[0];
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0xa4:  /* fprev */
                         fp[3] = fp[0];
                         fp[0] = fp[1];
                         fp[1] = fp[3];
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0xa6:  /* fpldnladddb */
                         fp[3].type = 1;
@@ -1337,6 +1367,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         fp[0].v.d += fp[3].v.d;
                         Areg = Breg;
                         Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0xa8:  /* fpldnlmuldb */
                         fp[3].type = 1;
@@ -1344,6 +1375,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         fp[0].v.d *= fp[3].v.d;
                         Areg = Breg;
                         Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0xaa:  /* fpldnladdsn */
                         fp[3].type = 0;
@@ -1351,6 +1383,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         fp[0].v.f += fp[3].v.f;
                         Areg = Breg;
                         Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0xac:  /* fpldnlmulsn */
                         fp[3].type = 0;
@@ -1358,6 +1391,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         fp[0].v.f *= fp[3].v.f;
                         Areg = Breg;
                         Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
                         break;
                     case 0xab:  /* fpentry */
                         temp = Areg;
@@ -1366,15 +1400,18 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         switch (temp) {
                             case 0x01:  /* fpusqrtfirst */
                                 /* Ignored */
+                                RoundMode = ROUND_NEAREST;
                                 break;
                             case 0x02:  /* fpusqrtstep */
                                 /* Ignored */
+                                RoundMode = ROUND_NEAREST;
                                 break;
                             case 0x03:  /* fpusqrtlast */
                                 if (fp[0].type == 0)
                                     fp[0].v.f = sqrt(fp[0].v.f);
                                 else
                                     fp[0].v.d = sqrt(fp[0].v.d);
+                                RoundMode = ROUND_NEAREST;
                                 break;
                             case 0x06:  /* fpurz */
                                 RoundMode = ROUND_ZERO;
@@ -1393,21 +1430,30 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                                     fp[0].v.f *= 2.0f;
                                 else
                                     fp[0].v.d *= 2.0;
+                                RoundMode = ROUND_NEAREST;
                                 break;
                             case 0x11:  /* fpudivby2 */
                                 if (fp[0].type == 0)
                                     fp[0].v.f /= 2.0f;
                                 else
                                     fp[0].v.d /= 2.0;
+                                RoundMode = ROUND_NEAREST;
                                 break;
                             case 0x0b:  /* fpuabs */
                                 if (fp[0].type == 0)
                                     fp[0].v.f = fabs(fp[0].v.f);
                                 else
                                     fp[0].v.d = fabs(fp[0].v.d);
+                                RoundMode = ROUND_NEAREST;
                                 break;
-                            case 0x23:  /* fpuseterror */
-                            case 0x9c:  /* fpuclearerror */
+                            case 0x23:  /* fpuseterr */
+                                transputer_fperr = 1;
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x9c:  /* fpuclearerr */
+                                transputer_fperr = 0;
+                                RoundMode = ROUND_NEAREST;
+                                break;
                             case 0x0e:  /* fpuchki32 */
                             case 0x0f:  /* fpuchki64 */
                             case 0x07:  /* fpur32tor64 */
@@ -1416,6 +1462,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                             case 0x0a:  /* fpuexpinc32 */
                             case 0x09:  /* fpuexpdec32 */
                                 fprintf(stderr, "Unhandled fpu instruction %04x (%s) at %08x\n", temp, instruction_table[temp + 272], Iptr);
+                                RoundMode = ROUND_NEAREST;
                                 return;
                             default:
                                 fprintf(stderr, "Undocumented fpu instruction %04x at %08x\n", temp, Iptr);
