@@ -685,7 +685,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
             transputer_ClockReg0++;
             if ((transputer_ClockReg0 & 0x3f) == 0) {
                 transputer_ClockReg1++; /* One tick each 64 microseconds */
-/*                transputer_StatusReg |= GotoSNPBit;*/
+                transputer_StatusReg |= GotoSNPBit;
             }
         }
 #if DEBUG
@@ -715,9 +715,6 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         if (transputer_FPtrReg1 != 0x80000000) {
                             Dequeue(1);
                             ActivateProcess();
-                        } else {
-                            Wptr = 0x80000000;
-                            transputer_priority = 1;
                         }
                     }
                 }
