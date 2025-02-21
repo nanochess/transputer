@@ -64,18 +64,22 @@ unsigned int framebuffer[X_WIDTH * Y_HEIGHT];
  */
 void start_emulation(unsigned int, unsigned int);
 
-int pascal_mode;
+int emulator_mode;
 int copy_argc;
 char **copy_argv;
 int next_file;
 FILE *input;
 FILE *output;
+char *disk_name;
+FILE *disk;
 
 /*
  ** Main program
  */
 int main(int argc, char *argv[])
 {
+    int c;
+    
     copy_argc = argc;
     copy_argv = argv;
     fprintf(stderr, "\n");
@@ -87,27 +91,40 @@ int main(int argc, char *argv[])
         fprintf(stderr, "WARNING: double size isn't 8.\n");
     if (argc == 1) {
         fprintf(stderr, "Usage: tem binary.prg [input.pas]\n\n");
+        fprintf(stderr, "       tem -os maestro.cmg disk.img\n");
         fprintf(stderr, "The use of a Pascal input file triggers a special mode\n");
         fprintf(stderr, "to display the source code on stderr, and the assembler\n");
         fprintf(stderr, "result on stdout.\n\n");
         fprintf(stderr, "The same mode is used to feed scene files into the raytracer.\n\n");
         exit(1);
     }
-    if (argc == 2)
-        pascal_mode = 0;
-    else
-        pascal_mode = 1;
-/*    printf("Pascal_mode: %d\n", pascal_mode);*/
-    input = fopen(argv[1], "rb");
+    if (strcmp(argv[1], "-os") == 0 || strcmp(argv[1], "-OS") == 0) {   /* Operating system mode */
+        disk_name = argv[3];
+        disk = fopen(disk_name, "r+b");
+        if (disk == NULL) {
+            fprintf(stderr, "Couldn't open the disk image file '%s'\n", argv[3]);
+            exit(1);
+        }
+        emulator_mode = 2;
+        c = 2;
+    } else {
+        if (argc == 2)
+            emulator_mode = 0;
+        else
+            emulator_mode = 1;
+        c = 1;
+    }
+/*    printf("emulator_mode: %d\n", emulator_mode);*/
+    input = fopen(argv[c], "rb");
     if (input == NULL) {
-        fprintf(stderr, "Couldn't open '%s'\n", argv[1]);
+        fprintf(stderr, "Couldn't open '%s'\n", argv[c]);
         exit(1);
     }
     fseek(input, 0, SEEK_END);
     offset_channel0 = 0;
     bytes_channel0 = ftell(input);
     if (bytes_channel0 > sizeof(channel0)) {
-        fprintf(stderr, "Input image bigger than %ld bytes\n", sizeof(channel0));
+        fprintf(stderr, "Boot image bigger than %ld bytes\n", sizeof(channel0));
         exit(1);
     }
     output_channel0 = bytes_channel0;
@@ -158,7 +175,7 @@ void handle_input(unsigned int addr, unsigned int channel, unsigned int bytes)
     if ((int) bytes <= 0)
         return;
     /*        fprintf(stderr, "(available %08x)\n", bytes_channel0);*/
-    if (pascal_mode == 0) {
+    if (emulator_mode == 0) {
         if (bytes_channel0 == 0) {
             char *p;
             
@@ -362,7 +379,7 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
     
     if (bytes == 0)
         return;
-    if (pascal_mode == 0) {
+    if (emulator_mode == 0) {
         while (bytes) {
             c = read_memory(addr);
             addr++;
@@ -583,11 +600,44 @@ void write_memory_fp64(unsigned int addr, double value)
     write_memory(addr + 7, v.data[7]);
 }
 
+#define Enqueue(ProcPtr, Fptr, Bptr) \
+        if (*(Fptr) == 0x80000000)\
+            *(Fptr) = ProcPtr;\
+        else \
+            write_memory_32(*(Bptr) - 8, ProcPtr);\
+        *(Bptr) = ProcPtr;
+
+#define Dequeue(Level) \
+    Wptr = transputer_FPtrReg##Level & ~3;\
+    transputer_priority = Level;\
+    if (transputer_FPtrReg##Level == transputer_BPtrReg##Level) \
+        transputer_FPtrReg##Level = 0x80000000; \
+    else \
+        transputer_FPtrReg##Level = read_memory_32(transputer_FPtrReg##Level - 8);
+
+#define Run(ProcDesc) \
+    if (transputer_priority == 0) { \
+        Enqueue(ProcDesc & ~3, ProcDesc & 1 ? &transputer_FPtrReg1 : &transputer_FPtrReg0, ProcDesc & 1 ? &transputer_BPtrReg1 : &transputer_BPtrReg0); \
+    } else { \
+        if ((ProcDesc & 1) == 0) { \
+            fprintf(stderr, "Not implemented: Starting high-priority process\n");\
+            exit(1);\
+        } else { \
+            Enqueue(ProcDesc & ~3, &transputer_FPtrReg1, &transputer_BPtrReg1); \
+        } \
+    }
+
+#define ActivateProcess() \
+    Oreg = 0;\
+    Iptr = read_memory_32(Wptr - 4);
+
 /*
  ** Start emulation
  */
 void start_emulation(unsigned int Iptr, unsigned int Wptr)
 {
+    #define GotoSNPBit 1
+    
     unsigned int Areg = 0;
     unsigned int Breg = 0;
     unsigned int Creg = 0;
@@ -595,6 +645,17 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
     unsigned int transputer_error = 0;
     unsigned int transputer_halterr = 0;
     unsigned int transputer_fperr = 0;
+    unsigned int transputer_priority = 1;   /* 0 for high-priority, 1 for low-priority */
+    unsigned int local_count = 0;
+    unsigned int transputer_ClockReg0 = 0;
+    unsigned int transputer_ClockReg1 = 0;
+    unsigned int transputer_FPtrReg0 = 0x80000000;
+    unsigned int transputer_BPtrReg0 = 0x80000000;
+    unsigned int transputer_CPtrReg0 = 0x80000000;
+    unsigned int transputer_FPtrReg1 = 0x80000000;
+    unsigned int transputer_BPtrReg1 = 0x80000000;
+    unsigned int transputer_CPtrReg1 = 0x80000000;
+    unsigned int transputer_StatusReg = 0;
     enum {
         ROUND_MINUS, ROUND_NEAREST, ROUND_POSITIVE, ROUND_ZERO,
     } RoundMode = ROUND_NEAREST;
@@ -619,6 +680,14 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
     fp[2].v.f = 0.0f;
     while (1) {
         byte = read_memory(Iptr);
+        if (++local_count == 3) {   /* Let's suppose 3 cycles = 1 microsecond */
+            local_count = 0;
+            transputer_ClockReg0++;
+            if ((transputer_ClockReg0 & 0x3f) == 0) {
+                transputer_ClockReg1++; /* One tick each 64 microseconds */
+/*                transputer_StatusReg |= GotoSNPBit;*/
+            }
+        }
 #if DEBUG
         if ((byte & 0xf0) != 0x20 && (byte & 0xf0) != 0x60) {
             debug = fopen("debug.txt", "a");
@@ -637,6 +706,21 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
             case 0x00:  /* j */
                 Iptr += Oreg;
                 Oreg = 0;
+                if (transputer_StatusReg & GotoSNPBit) {
+                    transputer_StatusReg &= ~GotoSNPBit;
+                    if (transputer_priority == 0) {
+                        fprintf(stderr, "Unsupported high-priority process list\n");
+                        exit(1);
+                    } else {
+                        if (transputer_FPtrReg1 != 0x80000000) {
+                            Dequeue(1);
+                            ActivateProcess();
+                        } else {
+                            Wptr = 0x80000000;
+                            transputer_priority = 1;
+                        }
+                    }
+                }
                 break;
             case 0x10:  /* ldlp */
                 Creg = Breg;
@@ -725,6 +809,73 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                 break;
             case 0xf0:  /* opr */
                 switch (Oreg) {
+                    case 0x2b:  /* tin */
+                        if (transputer_priority == 0)   /* High-priority */
+                            temp = Areg - transputer_ClockReg0;
+                        else    /* Low-priority */
+                            temp = Areg - transputer_ClockReg1;
+                        if (temp != 0 && temp <= 0x7fffffff) {  /* Should wait this time */
+                            write_memory_32(Wptr - 4, Iptr);    /* Current instruction ptr. */
+                            /* !!! */
+                            write_memory_32(Wptr - 20, Areg);   /* Time for awakening */
+                        }
+                        break;
+                    case 0x0d:  /* startp */
+                        Iptr = Iptr + Breg;
+                        write_memory_32(Areg - 4, Iptr);
+                        temp = Areg | transputer_priority;
+                        Run(temp);
+                        break;
+                    case 0x15:  /* stopp */
+                        write_memory_32(Wptr - 4, Iptr);
+                        transputer_StatusReg |= GotoSNPBit;
+                        break;
+                    case 0x03:  /* endp */
+                        temp = read_memory_32(Areg + 4);
+                        if (temp == 1) {
+                            Iptr = read_memory_32(Areg);
+                            Wptr = Areg;
+                        } else {
+                            write_memory_32(Areg + 4, temp - 1);
+                            transputer_StatusReg |= GotoSNPBit;
+                        }
+                        break;
+                    case 0x39:  /* runp */
+                        Run(Areg);
+                        break;
+                    case 0x3d:  /* savel */
+                        write_memory_32(Areg, transputer_FPtrReg1);
+                        write_memory_32(Areg + 4, transputer_BPtrReg1);
+                        Areg = Breg;
+                        Breg = Creg;
+                        break;
+                    case 0x3e:  /* saveh */
+                        write_memory_32(Areg, transputer_FPtrReg0);
+                        write_memory_32(Areg + 4, transputer_BPtrReg0);
+                        Areg = Breg;
+                        Breg = Creg;
+                        break;
+                    case 0x50:  /* sthb */
+                        transputer_BPtrReg0 = Areg;
+                        Areg = Breg;
+                        Breg = Creg;
+                        break;
+                    case 0x17:  /* stlb */
+                        transputer_BPtrReg1 = Areg;
+                        Areg = Breg;
+                        Breg = Creg;
+                        break;
+                    case 0x18:  /* sthf */
+                        transputer_FPtrReg0 = Areg;
+                        Areg = Breg;
+                        Breg = Creg;
+                        break;
+                    case 0x1c:  /* stlf */
+                        transputer_FPtrReg1 = Areg;
+                        Areg = Breg;
+                        Breg = Creg;
+                        break;
+
                     case 0x00:  /* rev */
                         temp = Areg;
                         Areg = Breg;
@@ -736,9 +887,6 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                     case 0x02:  /* bsub */
                         Areg = Areg + Breg;
                         Breg = Creg;
-                        break;
-                    case 0x03:  /* endp */
-                        not_handled();
                         break;
                     case 0x04:  /* diff */
                         Areg = Breg - Areg;
@@ -790,9 +938,6 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         Areg = temp;
                         Breg = Creg;
                         break;
-                    case 0x0d:  /* startp */
-                        not_handled();
-                        break;
                     case 0x12:  /* resetch */
                         temp = read_memory_32(Areg);
                         write_memory_32(Areg, 0x80000000);
@@ -802,17 +947,10 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                     case 0x0f:  /* outword */
                     case 0x10:  /* seterr */
                     case 0x13:  /* csub0 */
-                    case 0x15:  /* stopp */
                         not_handled();
                         break;
                     case 0x16:  /* ladd */
-                    case 0x17:  /* stlb */
                         not_handled();
-                        break;
-                    case 0x18:  /* sthf */
-                        /* !!! Do something (^^)! */
-                        Areg = Breg;
-                        Breg = Creg;
                         break;
                     case 0x19:  /* norm */
                         not_handled();
@@ -820,15 +958,14 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                     case 0x1b:  /* ldpi */
                         Areg += Iptr;
                         break;
-                    case 0x1c:  /* stlf */
-                        /* !!! Do something (^^)! */
-                        Areg = Breg;
-                        Breg = Creg;
-                        break;
                     case 0x1a:  /* ldiv */
                     case 0x1d:  /* xdble */
-                    case 0x1e:  /* ldpri */
                         not_handled();
+                        break;
+                    case 0x1e:  /* ldpri */
+                        Creg = Breg;
+                        Breg = Areg;
+                        Areg = transputer_priority;
                         break;
                     case 0x1f:  /* rem */
                         if (Areg == 0 || Areg == -1 && Breg == 0x80000000) {
@@ -860,7 +997,12 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         }
                         break;
                     case 0x22:  /* ldtimer */
-                        not_handled();
+                        Creg = Breg;
+                        Breg = Areg;
+                        if (transputer_priority == 0)
+                            Areg = transputer_ClockReg0;
+                        else
+                            Areg = transputer_ClockReg1;
                         break;
                     case 0x29:  /* testerr */
                         Creg = Breg;
@@ -869,10 +1011,9 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         transputer_error = 0;
                         break;
                     case 0x2a:  /* testpranal */
-                        not_handled();
-                        break;
-                    case 0x2b:  /* tin */
-                        not_handled();
+                        Creg = Breg;
+                        Breg = Areg;
+                        Areg = 0;   /* Analyse pin not asserted */
                         break;
                     case 0x2c:  /* div */
                         if (Areg == 0 || Areg == -1 && Breg == 0x80000000) {
@@ -905,7 +1046,6 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                     case 0x36:  /* lshl */
                     case 0x37:  /* lsum */
                     case 0x38:  /* lsub */
-                    case 0x39:  /* runp */
                         not_handled();
                         break;
                     case 0x3a:  /* xword */
@@ -923,12 +1063,6 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                     case 0x3c:  /* gajw */
                         Areg &= ~3;
                         Wptr = Areg;
-                        break;
-                    case 0x3d:  /* savel */
-                        not_handled();
-                        break;
-                    case 0x3e:  /* saveh */
-                        not_handled();
                         break;
                     case 0x3f:  /* wcnt */
                         Creg = Breg;
@@ -988,7 +1122,6 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         not_handled();
                         break;
                     case 0x4f:  /* ldiff */
-                    case 0x50:  /* sthb */
                         not_handled();
                         break;
                     case 0x51:  /* taltwt */
