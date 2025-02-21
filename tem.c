@@ -600,6 +600,33 @@ void write_memory_fp64(unsigned int addr, double value)
     write_memory(addr + 7, v.data[7]);
 }
 
+#define SaveRegisters(SaveEreg) \
+write_memory_32(0x8000002c, transputer_WdescReg); \
+if (transputer_WdescReg != 0x80000001) { \
+write_memory_32(0x80000030, Iptr); \
+write_memory_32(0x80000034, Areg); \
+write_memory_32(0x80000038, Breg); \
+write_memory_32(0x8000003c, Creg); \
+write_memory_32(0x80000040, transputer_StatusReg); \
+} \
+if (SaveEreg) { \
+    write_memory_32(0x80000044, 0); \
+}
+
+#define RestoreRegisters() \
+temp = read_memory_32(0x8000002c);\
+UpdateWdescReg(temp);\
+if (transputer_WdescReg != 0x80000001) { \
+Iptr = read_memory_32(0x80000030);\
+Areg = read_memory_32(0x80000034);\
+Breg = read_memory_32(0x80000038);\
+Creg = read_memory_32(0x8000003c);\
+transputer_StatusReg = read_memory_32(0x80000040);\
+} \
+if (transputer_StatusReg & MoveBit) { \
+read_memory_32(0x80000044);\
+}
+
 #define Enqueue(ProcPtr, Fptr, Bptr) \
         if (*(Fptr) == 0x80000000)\
             *(Fptr) = ProcPtr;\
@@ -607,7 +634,13 @@ void write_memory_fp64(unsigned int addr, double value)
             write_memory_32(*(Bptr) - 8, ProcPtr);\
         *(Bptr) = ProcPtr;
 
+#define UpdateWdescReg(NewWdescReg) \
+    transputer_WdescReg = NewWdescReg; \
+    Wptr = transputer_WdescReg & ~3; \
+    transputer_priority = transputer_WdescReg & 1;
+
 #define Dequeue(Level) \
+    UpdateWdescReg(transputer_FPtrReg##Level | Level); \
     Wptr = transputer_FPtrReg##Level & ~3;\
     transputer_priority = Level;\
     if (transputer_FPtrReg##Level == transputer_BPtrReg##Level) \
@@ -620,8 +653,10 @@ void write_memory_fp64(unsigned int addr, double value)
         Enqueue(ProcDesc & ~3, ProcDesc & 1 ? &transputer_FPtrReg1 : &transputer_FPtrReg0, ProcDesc & 1 ? &transputer_BPtrReg1 : &transputer_BPtrReg0); \
     } else { \
         if ((ProcDesc & 1) == 0) { \
-            fprintf(stderr, "Not implemented: Starting high-priority process\n");\
-            exit(1);\
+            SaveRegisters((transputer_StatusReg & MoveBit) != 0); \
+            UpdateWdescReg(ProcDesc); \
+            transputer_StatusReg &= ErrorFlag | HaltOnErrorBit; \
+            ActivateProcess(); \
         } else { \
             Enqueue(ProcDesc & ~3, &transputer_FPtrReg1, &transputer_BPtrReg1); \
         } \
@@ -631,13 +666,16 @@ void write_memory_fp64(unsigned int addr, double value)
     Oreg = 0;\
     Iptr = read_memory_32(Wptr - 4);
 
+#define GotoSNPBit 0x02
+#define MoveBit 0x08
+#define ErrorFlag 0x80000000
+#define HaltOnErrorBit 0x80
+
 /*
  ** Start emulation
  */
 void start_emulation(unsigned int Iptr, unsigned int Wptr)
 {
-    #define GotoSNPBit 1
-    
     unsigned int Areg = 0;
     unsigned int Breg = 0;
     unsigned int Creg = 0;
@@ -655,6 +693,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
     unsigned int transputer_FPtrReg1 = 0x80000000;
     unsigned int transputer_BPtrReg1 = 0x80000000;
     unsigned int transputer_CPtrReg1 = 0x80000000;
+    unsigned int transputer_WdescReg = 0x80000001;
     unsigned int transputer_StatusReg = 0;
     enum {
         ROUND_MINUS, ROUND_NEAREST, ROUND_POSITIVE, ROUND_ZERO,
@@ -706,11 +745,39 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
             case 0x00:  /* j */
                 Iptr += Oreg;
                 Oreg = 0;
+                
+                /*
+                 ** j is one of the scheduling points for the transputer
+                 ** !!! take note of more.
+                 */
                 if (transputer_StatusReg & GotoSNPBit) {
                     transputer_StatusReg &= ~GotoSNPBit;
-                    if (transputer_priority == 0) {
-                        fprintf(stderr, "Unsupported high-priority process list\n");
-                        exit(1);
+                    
+                    /*
+                     ** Handle one single timer
+                     ** The transputer has a long microcode here to handle sorting of
+                     ** timers by ending time.
+                     */
+                    temp = read_memory_32(0x80000024);
+                    if (temp != 0x80000000 && read_memory_32(temp - 20) - transputer_ClockReg0 <= 0) {
+                        write_memory_32(0x80000024, read_memory_32(temp - 16));
+                        Run(temp | 0);
+                    } else if (transputer_priority == 0) {
+                        
+                        /*
+                         ** My code always runs in high-priority mode, so there is no
+                         ** code implemented to jump back to low-priority mode when
+                         ** high-priority processes are completed.
+                         **
+                         ** On a side note, I never really noticed the
+                         ** high-priority mode should have been reserved for fast
+                         ** reaction routines like interrupts, while all my code
+                         ** should have been running in low-priority mode.
+                         */
+                        if (transputer_FPtrReg1 != 0x80000000) {
+                            Dequeue(0);
+                            ActivateProcess();
+                        }
                     } else {
                         if (transputer_FPtrReg1 != 0x80000000) {
                             Dequeue(1);
@@ -813,8 +880,15 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                             temp = Areg - transputer_ClockReg1;
                         if (temp != 0 && temp <= 0x7fffffff) {  /* Should wait this time */
                             write_memory_32(Wptr - 4, Iptr);    /* Current instruction ptr. */
-                            /* !!! */
                             write_memory_32(Wptr - 20, Areg);   /* Time for awakening */
+                            if (transputer_priority == 0) { /* Link timer */
+                                write_memory_32(Wptr - 16, read_memory_32(0x80000024));
+                                write_memory_32(0x80000024, Wptr);
+                            } else {
+                                write_memory_32(Wptr - 16, read_memory_32(0x80000028));
+                                write_memory_32(0x80000028, Wptr);
+                            }
+                            transputer_StatusReg |= GotoSNPBit;
                         }
                         break;
                     case 0x0d:  /* startp */
