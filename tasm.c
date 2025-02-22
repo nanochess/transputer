@@ -222,13 +222,16 @@ int main(int argc, char *argv[])
     fprintf(stderr, "\n");
     fprintf(stderr, "Transputer assembler v0.1. Feb/01/2025\n");
     fprintf(stderr, "by Oscar Toledo G. https://nanochess.org/\n\n");
-    if (argc != 4) {
+    if (argc != 3 && argc != 4) {
         fprintf(stderr, "Usage: tasm input.len output.cmg library.len\n\n");
         exit(1);
     }
     input_file = argv[1];
     output_file = argv[2];
-    library_file = argv[3];
+    if (argc == 4)
+        library_file = argv[3];
+    else
+        library_file = NULL;
     ensambla();
     exit(0);
 }
@@ -263,12 +266,14 @@ void ensambla(void)
     linea_actual = 0;
     procesa();
     fclose(archivo_entrada);
-    archivo_entrada = fopen(library_file, "r");
-    if (archivo_entrada == NULL) {
-        fprintf(stderr, "Unable to open '%s'\n", library_file);
-    } else {
-        procesa();
-        fclose(archivo_entrada);
+    if (library_file != NULL) {
+        archivo_entrada = fopen(library_file, "r");
+        if (archivo_entrada == NULL) {
+            fprintf(stderr, "Unable to open '%s'\n", library_file);
+        } else {
+            procesa();
+            fclose(archivo_entrada);
+        }
     }
     vtemp1();
     paso = 1;
@@ -672,7 +677,7 @@ int eval3(void)
             if (*pos_global == 39)
                 pos_global++;
             else
-                error("Falta apostrófe final", NULL);
+                error("Falta apóstrofe final", NULL);
         }
         return valor;
     } else if (isalpha(*pos_global) || *pos_global == '_') {
@@ -795,6 +800,20 @@ void def_byte(void)
             }
             if (*pos_global != '"') {
                 error("Faltan comillas", NULL);
+            } else {
+                ++pos_global;
+            }
+        } else if (*pos_global == '\'') {
+            pos_global++;
+            while (*pos_global && (*pos_global != '\'' || pos_global[1] == '\'')) {
+                etemp1(*pos_global);
+                ++pos_ens;
+                if (pos_global[0] == '\'' && pos_global[1] == '\'')
+                    pos_global++;
+                pos_global++;
+            }
+            if (*pos_global != '\'') {
+                error("Faltan apóstrofe", NULL);
             } else {
                 ++pos_global;
             }
