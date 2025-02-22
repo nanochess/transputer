@@ -18,6 +18,7 @@
  ** For getting detailed execution trace.
  */
 #define DEBUG       0
+#define DEBUG_DISK  0
 
 /*
  ** The supported machine is a T805 homebrew board made by Oscar Toledo E. circa 1992
@@ -77,9 +78,7 @@ FILE *input;
 FILE *output;
 char *disk_name;
 FILE *disk;
-#if DEBUG
 FILE *debug;
-#endif
 
 /*
  ** Main program
@@ -152,7 +151,6 @@ int main(int argc, char *argv[])
     exit(0);
 }
 
-#if DEBUG
 /*
  ** Emit a debug message
  */
@@ -164,7 +162,6 @@ void debug_message(char *data)
         fclose(debug);
     }
 }
-#endif
 
 #define MEMORY_MASK  0x0003ffff
 
@@ -175,7 +172,7 @@ void debug_message(char *data)
 
 #define write_memory(addr, byte) memory[(addr) & MEMORY_MASK] = (byte)
 
-#define read_memory_32(addr) read_memory(addr) | (read_memory((addr) + 1) << 8) | (read_memory((addr) + 2) << 16) | (read_memory((addr) + 3) << 24)
+#define read_memory_32(addr) (read_memory(addr) | (read_memory((addr) + 1) << 8) | (read_memory((addr) + 2) << 16) | (read_memory((addr) + 3) << 24))
 
 #define write_memory_32(addr, word) memory[(addr) & MEMORY_MASK] = (word) & 0xff; \
 memory[((addr) + 1) & MEMORY_MASK] = ((word) >> 8) & 0xff; \
@@ -401,13 +398,9 @@ int extract_hex(char *p)
     int v;
     
     c = tolower(*p) - '0';
-    if (c > 9)
-        c -= 0x27;
     v = c << 4;
     p++;
     c = tolower(*p) - '0';
-    if (c > 9)
-        c -= 0x27;
     return v | c;
 }
 
@@ -505,7 +498,7 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
         if (memcmp(output_buffer, "01", 2) == 0) {  /* Code 01: Read sector */
             if (output_pointer - output_buffer < 8)
                 return;
-#if DEBUG
+#if DEBUG_DISK
             debug_message("Read sector: ");
             output_buffer[8] = '\n';
             output_buffer[9] = 0;
@@ -537,7 +530,8 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
             output_buffer[324] = 0;
             debug_message(output_buffer);
 #endif
-            fprintf(stdout, "\x1b[%d;%df", 1, output_buffer[2] + 1);
+#if 0
+            fprintf(stdout, "\x1b[%d;%df", output_buffer[2] + 1, 1);
             c = -1;
             p = output_buffer + 3;
             while (p < output_buffer + 323) {
@@ -550,6 +544,7 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
                 p += 4;
             }
             fflush(stdout);
+#endif
             output_pointer = output_buffer;
             return;
         }
@@ -945,16 +940,17 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
              ** This is oversimplified.
              */
             temp2 = 0x80000024;
-            temp = read_memory_32(0x80000024);
-            while (temp != 0x80000000 && read_memory_32(temp - 20) - transputer_ClockReg0 > 0) {
-                temp2 = temp - 16;
-                temp = read_memory_32(temp2);
-            }
-            if (temp != 0x80000000) {
+            temp = read_memory_32(temp2);
+            if (temp != 0x80000000 && (int) (read_memory_32(temp - 20) - transputer_ClockReg0) <= 0) {
 #if DEBUG
-                debug_message("Process change: Timer\n");
+                {
+                    char buffer[256];
+                    
+                    sprintf(buffer, "Process change: Timer (at %d, ClockReg0=%d)\n", read_memory_32(temp - 20), transputer_ClockReg0);
+                    debug_message(buffer);
+                }
 #endif
-                write_memory_32(temp2, read_memory_32(temp - 16));
+                write_memory_32(temp2, read_memory_32(temp - 16));  /* Remove timer from list */
                 Run(temp);
             } else if (transputer_priority == 0) {
                 if (transputer_FPtrReg0 != 0x80000000) {
@@ -1127,19 +1123,27 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                          */
                     case 0x2b:  /* tin */
                         if (transputer_priority == 0)   /* High-priority */
-                            temp = Areg - transputer_ClockReg0;
+                            temp = transputer_ClockReg0;
                         else    /* Low-priority */
-                            temp = Areg - transputer_ClockReg1;
-                        if (temp != 0 && temp <= 0x7fffffff) {  /* Should wait this time */
+                            temp = transputer_ClockReg1;
+                        if ((int) Areg - temp > 0) {  /* Should wait this time */
                             write_memory_32(Wptr - 4, Iptr);    /* Current instruction ptr. */
                             write_memory_32(Wptr - 20, Areg);   /* Time for awakening */
                             if (transputer_priority == 0) { /* Link timer */
-                                write_memory_32(Wptr - 16, read_memory_32(0x80000024));
-                                write_memory_32(0x80000024, Wptr);
+                                temp2 = 0x80000024;
                             } else {
-                                write_memory_32(Wptr - 16, read_memory_32(0x80000028));
-                                write_memory_32(0x80000028, Wptr);
+                                temp2 = 0x80000028;
                             }
+                            while (1) {
+                                temp = read_memory_32(temp2);
+                                if (temp == 0x80000000)
+                                    break;
+                                if ((int) Areg - read_memory_32(temp - 20) < 0)
+                                    break;
+                                temp2 = temp - 16;
+                            }
+                            write_memory_32(Wptr - 16, read_memory_32(temp2));
+                            write_memory_32(temp2, Wptr);
                             transputer_StatusReg |= GotoSNPBit;
 //                            fprintf(stderr, "Forcing process change\n");
                         }
