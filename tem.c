@@ -539,7 +539,7 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
                 v2 = extract_hex(p + 2);
                 if (v2 != c) {
                     c = v2;
-                }s
+                }
                 fputc(v, stdout);
                 p += 4;
             }
