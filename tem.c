@@ -80,6 +80,9 @@ void ttyrestore(int fd)
     tcsetattr(fd,TCSAFLUSH,&tio_save);
 }
 
+/*
+ ** Special keys decoded for macOS
+ */
 int getkey(int fd)
 {
     unsigned char buf[1];
@@ -87,8 +90,101 @@ int getkey(int fd)
     
     len = read(fd,buf,1);
     
-    if (len > 0)
+    if (len > 0) {
         len = buf[0];
+        if (len == 27) {
+            len = read(fd,buf,1);
+            if (len > 0) {
+                if (buf[0] == 91) {
+                    len = read(fd, buf, 1);
+                    if (len > 0) {
+                        if (buf[0] == 65) {
+                            len = 0x18; /* Up */
+                        } else if (buf[0] == 66) {
+                            len = 0x12; /* Down */
+                        } else if (buf[0] == 67) {
+                            len = 0x16; /* Right */
+                        } else if (buf[0] == 68) {
+                            len = 0x14; /* Left */
+                        } else if (buf[0] == 49) {
+                            len = read(fd, buf, 1);
+                            if (len > 0) {
+                                if (buf[0] == 53) {
+                                    len = read(fd, buf, 1);
+                                    if (len > 0) {
+                                        if (buf[0] == 126)
+                                            len = 5;    /* F5 */
+                                    }
+                                } else if (buf[0] == 55) {
+                                    len = read(fd, buf, 1);
+                                    if (len > 0) {
+                                        if (buf[0] == 126)
+                                            len = 6;    /* F6 */
+                                    }
+                                } else if (buf[0] == 56) {
+                                    len = read(fd, buf, 1);
+                                    if (len > 0) {
+                                        if (buf[0] == 126)
+                                            len = 7;    /* F7 */
+                                    }
+                                } else if (buf[0] == 57) {
+                                    len = read(fd, buf, 1);
+                                    if (len > 0) {
+                                        if (buf[0] == 126)
+                                            len = 8;    /* F8 */
+                                    }
+                                }
+                            }
+                        } else if (buf[0] == 50) {
+                            len = read(fd, buf, 1);
+                            if (len > 0) {
+                                if (buf[0] == 48) {
+                                    len = read(fd, buf, 1);
+                                    if (len > 0) {
+                                        if (buf[0] == 126)
+                                            len = 9;    /* F9 */
+                                    }
+                                } else if (buf[0] == 49) {
+                                    len = read(fd, buf, 1);
+                                    if (len > 0) {
+                                        if (buf[0] == 126)
+                                            len = 10;   /* F10 */
+                                    }
+                                } else if (buf[0] == 51) {
+                                    len = read(fd, buf, 1);
+                                    if (len > 0) {
+                                        if (buf[0] == 126)
+                                            len = 11;   /* F11 */
+                                    }
+                                } else if (buf[0] == 52) {
+                                    len = read(fd, buf, 1);
+                                    if (len > 0) {
+                                        if (buf[0] == 126)
+                                            len = 12;   /* F12 */
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (buf[0] == 79) {
+                    len = read(fd, buf, 1);
+                    if (len > 0) {
+                        if (buf[0] == 80) {
+                            len = 0x01; /* F1 */
+                        } else if (buf[0] == 81) {
+                            len = 0x02; /* F2 */
+                        } else if (buf[0] == 82) {
+                            len = 0x03; /* F3 */
+                        } else if (buf[0] == 83) {
+                            len = 0x04; /* F4 */
+                        }
+                    }
+                }
+            } else {
+                len = 27;
+            }
+        }
+    }
     
     return len;
 }
