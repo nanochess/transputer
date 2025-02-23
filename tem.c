@@ -539,7 +539,7 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
                 v2 = extract_hex(p + 2);
                 if (v2 != c) {
                     c = v2;
-                }
+                }s
                 fputc(v, stdout);
                 p += 4;
             }
@@ -818,50 +818,54 @@ transputer_StatusReg = read_memory_32(0x80000040);\
  ** This is only a quick&dirty hack, and it doesn't follows the transputer hardware,
  */
 #define channel_input(address, channel, bytes) \
-if ((channel & 0xffffffe0) == 0x80000000) { \
-handle_input(address, channel, bytes); \
-} else { \
-unsigned int procDesc = read_memory_32(channel); \
-if (procDesc == 0x80000000) { \
-write_memory_32(channel, transputer_WdescReg); \
-write_memory_32(Wptr - 4, Iptr); \
-write_memory_32(Wptr - 12, address); \
-transputer_StatusReg |= GotoSNPBit; \
-} else {\
-unsigned int procPtr = procDesc & ~3;\
-unsigned int source_address = read_memory_32(procPtr - 12);\
-while(bytes--) {\
-write_memory(address, read_memory(source_address));\
-address++;\
-source_address++;\
-}\
-write_memory_32(channel, 0x80000000); \
-Run(procDesc); \
-}\
-}
+    if ((channel & 0xffffffe0) == 0x80000000) { \
+        handle_input(address, channel, bytes); \
+    } else { \
+        unsigned int procDesc = read_memory_32(channel); \
+        if (procDesc == 0x80000000) { \
+/*            fprintf(stderr, "IN: No data. Waiting as process $%08x in channel $%08x\n", transputer_WdescReg, channel);*/ \
+            write_memory_32(channel, transputer_WdescReg); \
+            write_memory_32(Wptr - 4, Iptr); \
+            write_memory_32(Wptr - 12, address); \
+            transputer_StatusReg |= GotoSNPBit; \
+        } else {\
+            unsigned int procPtr = procDesc & ~3;\
+            unsigned int source_address = read_memory_32(procPtr - 12);\
+            while(bytes--) {\
+                write_memory(address, read_memory(source_address));\
+                address++;\
+                source_address++;\
+            }\
+            write_memory_32(channel, 0x80000000); \
+/*            fprintf(stderr, "IN: Fulfilled. Jumping to process $%08x in channel $%08x\n", procDesc, channel);*/ \
+            Run(procDesc); \
+        }\
+    }
 
 #define channel_output(address, channel, bytes) \
-if ((channel & 0xffffffe0) == 0x80000000) { \
-handle_output(address, channel, bytes); \
-} else { \
-unsigned int procDesc = read_memory_32(channel); \
-if (procDesc == 0x80000000) { \
-write_memory_32(channel, transputer_WdescReg); \
-write_memory_32(Wptr - 4, Iptr); \
-write_memory_32(Wptr - 12, address); \
-transputer_StatusReg |= GotoSNPBit; \
-} else {\
-unsigned int procPtr = procDesc & ~3;\
-unsigned int target_address = read_memory_32(procPtr - 12);\
-while (bytes--) { \
-write_memory(target_address, read_memory(address));\
-address++;\
-target_address++;\
-}\
-write_memory_32(channel, 0x80000000); \
-Run(procDesc); \
-}\
-}
+    if ((channel & 0xffffffe0) == 0x80000000) { \
+        handle_output(address, channel, bytes); \
+    } else { \
+        unsigned int procDesc = read_memory_32(channel); \
+        if (procDesc == 0x80000000) { \
+/*fprintf(stderr, "OUT: No one to receive. Waiting as process $%08x in channel $%08x\n", transputer_WdescReg, channel);*/ \
+            write_memory_32(channel, transputer_WdescReg); \
+            write_memory_32(Wptr - 4, Iptr); \
+            write_memory_32(Wptr - 12, address); \
+            transputer_StatusReg |= GotoSNPBit; \
+        } else {\
+            unsigned int procPtr = procDesc & ~3;\
+            unsigned int target_address = read_memory_32(procPtr - 12);\
+            while (bytes--) { \
+                write_memory(target_address, read_memory(address));\
+                address++;\
+                target_address++;\
+            }\
+            write_memory_32(channel, 0x80000000); \
+/*fprintf(stderr, "OUT: Fulfilled. Jumping to process $%08x in channel $%08x\n", procDesc, channel);*/ \
+            Run(procDesc); \
+        }\
+    }
 
 /*
  ** Start emulation
@@ -913,8 +917,16 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
     fp[2].v.f = 0.0f;
     while (1) {
         
-        if (++local_count == 3) {   /* Let's suppose 3 cycles = 1 microsecond */
-            local_count = 0;
+#if 0
+        if (Iptr == 0x8000121b) {   /* Watch file stats */
+            unsigned int base = 0x8001be38;
+            
+            fprintf(stderr, "tbyt=$%08x pbyt=$%08x psec=$%08x\n", read_memory_32(base + 2118 * 4), read_memory_32(base + 2113 * 4), read_memory_32(base + 2138 * 4));
+        }
+#endif
+        local_count += 30; /* 30 ns per byte */
+        if (local_count >= 1000) {   /* 1 microsecond */
+            local_count -= 1000;
             transputer_ClockReg0++;
             if ((transputer_ClockReg0 & 0x3f) == 0) {
                 transputer_ClockReg1++; /* One tick each 64 microseconds */
@@ -941,7 +953,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
              */
             temp2 = 0x80000024;
             temp = read_memory_32(temp2);
-            if (temp != 0x80000000 && (int) (read_memory_32(temp - 20) - transputer_ClockReg0) <= 0) {
+            if (temp != 0x80000000 && (int) (read_memory_32(temp - 20) - transputer_ClockReg0) < 0) {
 #if DEBUG
                 {
                     char buffer[256];
@@ -1020,10 +1032,7 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                  ** + dist
                  */
                 temp = read_memory_32(0x80000024);
-                while (temp != 0x80000000 && read_memory_32(temp - 20) - transputer_ClockReg0 > 0) {
-                    temp = read_memory_32(temp - 16);
-                }
-                if (temp != 0x80000000) {
+                if (temp != 0x80000000 && (int) (read_memory_32(temp - 20) - transputer_ClockReg0) < 0) {
                     transputer_StatusReg |= GotoSNPBit;
                 }
                 break;
@@ -1168,7 +1177,8 @@ void start_emulation(unsigned int Iptr, unsigned int Wptr)
                         }
                         break;
                     case 0x39:  /* runp */
-                        Run(Areg);
+                        temp = Areg;
+                        Run(temp);
                         break;
                     case 0x3d:  /* savel */
                         write_memory_32(Areg, transputer_FPtrReg1);
