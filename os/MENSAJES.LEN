@@ -1,0 +1,94 @@
+; 11-jul-1995
+
+;
+; Rutinas para mandar y recibir mensajes.
+;
+; mandar(canal, *mensaje, bytes)
+;
+qmandar:
+ldl 3
+ldl 2
+ldl 4
+out
+ret
+
+;
+; recibir(canal, *mensaje, bytes)
+;
+qrecibir:
+ldl 3
+ldl 2
+ldl 4
+in
+ret
+
+;
+; memcpy(destino, origen, bytes)
+;
+qmemcpy:
+ldl 3
+ldl 2
+ldl 4
+move
+ret
+
+;
+; memset(destino, byte, cuantos)
+;
+qmemset:
+ldl 4
+cj memset
+ldl 3
+ldl 2
+sb
+ldl 2
+adc 1
+stl 2
+ldl 4
+adc -1
+stl 4
+j qmemset
+memset:
+ret
+
+q_finprog:
+ldc FINPROG-P2
+ldpi
+P2:
+adc 15
+ldc -16
+and
+ret
+
+;
+; inicia_tarea(direccion, workspace, argc, argv)
+;
+qinicia_tarea:
+ldl 4
+ldl 3
+stnl 1
+ldl 5
+ldl 3
+stnl 2
+ldl 2
+ldl 3
+stnl 0
+ldc MITAREA-P1
+ldl 3
+startp
+P1:
+ret
+MITAREA:
+ajw -4
+ldc 7
+ldpi
+stl 0
+ldl 5
+stl 2
+ldl 6
+stl 3
+ldl 4
+gcall
+stopp
+
+FINPROG:

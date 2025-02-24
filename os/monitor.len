@@ -1,0 +1,6254 @@
+;*** Compilador de C para G-10 ***
+;          Version 1.00
+;   por Oscar Toledo Gutierrez.
+;
+COMIENZO:
+j INICIO
+qmain:
+ldl 1
+call qinicia1
+ldl 1
+call qinicia2
+ldl 1
+call qinicia3
+ldl 1
+call qpresenta
+ldc c1-c2+0
+ldpi
+c2:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c1-c3+32
+ldpi
+c3:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldl 1
+call qnl
+c4:
+ldc 1
+cj c5
+ldc 15
+ldl 1
+call qcolor
+ldc c1-c6+58
+ldpi
+c6:
+ldl 1
+call qil
+ldl 1
+call qgetchar
+dup
+ldl 1
+stnl 3
+ldl 1
+call qtoupper
+ldl 1
+ldnlp 2
+sb
+ldl 1
+ldnlp 2
+lb
+eqc 63
+cj c7
+ldl 1
+call qayuda
+j c8
+c7:
+ldl 1
+ldnlp 2
+lb
+eqc 69
+cj c9
+ldl 1
+call qejecuta
+j c10
+c9:
+ldl 1
+ldnlp 2
+lb
+eqc 71
+cj c11
+ldl 1
+call qguarda
+j c12
+c11:
+ldl 1
+ldnlp 2
+lb
+eqc 76
+cj c13
+ldl 1
+call qlista
+j c14
+c13:
+ldl 1
+ldnlp 2
+lb
+eqc 83
+cj c15
+ldl 1
+call qsale
+j c16
+c15:
+ldl 1
+ldnlp 2
+lb
+eqc 77
+cj c17
+ldl 1
+call qmueve
+j c18
+c17:
+ldl 1
+ldnlp 2
+lb
+eqc 82
+cj c19
+ldl 1
+call qrellena
+j c20
+c19:
+ldl 1
+ldnlp 2
+lb
+eqc 79
+cj c21
+ldl 1
+call qordena
+j c22
+c21:
+ldl 1
+ldnlp 2
+lb
+eqc 66
+cj c23
+ldl 1
+call qborra
+j c24
+c23:
+ldl 1
+ldnlp 2
+lb
+eqc 67
+cj c25
+ldl 1
+call qcompara
+j c26
+c25:
+ldl 1
+ldnlp 2
+lb
+eqc 86
+cj c27
+ldl 1
+call qbusca
+j c28
+c27:
+ldl 1
+ldnlp 2
+lb
+eqc 78
+cj c29
+ldl 1
+call qminiens
+j c30
+c29:
+ldl 1
+ldnlp 2
+lb
+eqc 88
+cj c31
+ldl 1
+call qleer
+j c32
+c31:
+ldl 1
+ldnlp 2
+lb
+eqc 89
+cj c33
+ldl 1
+call qgrabar
+j c34
+c33:
+ldl 1
+ldnlp 2
+lb
+eqc 73
+cj c35
+ldl 1
+call qmemoria
+j c36
+c35:
+ldc 15
+ldl 1
+call qcolor
+ldl 1
+ldnl 3
+ldl 1
+call qputchar
+ldc 12
+ldl 1
+call qcolor
+ldc c1-c37+61
+ldpi
+c37:
+ldl 1
+call qil
+ldl 1
+call qnl
+c36:
+c34:
+c32:
+c30:
+c28:
+c26:
+c24:
+c22:
+c20:
+c18:
+c16:
+c14:
+c12:
+c10:
+c8:
+j c4
+c5:
+ret
+c1:
+db 63,32,112,97,114
+db 97,32,118,101,114
+db 32,117,110,97,32
+db 108,105,115,116,97
+db 32,100,101,32,111
+db 114,100,101,110,101
+db 115,0,69,115,99
+db 32,112,97,114,97
+db 32,99,97,110,99
+db 101,108,97,114,32
+db 111,114,100,101,110
+db 101,115,0,45,32
+db 0,32,32,79,114
+db 100,101,110,32,101
+db 114,114,111,110,101
+db 97,46,0
+qcolor:
+ldc 27
+ldl 1
+call qputchar
+ldc 1
+ldl 1
+call qputchar
+ldl 2
+ldl 1
+call qputchar
+ret
+qtoupper:
+ldc 97
+ldl 2
+gt
+eqc 0
+ldl 2
+ldc 122
+gt
+eqc 0
+and
+cj c40
+ldl 2
+adc -32
+ret
+j c41
+c40:
+ldl 2
+ret
+c41:
+ret
+qayuda:
+ldc 15
+ldl 1
+call qcolor
+ldc c42-c43+0
+ldpi
+c43:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldl 1
+call qnl
+ldc 11
+ldl 1
+call qcolor
+ldc c42-c44+9
+ldpi
+c44:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldl 1
+call qnl
+ldc 10
+ldl 1
+call qcolor
+ldc c42-c45+30
+ldpi
+c45:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c42-c46+74
+ldpi
+c46:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c42-c47+122
+ldpi
+c47:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c42-c48+175
+ldpi
+c48:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c42-c49+238
+ldpi
+c49:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c42-c50+289
+ldpi
+c50:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c42-c51+351
+ldpi
+c51:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c42-c52+405
+ldpi
+c52:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c42-c53+472
+ldpi
+c53:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c42-c54+535
+ldpi
+c54:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c42-c55+599
+ldpi
+c55:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c42-c56+637
+ldpi
+c56:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c42-c57+687
+ldpi
+c57:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldc c42-c58+756
+ldpi
+c58:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldl 1
+call qnl
+ldc 13
+ldl 1
+call qcolor
+ldc c42-c59+805
+ldpi
+c59:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldl 1
+call qnl
+ret
+c42:
+db 63,32,65,121,117
+db 100,97,46,0,79
+db 114,100,101,110,101
+db 115,32,100,105,115
+db 112,111,110,105,98
+db 108,101,115,58,0
+db 66,32,100,105,114
+db 49,32,100,105,114
+db 50,32,32,32,32
+db 32,32,32,32,32
+db 66,111,114,114,97
+db 32,100,105,114,49
+db 45,100,105,114,50
+db 32,99,111,110,32
+db 70,70,46,0,67
+db 32,100,105,114,49
+db 32,100,105,114,50
+db 32,100,105,114,51
+db 32,32,32,32,67
+db 111,109,112,97,114
+db 97,32,100,105,114
+db 49,45,100,105,114
+db 50,32,99,111,110
+db 32,100,105,114,51
+db 46,0,69,32,100
+db 105,114,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,76,108,97
+db 109,97,32,108,97
+db 32,100,105,114,101
+db 99,99,105,111,110
+db 32,101,115,112,101
+db 99,105,102,105,99
+db 97,100,97,46,0
+db 71,32,100,105,114
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 71,117,97,114,100
+db 97,32,100,97,116
+db 111,115,32,101,110
+db 32,108,97,32,100
+db 105,114,101,99,99
+db 105,111,110,32,101
+db 115,112,101,99,105
+db 102,105,99,97,100
+db 97,46,0,73,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,73,108
+db 117,115,116,114,97
+db 32,108,97,32,109
+db 101,109,111,114,105
+db 97,32,100,105,115
+db 112,111,110,105,98
+db 108,101,46,0,76
+db 32,100,105,114,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,76
+db 105,115,116,97,32
+db 100,97,116,111,115
+db 32,100,101,32,108
+db 97,32,100,105,114
+db 101,99,99,105,111
+db 110,32,101,115,112
+db 101,99,105,102,105
+db 99,97,100,97,46
+db 0,77,32,100,105
+db 114,49,32,100,105
+db 114,50,32,100,105
+db 114,51,32,32,32
+db 32,77,117,101,118
+db 101,32,100,97,116
+db 111,115,32,100,101
+db 32,100,105,114,49
+db 45,100,105,114,50
+db 32,101,110,32,100
+db 105,114,51,46,0
+db 78,32,100,105,114
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 77,105,110,105,45
+db 101,110,115,97,109
+db 98,108,97,100,111
+db 114,32,101,110,32
+db 108,97,32,100,105
+db 114,101,99,99,105
+db 111,110,32,101,115
+db 112,101,99,105,102
+db 105,99,97,100,97
+db 46,0,79,32,100
+db 105,114,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,79,114,100
+db 101,110,97,32,100
+db 97,116,111,115,32
+db 100,101,32,108,97
+db 32,100,105,114,101
+db 99,99,105,111,110
+db 32,101,115,112,101
+db 99,105,102,105,99
+db 97,100,97,46,0
+db 82,32,100,105,114
+db 49,32,100,105,114
+db 50,32,98,121,116
+db 101,32,32,32,32
+db 82,101,108,108,101
+db 110,97,32,100,105
+db 114,49,45,100,105
+db 114,50,32,99,111
+db 110,32,101,108,32
+db 98,121,116,101,32
+db 101,115,112,101,99
+db 105,102,105,99,97
+db 100,111,46,0,83
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,83
+db 97,108,101,32,100
+db 101,108,32,109,111
+db 110,105,116,111,114
+db 46,0,86,32,100
+db 105,114,49,32,100
+db 105,114,50,32,98
+db 121,116,101,115,32
+db 32,32,66,117,115
+db 99,97,32,108,111
+db 115,32,98,121,116
+db 101,115,32,101,110
+db 32,100,105,114,49
+db 45,100,105,114,50
+db 46,0,88,32,110
+db 111,109,98,114,101
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,76,101,101
+db 32,39,110,111,109
+db 98,114,101,39,32
+db 101,110,32,108,97
+db 32,109,101,109,111
+db 114,105,97,44,32
+db 105,110,100,105,99
+db 97,32,108,97,32
+db 100,105,114,101,99
+db 99,105,111,110,46
+db 0,89,32,100,105
+db 114,49,32,100,105
+db 114,50,32,110,111
+db 109,98,114,101,32
+db 32,71,114,97,98
+db 97,32,100,105,114
+db 49,45,100,105,114
+db 50,32,101,110,32
+db 39,110,111,109,98
+db 114,101,39,46,0
+db 76,97,32,100,105
+db 114,101,99,99,105
+db 111,110,32,100,101
+db 98,101,32,116,101
+db 110,101,114,32,101
+db 108,32,115,105,103
+db 117,105,101,110,116
+db 101,32,102,111,114
+db 109,97,116,111,58
+db 32,32,32,120,120
+db 120,120,58,120,120
+db 120,120,0
+qejecuta:
+ajw -4
+ldc 15
+ldl 5
+call qcolor
+ldc c60-c61+0
+ldpi
+c61:
+ldl 5
+call qil
+ldc 14
+ldl 5
+call qcolor
+ldl 5
+call qprocdir
+ldl 5
+ldnl 5
+cj c62
+ldl 5
+call qaborta
+ajw 4
+ret
+c62:
+ldl 5
+call qnl
+ldl 5
+call qnl
+ajw -3
+ldlp 5
+stl 0
+ldlp 4
+stl 1
+ldlp 3
+stl 2
+ldlp 6
+ldl 8
+ldnl 6
+ldl 8
+call q_llamada
+ajw 3
+ldc 7
+ldl 5
+call qcolor
+ldc c60-c63+23
+ldpi
+c63:
+ldl 5
+call qil
+ldl 5
+call qnl
+ldc 15
+ldl 5
+call qcolor
+ldc c60-c64+56
+ldpi
+c64:
+ldl 5
+call qil
+ldc 14
+ldl 5
+call qcolor
+ldl 3
+ldl 5
+call qhexlargo
+ldc 15
+ldl 5
+call qcolor
+ldc c60-c65+60
+ldpi
+c65:
+ldl 5
+call qil
+ldc 14
+ldl 5
+call qcolor
+ldl 2
+ldl 5
+call qhexlargo
+ldc 15
+ldl 5
+call qcolor
+ldc c60-c66+67
+ldpi
+c66:
+ldl 5
+call qil
+ldc 14
+ldl 5
+call qcolor
+ldl 1
+ldl 5
+call qhexlargo
+ldc 15
+ldl 5
+call qcolor
+ldc c60-c67+74
+ldpi
+c67:
+ldl 5
+call qil
+ldc 14
+ldl 5
+call qcolor
+ldl 0
+ldl 5
+call qhexlargo
+ldl 5
+call qnl
+ajw 4
+ret
+c60:
+db 69,106,101,99,117
+db 116,97,114,32,108
+db 97,32,100,105,114
+db 101,99,99,105,111
+db 110,32,0,69,108
+db 32,112,114,111,103
+db 114,97,109,97,32
+db 116,101,114,109,105
+db 110,111,32,110,111
+db 114,109,97,108,109
+db 101,110,116,101,46
+db 0,65,61,32,0
+db 32,32,32,66,61
+db 32,0,32,32,32
+db 67,61,32,0,32
+db 32,32,87,112,116
+db 114,61,32,0
+qguarda:
+ajw -4
+ldc 15
+ldl 5
+call qcolor
+ldc c68-c69+0
+ldpi
+c69:
+ldl 5
+call qil
+ldc 14
+ldl 5
+call qcolor
+ldl 5
+call qprocdir
+ldl 5
+ldnl 5
+cj c70
+ldl 5
+call qaborta
+ajw 4
+ret
+c70:
+ldl 5
+call qnl
+ldl 5
+ldnl 6
+stl 3
+c71:
+ldc 1
+cj c72
+ldc 14
+ldl 5
+call qcolor
+ldl 3
+ldl 5
+call qhexlargo
+ldc 10
+ldl 5
+call qcolor
+ldc c68-c73+25
+ldpi
+c73:
+ldl 5
+call qil
+ldc 0
+stl 2
+ldl 3
+stl 0
+c74:
+ldl 0
+ldc 15
+and
+cj c75
+ldc c68-c76+28
+ldpi
+c76:
+ldl 5
+call qil
+ldl 2
+adc 1
+stl 2
+ldl 2
+ldc 3
+and
+eqc 0
+cj c77
+ldc c68-c78+31
+ldpi
+c78:
+ldl 5
+call qil
+j c79
+c77:
+ldc c68-c80+34
+ldpi
+c80:
+ldl 5
+call qil
+c79:
+ldl 0
+adc -1
+stl 0
+j c74
+c75:
+c81:
+ldc 16
+ldl 2
+gt
+cj c82
+ldl 5
+call qdig
+ldl 5
+ldnl 5
+cj c83
+j c82
+c83:
+ldl 5
+ldnl 4
+ldc 4
+shl
+ldlp 1
+sb
+ldl 5
+ldnl 3
+ldl 5
+call qputchar
+ldl 5
+call qdig
+ldl 5
+ldnl 5
+cj c84
+j c82
+c84:
+ldlp 1
+lb
+ldl 5
+ldnl 4
+or
+ldlp 1
+sb
+ldl 5
+ldnl 3
+ldl 5
+call qputchar
+ldlp 1
+lb
+ldl 3
+dup
+adc 1
+stl 3
+sb
+ldl 2
+adc 1
+stl 2
+ldl 2
+ldc 3
+and
+eqc 0
+cj c85
+ldc c68-c86+36
+ldpi
+c86:
+ldl 5
+call qil
+j c87
+c85:
+ldc c68-c88+39
+ldpi
+c88:
+ldl 5
+call qil
+c87:
+j c81
+c82:
+ldl 5
+call qnl
+ldl 5
+ldnl 5
+cj c89
+j c72
+c89:
+j c71
+c72:
+ajw 4
+ret
+c68:
+db 71,117,97,114,100
+db 97,114,32,101,110
+db 32,108,97,32,100
+db 105,114,101,99,99
+db 105,111,110,32,0
+db 32,32,0,32,32
+db 0,32,32,0,32
+db 0,32,32,0,32
+db 0
+qlista:
+ajw -7
+ldc 15
+ldl 8
+call qcolor
+ldc c90-c91+0
+ldpi
+c91:
+ldl 8
+call qil
+ldc 14
+ldl 8
+call qcolor
+ldl 8
+call qprocdir
+ldl 8
+ldnl 5
+cj c92
+ldl 8
+call qaborta
+ajw 7
+ret
+c92:
+ldl 8
+call qnl
+ldl 8
+ldnl 6
+stl 6
+c93:
+ldc 1
+cj c94
+ldc 0
+stl 4
+ldc 0
+stl 0
+c95:
+ldc 16
+ldl 4
+gt
+cj c96
+ldc 14
+ldl 8
+call qcolor
+ldl 6
+ldl 8
+call qhexlargo
+ldc 10
+ldl 8
+call qcolor
+ldl 6
+stl 5
+ldc c90-c97+21
+ldpi
+c97:
+ldl 8
+call qil
+ldc 0
+stl 3
+ldl 6
+stl 1
+c98:
+ldl 1
+ldc 15
+and
+cj c99
+ldc c90-c100+24
+ldpi
+c100:
+ldl 8
+call qil
+ldl 3
+adc 1
+stl 3
+ldl 3
+ldc 3
+and
+eqc 0
+cj c101
+ldc c90-c102+27
+ldpi
+c102:
+ldl 8
+call qil
+j c103
+c101:
+ldc c90-c104+30
+ldpi
+c104:
+ldl 8
+call qil
+c103:
+ldl 1
+adc -1
+stl 1
+j c98
+c99:
+c105:
+ldc 16
+ldl 3
+gt
+cj c106
+ldl 6
+lb
+ldl 8
+call qhexbyte
+ldl 0
+ldl 6
+lb
+bsub
+stl 0
+ldl 6
+adc 1
+stl 6
+ldl 3
+adc 1
+stl 3
+ldl 3
+ldc 3
+and
+eqc 0
+cj c107
+ldc c90-c108+32
+ldpi
+c108:
+ldl 8
+call qil
+j c109
+c107:
+ldc c90-c110+35
+ldpi
+c110:
+ldl 8
+call qil
+c109:
+j c105
+c106:
+ldl 5
+stl 6
+ldc 0
+stl 3
+ldl 6
+stl 1
+c111:
+ldl 1
+ldc 15
+and
+cj c112
+ldc 32
+ldl 8
+call qputchar
+ldl 3
+adc 1
+stl 3
+ldl 1
+adc -1
+stl 1
+j c111
+c112:
+ldc 111
+ldl 8
+call qcolor
+c113:
+ldc 16
+ldl 3
+gt
+cj c114
+ldl 6
+dup
+adc 1
+stl 6
+lb
+stl 2
+ldc 32
+ldl 2
+gt
+cj c115
+ldc 46
+stl 2
+c115:
+ldl 2
+ldl 8
+call qputchar
+ldl 3
+adc 1
+stl 3
+j c113
+c114:
+ldc 7
+ldl 8
+call qcolor
+ldl 8
+call qnl
+ldl 4
+adc 1
+stl 4
+j c95
+c96:
+ldc 15
+ldl 8
+call qcolor
+ldc c90-c116+37
+ldpi
+c116:
+ldl 8
+call qil
+ldc 14
+ldl 8
+call qcolor
+ldl 0
+ldc 8
+shr
+ldl 8
+call qhexbyte
+ldl 0
+ldl 8
+call qhexbyte
+ldl 8
+call qnl
+ldc 15
+ldl 8
+call qcolor
+ldc c90-c117+53
+ldpi
+c117:
+ldl 8
+call qil
+ldl 8
+call qgetchar
+stl 2
+ldc 13
+ldl 8
+call qputchar
+ldc c90-c118+121
+ldpi
+c118:
+ldl 8
+call qil
+ldc 13
+ldl 8
+call qputchar
+ldl 2
+eqc 32
+cj c119
+j c93
+c119:
+j c94
+c94:
+ajw 7
+ret
+c90:
+db 76,105,115,116,97
+db 114,32,108,97,32
+db 100,105,114,101,99
+db 99,105,111,110,32
+db 0,32,32,0,32
+db 32,0,32,32,0
+db 32,0,32,32,0
+db 32,0,83,117,109
+db 97,32,100,101,32
+db 98,121,116,101,115
+db 61,32,0,80,117
+db 108,115,101,32,101
+db 115,112,97,99,105
+db 111,32,112,97,114
+db 97,32,99,111,110
+db 116,105,110,117,97
+db 114,44,32,99,117
+db 97,108,113,117,105
+db 101,114,32,111,116
+db 114,97,32,116,101
+db 99,108,97,32,112
+db 97,114,97,32,116
+db 101,114,109,105,110
+db 97,114,46,46,46
+db 0,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,0
+qmueve:
+ajw -3
+ldc 15
+ldl 4
+call qcolor
+ldc c120-c121+0
+ldpi
+c121:
+ldl 4
+call qil
+ldc 14
+ldl 4
+call qcolor
+ldl 4
+call qprocdir
+ldl 4
+ldnl 6
+stl 2
+ldl 4
+ldnl 5
+cj c122
+ldl 4
+call qaborta
+ajw 3
+ret
+c122:
+ldc 15
+ldl 4
+call qcolor
+ldc c120-c123+10
+ldpi
+c123:
+ldl 4
+call qil
+ldc 14
+ldl 4
+call qcolor
+ldl 4
+call qprocdir
+ldl 4
+ldnl 6
+stl 1
+ldl 4
+ldnl 5
+cj c124
+ldl 4
+call qaborta
+ajw 3
+ret
+c124:
+ldc 15
+ldl 4
+call qcolor
+ldc c120-c125+18
+ldpi
+c125:
+ldl 4
+call qil
+ldc 14
+ldl 4
+call qcolor
+ldl 4
+call qprocdir
+ldl 4
+ldnl 6
+stl 0
+ldl 4
+ldnl 5
+cj c126
+ldl 4
+call qaborta
+ajw 3
+ret
+c126:
+ldl 4
+call qnl
+ldc 11
+ldl 4
+call qcolor
+ldc c120-c127+23
+ldpi
+c127:
+ldl 4
+call qil
+c128:
+ldc 1
+cj c129
+ldl 2
+lb
+ldl 0
+dup
+adc 1
+stl 0
+sb
+ldl 2
+ldl 1
+diff
+eqc 0
+cj c130
+j c129
+c130:
+ldl 2
+adc 1
+stl 2
+j c128
+c129:
+ldc 13
+ldl 4
+call qputchar
+ldc c120-c131+35
+ldpi
+c131:
+ldl 4
+call qil
+ldc 13
+ldl 4
+call qputchar
+ajw 3
+ret
+c120:
+db 77,117,101,118,101
+db 32,100,101,32,0
+db 32,104,97,115,116
+db 97,32,0,32,101
+db 110,32,0,77,111
+db 118,105,101,110,100
+db 111,46,46,46,0
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,0
+qrellena:
+ajw -3
+ldc 15
+ldl 4
+call qcolor
+ldc c132-c133+0
+ldpi
+c133:
+ldl 4
+call qil
+ldc 14
+ldl 4
+call qcolor
+ldl 4
+call qprocdir
+ldl 4
+ldnl 6
+stl 2
+ldl 4
+ldnl 5
+cj c134
+ldl 4
+call qaborta
+ajw 3
+ret
+c134:
+ldc 15
+ldl 4
+call qcolor
+ldc c132-c135+12
+ldpi
+c135:
+ldl 4
+call qil
+ldc 14
+ldl 4
+call qcolor
+ldl 4
+call qprocdir
+ldl 4
+ldnl 6
+stl 1
+ldl 4
+ldnl 5
+cj c136
+ldl 4
+call qaborta
+ajw 3
+ret
+c136:
+ldc 15
+ldl 4
+call qcolor
+ldc c132-c137+20
+ldpi
+c137:
+ldl 4
+call qil
+ldc 10
+ldl 4
+call qcolor
+ldl 4
+call qdig
+ldl 4
+ldnl 5
+cj c138
+ldl 4
+call qaborta
+ajw 3
+ret
+c138:
+ldl 4
+ldnl 4
+ldc 4
+shl
+ldlp 0
+sb
+ldl 4
+ldnl 3
+ldl 4
+call qputchar
+ldl 4
+call qdig
+ldl 4
+ldnl 5
+cj c139
+ldl 4
+call qaborta
+ajw 3
+ret
+c139:
+ldlp 0
+lb
+ldl 4
+ldnl 4
+or
+ldlp 0
+sb
+ldl 4
+ldnl 3
+ldl 4
+call qputchar
+ldl 4
+call qnl
+ldc 11
+ldl 4
+call qcolor
+ldc c132-c140+26
+ldpi
+c140:
+ldl 4
+call qil
+c141:
+ldc 1
+cj c142
+ldlp 0
+lb
+ldl 2
+sb
+ldl 2
+ldl 1
+diff
+eqc 0
+cj c143
+j c142
+c143:
+ldl 2
+adc 1
+stl 2
+j c141
+c142:
+ldc 13
+ldl 4
+call qputchar
+ldc c132-c144+40
+ldpi
+c144:
+ldl 4
+call qil
+ldc 13
+ldl 4
+call qputchar
+ajw 3
+ret
+c132:
+db 82,101,108,108,101
+db 110,97,32,100,101
+db 32,0,32,104,97
+db 115,116,97,32,0
+db 32,99,111,110,32
+db 0,82,101,108,108
+db 101,110,97,110,100
+db 111,46,46,46,0
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,0
+qborra:
+ajw -3
+ldc 15
+ldl 4
+call qcolor
+ldc c145-c146+0
+ldpi
+c146:
+ldl 4
+call qil
+ldc 14
+ldl 4
+call qcolor
+ldl 4
+call qprocdir
+ldl 4
+ldnl 6
+stl 2
+ldl 4
+ldnl 5
+cj c147
+ldl 4
+call qaborta
+ajw 3
+ret
+c147:
+ldc 15
+ldl 4
+call qcolor
+ldc c145-c148+10
+ldpi
+c148:
+ldl 4
+call qil
+ldc 14
+ldl 4
+call qcolor
+ldl 4
+call qprocdir
+ldl 4
+ldnl 6
+stl 1
+ldl 4
+ldnl 5
+cj c149
+ldl 4
+call qaborta
+ajw 3
+ret
+c149:
+ldl 4
+call qnl
+ldc 11
+ldl 4
+call qcolor
+ldc c145-c150+18
+ldpi
+c150:
+ldl 4
+call qil
+c151:
+ldc 1
+cj c152
+ldc 255
+ldl 2
+sb
+ldl 2
+ldl 1
+diff
+eqc 0
+cj c153
+j c152
+c153:
+ldl 2
+adc 1
+stl 2
+j c151
+c152:
+ldc 13
+ldl 4
+call qputchar
+ldc c145-c154+30
+ldpi
+c154:
+ldl 4
+call qil
+ldc 13
+ldl 4
+call qputchar
+ajw 3
+ret
+c145:
+db 66,111,114,114,97
+db 32,100,101,32,0
+db 32,104,97,115,116
+db 97,32,0,66,111
+db 114,114,97,110,100
+db 111,46,46,46,0
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,0
+qordena:
+ajw -2
+ldc 15
+ldl 3
+call qcolor
+ldc c155-c156+0
+ldpi
+c156:
+ldl 3
+call qil
+ldc 14
+ldl 3
+call qcolor
+ldl 3
+call qprocdir
+ldl 3
+ldnl 5
+cj c157
+ldl 3
+call qaborta
+ajw 2
+ret
+c157:
+ldl 3
+call qnl
+c158:
+ldc 1
+cj c159
+ldc 0
+stl 1
+c160:
+ldc 24
+ldl 1
+gt
+cj c161
+ldc 14
+ldl 3
+call qcolor
+ldl 3
+ldnl 6
+ldl 3
+call qhexlargo
+ldc c155-c162+22
+ldpi
+c162:
+ldl 3
+call qil
+ldl 3
+call qdes
+ldl 3
+call qnl
+ldl 1
+adc 1
+stl 1
+j c160
+c161:
+ldc 15
+ldl 3
+call qcolor
+ldc c155-c163+25
+ldpi
+c163:
+ldl 3
+call qil
+ldl 3
+call qgetchar
+stl 0
+ldc 13
+ldl 3
+call qputchar
+ldc c155-c164+93
+ldpi
+c164:
+ldl 3
+call qil
+ldc 13
+ldl 3
+call qputchar
+ldl 0
+eqc 32
+cj c165
+j c158
+c165:
+j c159
+c159:
+ajw 2
+ret
+c155:
+db 79,114,100,101,110
+db 97,114,32,108,97
+db 32,100,105,114,101
+db 99,99,105,111,110
+db 32,0,32,32,0
+db 80,117,108,115,101
+db 32,101,115,112,97
+db 99,105,111,32,112
+db 97,114,97,32,99
+db 111,110,116,105,110
+db 117,97,114,44,32
+db 99,117,97,108,113
+db 117,105,101,114,32
+db 111,116,114,97,32
+db 116,101,99,108,97
+db 32,112,97,114,97
+db 32,116,101,114,109
+db 105,110,97,114,46
+db 46,46,0,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 0
+qdes:
+ajw -6
+ldc 0
+dup
+stl 0
+stl 4
+ldl 7
+ldnl 6
+stl 5
+ldc 10
+ldl 7
+call qcolor
+c167:
+ldc 1
+cj c168
+ldl 0
+eqc 8
+cj c169
+ldl 5
+ldl 7
+stnl 6
+ajw 6
+ret
+c169:
+ldl 5
+dup
+adc 1
+stl 5
+lb
+stl 1
+ldl 0
+adc 1
+stl 0
+ldl 1
+ldl 7
+call qhexbyte
+ldc 32
+ldl 7
+call qputchar
+ldl 1
+ldc 4
+shr
+ldc 15
+and
+stl 3
+ldl 1
+ldc 15
+and
+stl 2
+ldl 3
+eqc 2
+cj c170
+ldl 4
+ldl 2
+or
+ldc 4
+shl
+stl 4
+j c167
+j c171
+c170:
+ldl 3
+eqc 6
+cj c172
+ldl 4
+ldl 2
+or
+not
+ldc 4
+shl
+stl 4
+j c167
+j c173
+c172:
+ldl 4
+ldl 2
+or
+stl 4
+j c168
+c173:
+c171:
+j c167
+c168:
+ldc 256
+ldl 4
+gt
+ldl 3
+eqc 4
+and
+ldl 5
+lb
+eqc 42
+and
+ldl 5
+adc 1
+lb
+eqc 251
+and
+cj c174
+ldc 16
+stl 3
+ldl 5
+dup
+adc 1
+stl 5
+lb
+stl 1
+ldl 0
+adc 1
+stl 0
+ldl 1
+ldl 7
+call qhexbyte
+ldc 32
+ldl 7
+call qputchar
+ldl 5
+dup
+adc 1
+stl 5
+lb
+stl 1
+ldl 0
+adc 1
+stl 0
+ldl 1
+ldl 7
+call qhexbyte
+ldc 32
+ldl 7
+call qputchar
+c174:
+c175:
+ldc 8
+ldl 0
+gt
+cj c176
+ldc 32
+ldl 7
+call qputchar
+ldc 32
+ldl 7
+call qputchar
+ldc 32
+ldl 7
+call qputchar
+ldl 0
+adc 1
+stl 0
+j c175
+c176:
+ldc 32
+ldl 7
+call qputchar
+ldl 3
+eqc 15
+cj c177
+ldl 4
+eqc 380
+cj c178
+ldc c166-c179+0
+ldpi
+c179:
+ldl 7
+call qil
+j c180
+c178:
+ldl 4
+eqc 511
+cj c181
+ldc c166-c182+8
+ldpi
+c182:
+ldl 7
+call qil
+j c183
+c181:
+ldl 4
+ldc 255
+gt
+cj c184
+ldc c166-c185+18
+ldpi
+c185:
+ldl 7
+call qil
+j c186
+c184:
+ldl 4
+adc 17
+ldl 7
+ldnlp 7
+wsub
+ldnl 0
+ldl 7
+call qil
+c186:
+c183:
+c180:
+j c187
+c177:
+ldl 3
+eqc 16
+cj c188
+ldl 4
+adc 273
+ldl 7
+ldnlp 7
+wsub
+ldnl 0
+ldl 7
+call qil
+j c189
+c188:
+ldl 3
+adc 1
+ldl 7
+ldnlp 7
+wsub
+ldnl 0
+ldl 7
+call qil
+ldc c166-c190+20
+ldpi
+c190:
+ldl 7
+call qil
+ldl 3
+eqc 0
+ldl 3
+eqc 9
+or
+ldl 3
+eqc 10
+or
+cj c191
+ldl 5
+ldl 4
+bsub
+ldl 7
+call qhexlargo
+j c192
+c191:
+ldl 4
+ldl 7
+call qsacahex
+c192:
+c189:
+c187:
+ldl 5
+ldl 7
+stnl 6
+ajw 6
+ret
+c166:
+db 108,100,100,101,118
+db 105,100,0,115,111
+db 102,116,114,101,115
+db 101,116,0,63,0
+db 32,0
+qcompara:
+ajw -3
+ldc 15
+ldl 4
+call qcolor
+ldc c193-c194+0
+ldpi
+c194:
+ldl 4
+call qil
+ldc 14
+ldl 4
+call qcolor
+ldl 4
+call qprocdir
+ldl 4
+ldnl 6
+stl 2
+ldl 4
+ldnl 5
+cj c195
+ldl 4
+call qaborta
+ajw 3
+ret
+c195:
+ldc 15
+ldl 4
+call qcolor
+ldc c193-c196+12
+ldpi
+c196:
+ldl 4
+call qil
+ldc 14
+ldl 4
+call qcolor
+ldl 4
+call qprocdir
+ldl 4
+ldnl 6
+stl 1
+ldl 4
+ldnl 5
+cj c197
+ldl 4
+call qaborta
+ajw 3
+ret
+c197:
+ldc 15
+ldl 4
+call qcolor
+ldc c193-c198+20
+ldpi
+c198:
+ldl 4
+call qil
+ldc 14
+ldl 4
+call qcolor
+ldl 4
+call qprocdir
+ldl 4
+ldnl 6
+stl 0
+ldl 4
+ldnl 5
+cj c199
+ldl 4
+call qaborta
+ajw 3
+ret
+c199:
+ldl 4
+call qnl
+c200:
+ldc 1
+cj c201
+ldl 2
+lb
+ldl 0
+lb
+diff
+eqc 0
+eqc 0
+cj c202
+ldc 14
+ldl 4
+call qcolor
+ldl 2
+ldl 4
+call qhexlargo
+ldc c193-c203+26
+ldpi
+c203:
+ldl 4
+call qil
+ldl 0
+ldl 4
+call qhexlargo
+ldl 4
+call qnl
+c202:
+ldl 2
+ldl 1
+diff
+eqc 0
+cj c204
+j c201
+c204:
+ldl 2
+adc 1
+stl 2
+ldl 0
+adc 1
+stl 0
+j c200
+c201:
+ajw 3
+ret
+c193:
+db 67,111,109,112,97
+db 114,97,32,100,101
+db 32,0,32,104,97
+db 115,116,97,32,0
+db 32,99,111,110,32
+db 0,32,45,32,0
+qbusca:
+ajw -70
+ldc 15
+ldl 71
+call qcolor
+ldc c205-c206+0
+ldpi
+c206:
+ldl 71
+call qil
+ldc 14
+ldl 71
+call qcolor
+ldl 71
+call qprocdir
+ldl 71
+ldnl 6
+stl 69
+ldl 71
+ldnl 5
+cj c207
+ldl 71
+call qaborta
+ajw 70
+ret
+c207:
+ldc 15
+ldl 71
+call qcolor
+ldc c205-c208+10
+ldpi
+c208:
+ldl 71
+call qil
+ldc 14
+ldl 71
+call qcolor
+ldl 71
+call qprocdir
+ldl 71
+ldnl 6
+stl 68
+ldl 71
+ldnl 5
+cj c209
+ldl 71
+call qaborta
+ajw 70
+ret
+c209:
+ldl 71
+call qnl
+ldc 15
+ldl 71
+call qcolor
+ldc c205-c210+18
+ldpi
+c210:
+ldl 71
+call qil
+ldl 71
+call qnl
+ldc 10
+ldl 71
+call qcolor
+ldc 0
+stl 2
+c211:
+ldc 1
+cj c212
+ldl 71
+call qdig
+ldl 71
+ldnl 5
+eqc 2
+cj c213
+j c212
+c213:
+ldl 71
+ldnl 5
+cj c214
+ldl 71
+call qnl
+ajw 70
+ret
+c214:
+ldl 71
+ldnl 4
+ldc 4
+shl
+stl 1
+ldl 71
+ldnl 3
+ldl 71
+call qputchar
+ldl 71
+call qdig
+ldl 71
+ldnl 5
+eqc 2
+cj c215
+j c212
+c215:
+ldl 71
+ldnl 5
+cj c216
+ldl 71
+call qnl
+ajw 70
+ret
+c216:
+ldl 1
+ldl 71
+ldnl 4
+or
+stl 1
+ldl 71
+ldnl 3
+ldl 71
+call qputchar
+ldl 1
+ldl 2
+dup
+adc 1
+stl 2
+ldlp 3
+bsub
+sb
+ldl 2
+eqc 255
+cj c217
+j c212
+c217:
+j c211
+c212:
+ldl 71
+call qnl
+ldl 2
+eqc 0
+cj c218
+ajw 70
+ret
+c218:
+c219:
+ldc 1
+cj c220
+ldl 69
+stl 67
+ldc 0
+stl 0
+c221:
+ldl 0
+ldl 2
+diff
+eqc 0
+eqc 0
+cj c222
+ldl 67
+dup
+adc 1
+stl 67
+lb
+ldl 0
+dup
+adc 1
+stl 0
+ldlp 3
+bsub
+lb
+diff
+eqc 0
+eqc 0
+cj c223
+ldl 69
+adc 1
+stl 69
+j c222
+c223:
+ldl 0
+ldl 2
+diff
+eqc 0
+cj c224
+ldc 14
+ldl 71
+call qcolor
+ldl 69
+ldl 71
+call qhexlargo
+ldl 71
+call qnl
+ldl 67
+stl 69
+c224:
+j c221
+c222:
+ldl 69
+ldl 68
+diff
+eqc 0
+cj c225
+j c220
+c225:
+j c219
+c220:
+ajw 70
+ret
+c205:
+db 66,117,115,99,97
+db 32,100,101,32,0
+db 32,104,97,115,116
+db 97,32,0,73,110
+db 116,114,111,100,117
+db 122,99,97,32,108
+db 111,115,32,98,121
+db 116,101,115,32,97
+db 32,98,117,115,99
+db 97,114,44,32,121
+db 32,108,117,101,103
+db 111,32,112,117,108
+db 115,101,32,69,110
+db 116,101,114,32,111
+db 32,101,115,112,97
+db 99,105,111,58,0
+qleelinea:
+ajw -2
+ldl 4
+stl 1
+c227:
+ldc 1
+cj c228
+ldl 3
+call qgetchar
+stl 0
+ldl 0
+eqc 8
+cj c229
+ldl 1
+ldl 4
+diff
+eqc 0
+cj c230
+j c227
+c230:
+ldc 8
+ldl 3
+call qputchar
+ldl 1
+adc -1
+stl 1
+j c227
+j c231
+c229:
+ldl 0
+eqc 13
+cj c232
+ldl 3
+call qnl
+ldc 0
+ldl 1
+sb
+ajw 2
+ret
+j c233
+c232:
+ldl 0
+eqc 27
+cj c234
+ldl 3
+call qnl
+ldc 0
+ldl 4
+sb
+ajw 2
+ret
+j c235
+c234:
+ldl 4
+ldl 5
+bsub
+adc -1
+ldl 1
+diff
+eqc 0
+cj c236
+j c227
+c236:
+ldl 0
+ldl 3
+call qputchar
+ldl 0
+ldl 1
+dup
+adc 1
+stl 1
+sb
+c235:
+c233:
+c231:
+j c227
+c228:
+ajw 2
+ret
+qminiens:
+ajw -13
+ldc 15
+ldl 14
+call qcolor
+ldc c237-c238+0
+ldpi
+c238:
+ldl 14
+call qil
+ldc 14
+ldl 14
+call qcolor
+ldl 14
+call qprocdir
+ldl 14
+ldnl 5
+cj c239
+ldl 14
+call qaborta
+ajw 13
+ret
+c239:
+ldl 14
+call qnl
+c240:
+ldc 1
+cj c241
+ldc 14
+ldl 14
+call qcolor
+ldl 14
+ldnl 6
+ldl 14
+call qhexlargo
+ldc c237-c242+34
+ldpi
+c242:
+ldl 14
+call qil
+ldc 10
+ldl 14
+call qcolor
+ldc 50
+ldlp 0
+ldl 14
+call qleelinea
+ldlp 0
+lb
+eqc 0
+cj c243
+j c241
+c243:
+ldlp 0
+ldl 14
+call qens
+j c240
+c241:
+ajw 13
+ret
+c237:
+db 77,105,110,105,45
+db 101,110,115,97,109
+db 98,108,97,100,111
+db 114,32,101,110,32
+db 108,97,32,100,105
+db 114,101,99,99,105
+db 111,110,32,0,32
+db 32,0
+qcomp:
+c245:
+ldc 1
+cj c246
+ldl 3
+dup
+adc 1
+stl 3
+lb
+ldl 2
+lb
+diff
+eqc 0
+eqc 0
+cj c247
+ldc 0
+ret
+c247:
+ldl 2
+dup
+adc 1
+stl 2
+lb
+eqc 0
+cj c248
+ldc 1
+ret
+c248:
+j c245
+c246:
+ret
+qisxdigit:
+ldc 97
+ldl 2
+gt
+eqc 0
+ldl 2
+ldc 102
+gt
+eqc 0
+and
+ajw -1
+stl 0
+ldc 65
+ldl 3
+gt
+eqc 0
+ldl 3
+ldc 70
+gt
+eqc 0
+and
+ajw -1
+stl 0
+ldc 48
+ldl 4
+gt
+eqc 0
+ldl 4
+ldc 57
+gt
+eqc 0
+and
+ldl 0
+ajw 1
+or
+ldl 0
+ajw 1
+or
+ret
+qevalhex:
+ajw -4
+ldc 0
+stl 2
+c251:
+ldc 1
+cj c252
+ldc 0
+stl 0
+ldl 6
+lb
+eqc 45
+cj c253
+ldc 1
+stl 0
+ldl 6
+adc 1
+stl 6
+j c254
+c253:
+ldl 6
+lb
+eqc 43
+cj c255
+ldc 0
+stl 0
+ldl 6
+adc 1
+stl 6
+c255:
+c254:
+ldc 0
+stl 3
+ldl 6
+lb
+ldl 5
+call qisxdigit
+eqc 0
+cj c256
+ldc 15
+ldl 5
+call qcolor
+ldc c250-c257+0
+ldpi
+c257:
+ldl 5
+call qil
+ldl 5
+call qnl
+j c258
+c256:
+c259:
+ldl 6
+lb
+ldl 5
+call qtoupper
+dup
+stl 1
+ldl 5
+call qisxdigit
+cj c260
+ldl 1
+ldc 57
+gt
+cj c261
+ldl 1
+adc -7
+stl 1
+c261:
+ldl 1
+adc -48
+stl 1
+ldl 3
+ldc 4
+shl
+ldl 1
+or
+stl 3
+ldl 6
+adc 1
+stl 6
+j c259
+c260:
+ldl 0
+eqc 1
+cj c262
+ldl 3
+not
+adc 1
+stl 3
+c262:
+ldl 2
+ldl 3
+bsub
+stl 2
+ldl 6
+lb
+eqc 43
+ldl 6
+lb
+eqc 45
+or
+cj c263
+j c251
+c263:
+j c252
+c258:
+j c251
+c252:
+ldl 6
+ldl 7
+stnl 0
+ldl 2
+ajw 4
+ret
+c250:
+db 83,101,32,114,101
+db 113,117,105,101,114
+db 101,32,117,110,32
+db 110,163,109,101,114
+db 111,32,104,101,120
+db 97,100,101,99,105
+db 109,97,108,0
+qprefijo:
+ldc 0
+ldl 4
+gt
+cj c265
+ajw -1
+ldl 5
+not
+ldc 4
+shr
+stl 0
+ldc 6
+ldl 3
+ldl 2
+call qprefijo
+ajw 1
+stl 2
+j c266
+c265:
+ldc 16
+ldl 4
+gt
+eqc 0
+cj c267
+ajw -1
+ldl 5
+ldc 4
+shr
+stl 0
+ldc 2
+ldl 3
+ldl 2
+call qprefijo
+ajw 1
+stl 2
+c267:
+c266:
+ldl 3
+ldc 4
+shl
+ldl 4
+ldc 15
+and
+or
+ldl 2
+dup
+adc 1
+stl 2
+sb
+ldl 2
+ret
+qtolower:
+ldc 65
+ldl 2
+gt
+eqc 0
+ldl 2
+ldc 90
+gt
+eqc 0
+and
+cj c269
+ldl 2
+adc 32
+ret
+j c270
+c269:
+ldl 2
+ret
+c270:
+ret
+qens:
+ajw -20
+ldl 21
+ldnl 6
+stl 4
+ldl 22
+stl 6
+ldlp 7
+stl 5
+c272:
+ldl 6
+lb
+eqc 32
+cj c273
+ldl 6
+adc 1
+stl 6
+j c272
+c273:
+c274:
+ldl 6
+lb
+eqc 0
+eqc 0
+ldl 6
+lb
+eqc 32
+eqc 0
+and
+cj c275
+ldl 6
+dup
+adc 1
+stl 6
+lb
+ldl 21
+call qtolower
+ldl 5
+dup
+adc 1
+stl 5
+sb
+j c274
+c275:
+ldc 0
+ldl 5
+sb
+c276:
+ldl 6
+lb
+eqc 32
+cj c277
+ldl 6
+adc 1
+stl 6
+j c276
+c277:
+ldlp 7
+ldc c271-c279+0
+ldpi
+c279:
+ldl 21
+call qcomp
+cj c278
+ldc 600
+stl 2
+j c280
+c278:
+ldlp 7
+ldc c271-c282+3
+ldpi
+c282:
+ldl 21
+call qcomp
+cj c281
+ldc 601
+stl 2
+j c283
+c281:
+ldlp 7
+ldc c271-c285+6
+ldpi
+c285:
+ldl 21
+call qcomp
+cj c284
+ldc 602
+stl 2
+j c286
+c284:
+ldc 0
+stl 2
+c287:
+ldl 2
+ldc 528
+gt
+eqc 0
+cj c288
+ldl 2
+ldl 21
+ldnlp 7
+wsub
+ldnl 0
+ldlp 7
+rev
+ldl 21
+call qcomp
+cj c289
+j c288
+c289:
+ldl 2
+adc 1
+stl 2
+j c287
+c288:
+c286:
+c283:
+c280:
+ldl 2
+eqc 529
+cj c290
+ldlp 7
+ldc c271-c292+9
+ldpi
+c292:
+ldl 21
+call qcomp
+cj c291
+ldc 35
+ldl 4
+dup
+adc 1
+stl 4
+sb
+ldc 47
+ldl 4
+dup
+adc 1
+stl 4
+sb
+ldc 255
+ldl 4
+dup
+adc 1
+stl 4
+sb
+j c293
+c291:
+ldlp 7
+ldc c271-c295+19
+ldpi
+c295:
+ldl 21
+call qcomp
+cj c294
+ldc 35
+ldl 4
+dup
+adc 1
+stl 4
+sb
+ldc 39
+ldl 4
+dup
+adc 1
+stl 4
+sb
+ldc 252
+ldl 4
+dup
+adc 1
+stl 4
+sb
+c294:
+c293:
+j c296
+c290:
+ldl 2
+eqc 600
+cj c297
+c298:
+ldc 1
+cj c299
+ldlp 6
+ldl 6
+ldl 21
+call qevalhex
+stl 0
+ldl 0
+ldl 4
+dup
+adc 1
+stl 4
+sb
+ldl 6
+lb
+eqc 44
+eqc 0
+cj c300
+j c299
+c300:
+j c298
+c299:
+j c301
+c297:
+ldl 2
+eqc 601
+cj c302
+c303:
+ldc 1
+cj c304
+ldlp 6
+ldl 6
+ldl 21
+call qevalhex
+stl 0
+ldl 0
+ldl 4
+dup
+adc 1
+stl 4
+sb
+ldl 0
+ldc 8
+shr
+ldl 4
+dup
+adc 1
+stl 4
+sb
+ldl 0
+ldc 16
+shr
+ldl 4
+dup
+adc 1
+stl 4
+sb
+ldl 0
+ldc 24
+shr
+ldl 4
+dup
+adc 1
+stl 4
+sb
+ldl 6
+lb
+eqc 44
+eqc 0
+cj c305
+j c304
+c305:
+j c303
+c304:
+j c306
+c302:
+ldl 2
+eqc 602
+cj c307
+ldlp 6
+ldl 6
+ldl 21
+call qevalhex
+stl 0
+ldl 4
+ldl 0
+bsub
+stl 4
+j c308
+c307:
+ldl 2
+ldc 272
+gt
+cj c309
+ldl 2
+adc -273
+stl 2
+ldl 2
+ldc 15
+gt
+cj c310
+ldl 2
+ldc 4
+shr
+ldc 15
+and
+ldc 32
+or
+ldl 4
+dup
+adc 1
+stl 4
+sb
+c310:
+ldl 2
+ldc 15
+and
+ldc 64
+or
+ldl 4
+dup
+adc 1
+stl 4
+sb
+ldc 42
+ldl 4
+dup
+adc 1
+stl 4
+sb
+ldc 251
+ldl 4
+dup
+adc 1
+stl 4
+sb
+j c311
+c309:
+ldl 2
+ldc 16
+gt
+cj c312
+ldl 2
+adc -17
+stl 2
+ldl 2
+ldc 15
+gt
+cj c313
+ldl 2
+ldc 4
+shr
+ldc 15
+and
+ldc 32
+or
+ldl 4
+dup
+adc 1
+stl 4
+sb
+c313:
+ldl 2
+ldc 15
+and
+ldc 240
+or
+ldl 4
+dup
+adc 1
+stl 4
+sb
+j c314
+c312:
+ldlp 6
+ldl 6
+ldl 21
+call qevalhex
+stl 0
+ldl 2
+adc -1
+stl 2
+ldl 2
+eqc 0
+eqc 0
+ldl 2
+eqc 9
+eqc 0
+and
+ldl 2
+eqc 10
+eqc 0
+and
+cj c315
+ajw -1
+ldl 1
+stl 0
+ldl 3
+ldl 5
+ldl 22
+call qprefijo
+ajw 1
+stl 4
+j c316
+c315:
+ldl 4
+stl 3
+ldl 0
+ldl 4
+adc 1
+diff
+stl 1
+ajw -1
+ldl 2
+stl 0
+ldl 3
+ldl 5
+ldl 22
+call qprefijo
+ajw 1
+stl 4
+c317:
+ldl 4
+ldl 1
+bsub
+ldl 0
+diff
+eqc 0
+eqc 0
+cj c318
+ldl 1
+adc -1
+stl 1
+ldl 3
+stl 4
+ajw -1
+ldl 2
+stl 0
+ldl 3
+ldl 5
+ldl 22
+call qprefijo
+ajw 1
+stl 4
+j c317
+c318:
+c316:
+c314:
+c311:
+c308:
+c306:
+c301:
+c296:
+ldl 4
+ldl 21
+stnl 6
+ajw 20
+ret
+c271:
+db 100,98,0,100,119
+db 0,100,115,0,115
+db 111,102,116,114,101
+db 115,101,116,0,108
+db 100,100,101,118,105
+db 100,0
+qleer:
+ajw -12
+ldc 15
+ldl 13
+call qcolor
+ldc c319-c320+0
+ldpi
+c320:
+ldl 13
+call qil
+ldc 14
+ldl 13
+call qcolor
+ldc 32
+ldlp 4
+ldl 13
+call qleelinea
+ldlp 4
+lb
+eqc 0
+cj c321
+ajw 12
+ret
+c321:
+ldl 13
+call q_finprog
+adc 15
+ldc -16
+and
+dup
+stl 3
+stl 2
+ldc c319-c322+31
+ldpi
+c322:
+ldlp 4
+ldl 13
+call qfopen
+stl 1
+ldc 15
+ldl 13
+call qcolor
+ldc c319-c323+33
+ldpi
+c323:
+ldl 13
+call qil
+ldl 1
+eqc 0
+cj c324
+ldc 13
+ldl 13
+call qputchar
+ldc 12
+ldl 13
+call qcolor
+ldc c319-c325+44
+ldpi
+c325:
+ldl 13
+call qil
+ldl 13
+call qnl
+ajw 12
+ret
+c324:
+c326:
+ldl 1
+ldl 13
+call qfgetc
+dup
+stl 0
+eqc -1
+eqc 0
+cj c327
+ldl 0
+ldl 3
+dup
+adc 1
+stl 3
+sb
+j c326
+c327:
+ldl 1
+ldl 13
+call qfclose
+ldc 15
+ldl 13
+call qcolor
+ldc 13
+ldl 13
+call qputchar
+ldc c319-c328+71
+ldpi
+c328:
+ldl 13
+call qil
+ldc 14
+ldl 13
+call qcolor
+ldl 2
+ldl 13
+call qhexlargo
+ldl 13
+call qnl
+ldc 14
+ldl 13
+call qcolor
+ldl 3
+ldl 2
+diff
+ldl 13
+call qsacahex
+ldc 15
+ldl 13
+call qcolor
+ldc c319-c329+91
+ldpi
+c329:
+ldl 13
+call qil
+ldl 13
+call qnl
+ajw 12
+ret
+c319:
+db 78,111,109,98,114
+db 101,32,100,101,108
+db 32,97,114,99,104
+db 105,118,111,32,112
+db 97,114,97,32,108
+db 101,101,114,58,32
+db 0,114,0,76,101
+db 121,101,110,100,111
+db 46,46,46,0,78
+db 111,32,115,101,32
+db 112,117,100,111,32
+db 108,101,101,114,32
+db 101,108,32,97,114
+db 99,104,105,118,111
+db 0,65,114,99,104
+db 105,118,111,32,99
+db 97,114,103,97,100
+db 111,32,101,110,32
+db 0,32,98,121,116
+db 101,115,32,108,101
+db 105,100,111,115,46
+db 0
+qgrabar:
+ajw -13
+ldc 15
+ldl 14
+call qcolor
+ldc c330-c331+0
+ldpi
+c331:
+ldl 14
+call qil
+ldc 14
+ldl 14
+call qcolor
+ldl 14
+call qprocdir
+ldl 14
+ldnl 6
+dup
+stl 4
+stl 2
+ldl 14
+ldnl 5
+cj c332
+ldl 14
+call qaborta
+ajw 13
+ret
+c332:
+ldc 15
+ldl 14
+call qcolor
+ldc c330-c333+11
+ldpi
+c333:
+ldl 14
+call qil
+ldc 14
+ldl 14
+call qcolor
+ldl 14
+call qprocdir
+ldl 14
+ldnl 6
+stl 3
+ldl 14
+ldnl 5
+cj c334
+ldl 14
+call qaborta
+ajw 13
+ret
+c334:
+ldl 14
+call qnl
+ldc 15
+ldl 14
+call qcolor
+ldc c330-c335+19
+ldpi
+c335:
+ldl 14
+call qil
+ldc 14
+ldl 14
+call qcolor
+ldc 32
+ldlp 5
+ldl 14
+call qleelinea
+ldlp 5
+lb
+eqc 0
+cj c336
+ajw 13
+ret
+c336:
+ldc c330-c337+40
+ldpi
+c337:
+ldlp 5
+ldl 14
+call qfopen
+stl 1
+ldc 15
+ldl 14
+call qcolor
+ldc c330-c338+42
+ldpi
+c338:
+ldl 14
+call qil
+ldl 1
+eqc 0
+cj c339
+ldc 13
+ldl 14
+call qputchar
+ldc 12
+ldl 14
+call qcolor
+ldc c330-c340+55
+ldpi
+c340:
+ldl 14
+call qil
+ldl 14
+call qnl
+ajw 13
+ret
+c339:
+c341:
+ldc 1
+cj c342
+ldl 1
+ldl 4
+lb
+ldl 14
+call qfputc
+eqc -1
+cj c343
+ldc 13
+ldl 14
+call qputchar
+ldc 12
+ldl 14
+call qcolor
+ldc c330-c344+83
+ldpi
+c344:
+ldl 14
+call qil
+j c342
+c343:
+ldl 4
+dup
+adc 1
+stl 4
+ldl 3
+diff
+eqc 0
+cj c345
+j c342
+c345:
+j c341
+c342:
+ldc 14
+ldl 14
+call qcolor
+ldl 4
+ldl 2
+diff
+ldl 14
+call qsacahex
+ldc 15
+ldl 14
+call qcolor
+ldc c330-c346+105
+ldpi
+c346:
+ldl 14
+call qil
+ldl 1
+ldl 14
+call qfclose
+ldl 14
+call qnl
+ajw 13
+ret
+c330:
+db 71,114,97,98,97
+db 114,32,100,101,32
+db 0,32,104,97,115
+db 116,97,32,0,78
+db 111,109,98,114,101
+db 32,100,101,108,32
+db 97,114,99,104,105
+db 118,111,58,32,0
+db 119,0,71,114,97
+db 98,97,110,100,111
+db 46,46,46,32,0
+db 78,111,32,115,101
+db 32,112,117,100,111
+db 32,99,114,101,97
+db 114,32,101,108,32
+db 97,114,99,104,105
+db 118,111,0,69,114
+db 114,111,114,32,97
+db 108,32,101,115,99
+db 114,105,98,105,114
+db 46,46,46,32,0
+db 32,98,121,116,101
+db 115,32,101,115,99
+db 114,105,116,111,115
+db 46,0
+qmemoria:
+ajw -2
+ldlp 0
+adc -256
+stl 0
+ldl 3
+call q_finprog
+stl 1
+ldc 15
+ldl 3
+call qcolor
+ldc c347-c348+0
+ldpi
+c348:
+ldl 3
+call qil
+ldl 3
+call qnl
+ldc 15
+ldl 3
+call qcolor
+ldc c347-c349+20
+ldpi
+c349:
+ldl 3
+call qil
+ldc 14
+ldl 3
+call qcolor
+ldl 1
+ldl 3
+call qhexlargo
+ldl 3
+call qnl
+ldc 15
+ldl 3
+call qcolor
+ldc c347-c350+63
+ldpi
+c350:
+ldl 3
+call qil
+ldc 14
+ldl 3
+call qcolor
+ldl 0
+ldl 3
+call qhexlargo
+ldl 3
+call qnl
+ajw 2
+ret
+c347:
+db 77,101,109,111,114
+db 105,97,32,100,105
+db 115,112,111,110,105
+db 98,108,101,46,0
+db 65,32,112,97,114
+db 116,105,114,32,100
+db 101,32,97,113,117
+db 161,32,115,101,32
+db 112,117,101,100,101
+db 110,32,103,117,97
+db 114,100,97,114,32
+db 100,97,116,111,115
+db 58,32,0,76,105
+db 109,105,116,101,32
+db 100,101,32,109,101
+db 109,111,114,105,97
+db 32,40,87,112,116
+db 114,32,97,99,116
+db 117,97,108,41,32
+db 32,32,32,32,32
+db 32,32,32,58,32
+db 0
+qsacahex:
+ajw -1
+ldl 3
+ldc 31
+shr
+ldc 1
+and
+cj c352
+ldc 45
+ldl 2
+call qputchar
+ldl 3
+not
+adc 1
+stl 3
+c352:
+ldl 3
+ldc 15
+and
+stl 0
+ldl 3
+ldc 4
+shr
+stl 3
+ldl 3
+eqc 0
+eqc 0
+cj c353
+ldl 3
+ldl 2
+call qsacahex
+c353:
+ldl 0
+ldl 2
+call qhex
+ajw 1
+ret
+qhexlargo:
+ldl 2
+ldc 24
+shr
+ldl 1
+call qhexbyte
+ldl 2
+ldc 16
+shr
+ldl 1
+call qhexbyte
+ldc 58
+ldl 1
+call qputchar
+ldl 2
+ldc 8
+shr
+ldl 1
+call qhexbyte
+ldl 2
+ldl 1
+call qhexbyte
+ret
+qhexbyte:
+ldl 2
+ldc 4
+shr
+ldl 1
+call qhex
+ldl 2
+ldl 1
+call qhex
+ret
+qhex:
+ldl 2
+ldc 15
+and
+stl 2
+ldl 2
+ldc 9
+gt
+cj c357
+ldl 2
+adc 55
+ldl 1
+call qputchar
+j c358
+c357:
+ldl 2
+adc 48
+ldl 1
+call qputchar
+c358:
+ret
+qaborta:
+ldc 15
+ldl 1
+call qcolor
+ldc 13
+ldl 1
+call qputchar
+ldc c359-c360+0
+ldpi
+c360:
+ldl 1
+call qil
+ldl 1
+call qnl
+ret
+c359:
+db 45,32,79,114,100
+db 101,110,32,99,97
+db 110,99,101,108,97
+db 100,97,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 32,0
+qprocdir:
+ajw -1
+ldc 0
+ldl 2
+stnl 5
+ldc 0
+dup
+ldl 2
+stnl 6
+stl 0
+c362:
+ldc 8
+ldl 0
+gt
+cj c363
+ldl 2
+call qdig
+ldl 2
+ldnl 5
+cj c364
+ajw 1
+ret
+c364:
+ldl 2
+ldnl 6
+ldc 4
+shl
+ldl 2
+ldnl 4
+or
+ldl 2
+stnl 6
+ldl 2
+ldnl 3
+ldl 2
+call qputchar
+ldl 0
+adc 1
+stl 0
+ldl 0
+eqc 4
+cj c365
+ldc 58
+ldl 2
+call qputchar
+c365:
+j c362
+c363:
+ajw 1
+ret
+qdig:
+c367:
+ldc 1
+cj c368
+ldl 1
+call qgetchar
+dup
+ldl 1
+stnl 3
+ldl 1
+call qtoupper
+ldl 1
+stnl 4
+ldl 1
+ldnl 3
+eqc 27
+cj c369
+ldc 1
+ldl 1
+stnl 5
+ret
+c369:
+ldl 1
+ldnl 3
+eqc 13
+ldl 1
+ldnl 3
+eqc 32
+or
+cj c370
+ldc 2
+ldl 1
+stnl 5
+ret
+c370:
+ldc 48
+ldl 1
+ldnl 4
+gt
+cj c371
+j c367
+c371:
+ldl 1
+ldnl 4
+ldc 70
+gt
+cj c372
+j c367
+c372:
+ldl 1
+ldnl 4
+ldc 57
+gt
+ldc 65
+ldl 1
+ldnl 4
+gt
+and
+cj c373
+j c367
+c373:
+ldl 1
+ldnl 4
+adc -48
+ldl 1
+stnl 4
+ldl 1
+ldnl 4
+ldc 9
+gt
+cj c374
+ldl 1
+ldnl 4
+adc -7
+ldl 1
+stnl 4
+c374:
+j c368
+c368:
+ret
+qsale:
+ldc 15
+ldl 1
+call qcolor
+ldc c375-c376+0
+ldpi
+c376:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldl 1
+call qnl
+ldc 10
+ldl 1
+call qcolor
+ldc 1
+ldl 1
+call qexit
+ret
+c375:
+db 83,97,108,101,32
+db 100,101,108,32,109
+db 111,110,105,116,111
+db 114,46,0
+qpresenta:
+ldl 1
+call qnl
+ldl 1
+call qnl
+ldc 12
+ldl 1
+call qcolor
+ldc c377-c378+0
+ldpi
+c378:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldl 1
+call qnl
+ldc 15
+ldl 1
+call qcolor
+ldc c377-c379+27
+ldpi
+c379:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldl 1
+call qnl
+ldc 10
+ldl 1
+call qcolor
+ldc c377-c380+47
+ldpi
+c380:
+ldl 1
+call qil
+ldl 1
+call qnl
+ldl 1
+call qnl
+ret
+c377:
+db 77,111,110,105,116
+db 111,114,32,86,105
+db 115,117,97,108,32
+db 112,97,114,97,32
+db 101,108,32,71,49
+db 48,0,32,32,32
+db 32,32,32,32,86
+db 101,114,115,105,111
+db 110,32,49,46,48
+db 48,0,112,111,114
+db 32,79,115,99,97
+db 114,32,84,111,108
+db 101,100,111,32,71
+db 117,116,105,101,114
+db 114,101,122,0
+qnl:
+ldc 13
+ldl 1
+call qputchar
+ldc 10
+ldl 1
+call qputchar
+ret
+qil:
+c383:
+ldl 2
+lb
+cj c384
+ldl 2
+dup
+adc 1
+stl 2
+lb
+ldl 1
+call qputchar
+j c383
+c384:
+ret
+qinicia1:
+ldc c385-c386+0
+ldpi
+c386:
+ldl 1
+stnl 7
+ldc c385-c387+3
+ldpi
+c387:
+ldl 1
+stnl 8
+ldc c385-c388+5
+ldpi
+c388:
+ldl 1
+stnl 9
+ldc c385-c389+10
+ldpi
+c389:
+ldl 1
+stnl 10
+ldc c385-c390+15
+ldpi
+c390:
+ldl 1
+stnl 11
+ldc c385-c391+20
+ldpi
+c391:
+ldl 1
+stnl 12
+ldc c385-c392+24
+ldpi
+c392:
+ldl 1
+stnl 13
+ldc c385-c393+30
+ldpi
+c393:
+ldl 1
+stnl 14
+ldc c385-c394+35
+ldpi
+c394:
+ldl 1
+stnl 15
+ldc c385-c395+39
+ldpi
+c395:
+ldl 1
+stnl 16
+ldc c385-c396+43
+ldpi
+c396:
+ldl 1
+stnl 17
+ldc c385-c397+48
+ldpi
+c397:
+ldl 1
+stnl 18
+ldc c385-c398+51
+ldpi
+c398:
+ldl 1
+stnl 19
+ldc c385-c399+55
+ldpi
+c399:
+ldl 1
+stnl 20
+ldc c385-c400+59
+ldpi
+c400:
+ldl 1
+stnl 21
+ldc c385-c401+63
+ldpi
+c401:
+ldl 1
+stnl 22
+ldc c385-c402+68
+ldpi
+c402:
+ldl 1
+stnl 23
+ldc c385-c403+72
+ldpi
+c403:
+ldl 1
+stnl 24
+ldc c385-c404+76
+ldpi
+c404:
+ldl 1
+stnl 25
+ldc c385-c405+79
+ldpi
+c405:
+ldl 1
+stnl 26
+ldc c385-c406+84
+ldpi
+c406:
+ldl 1
+stnl 27
+ldc c385-c407+89
+ldpi
+c407:
+ldl 1
+stnl 28
+ldc c385-c408+94
+ldpi
+c408:
+ldl 1
+stnl 29
+ldc c385-c409+98
+ldpi
+c409:
+ldl 1
+stnl 30
+ldc c385-c410+104
+ldpi
+c410:
+ldl 1
+stnl 31
+ldc c385-c411+107
+ldpi
+c411:
+ldl 1
+stnl 32
+ldc c385-c412+112
+ldpi
+c412:
+ldl 1
+stnl 33
+ldc c385-c413+115
+ldpi
+c413:
+ldl 1
+stnl 34
+ldc c385-c414+120
+ldpi
+c414:
+ldl 1
+stnl 35
+ldc c385-c415+124
+ldpi
+c415:
+ldl 1
+stnl 36
+ldc c385-c416+128
+ldpi
+c416:
+ldl 1
+stnl 37
+ldc c385-c417+135
+ldpi
+c417:
+ldl 1
+stnl 38
+ldc c385-c418+143
+ldpi
+c418:
+ldl 1
+stnl 39
+ldc c385-c419+151
+ldpi
+c419:
+ldl 1
+stnl 40
+ldc c385-c420+158
+ldpi
+c420:
+ldl 1
+stnl 41
+ldc c385-c421+160
+ldpi
+c421:
+ldl 1
+stnl 42
+ldc c385-c422+168
+ldpi
+c422:
+ldl 1
+stnl 43
+ldc c385-c423+174
+ldpi
+c423:
+ldl 1
+stnl 44
+ldc c385-c424+176
+ldpi
+c424:
+ldl 1
+stnl 45
+ldc c385-c425+182
+ldpi
+c425:
+ldl 1
+stnl 46
+ldc c385-c426+187
+ldpi
+c426:
+ldl 1
+stnl 47
+ldc c385-c427+192
+ldpi
+c427:
+ldl 1
+stnl 48
+ldc c385-c428+197
+ldpi
+c428:
+ldl 1
+stnl 49
+ldc c385-c429+202
+ldpi
+c429:
+ldl 1
+stnl 50
+ldc c385-c430+207
+ldpi
+c430:
+ldl 1
+stnl 51
+ldc c385-c431+212
+ldpi
+c431:
+ldl 1
+stnl 52
+ldc c385-c432+217
+ldpi
+c432:
+ldl 1
+stnl 53
+ldc c385-c433+223
+ldpi
+c433:
+ldl 1
+stnl 54
+ldc c385-c434+229
+ldpi
+c434:
+ldl 1
+stnl 55
+ldc c385-c435+233
+ldpi
+c435:
+ldl 1
+stnl 56
+ldc c385-c436+237
+ldpi
+c436:
+ldl 1
+stnl 57
+ldc c385-c437+242
+ldpi
+c437:
+ldl 1
+stnl 58
+ldc c385-c438+250
+ldpi
+c438:
+dup
+ldl 1
+stnl 64
+dup
+ldl 1
+stnl 63
+dup
+ldl 1
+stnl 62
+dup
+ldl 1
+stnl 61
+dup
+ldl 1
+stnl 60
+ldl 1
+stnl 59
+ldc c385-c439+252
+ldpi
+c439:
+ldl 1
+stnl 65
+ldc c385-c440+260
+ldpi
+c440:
+ldl 1
+stnl 66
+ldc c385-c441+271
+ldpi
+c441:
+ldl 1
+stnl 67
+ldc c385-c442+275
+ldpi
+c442:
+ldl 1
+stnl 68
+ldc c385-c443+279
+ldpi
+c443:
+ldl 1
+stnl 69
+ldc c385-c444+281
+ldpi
+c444:
+ldl 1
+stnl 70
+ldc c385-c445+286
+ldpi
+c445:
+ldl 1
+stnl 71
+ldc c385-c446+291
+ldpi
+c446:
+ldl 1
+stnl 72
+ldc c385-c447+296
+ldpi
+c447:
+ldl 1
+stnl 73
+ldc c385-c448+301
+ldpi
+c448:
+ldl 1
+stnl 74
+ldc c385-c449+305
+ldpi
+c449:
+ldl 1
+stnl 75
+ldc c385-c450+309
+ldpi
+c450:
+ldl 1
+stnl 76
+ldc c385-c451+314
+ldpi
+c451:
+ldl 1
+stnl 77
+ldc c385-c452+319
+ldpi
+c452:
+ldl 1
+stnl 78
+ldc c385-c453+324
+ldpi
+c453:
+ldl 1
+stnl 79
+ldc c385-c454+329
+ldpi
+c454:
+ldl 1
+stnl 80
+ldc c385-c455+334
+ldpi
+c455:
+ldl 1
+stnl 81
+ldc c385-c456+339
+ldpi
+c456:
+ldl 1
+stnl 82
+ldc c385-c457+345
+ldpi
+c457:
+ldl 1
+stnl 83
+ldc c385-c458+348
+ldpi
+c458:
+ldl 1
+stnl 84
+ldc c385-c459+353
+ldpi
+c459:
+ldl 1
+stnl 85
+ldc c385-c460+359
+ldpi
+c460:
+ldl 1
+stnl 86
+ldc c385-c461+365
+ldpi
+c461:
+ldl 1
+stnl 87
+ldc c385-c462+370
+ldpi
+c462:
+ldl 1
+stnl 88
+ldc c385-c463+374
+ldpi
+c463:
+ldl 1
+stnl 89
+ldc c385-c464+378
+ldpi
+c464:
+ldl 1
+stnl 90
+ldc c385-c465+383
+ldpi
+c465:
+ldl 1
+stnl 91
+ldc c385-c466+387
+ldpi
+c466:
+ldl 1
+stnl 92
+ldc c385-c467+393
+ldpi
+c467:
+ldl 1
+stnl 93
+ldc c385-c468+400
+ldpi
+c468:
+ldl 1
+stnl 94
+ldc c385-c469+404
+ldpi
+c469:
+ldl 1
+stnl 95
+ldc c385-c470+409
+ldpi
+c470:
+ldl 1
+stnl 96
+ldc c385-c471+414
+ldpi
+c471:
+ldl 1
+stnl 97
+ldc c385-c472+419
+ldpi
+c472:
+ldl 1
+stnl 98
+ldc c385-c473+424
+ldpi
+c473:
+ldl 1
+stnl 99
+ldc c385-c474+427
+ldpi
+c474:
+ldl 1
+stnl 100
+ldc c385-c475+433
+ldpi
+c475:
+ldl 1
+stnl 101
+ldc c385-c476+439
+ldpi
+c476:
+ldl 1
+stnl 102
+ldc c385-c477+444
+ldpi
+c477:
+ldl 1
+stnl 103
+ldc c385-c478+450
+ldpi
+c478:
+ldl 1
+stnl 104
+ldc c385-c479+455
+ldpi
+c479:
+ldl 1
+stnl 105
+ldc c385-c480+462
+ldpi
+c480:
+ldl 1
+stnl 106
+ldc c385-c481+466
+ldpi
+c481:
+ldl 1
+stnl 107
+ldc c385-c482+470
+ldpi
+c482:
+ldl 1
+stnl 108
+ldc c385-c483+478
+ldpi
+c483:
+ldl 1
+stnl 109
+ldc c385-c484+486
+ldpi
+c484:
+ldl 1
+stnl 110
+ldc c385-c485+492
+ldpi
+c485:
+ldl 1
+stnl 111
+ret
+c385:
+db 100,98,0,106,0
+db 108,100,108,112,0
+db 112,102,105,120,0
+db 108,100,110,108,0
+db 108,100,99,0,108
+db 100,110,108,112,0
+db 110,102,105,120,0
+db 108,100,108,0,97
+db 100,99,0,99,97
+db 108,108,0,99,106
+db 0,97,106,119,0
+db 101,113,99,0,115
+db 116,108,0,115,116
+db 110,108,0,111,112
+db 114,0,114,101,118
+db 0,108,98,0,98
+db 115,117,98,0,101
+db 110,100,112,0,100
+db 105,102,102,0,97
+db 100,100,0,103,99
+db 97,108,108,0,105
+db 110,0,112,114,111
+db 100,0,103,116,0
+db 119,115,117,98,0
+db 111,117,116,0,115
+db 117,98,0,115,116
+db 97,114,116,112,0
+db 111,117,116,98,121
+db 116,101,0,111,117
+db 116,119,111,114,100
+db 0,115,101,116,101
+db 114,114,0,63,0
+db 114,101,115,101,116
+db 99,104,0,99,115
+db 117,98,48,0,63
+db 0,115,116,111,112
+db 112,0,108,97,100
+db 100,0,115,116,108
+db 98,0,115,116,104
+db 102,0,110,111,114
+db 109,0,108,100,105
+db 118,0,108,100,112
+db 105,0,115,116,108
+db 102,0,120,100,98
+db 108,101,0,108,100
+db 112,114,105,0,114
+db 101,109,0,114,101
+db 116,0,108,101,110
+db 100,0,108,100,116
+db 105,109,101,114,0
+db 63,0,116,101,115
+db 116,101,114,114,0
+db 116,101,115,116,112
+db 114,97,110,97,108
+db 0,116,105,110,0
+db 100,105,118,0,63
+db 0,100,105,115,116
+db 0,100,105,115,99
+db 0,100,105,115,115
+db 0,108,109,117,108
+db 0,110,111,116,0
+db 120,111,114,0,98
+db 99,110,116,0,108
+db 115,104,114,0,108
+db 115,104,108,0,108
+db 115,117,109,0,108
+db 115,117,98,0,114
+db 117,110,112,0,120
+db 119,111,114,100,0
+db 115,98,0,103,97
+db 106,119,0,115,97
+db 118,101,108,0,115
+db 97,118,101,104,0
+db 119,99,110,116,0
+db 115,104,114,0,115
+db 104,108,0,109,105
+db 110,116,0,97,108
+db 116,0,97,108,116
+db 119,116,0,97,108
+db 116,101,110,100,0
+db 97,110,100,0,101
+db 110,98,116,0,101
+db 110,98,99,0,101
+db 110,98,115,0,109
+db 111,118,101,0,111
+db 114,0,99,115,110
+db 103,108,0,99,99
+db 110,116,49,0,116
+db 97,108,116,0,108
+db 100,105,102,102,0
+db 115,116,104,98,0
+db 116,97,108,116,119
+db 116,0,115,117,109
+db 0,109,117,108,0
+db 115,116,116,105,109
+db 101,114,0,115,116
+db 111,112,101,114,114
+db 0,99,119,111,114
+db 100,0,99,108,114
+db 104,97,108,116,101
+db 114,114,0
+qinicia2:
+ldc c486-c487+0
+ldpi
+c487:
+ldl 1
+stnl 112
+ldc c486-c488+11
+ldpi
+c488:
+ldl 1
+stnl 113
+ldc c486-c489+23
+ldpi
+c489:
+ldl 1
+stnl 114
+ldc c486-c490+27
+ldpi
+c490:
+ldl 1
+stnl 115
+ldc c486-c491+38
+ldpi
+c491:
+ldl 1
+stnl 116
+ldc c486-c492+48
+ldpi
+c492:
+ldl 1
+stnl 117
+ldc c486-c493+62
+ldpi
+c493:
+ldl 1
+stnl 118
+ldc c486-c494+73
+ldpi
+c494:
+dup
+ldl 1
+stnl 122
+dup
+ldl 1
+stnl 121
+dup
+ldl 1
+stnl 120
+ldl 1
+stnl 119
+ldc c486-c495+75
+ldpi
+c495:
+ldl 1
+stnl 123
+ldc c486-c496+84
+ldpi
+c496:
+dup
+ldl 1
+stnl 131
+dup
+ldl 1
+stnl 130
+dup
+ldl 1
+stnl 129
+dup
+ldl 1
+stnl 128
+dup
+ldl 1
+stnl 127
+dup
+ldl 1
+stnl 126
+dup
+ldl 1
+stnl 125
+ldl 1
+stnl 124
+ldc c486-c497+86
+ldpi
+c497:
+ldl 1
+stnl 132
+ldc c486-c498+97
+ldpi
+c498:
+ldl 1
+stnl 133
+ldc c486-c499+105
+ldpi
+c499:
+dup
+ldl 1
+stnl 136
+dup
+ldl 1
+stnl 135
+ldl 1
+stnl 134
+ldc c486-c500+107
+ldpi
+c500:
+ldl 1
+stnl 137
+ldc c486-c501+113
+ldpi
+c501:
+ldl 1
+stnl 138
+ldc c486-c502+118
+ldpi
+c502:
+ldl 1
+stnl 139
+ldc c486-c503+125
+ldpi
+c503:
+ldl 1
+stnl 140
+ldc c486-c504+133
+ldpi
+c504:
+ldl 1
+stnl 141
+ldc c486-c505+141
+ldpi
+c505:
+ldl 1
+stnl 142
+ldc c486-c506+148
+ldpi
+c506:
+ldl 1
+stnl 143
+ldc c486-c507+159
+ldpi
+c507:
+ldl 1
+stnl 144
+ldc c486-c508+171
+ldpi
+c508:
+ldl 1
+stnl 145
+ldc c486-c509+175
+ldpi
+c509:
+ldl 1
+stnl 146
+ldc c486-c510+189
+ldpi
+c510:
+ldl 1
+stnl 147
+ldc c486-c511+203
+ldpi
+c511:
+ldl 1
+stnl 148
+ldc c486-c512+216
+ldpi
+c512:
+ldl 1
+stnl 149
+ldc c486-c513+229
+ldpi
+c513:
+ldl 1
+stnl 150
+ldc c486-c514+243
+ldpi
+c514:
+dup
+ldl 1
+stnl 152
+ldl 1
+stnl 151
+ldc c486-c515+245
+ldpi
+c515:
+ldl 1
+stnl 153
+ldc c486-c516+252
+ldpi
+c516:
+ldl 1
+stnl 154
+ldc c486-c517+262
+ldpi
+c517:
+ldl 1
+stnl 155
+ldc c486-c518+273
+ldpi
+c518:
+ldl 1
+stnl 156
+ldc c486-c519+282
+ldpi
+c519:
+ldl 1
+stnl 157
+ldc c486-c520+284
+ldpi
+c520:
+ldl 1
+stnl 158
+ldc c486-c521+294
+ldpi
+c521:
+ldl 1
+stnl 159
+ldc c486-c522+300
+ldpi
+c522:
+ldl 1
+stnl 160
+ldc c486-c523+309
+ldpi
+c523:
+ldl 1
+stnl 161
+ldc c486-c524+315
+ldpi
+c524:
+ldl 1
+stnl 162
+ldc c486-c525+324
+ldpi
+c525:
+ldl 1
+stnl 163
+ldc c486-c526+330
+ldpi
+c526:
+ldl 1
+stnl 164
+ldc c486-c527+336
+ldpi
+c527:
+ldl 1
+stnl 165
+ldc c486-c528+338
+ldpi
+c528:
+ldl 1
+stnl 166
+ldc c486-c529+347
+ldpi
+c529:
+ldl 1
+stnl 167
+ldc c486-c530+358
+ldpi
+c530:
+ldl 1
+stnl 168
+ldc c486-c531+368
+ldpi
+c531:
+ldl 1
+stnl 169
+ldc c486-c532+374
+ldpi
+c532:
+ldl 1
+stnl 170
+ldc c486-c533+384
+ldpi
+c533:
+ldl 1
+stnl 171
+ldc c486-c534+396
+ldpi
+c534:
+ldl 1
+stnl 172
+ldc c486-c535+401
+ldpi
+c535:
+ldl 1
+stnl 173
+ldc c486-c536+406
+ldpi
+c536:
+ldl 1
+stnl 174
+ldc c486-c537+417
+ldpi
+c537:
+ldl 1
+stnl 175
+ldc c486-c538+419
+ldpi
+c538:
+ldl 1
+stnl 176
+ldc c486-c539+430
+ldpi
+c539:
+ldl 1
+stnl 177
+ldc c486-c540+432
+ldpi
+c540:
+ldl 1
+stnl 178
+ldc c486-c541+443
+ldpi
+c541:
+ldl 1
+stnl 179
+ldc c486-c542+445
+ldpi
+c542:
+ldl 1
+stnl 180
+ldc c486-c543+457
+ldpi
+c543:
+ldl 1
+stnl 181
+ldc c486-c544+466
+ldpi
+c544:
+ldl 1
+stnl 182
+ldc c486-c545+476
+ldpi
+c545:
+ldl 1
+stnl 183
+ret
+c486:
+db 115,101,116,104,97
+db 108,116,101,114,114
+db 0,116,101,115,116
+db 104,97,108,116,101
+db 114,114,0,100,117
+db 112,0,109,111,118
+db 101,50,100,105,110
+db 105,116,0,109,111
+db 118,101,50,100,97
+db 108,108,0,109,111
+db 118,101,50,100,110
+db 111,110,122,101,114
+db 111,0,109,111,118
+db 101,50,100,122,101
+db 114,111,0,63,0
+db 117,110,112,97,99
+db 107,115,110,0,63
+db 0,112,111,115,116
+db 110,111,114,109,115
+db 110,0,114,111,117
+db 110,100,115,110,0
+db 63,0,108,100,105
+db 110,102,0,102,109
+db 117,108,0,99,102
+db 108,101,114,114,0
+db 99,114,99,119,111
+db 114,100,0,99,114
+db 99,98,121,116,101
+db 0,98,105,116,99
+db 110,116,0,98,105
+db 116,114,101,118,119
+db 111,114,100,0,98
+db 105,116,114,101,118
+db 110,98,105,116,115
+db 0,112,111,112,0
+db 116,105,109,101,114
+db 100,105,115,97,98
+db 108,101,104,0,116
+db 105,109,101,114,100
+db 105,115,97,98,108
+db 101,108,0,116,105
+db 109,101,114,101,110
+db 97,98,108,101,104
+db 0,116,105,109,101
+db 114,101,110,97,98
+db 108,101,108,0,108
+db 100,109,101,109,115
+db 116,97,114,116,118
+db 97,108,0,63,0
+db 119,115,117,98,100
+db 98,0,102,112,108
+db 100,110,108,100,98
+db 105,0,102,112,99
+db 104,107,101,114,114
+db 111,114,0,102,112
+db 115,116,110,108,100
+db 98,0,63,0,102
+db 112,108,100,110,108
+db 115,110,105,0,102
+db 112,97,100,100,0
+db 102,112,115,116,110
+db 108,115,110,0,102
+db 112,115,117,98,0
+db 102,112,108,100,110
+db 108,100,98,0,102
+db 112,109,117,108,0
+db 102,112,100,105,118
+db 0,63,0,102,112
+db 108,100,110,108,115
+db 110,0,102,112,114
+db 101,109,102,105,114
+db 115,116,0,102,112
+db 114,101,109,115,116
+db 101,112,0,102,112
+db 110,97,110,0,102
+db 112,111,114,100,101
+db 114,101,100,0,102
+db 112,110,111,116,102
+db 105,110,105,116,101
+db 0,102,112,103,116
+db 0,102,112,101,113
+db 0,102,112,105,51
+db 50,116,111,114,51
+db 50,0,63,0,102
+db 112,105,51,50,116
+db 111,114,54,52,0
+db 63,0,102,112,98
+db 51,50,116,111,114
+db 54,52,0,63,0
+db 102,112,116,101,115
+db 116,101,114,114,111
+db 114,0,102,112,114
+db 116,111,105,51,50
+db 0,102,112,115,116
+db 110,108,105,51,50
+db 0,102,112,108,100
+db 122,101,114,111,115
+db 110,0
+qinicia3:
+ldc c546-c547+0
+ldpi
+c547:
+ldl 1
+stnl 184
+ldc c546-c548+11
+ldpi
+c548:
+ldl 1
+stnl 185
+ldc c546-c549+17
+ldpi
+c549:
+ldl 1
+stnl 186
+ldc c546-c550+19
+ldpi
+c550:
+ldl 1
+stnl 187
+ldc c546-c551+25
+ldpi
+c551:
+ldl 1
+stnl 188
+ldc c546-c552+31
+ldpi
+c552:
+ldl 1
+stnl 189
+ldc c546-c553+33
+ldpi
+c553:
+ldl 1
+stnl 190
+ldc c546-c554+45
+ldpi
+c554:
+ldl 1
+stnl 191
+ldc c546-c555+47
+ldpi
+c555:
+ldl 1
+stnl 192
+ldc c546-c556+59
+ldpi
+c556:
+ldl 1
+stnl 193
+ldc c546-c557+61
+ldpi
+c557:
+ldl 1
+stnl 194
+ldc c546-c558+73
+ldpi
+c558:
+ldl 1
+stnl 195
+ldc c546-c559+81
+ldpi
+c559:
+ldl 1
+stnl 196
+ldc c546-c560+93
+ldpi
+c560:
+dup
+ldl 1
+stnl 200
+dup
+ldl 1
+stnl 199
+dup
+ldl 1
+stnl 198
+ldl 1
+stnl 197
+ldc c546-c561+95
+ldpi
+c561:
+ldl 1
+stnl 201
+ldc c546-c562+101
+ldpi
+c562:
+ldl 1
+stnl 202
+ldc c546-c563+112
+ldpi
+c563:
+ldl 1
+stnl 203
+ldc c546-c564+123
+ldpi
+c564:
+ldl 1
+stnl 204
+ldc c546-c565+135
+ldpi
+c565:
+dup
+ldl 1
+stnl 224
+dup
+ldl 1
+stnl 223
+dup
+ldl 1
+stnl 222
+dup
+ldl 1
+stnl 221
+dup
+ldl 1
+stnl 220
+dup
+ldl 1
+stnl 219
+dup
+ldl 1
+stnl 218
+dup
+ldl 1
+stnl 217
+dup
+ldl 1
+stnl 216
+dup
+ldl 1
+stnl 215
+dup
+ldl 1
+stnl 214
+dup
+ldl 1
+stnl 213
+dup
+ldl 1
+stnl 212
+dup
+ldl 1
+stnl 211
+dup
+ldl 1
+stnl 210
+dup
+ldl 1
+stnl 209
+dup
+ldl 1
+stnl 208
+dup
+ldl 1
+stnl 207
+dup
+ldl 1
+stnl 206
+ldl 1
+stnl 205
+ldc c546-c566+137
+ldpi
+c566:
+dup
+ldl 1
+stnl 244
+dup
+ldl 1
+stnl 243
+dup
+ldl 1
+stnl 242
+dup
+ldl 1
+stnl 241
+dup
+ldl 1
+stnl 240
+dup
+ldl 1
+stnl 239
+dup
+ldl 1
+stnl 238
+dup
+ldl 1
+stnl 237
+dup
+ldl 1
+stnl 236
+dup
+ldl 1
+stnl 235
+dup
+ldl 1
+stnl 234
+dup
+ldl 1
+stnl 233
+dup
+ldl 1
+stnl 232
+dup
+ldl 1
+stnl 231
+dup
+ldl 1
+stnl 230
+dup
+ldl 1
+stnl 229
+dup
+ldl 1
+stnl 228
+dup
+ldl 1
+stnl 227
+dup
+ldl 1
+stnl 226
+ldl 1
+stnl 225
+ldc c546-c567+139
+ldpi
+c567:
+dup
+ldl 1
+stnl 264
+dup
+ldl 1
+stnl 263
+dup
+ldl 1
+stnl 262
+dup
+ldl 1
+stnl 261
+dup
+ldl 1
+stnl 260
+dup
+ldl 1
+stnl 259
+dup
+ldl 1
+stnl 258
+dup
+ldl 1
+stnl 257
+dup
+ldl 1
+stnl 256
+dup
+ldl 1
+stnl 255
+dup
+ldl 1
+stnl 254
+dup
+ldl 1
+stnl 253
+dup
+ldl 1
+stnl 252
+dup
+ldl 1
+stnl 251
+dup
+ldl 1
+stnl 250
+dup
+ldl 1
+stnl 249
+dup
+ldl 1
+stnl 248
+dup
+ldl 1
+stnl 247
+dup
+ldl 1
+stnl 246
+ldl 1
+stnl 245
+ldc c546-c568+141
+ldpi
+c568:
+dup
+ldl 1
+stnl 280
+dup
+ldl 1
+stnl 279
+dup
+ldl 1
+stnl 278
+dup
+ldl 1
+stnl 277
+dup
+ldl 1
+stnl 276
+dup
+ldl 1
+stnl 275
+dup
+ldl 1
+stnl 274
+dup
+ldl 1
+stnl 273
+dup
+ldl 1
+stnl 272
+dup
+ldl 1
+stnl 271
+dup
+ldl 1
+stnl 270
+dup
+ldl 1
+stnl 269
+dup
+ldl 1
+stnl 268
+dup
+ldl 1
+stnl 267
+dup
+ldl 1
+stnl 266
+ldl 1
+stnl 265
+ldc c546-c569+143
+ldpi
+c569:
+ldl 1
+stnl 281
+ldc c546-c570+156
+ldpi
+c570:
+ldl 1
+stnl 282
+ldc c546-c571+168
+ldpi
+c571:
+ldl 1
+stnl 283
+ldc c546-c572+180
+ldpi
+c572:
+ldl 1
+stnl 284
+ldc c546-c573+186
+ldpi
+c573:
+ldl 1
+stnl 285
+ldc c546-c574+192
+ldpi
+c574:
+ldl 1
+stnl 286
+ldc c546-c575+198
+ldpi
+c575:
+ldl 1
+stnl 287
+ldc c546-c576+210
+ldpi
+c576:
+ldl 1
+stnl 288
+ldc c546-c577+222
+ldpi
+c577:
+ldl 1
+stnl 289
+ldc c546-c578+234
+ldpi
+c578:
+ldl 1
+stnl 290
+ldc c546-c579+246
+ldpi
+c579:
+ldl 1
+stnl 291
+ldc c546-c580+253
+ldpi
+c580:
+ldl 1
+stnl 292
+ldc c546-c581+255
+ldpi
+c581:
+ldl 1
+stnl 293
+ldc c546-c582+266
+ldpi
+c582:
+ldl 1
+stnl 294
+ldc c546-c583+276
+ldpi
+c583:
+ldl 1
+stnl 295
+ldc c546-c584+286
+ldpi
+c584:
+ldl 1
+stnl 296
+ldc c546-c585+288
+ldpi
+c585:
+ldl 1
+stnl 297
+ldc c546-c586+298
+ldpi
+c586:
+ldl 1
+stnl 298
+ldc c546-c587+308
+ldpi
+c587:
+dup
+ldl 1
+stnl 313
+dup
+ldl 1
+stnl 312
+dup
+ldl 1
+stnl 311
+dup
+ldl 1
+stnl 310
+dup
+ldl 1
+stnl 309
+dup
+ldl 1
+stnl 308
+dup
+ldl 1
+stnl 307
+dup
+ldl 1
+stnl 306
+dup
+ldl 1
+stnl 305
+dup
+ldl 1
+stnl 304
+dup
+ldl 1
+stnl 303
+dup
+ldl 1
+stnl 302
+dup
+ldl 1
+stnl 301
+dup
+ldl 1
+stnl 300
+ldl 1
+stnl 299
+ldc c546-c588+310
+ldpi
+c588:
+ldl 1
+stnl 314
+ldc c546-c589+316
+ldpi
+c589:
+ldl 1
+stnl 315
+ldc c546-c590+328
+ldpi
+c590:
+dup
+ldl 1
+stnl 318
+dup
+ldl 1
+stnl 317
+ldl 1
+stnl 316
+ldc c546-c591+330
+ldpi
+c591:
+dup
+ldl 1
+stnl 338
+dup
+ldl 1
+stnl 337
+dup
+ldl 1
+stnl 336
+dup
+ldl 1
+stnl 335
+dup
+ldl 1
+stnl 334
+dup
+ldl 1
+stnl 333
+dup
+ldl 1
+stnl 332
+dup
+ldl 1
+stnl 331
+dup
+ldl 1
+stnl 330
+dup
+ldl 1
+stnl 329
+dup
+ldl 1
+stnl 328
+dup
+ldl 1
+stnl 327
+dup
+ldl 1
+stnl 326
+dup
+ldl 1
+stnl 325
+dup
+ldl 1
+stnl 324
+dup
+ldl 1
+stnl 323
+dup
+ldl 1
+stnl 322
+dup
+ldl 1
+stnl 321
+dup
+ldl 1
+stnl 320
+ldl 1
+stnl 319
+ldc c546-c592+332
+ldpi
+c592:
+dup
+ldl 1
+stnl 358
+dup
+ldl 1
+stnl 357
+dup
+ldl 1
+stnl 356
+dup
+ldl 1
+stnl 355
+dup
+ldl 1
+stnl 354
+dup
+ldl 1
+stnl 353
+dup
+ldl 1
+stnl 352
+dup
+ldl 1
+stnl 351
+dup
+ldl 1
+stnl 350
+dup
+ldl 1
+stnl 349
+dup
+ldl 1
+stnl 348
+dup
+ldl 1
+stnl 347
+dup
+ldl 1
+stnl 346
+dup
+ldl 1
+stnl 345
+dup
+ldl 1
+stnl 344
+dup
+ldl 1
+stnl 343
+dup
+ldl 1
+stnl 342
+dup
+ldl 1
+stnl 341
+dup
+ldl 1
+stnl 340
+ldl 1
+stnl 339
+ldc c546-c593+334
+ldpi
+c593:
+dup
+ldl 1
+stnl 378
+dup
+ldl 1
+stnl 377
+dup
+ldl 1
+stnl 376
+dup
+ldl 1
+stnl 375
+dup
+ldl 1
+stnl 374
+dup
+ldl 1
+stnl 373
+dup
+ldl 1
+stnl 372
+dup
+ldl 1
+stnl 371
+dup
+ldl 1
+stnl 370
+dup
+ldl 1
+stnl 369
+dup
+ldl 1
+stnl 368
+dup
+ldl 1
+stnl 367
+dup
+ldl 1
+stnl 366
+dup
+ldl 1
+stnl 365
+dup
+ldl 1
+stnl 364
+dup
+ldl 1
+stnl 363
+dup
+ldl 1
+stnl 362
+dup
+ldl 1
+stnl 361
+dup
+ldl 1
+stnl 360
+ldl 1
+stnl 359
+ldc c546-c594+336
+ldpi
+c594:
+dup
+ldl 1
+stnl 398
+dup
+ldl 1
+stnl 397
+dup
+ldl 1
+stnl 396
+dup
+ldl 1
+stnl 395
+dup
+ldl 1
+stnl 394
+dup
+ldl 1
+stnl 393
+dup
+ldl 1
+stnl 392
+dup
+ldl 1
+stnl 391
+dup
+ldl 1
+stnl 390
+dup
+ldl 1
+stnl 389
+dup
+ldl 1
+stnl 388
+dup
+ldl 1
+stnl 387
+dup
+ldl 1
+stnl 386
+dup
+ldl 1
+stnl 385
+dup
+ldl 1
+stnl 384
+dup
+ldl 1
+stnl 383
+dup
+ldl 1
+stnl 382
+dup
+ldl 1
+stnl 381
+dup
+ldl 1
+stnl 380
+ldl 1
+stnl 379
+ldc c546-c595+338
+ldpi
+c595:
+dup
+ldl 1
+stnl 418
+dup
+ldl 1
+stnl 417
+dup
+ldl 1
+stnl 416
+dup
+ldl 1
+stnl 415
+dup
+ldl 1
+stnl 414
+dup
+ldl 1
+stnl 413
+dup
+ldl 1
+stnl 412
+dup
+ldl 1
+stnl 411
+dup
+ldl 1
+stnl 410
+dup
+ldl 1
+stnl 409
+dup
+ldl 1
+stnl 408
+dup
+ldl 1
+stnl 407
+dup
+ldl 1
+stnl 406
+dup
+ldl 1
+stnl 405
+dup
+ldl 1
+stnl 404
+dup
+ldl 1
+stnl 403
+dup
+ldl 1
+stnl 402
+dup
+ldl 1
+stnl 401
+dup
+ldl 1
+stnl 400
+ldl 1
+stnl 399
+ldc c546-c596+340
+ldpi
+c596:
+dup
+ldl 1
+stnl 435
+dup
+ldl 1
+stnl 434
+dup
+ldl 1
+stnl 433
+dup
+ldl 1
+stnl 432
+dup
+ldl 1
+stnl 431
+dup
+ldl 1
+stnl 430
+dup
+ldl 1
+stnl 429
+dup
+ldl 1
+stnl 428
+dup
+ldl 1
+stnl 427
+dup
+ldl 1
+stnl 426
+dup
+ldl 1
+stnl 425
+dup
+ldl 1
+stnl 424
+dup
+ldl 1
+stnl 423
+dup
+ldl 1
+stnl 422
+dup
+ldl 1
+stnl 421
+dup
+ldl 1
+stnl 420
+ldl 1
+stnl 419
+ldc c546-c597+342
+ldpi
+c597:
+ldl 1
+stnl 436
+ldc c546-c598+356
+ldpi
+c598:
+dup
+ldl 1
+stnl 456
+dup
+ldl 1
+stnl 455
+dup
+ldl 1
+stnl 454
+dup
+ldl 1
+stnl 453
+dup
+ldl 1
+stnl 452
+dup
+ldl 1
+stnl 451
+dup
+ldl 1
+stnl 450
+dup
+ldl 1
+stnl 449
+dup
+ldl 1
+stnl 448
+dup
+ldl 1
+stnl 447
+dup
+ldl 1
+stnl 446
+dup
+ldl 1
+stnl 445
+dup
+ldl 1
+stnl 444
+dup
+ldl 1
+stnl 443
+dup
+ldl 1
+stnl 442
+dup
+ldl 1
+stnl 441
+dup
+ldl 1
+stnl 440
+dup
+ldl 1
+stnl 439
+dup
+ldl 1
+stnl 438
+ldl 1
+stnl 437
+ldc c546-c599+358
+ldpi
+c599:
+dup
+ldl 1
+stnl 476
+dup
+ldl 1
+stnl 475
+dup
+ldl 1
+stnl 474
+dup
+ldl 1
+stnl 473
+dup
+ldl 1
+stnl 472
+dup
+ldl 1
+stnl 471
+dup
+ldl 1
+stnl 470
+dup
+ldl 1
+stnl 469
+dup
+ldl 1
+stnl 468
+dup
+ldl 1
+stnl 467
+dup
+ldl 1
+stnl 466
+dup
+ldl 1
+stnl 465
+dup
+ldl 1
+stnl 464
+dup
+ldl 1
+stnl 463
+dup
+ldl 1
+stnl 462
+dup
+ldl 1
+stnl 461
+dup
+ldl 1
+stnl 460
+dup
+ldl 1
+stnl 459
+dup
+ldl 1
+stnl 458
+ldl 1
+stnl 457
+ldc c546-c600+360
+ldpi
+c600:
+dup
+ldl 1
+stnl 496
+dup
+ldl 1
+stnl 495
+dup
+ldl 1
+stnl 494
+dup
+ldl 1
+stnl 493
+dup
+ldl 1
+stnl 492
+dup
+ldl 1
+stnl 491
+dup
+ldl 1
+stnl 490
+dup
+ldl 1
+stnl 489
+dup
+ldl 1
+stnl 488
+dup
+ldl 1
+stnl 487
+dup
+ldl 1
+stnl 486
+dup
+ldl 1
+stnl 485
+dup
+ldl 1
+stnl 484
+dup
+ldl 1
+stnl 483
+dup
+ldl 1
+stnl 482
+dup
+ldl 1
+stnl 481
+dup
+ldl 1
+stnl 480
+dup
+ldl 1
+stnl 479
+dup
+ldl 1
+stnl 478
+ldl 1
+stnl 477
+ldc c546-c601+362
+ldpi
+c601:
+dup
+ldl 1
+stnl 516
+dup
+ldl 1
+stnl 515
+dup
+ldl 1
+stnl 514
+dup
+ldl 1
+stnl 513
+dup
+ldl 1
+stnl 512
+dup
+ldl 1
+stnl 511
+dup
+ldl 1
+stnl 510
+dup
+ldl 1
+stnl 509
+dup
+ldl 1
+stnl 508
+dup
+ldl 1
+stnl 507
+dup
+ldl 1
+stnl 506
+dup
+ldl 1
+stnl 505
+dup
+ldl 1
+stnl 504
+dup
+ldl 1
+stnl 503
+dup
+ldl 1
+stnl 502
+dup
+ldl 1
+stnl 501
+dup
+ldl 1
+stnl 500
+dup
+ldl 1
+stnl 499
+dup
+ldl 1
+stnl 498
+ldl 1
+stnl 497
+ldc c546-c602+364
+ldpi
+c602:
+dup
+ldl 1
+stnl 535
+dup
+ldl 1
+stnl 534
+dup
+ldl 1
+stnl 533
+dup
+ldl 1
+stnl 532
+dup
+ldl 1
+stnl 531
+dup
+ldl 1
+stnl 530
+dup
+ldl 1
+stnl 529
+dup
+ldl 1
+stnl 528
+dup
+ldl 1
+stnl 527
+dup
+ldl 1
+stnl 526
+dup
+ldl 1
+stnl 525
+dup
+ldl 1
+stnl 524
+dup
+ldl 1
+stnl 523
+dup
+ldl 1
+stnl 522
+dup
+ldl 1
+stnl 521
+dup
+ldl 1
+stnl 520
+dup
+ldl 1
+stnl 519
+dup
+ldl 1
+stnl 518
+ldl 1
+stnl 517
+ret
+c546:
+db 102,112,108,100,122
+db 101,114,111,100,98
+db 0,102,112,105,110
+db 116,0,63,0,102
+db 112,100,117,112,0
+db 102,112,114,101,118
+db 0,63,0,102,112
+db 108,100,110,108,97
+db 100,100,100,98,0
+db 63,0,102,112,108
+db 100,110,108,109,117
+db 108,100,98,0,63
+db 0,102,112,108,100
+db 110,108,97,100,100
+db 115,110,0,102,112
+db 101,110,116,114,121
+db 0,102,112,108,100
+db 110,108,109,117,108
+db 115,110,0,63,0
+db 98,114,101,97,107
+db 0,99,108,114,106
+db 48,98,114,101,97
+db 107,0,115,101,116
+db 106,48,98,114,101
+db 97,107,0,116,101
+db 115,116,106,48,98
+db 114,101,97,107,0
+db 63,0,63,0,63
+db 0,63,0,102,112
+db 117,115,113,114,116
+db 102,105,114,115,116
+db 0,102,112,117,115
+db 113,114,116,115,116
+db 101,112,0,102,112
+db 117,115,113,114,116
+db 108,97,115,116,0
+db 102,112,117,114,112
+db 0,102,112,117,114
+db 109,0,102,112,117
+db 114,122,0,102,112
+db 117,114,51,50,116
+db 111,114,54,52,0
+db 102,112,117,114,54
+db 52,116,111,114,51
+db 50,0,102,112,117
+db 101,120,112,100,101
+db 99,51,50,0,102
+db 112,117,101,120,112
+db 105,110,99,51,50
+db 0,102,112,117,97
+db 98,115,0,63,0
+db 102,112,117,110,111
+db 114,111,117,110,100
+db 0,102,112,117,99
+db 104,107,105,51,50
+db 0,102,112,117,99
+db 104,107,105,54,52
+db 0,63,0,102,112
+db 117,100,105,118,98
+db 121,50,0,102,112
+db 117,109,117,108,98
+db 121,50,0,63,0
+db 102,112,117,114,110
+db 0,102,112,117,115
+db 101,116,101,114,114
+db 111,114,0,63,0
+db 63,0,63,0,63
+db 0,63,0,63,0
+db 63,0,102,112,117
+db 99,108,101,97,114
+db 101,114,114,111,114
+db 0,63,0,63,0
+db 63,0,63,0,63
+db 0
+
+; Fin de compilacion
+INICIO:
+ajw -536
+ldlp 2
+stl 0
+ldc 534
+stl 1
+INICIO2:
+ldc 0
+ldl 0
+stnl 0
+ldl 0
+adc 4
+stl 0
+ldl 1
+adc -1
+stl 1
+ldl 1
+eqc 0
+cj INICIO2
+ldlp 0
+call qmain
+ajw 536
+ret

@@ -1,0 +1,252 @@
+;
+; Sector de arranque.
+;
+; (c) Copyright 1995 Oscar Toledo G.
+;
+; MAESTRO carga esto en la primera posici—n disponible de memoria.
+; Esto puede ser en cualquier lugar.
+;
+; Lo que si es seguro, es que el punto de llamadas a MAESTRO queda
+; en 8000:0108 para ordenes y 8000:010C para estatus.
+;
+; 12-jun-1995
+; 22-feb-2025. Rolled back to track/head/sector using LEESECTOR from MAESTRO.LEN
+;
+INICIO:
+j ARRANQUE
+
+db 'SOM32 v1.0'
+
+dw 0    ; Nœmero de serie.
+dw 0    ; Tipo de medio. 0= 1.44 MB.
+dw 2880 ; Sectores totales.
+BLOQUE:
+dw 18   ; Sectores por bloque.
+dw 160  ; Bloques totales.
+dw 1    ; Sector de la tabla de espacio.
+dw 1    ; Tama–o en sectores de la tabla.
+dw 1    ; Primer bloque de datos.
+dw 2    ; Sector del directorio ra’z.
+
+; Etiqueta de volumen.
+db 'Sistema_32_bits',0
+
+; Espacio reservado.
+db 0,0,0,0,0,0,0,0
+db 0,0,0,0,0,0,0,0
+
+E_MAESTRO: equ 66
+S_MAESTRO: equ 67
+A_VIDEO: equ 68
+
+ARRANQUE:
+ajw -144
+ARRANQUE2:
+ldc BLOQUE-E9
+ldpi
+E9:
+dup
+ldnl 0
+stl 15
+ldnl 5
+;ldl 15
+;prod
+stl 14
+ldc 0 ; Forza una carga de pista.
+ldlp 16
+call LEESECTOR
+ldl 14 ; Directorio.
+ldlp 16
+call LEESECTOR
+ldlp 16
+stl 0
+ldc SOM32-E1
+ldpi
+E1:
+stl 1
+ldc 11
+stl 2
+E2:
+ldl 2
+cj E3
+ldl 0
+lb
+ldl 1
+lb
+diff
+eqc 0
+cj E4
+ldl 0
+adc 1
+stl 0
+ldl 1
+adc 1
+stl 1
+ldl 2
+adc -1
+stl 2
+j E2
+E3:
+ldl 23
+adc 511
+ldc 512
+div
+stl 2
+ldl 22
+ldl 15
+prod
+stl 1
+ldc FINAL-E5
+ldpi
+E5:
+adc 15
+ldc 15
+not
+and
+dup
+stl 0
+stl 3
+E8:
+ldl 1
+ldlp 16
+call LEESECTOR
+ldlp 16
+ldl 0
+ldc 512
+move
+ldl 0
+adc 512
+stl 0
+ldl 1
+adc 1
+stl 1
+ldl 2
+adc -1
+stl 2
+ldl 2
+eqc 0
+cj E8
+ldl 3
+ajw 144
+gcall
+
+E4:
+mint
+ldnl A_VIDEO
+ldc ERROR1-E6
+ldpi
+E6:
+call PONE
+mint
+ldnl A_VIDEO
+adc 320
+ldc ERROR2-E7
+ldpi
+E7:
+call PONE
+call ETECLA
+j ARRANQUE2
+
+PONE:
+ldl 1
+lb
+cj PONE1
+ldl 1
+lb
+ldl 2
+sb
+ldl 1
+adc 1
+stl 1
+ldl 2
+adc 2
+stl 2
+j PONE
+PONE1:
+ret
+
+ETECLA:
+ajw -2
+ETECLA1:
+ldc 5
+stl 0
+ldlp 0
+stl 1
+ldlp 1
+mint
+ldnlp E_MAESTRO
+ldc 4
+out
+ldlp 1
+mint
+ldnlp S_MAESTRO
+ldc 1
+in
+ldl 0
+cj ETECLA1
+ajw 2
+ret
+
+LEESECTOR:
+ldl 1
+adc -1
+stl 1
+ldc 0x01
+ldl 1
+sb
+ldl 2
+ldc 36
+div
+ldl 1
+adc 1
+sb
+ldl 2
+ldc 18
+div
+ldc 2
+rem
+ldl 1
+adc 2
+sb
+ldl 2
+ldc 18
+rem
+adc 1
+ldl 1
+adc 3
+sb
+ldl 1
+stl 2
+ldlp 2
+mint
+ldnlp E_MAESTRO
+ldc 4
+out
+ldlp 2
+mint
+ldnlp S_MAESTRO
+ldc 1
+in
+ret
+
+ERROR1:
+db 'Este disco no '
+db 'contiene el '
+db 'Sistema '
+db 'Operativo '
+db 'Mexicano de 32 bits.'
+db 0
+ERROR2:
+db 'Inserte un disco '
+db 'que contenga el '
+db 'sistema operativo, '
+db 'y pulse cualquier '
+db 'tecla...'
+db 0
+SOM32:
+db 'SOM32   BIN'
+db '(c)1995 Oscar Toledo G.'
+db 0,0,0,0,0
+db 0x12
+db 0x34
+FINAL:

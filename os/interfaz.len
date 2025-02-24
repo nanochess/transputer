@@ -1,0 +1,1336 @@
+;*** Compilador de C para G-10 ***
+;          Versi¢n 1.00
+;   por Oscar Toledo Gutierrez.
+;
+COMIENZO:
+j INICIO
+qmain:
+ldl 1
+call q_finprog
+adc 15
+ldc -16
+and
+ldl 1
+stnl 82
+c2:
+ldc 1
+cj c3
+ldc 10
+ldl 1
+call qcolor
+ldc c1-c4+0
+ldpi
+c4:
+ldl 1
+call qputs
+ldc 256
+ldl 1
+ldnlp 18
+ldl 1
+call qleelinea
+ldl 1
+ldnlp 18
+ldl 1
+stnl 85
+c5:
+ldl 1
+ldnl 85
+lb
+eqc 32
+cj c6
+ldl 1
+ldnlp 85
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+j c5
+c6:
+ldl 1
+ldnl 85
+lb
+eqc 0
+cj c7
+j c2
+c7:
+ldl 1
+ldnlp 87
+ldl 1
+stnl 86
+c8:
+ldl 1
+ldnl 85
+lb
+eqc 32
+eqc 0
+ldl 1
+ldnl 85
+lb
+eqc 0
+eqc 0
+and
+cj c9
+ldl 1
+ldnlp 86
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ajw -1
+stl 0
+ldl 2
+ldnlp 85
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+lb
+ldl 2
+call qtoupper
+dup
+ldl 0
+ajw 1
+sb
+j c8
+c9:
+ldc 0
+ldl 1
+ldnl 86
+sb
+c10:
+ldl 1
+ldnl 85
+lb
+eqc 32
+cj c11
+ldl 1
+ldnlp 85
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+j c10
+c11:
+ldc c1-c13+3
+ldpi
+c13:
+ldl 1
+ldnlp 87
+ldl 1
+call qstrcmp
+eqc 0
+cj c12
+ldl 1
+call qdir
+j c2
+c12:
+ldc c1-c15+7
+ldpi
+c15:
+ldl 1
+ldnlp 87
+ldl 1
+call qstrcmp
+eqc 0
+cj c14
+ldl 1
+call qversion
+j c2
+c14:
+ldc c1-c17+11
+ldpi
+c17:
+ldl 1
+ldnlp 87
+ldl 1
+call qstrcmp
+eqc 0
+cj c16
+ldl 1
+call qmemoria
+j c2
+c16:
+ldc c1-c19+15
+ldpi
+c19:
+ldl 1
+ldnlp 87
+ldl 1
+call qstrcmp
+eqc 0
+cj c18
+ldc 10
+ldl 1
+call qcolor
+ldc 1
+ldl 1
+call qexit
+c18:
+ldl 1
+ldnlp 87
+ldl 1
+stnl 86
+c20:
+ldc 1
+cj c21
+ldl 1
+ldnl 86
+lb
+eqc 0
+cj c22
+ldl 1
+ldnlp 86
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ldc 46
+rev
+sb
+ldl 1
+ldnlp 86
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ldc 67
+rev
+sb
+ldl 1
+ldnlp 86
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ldc 77
+rev
+sb
+ldl 1
+ldnlp 86
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ldc 71
+rev
+sb
+ldl 1
+ldnlp 86
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ldc 0
+rev
+sb
+j c21
+c22:
+ldl 1
+ldnl 86
+lb
+eqc 46
+cj c23
+j c21
+c23:
+ldl 1
+ldnlp 86
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+j c20
+c21:
+ldl 1
+ldnl 82
+ldl 1
+stnl 86
+ldc c1-c24+19
+ldpi
+c24:
+ldl 1
+ldnlp 87
+ldl 1
+call qfopen
+ldl 1
+stnl 83
+ldl 1
+ldnl 83
+eqc 0
+cj c25
+ldc c1-c26+21
+ldpi
+c26:
+ldl 1
+call qputs
+j c2
+c25:
+c27:
+ldl 1
+ldnl 83
+ldl 1
+call qfgetc
+dup
+ldl 1
+stnl 84
+eqc -1
+eqc 0
+cj c28
+ldl 1
+ldnlp 86
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ldl 1
+ldnl 84
+rev
+sb
+j c27
+c28:
+ldl 1
+ldnl 83
+ldl 1
+call qfclose
+ajw -4
+ldl 5
+ldnl 82
+ldl 5
+ldc 3
+ldpi
+stl 0
+stl 1
+gcall
+j c2
+c3:
+ret
+c1:
+db 65,62,0,68,73
+db 82,0,86,69,82
+db 0,77,69,77,0
+db 70,73,78,0,114
+db 0,65,114,99,104
+db 105,118,111,32,105
+db 110,101,120,105,115
+db 116,101,110,116,101
+db 46,13,10,0
+qmemoria:
+ajw -1
+ldlp 0
+stl 0
+ldc 11
+ldl 2
+call qcolor
+ldl 0
+ldl 2
+ldnl 82
+diff
+ldc 1
+rev
+ldl 2
+call qdecimal
+ldc c29-c30+0
+ldpi
+c30:
+ldl 2
+call qputs
+ajw 1
+ret
+c29:
+db 32,98,121,116,101
+db 115,32,100,105,115
+db 112,111,110,105,98
+db 108,101,115,46,13
+db 10,0
+qversion:
+ldc 15
+ldl 1
+call qcolor
+ldc c31-c32+0
+ldpi
+c32:
+ldl 1
+call qputs
+ldc c31-c33+37
+ldpi
+c33:
+ldl 1
+call qputs
+ret
+c31:
+db 13,10,73,110,116
+db 101,114,102,97,122
+db 32,100,101,32,116
+db 101,120,116,111,46
+db 32,86,101,114,115
+db 105,151,110,32,51
+db 46,48,48,46,13
+db 10,0,40,99,41
+db 32,67,111,112,121
+db 114,105,103,104,116
+db 32,49,57,57,53
+db 32,79,115,99,97
+db 114,32,84,111,108
+db 101,100,111,32,71
+db 46,13,10,13,10
+db 0
+qdir:
+ajw -141
+ldc 2
+stl 1
+ldc -1
+stl 0
+ldc c34-c35+0
+ldpi
+c35:
+ldl 142
+call qputs
+ldc 0
+stl 3
+c36:
+ldc 1
+cj c37
+ldl 0
+eqc -1
+cj c38
+ajw -1
+ldl 2
+adc 1
+dup
+stl 2
+stl 0
+ldc 0
+ldc 0
+ldl 143
+call qlee_sector
+ajw 1
+ldc 1
+stl 0
+c38:
+ldc 0
+stl 4
+c39:
+ldc 32
+ldl 4
+gt
+cj c40
+ldl 0
+dup
+adc 1
+stl 0
+ldl 142
+ldnlp 151
+bsub
+lb
+ldl 4
+dup
+adc 1
+stl 4
+ldlp 133
+bsub
+sb
+j c39
+c40:
+ldl 0
+eqc 513
+cj c41
+ldl 0
+eqc -1
+c41:
+ldlp 133
+lb
+eqc 128
+cj c42
+j c36
+c42:
+ldlp 133
+lb
+eqc 0
+cj c43
+j c37
+c43:
+ldc 15
+ldl 142
+call qcolor
+ldc 0
+stl 4
+c44:
+ldc 8
+ldl 4
+gt
+cj c45
+ldl 4
+dup
+adc 1
+stl 4
+ldlp 133
+bsub
+lb
+ldl 142
+call qputchar
+j c44
+c45:
+ldl 4
+ldlp 133
+bsub
+lb
+eqc 32
+cj c46
+ldc 32
+ldl 142
+call qputchar
+j c47
+c46:
+ldc 46
+ldl 142
+call qputchar
+c47:
+c48:
+ldc 11
+ldl 4
+gt
+cj c49
+ldl 4
+dup
+adc 1
+stl 4
+ldlp 133
+bsub
+lb
+ldl 142
+call qputchar
+j c48
+c49:
+ldl 142
+ldnl 85
+lb
+eqc 47
+cj c50
+ldc c34-c51+3
+ldpi
+c51:
+ldl 142
+call qputs
+j c52
+c50:
+ldc c34-c53+8
+ldpi
+c53:
+ldl 142
+call qputs
+ldc 10
+ldl 142
+call qcolor
+ldlp 133
+adc 29
+lb
+ldc 8
+shl
+ldlp 133
+adc 28
+lb
+or
+ldlp 133
+adc 30
+lb
+ldc 16
+shl
+or
+ldlp 133
+adc 31
+lb
+ldc 24
+shl
+or
+ldc 0
+rev
+ldl 142
+call qdecimal
+ldc c34-c54+10
+ldpi
+c54:
+ldl 142
+call qputs
+ldc 14
+ldl 142
+call qcolor
+ldlp 133
+adc 22
+lb
+ldc 31
+and
+stl 2
+ldc 10
+ldl 2
+gt
+cj c55
+ldc 32
+ldl 142
+call qputchar
+j c56
+c55:
+ldl 2
+ldc 10
+div
+adc 48
+ldl 142
+call qputchar
+c56:
+ldl 2
+ldc 10
+rem
+adc 48
+ldl 142
+call qputchar
+ldlp 133
+adc 23
+lb
+ldc 8
+shl
+ldlp 133
+adc 22
+lb
+or
+stl 2
+ldc c34-c57+13
+ldpi
+c57:
+ldl 142
+call qputs
+ldl 2
+ldc 480
+and
+ldc 5
+shr
+stl 2
+ldl 2
+eqc 1
+cj c58
+ldc c34-c59+15
+ldpi
+c59:
+ldl 142
+call qputs
+c58:
+ldl 2
+eqc 2
+cj c60
+ldc c34-c61+19
+ldpi
+c61:
+ldl 142
+call qputs
+c60:
+ldl 2
+eqc 3
+cj c62
+ldc c34-c63+23
+ldpi
+c63:
+ldl 142
+call qputs
+c62:
+ldl 2
+eqc 4
+cj c64
+ldc c34-c65+27
+ldpi
+c65:
+ldl 142
+call qputs
+c64:
+ldl 2
+eqc 5
+cj c66
+ldc c34-c67+31
+ldpi
+c67:
+ldl 142
+call qputs
+c66:
+ldl 2
+eqc 6
+cj c68
+ldc c34-c69+35
+ldpi
+c69:
+ldl 142
+call qputs
+c68:
+ldl 2
+eqc 7
+cj c70
+ldc c34-c71+39
+ldpi
+c71:
+ldl 142
+call qputs
+c70:
+ldl 2
+eqc 8
+cj c72
+ldc c34-c73+43
+ldpi
+c73:
+ldl 142
+call qputs
+c72:
+ldl 2
+eqc 9
+cj c74
+ldc c34-c75+47
+ldpi
+c75:
+ldl 142
+call qputs
+c74:
+ldl 2
+eqc 10
+cj c76
+ldc c34-c77+51
+ldpi
+c77:
+ldl 142
+call qputs
+c76:
+ldl 2
+eqc 11
+cj c78
+ldc c34-c79+55
+ldpi
+c79:
+ldl 142
+call qputs
+c78:
+ldl 2
+eqc 12
+cj c80
+ldc c34-c81+59
+ldpi
+c81:
+ldl 142
+call qputs
+c80:
+ldc c34-c82+63
+ldpi
+c82:
+ldl 142
+call qputs
+ldlp 133
+adc 23
+lb
+ldc 1
+shr
+adc 1970
+stl 2
+ldl 2
+ldc 1000
+div
+adc 48
+ldl 142
+call qputchar
+ldl 2
+ldc 100
+div
+ldc 10
+rem
+adc 48
+ldl 142
+call qputchar
+ldl 2
+ldc 10
+div
+ldc 10
+rem
+adc 48
+ldl 142
+call qputchar
+ldl 2
+ldc 10
+rem
+adc 48
+ldl 142
+call qputchar
+ldc 32
+ldl 142
+call qputchar
+ldlp 133
+adc 21
+lb
+ldc 248
+and
+ldc 3
+shr
+stl 2
+ldc 10
+ldl 2
+gt
+cj c83
+ldc 32
+ldl 142
+call qputchar
+j c84
+c83:
+ldl 2
+ldc 10
+div
+adc 48
+ldl 142
+call qputchar
+c84:
+ldl 2
+ldc 10
+rem
+adc 48
+ldl 142
+call qputchar
+ldc 58
+ldl 142
+call qputchar
+ldlp 133
+adc 21
+lb
+ldc 8
+shl
+ldlp 133
+adc 20
+lb
+or
+ldc 2016
+and
+ldc 5
+shr
+stl 2
+ldl 2
+ldc 10
+div
+adc 48
+ldl 142
+call qputchar
+ldl 2
+ldc 10
+rem
+adc 48
+ldl 142
+call qputchar
+ldc 58
+ldl 142
+call qputchar
+ldlp 133
+adc 20
+lb
+ldc 31
+and
+ldc 1
+shl
+stl 2
+ldl 2
+ldc 10
+div
+adc 48
+ldl 142
+call qputchar
+ldl 2
+ldc 10
+rem
+adc 48
+ldl 142
+call qputchar
+ldc c34-c85+65
+ldpi
+c85:
+ldl 142
+call qputs
+c52:
+ldl 3
+adc 1
+stl 3
+j c36
+c37:
+ldc c34-c86+68
+ldpi
+c86:
+ldl 142
+call qputs
+ldc 11
+ldl 142
+call qcolor
+ldc 0
+ldl 3
+ldl 142
+call qdecimal
+ldc c34-c87+71
+ldpi
+c87:
+ldl 142
+call qputs
+ajw -1
+ldc 2
+stl 0
+ldc 0
+ldc 0
+ldl 143
+call qlee_sector
+ajw 1
+ajw -1
+ldc 512
+stl 0
+ldl 143
+ldnlp 151
+adc 1
+ldlp 6
+ldl 143
+call qmemcpy
+ajw 1
+ldc 0
+stl 4
+ldc 0
+stl 2
+c88:
+ldc 160
+ldl 2
+gt
+cj c89
+ldl 2
+dup
+adc 1
+stl 2
+ldlp 5
+bsub
+lb
+eqc 0
+cj c90
+ldl 4
+adc 9216
+stl 4
+c90:
+j c88
+c89:
+ldc 11
+ldl 142
+call qcolor
+ldc 0
+ldl 4
+ldl 142
+call qdecimal
+ldc c34-c91+84
+ldpi
+c91:
+ldl 142
+call qputs
+ajw 141
+ret
+c34:
+db 13,10,0,32,32
+db 32,32,0,32,0
+db 32,32,0,45,0
+db 101,110,101,0,102
+db 101,98,0,109,97
+db 114,0,97,98,114
+db 0,109,97,121,0
+db 106,117,110,0,106
+db 117,108,0,97,103
+db 111,0,115,101,112
+db 0,111,99,116,0
+db 110,111,118,0,100
+db 105,99,0,45,0
+db 13,10,0,13,10
+db 0,32,97,114,99
+db 104,105,118,111,115
+db 46,13,10,0,32
+db 98,121,116,101,115
+db 32,108,105,98,114
+db 101,115,46,13,10
+db 13,10,0
+qdecimal:
+ajw -4
+ldc 1000000000
+stl 3
+ldc 0
+dup
+stl 0
+stl 1
+c93:
+ldl 3
+cj c94
+ldl 6
+ldl 3
+div
+stl 2
+ldl 6
+ldl 3
+rem
+stl 6
+ldl 3
+eqc 1
+cj c95
+ldc 1
+stl 0
+c95:
+ldl 2
+cj c96
+ldl 2
+adc 48
+ldl 5
+call qputchar
+ldc 1
+stl 0
+j c97
+c96:
+ldl 0
+cj c98
+ldc 48
+ldl 5
+call qputchar
+j c99
+c98:
+ldl 7
+eqc 0
+cj c100
+ldc 32
+ldl 5
+call qputchar
+c100:
+c99:
+c97:
+ldl 1
+adc 1
+stl 1
+ldl 1
+eqc 1
+cj c101
+ldl 0
+cj c102
+ldc 44
+ldl 5
+call qputchar
+j c103
+c102:
+ldl 7
+eqc 0
+cj c104
+ldc 32
+ldl 5
+call qputchar
+c104:
+c103:
+c101:
+ldl 1
+eqc 4
+cj c105
+ldl 0
+cj c106
+ldc 44
+ldl 5
+call qputchar
+j c107
+c106:
+ldl 7
+eqc 0
+cj c108
+ldc 32
+ldl 5
+call qputchar
+c108:
+c107:
+c105:
+ldl 1
+eqc 7
+cj c109
+ldl 0
+cj c110
+ldc 44
+ldl 5
+call qputchar
+j c111
+c110:
+ldl 7
+eqc 0
+cj c112
+ldc 32
+ldl 5
+call qputchar
+c112:
+c111:
+c109:
+ldl 3
+ldc 10
+div
+stl 3
+j c93
+c94:
+ajw 4
+ret
+qstrcmp:
+c114:
+ldc 1
+cj c115
+ldl 3
+lb
+ldl 2
+lb
+gt
+cj c116
+ldc -1
+ret
+c116:
+ldl 2
+lb
+ldl 3
+lb
+gt
+cj c117
+ldc 1
+ret
+c117:
+ldl 2
+lb
+eqc 0
+cj c118
+ldc 0
+ret
+c118:
+ldl 2
+adc 1
+stl 2
+ldl 3
+adc 1
+stl 3
+j c114
+c115:
+ret
+qstrcpy:
+c120:
+ldl 2
+dup
+adc 1
+stl 2
+ajw -1
+stl 0
+ldl 4
+dup
+adc 1
+stl 4
+lb
+dup
+ldl 0
+ajw 1
+sb
+cj c121
+j c120
+c121:
+ret
+qstrcat:
+c123:
+ldl 2
+lb
+cj c124
+ldl 2
+adc 1
+stl 2
+j c123
+c124:
+ldl 3
+ldl 2
+ldl 1
+call qstrcpy
+ret
+qcolor:
+ldc 27
+ldl 1
+call qputchar
+ldc 1
+ldl 1
+call qputchar
+ldl 2
+ldl 1
+call qputchar
+ret
+qtoupper:
+ldc 97
+ldl 2
+gt
+eqc 0
+ldl 2
+ldc 122
+gt
+eqc 0
+and
+cj c127
+ldl 2
+adc -32
+ret
+j c128
+c127:
+ldl 2
+ret
+c128:
+ret
+qleelinea:
+ajw -2
+ldl 4
+stl 1
+c130:
+ldc 1
+cj c131
+ldl 3
+call qgetchar
+stl 0
+ldl 0
+eqc 8
+cj c132
+ldl 1
+ldl 4
+diff
+eqc 0
+cj c133
+j c130
+c133:
+ldc 8
+ldl 3
+call qputchar
+ldl 1
+adc -1
+stl 1
+j c130
+j c134
+c132:
+ldl 0
+eqc 13
+cj c135
+ldc c129-c136+0
+ldpi
+c136:
+ldl 3
+call qputs
+ldc 0
+ldl 1
+sb
+ajw 2
+ret
+j c137
+c135:
+ldl 4
+ldl 5
+bsub
+adc -1
+ldl 1
+diff
+eqc 0
+cj c138
+j c130
+c138:
+ldl 0
+ldl 3
+call qputchar
+ldl 0
+ldl 1
+dup
+adc 1
+stl 1
+sb
+c137:
+c134:
+j c130
+c131:
+ajw 2
+ret
+c129:
+db 13,10,0
+qlee_sector:
+ldc 1
+ldl 1
+ldnlp 151
+sb
+ldl 2
+ldl 1
+ldnlp 151
+adc 1
+sb
+ldl 3
+ldl 1
+ldnlp 151
+adc 2
+sb
+ldl 4
+ldl 1
+ldnlp 151
+adc 3
+sb
+ldl 1
+ldnlp 151
+ldl 1
+stnl 281
+ajw -1
+ldc 4
+stl 0
+ldl 2
+ldnlp 281
+ldc -2147483384
+ldl 2
+call qmandar
+ajw 1
+ajw -1
+ldc 1
+stl 0
+ldl 2
+ldnlp 281
+ldc -2147483380
+ldl 2
+call qrecibir
+ajw 1
+ldl 1
+ldnlp 151
+lb
+ret
+
+; Fin de compilaci¢n
+INICIO:
+ajw -282
+ldlp 2
+stl 0
+ldc 280
+stl 1
+INICIO2:
+ldc 0
+ldl 0
+stnl 0
+ldl 0
+adc 4
+stl 0
+ldl 1
+adc -1
+stl 1
+ldl 1
+eqc 0
+cj INICIO2
+ldlp 0
+call qmain
+ajw 282
+ret

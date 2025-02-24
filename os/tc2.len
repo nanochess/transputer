@@ -1,0 +1,10275 @@
+;*** Compilador de C para G-10 ***
+;          Versi¢n 1.00
+;   por Oscar Toledo Gutierrez.
+;
+COMIENZO:
+j INICIO
+qmain:
+ldl 1
+call qhello
+ldl 1
+call qsee
+ldl 1
+call qopenin
+c2:
+ldl 1
+ldnl 3753
+eqc 0
+eqc 0
+cj c3
+ldl 1
+ldnlp 2
+ldl 1
+stnl 2102
+ldl 1
+ldnlp 2
+adc 7224
+ldl 1
+stnl 2103
+ldl 1
+ldnlp 2104
+ldl 1
+stnl 2204
+ldc 0
+dup
+ldl 1
+ldnlp 3768
+adc 1
+sb
+dup
+ldl 1
+stnl 3745
+dup
+ldl 1
+stnl 3762
+dup
+ldl 1
+stnl 3761
+dup
+ldl 1
+stnl 3760
+dup
+ldl 1
+stnl 3758
+dup
+ldl 1
+stnl 3749
+dup
+ldl 1
+stnl 3759
+dup
+ldl 1
+stnl 3755
+dup
+ldl 1
+stnl 3752
+dup
+ldl 1
+stnl 3750
+dup
+ldl 1
+stnl 3747
+ldl 1
+stnl 3486
+ldc 34
+ldl 1
+ldnlp 3768
+sb
+ldc 2
+ldl 1
+stnl 3771
+ldc 0
+ldl 1
+stnl 3766
+ldc 1
+ldl 1
+stnl 3757
+ldl 1
+call qopenout
+ldl 1
+call qheader
+ldl 1
+call qparse
+ldl 1
+ldnl 3749
+cj c4
+ldc c1-c5+0
+ldpi
+c5:
+ldl 1
+call qerror
+c4:
+ldl 1
+call qtrailer
+ldl 1
+call qcloseout
+ldl 1
+call qerrorsummary
+ldl 1
+call qopenin
+j c2
+c3:
+ret
+c1:
+db 70,97,108,116,97
+db 32,108,108,97,118
+db 101,32,100,101,32
+db 99,105,101,114,114
+db 101,0
+qabort:
+ldl 1
+ldnl 3755
+cj c7
+ldl 1
+call qendinclude
+c7:
+ldl 1
+ldnl 3753
+cj c8
+ldl 1
+ldnl 3753
+ldl 1
+call qfclose
+c8:
+ldl 1
+call qcloseout
+ldl 1
+call qtoconsole
+ldc c6-c9+0
+ldpi
+c9:
+ldl 1
+call qpl
+ldl 1
+call qnl
+ldl 1
+call qexit
+ret
+c6:
+db 67,111,109,112,105
+db 108,97,99,105,162
+db 110,32,99,97,110
+db 99,101,108,97,100
+db 97,46,0
+qparse:
+c11:
+ldl 1
+ldnl 3752
+eqc 0
+cj c12
+ldc 4
+ldc c10-c14+0
+ldpi
+c14:
+ldl 1
+call qamatch
+cj c13
+ldc 1
+ldl 1
+call qdeclglb
+ldl 1
+call qns
+j c15
+c13:
+ldc 3
+ldc c10-c17+5
+ldpi
+c17:
+ldl 1
+call qamatch
+cj c16
+ldc 2
+ldl 1
+call qdeclglb
+ldl 1
+call qns
+j c18
+c16:
+ldc c10-c20+9
+ldpi
+c20:
+ldl 1
+call qmatch
+cj c19
+ldl 1
+call qdoasm
+j c21
+c19:
+ldc c10-c23+14
+ldpi
+c23:
+ldl 1
+call qmatch
+cj c22
+ldl 1
+call qdoinclude
+j c24
+c22:
+ldc c10-c26+23
+ldpi
+c26:
+ldl 1
+call qmatch
+cj c25
+ldl 1
+call qaddmac
+j c27
+c25:
+ldl 1
+call qnewfunc
+c27:
+c24:
+c21:
+c18:
+c15:
+ldl 1
+call qblanks
+j c11
+c12:
+ret
+c10:
+db 99,104,97,114,0
+db 105,110,116,0,35
+db 97,115,109,0,35
+db 105,110,99,108,117
+db 100,101,0,35,100
+db 101,102,105,110,101
+db 0
+qdumplits:
+ajw -2
+ldl 3
+ldnl 2461
+eqc 0
+cj c29
+ajw 2
+ret
+c29:
+ldl 3
+ldnl 3746
+ldl 3
+call qprintlabel
+ldl 3
+call qcol
+ldl 3
+call qnl
+ldc 0
+stl 0
+c30:
+ldl 3
+ldnl 2461
+ldl 0
+gt
+cj c31
+ldl 3
+call qdefbyte
+ldc 5
+stl 1
+c32:
+ldl 1
+dup
+adc -1
+stl 1
+cj c33
+ldl 0
+dup
+adc 1
+stl 0
+ldl 3
+ldnlp 2205
+bsub
+lb
+ldc 255
+and
+ldl 3
+call qoutdec
+ldl 3
+ldnl 2461
+ldl 0
+gt
+eqc 0
+ldl 1
+eqc 0
+or
+cj c34
+ldl 3
+call qnl
+j c33
+c34:
+ldc 44
+ldl 3
+call qoutbyte
+j c32
+c33:
+j c30
+c31:
+ajw 2
+ret
+qerrorsummary:
+ldl 1
+call qnl
+ldc c35-c36+0
+ldpi
+c36:
+ldl 1
+call qoutstr
+ldl 1
+ldnl 3750
+ldl 1
+call qoutdec
+ldc c35-c37+6
+ldpi
+c37:
+ldl 1
+call qoutstr
+ldl 1
+call qnl
+ret
+c35:
+db 72,117,98,111,32
+db 0,32,101,114,114
+db 111,114,101,115,32
+db 101,110,32,108,97
+db 32,99,111,109,112
+db 105,108,97,99,105
+db 162,110,46,0
+qhello:
+ldl 1
+call qnl
+ldl 1
+call qnl
+ldc c38-c39+0
+ldpi
+c39:
+ldl 1
+call qpl
+ldl 1
+call qnl
+ldc c38-c40+34
+ldpi
+c40:
+ldl 1
+call qpl
+ldl 1
+call qnl
+ldl 1
+call qnl
+ldc c38-c41+65
+ldpi
+c41:
+ldl 1
+call qpl
+ldl 1
+call qnl
+ldl 1
+call qnl
+ret
+c38:
+db 42,42,42,32,67
+db 111,109,112,105,108
+db 97,100,111,114,32
+db 100,101,32,67,32
+db 112,97,114,97,32
+db 71,45,49,48,32
+db 42,42,42,0,32
+db 32,32,112,111,114
+db 32,79,115,99,97
+db 114,32,84,111,108
+db 101,100,111,32,71
+db 117,116,105,101,114
+db 114,101,122,46,0
+db 32,32,32,32,32
+db 32,32,32,32,32
+db 86,101,114,115,105
+db 111,110,32,49,46
+db 48,48,0
+qsee:
+ldc c42-c43+0
+ldpi
+c43:
+ldl 1
+call qpl
+ldl 1
+ldnlp 3487
+ldl 1
+call qgets
+ldc 0
+ldl 1
+stnl 3751
+ldl 1
+call qch
+eqc 115
+ajw -1
+stl 0
+ldl 2
+call qch
+eqc 83
+ldl 0
+ajw 1
+or
+cj c44
+ldc 1
+ldl 1
+stnl 3751
+c44:
+ldc c42-c45+45
+ldpi
+c45:
+ldl 1
+call qpl
+ldl 1
+ldnlp 3487
+ldl 1
+call qgets
+ldc 0
+ldl 1
+stnl 3756
+ldl 1
+call qch
+eqc 115
+ajw -1
+stl 0
+ldl 2
+call qch
+eqc 83
+ldl 0
+ajw 1
+or
+cj c46
+ldc 1
+ldl 1
+stnl 3756
+c46:
+ret
+c42:
+db 68,101,115,101,97
+db 32,117,110,97,32
+db 112,97,117,115,97
+db 32,100,101,115,112
+db 117,101,115,32,100
+db 101,32,117,110,32
+db 101,114,114,111,114
+db 32,40,83,47,78
+db 41,32,63,32,0
+db 68,101,115,101,97
+db 32,113,117,101,32
+db 97,112,97,114,101
+db 122,99,97,32,101
+db 108,32,108,105,115
+db 116,97,100,111,32
+db 67,32,40,83,47
+db 78,41,32,63,32
+db 0
+qopenout:
+ldc 0
+ldl 1
+stnl 3754
+c48:
+ldl 1
+ldnl 3754
+eqc 0
+cj c49
+ldl 1
+call qkill
+ldc c47-c50+0
+ldpi
+c50:
+ldl 1
+call qpl
+ldl 1
+ldnlp 3487
+ldl 1
+call qgets
+ldl 1
+call qch
+eqc 0
+cj c51
+j c49
+c51:
+ldc c47-c53+21
+ldpi
+c53:
+ldl 1
+ldnlp 3487
+ldl 1
+call qfopen
+dup
+ldl 1
+stnl 3754
+eqc 0
+cj c52
+ldc 0
+ldl 1
+stnl 3754
+ldc c47-c54+23
+ldpi
+c54:
+ldl 1
+call qerror
+c52:
+j c48
+c49:
+ldl 1
+call qkill
+ret
+c47:
+db 65,114,99,104,105
+db 118,111,32,100,101
+db 32,115,97,108,105
+db 100,97,32,63,32
+db 0,119,0,78,111
+db 32,115,101,32,112
+db 117,100,111,32,99
+db 114,101,97,114,32
+db 101,108,32,97,114
+db 99,104,105,118,111
+db 0
+qopenin:
+ldc 0
+ldl 1
+stnl 3753
+c56:
+ldl 1
+ldnl 3753
+eqc 0
+cj c57
+ldl 1
+call qkill
+ldc c55-c58+0
+ldpi
+c58:
+ldl 1
+call qpl
+ldl 1
+ldnlp 3487
+ldl 1
+call qgets
+ldl 1
+call qch
+eqc 0
+cj c59
+j c57
+c59:
+ldc c55-c61+22
+ldpi
+c61:
+ldl 1
+ldnlp 3487
+ldl 1
+call qfopen
+dup
+ldl 1
+stnl 3753
+eqc 0
+eqc 0
+cj c60
+ldl 1
+call qnewfile
+j c62
+c60:
+ldc 0
+ldl 1
+stnl 3753
+ldc c55-c63+24
+ldpi
+c63:
+ldl 1
+call qpl
+c62:
+j c56
+c57:
+ldl 1
+call qkill
+ret
+c55:
+db 65,114,99,104,105
+db 118,111,32,100,101
+db 32,101,110,116,114
+db 97,100,97,32,63
+db 32,0,114,0,78
+db 111,32,115,101,32
+db 112,117,100,111,32
+db 108,101,101,114,32
+db 101,108,32,97,114
+db 99,104,105,118,111
+db 0
+qnewfile:
+ldc 0
+ldl 1
+stnl 3761
+ldc 0
+ldl 1
+stnl 3760
+ldc 0
+ldl 1
+stnl 3766
+ldc 0
+ldl 1
+stnl 3762
+ret
+qdoinclude:
+ldl 1
+call qblanks
+ldl 1
+call qtoconsole
+ldc c65-c66+0
+ldpi
+c66:
+ldl 1
+call qoutstr
+ldl 1
+ldnlp 3487
+ldl 1
+ldnl 3743
+bsub
+ldl 1
+call qoutstr
+ldl 1
+call qnl
+ldl 1
+call qtofile
+ldl 1
+ldnl 3755
+cj c67
+ldc c65-c68+10
+ldpi
+c68:
+ldl 1
+call qerror
+j c69
+c67:
+ldl 1
+ldnlp 3487
+ldl 1
+ldnl 3743
+bsub
+ldc c65-c71+39
+ldpi
+c71:
+rev
+ldl 1
+call qfopen
+dup
+ldl 1
+stnl 3755
+eqc 0
+cj c70
+ldc 0
+ldl 1
+stnl 3755
+ldc c65-c72+41
+ldpi
+c72:
+ldl 1
+call qerror
+j c73
+c70:
+ldl 1
+ldnl 3761
+ldl 1
+stnl 3764
+ldl 1
+ldnl 3766
+ldl 1
+stnl 3767
+ldl 1
+ldnl 3762
+ldl 1
+stnl 3765
+ldl 1
+ldnl 3760
+ldl 1
+stnl 3763
+ldl 1
+call qnewfile
+c73:
+c69:
+ldl 1
+call qkill
+ret
+c65:
+db 35,105,110,99,108
+db 117,100,101,32,0
+db 78,111,32,115,101
+db 32,112,117,101,100
+db 101,110,32,97,110
+db 105,100,97,114,32
+db 97,114,99,104,105
+db 118,111,115,0,114
+db 0,78,111,32,115
+db 101,32,112,117,100
+db 111,32,108,101,101
+db 114,32,101,108,32
+db 97,114,99,104,105
+db 118,111,0
+qendinclude:
+ldl 1
+call qtoconsole
+ldc c74-c75+0
+ldpi
+c75:
+ldl 1
+call qoutstr
+ldl 1
+call qnl
+ldl 1
+call qtofile
+ldc 0
+ldl 1
+stnl 3755
+ldl 1
+ldnl 3764
+ldl 1
+stnl 3761
+ldl 1
+ldnl 3767
+ldl 1
+stnl 3766
+ldl 1
+ldnl 3765
+ldl 1
+stnl 3762
+ldl 1
+ldnl 3763
+ldl 1
+stnl 3760
+ret
+c74:
+db 35,102,105,110,32
+db 105,110,99,108,117
+db 100,101,0
+qcloseout:
+ldl 1
+call qtofile
+ldl 1
+ldnl 3754
+cj c77
+ldl 1
+ldnl 3754
+ldl 1
+call qfclose
+c77:
+ldc 0
+ldl 1
+stnl 3754
+ret
+qdeclglb:
+ajw -7
+c79:
+ldc 1
+cj c80
+c81:
+ldc 1
+cj c82
+ldl 8
+call qendst
+cj c83
+ajw 7
+ret
+c83:
+ldc 1
+stl 6
+ldc c78-c85+0
+ldpi
+c85:
+ldl 8
+call qmatch
+cj c84
+ldc 3
+stl 5
+j c86
+c84:
+ldc 1
+stl 5
+c86:
+ldlp 0
+ldl 8
+call qsymname
+eqc 0
+cj c87
+ldl 8
+call qillname
+c87:
+ldlp 0
+ldl 8
+call qfindglb
+cj c88
+ldlp 0
+ldl 8
+call qmultidef
+c88:
+ldc c78-c90+2
+ldpi
+c90:
+ldl 8
+call qmatch
+cj c89
+ldl 8
+call qneedsub
+stl 6
+ldl 6
+cj c91
+ldc 2
+stl 5
+j c92
+c91:
+ldc 3
+stl 5
+c92:
+c89:
+ajw -2
+ldl 11
+stl 0
+ldl 10
+ldnl 3771
+stl 1
+ldl 7
+ldlp 2
+ldl 10
+call qaddglb
+ajw 2
+ldl 8
+ldnl 3769
+adc 18
+lb
+eqc 2
+ldl 8
+ldnl 3769
+adc 17
+lb
+eqc 3
+or
+cj c93
+ldl 6
+ldc 4
+prod
+stl 6
+c93:
+ldl 6
+adc 3
+ldc 4
+div
+ldl 8
+ldnl 3771
+bsub
+ldl 8
+stnl 3771
+j c82
+c82:
+ldc c78-c95+4
+ldpi
+c95:
+ldl 8
+call qmatch
+eqc 0
+cj c94
+ajw 7
+ret
+c94:
+j c79
+c80:
+ajw 7
+ret
+c78:
+db 42,0,91,0,44
+db 0
+qdeclloc:
+ajw -9
+ldl 10
+ldnl 3747
+stl 6
+c97:
+ldc 1
+cj c98
+ldc 3
+ldc c96-c100+0
+ldpi
+c100:
+ldl 10
+call qamatch
+cj c99
+ldc 2
+stl 5
+j c101
+c99:
+ldc 4
+ldc c96-c103+4
+ldpi
+c103:
+ldl 10
+call qamatch
+cj c102
+ldc 1
+stl 5
+j c104
+c102:
+j c98
+c104:
+c101:
+c105:
+ldc 1
+cj c106
+ldl 10
+call qendst
+cj c107
+j c106
+c107:
+ldc c96-c109+9
+ldpi
+c109:
+ldl 10
+call qmatch
+cj c108
+ldc 3
+stl 7
+j c110
+c108:
+ldc 1
+stl 7
+c110:
+ldlp 0
+ldl 10
+call qsymname
+eqc 0
+cj c111
+ldl 10
+call qillname
+c111:
+ldlp 0
+ldl 10
+call qfindloc
+cj c112
+ldlp 0
+ldl 10
+call qmultidef
+c112:
+ldc c96-c114+11
+ldpi
+c114:
+ldl 10
+call qmatch
+cj c113
+ldl 10
+call qneedsub
+stl 8
+ldl 8
+cj c115
+ldc 2
+stl 7
+ldl 5
+eqc 2
+cj c116
+ldl 8
+ldc 4
+prod
+stl 8
+c116:
+j c117
+c115:
+ldc 3
+stl 7
+ldc 4
+stl 8
+c117:
+j c118
+c113:
+ldl 5
+eqc 1
+ldl 7
+eqc 3
+eqc 0
+and
+cj c119
+ldc 1
+stl 8
+j c120
+c119:
+ldc 4
+stl 8
+c120:
+c118:
+ldl 8
+adc 3
+ldc 4
+div
+stl 8
+ldl 6
+ldl 8
+diff
+stl 6
+ajw -2
+ldl 7
+stl 0
+ldl 8
+stl 1
+ldl 9
+ldlp 2
+ldl 12
+call qaddloc
+ajw 2
+ldc c96-c122+13
+ldpi
+c122:
+ldl 10
+call qmatch
+eqc 0
+cj c121
+j c106
+c121:
+j c105
+c106:
+ldl 10
+call qns
+j c97
+c98:
+ldl 6
+ldl 10
+call qmodstk
+ldl 10
+stnl 3747
+ajw 9
+ret
+c96:
+db 105,110,116,0,99
+db 104,97,114,0,42
+db 0,91,0,44,0
+qneedsub:
+ajw -1
+ldc c123-c125+0
+ldpi
+c125:
+ldl 2
+call qmatch
+cj c124
+ldc 0
+ajw 1
+ret
+c124:
+ldlp 0
+ldl 2
+call qnumber
+eqc 0
+cj c126
+ldc c123-c127+2
+ldpi
+c127:
+ldl 2
+call qerror
+ldc 1
+stl 0
+c126:
+ldc 0
+ldl 0
+gt
+cj c128
+ldc c123-c129+21
+ldpi
+c129:
+ldl 2
+call qerror
+ldl 0
+not
+adc 1
+stl 0
+c128:
+ldc c123-c130+37
+ldpi
+c130:
+ldl 2
+call qneedbrack
+ldl 0
+ajw 1
+ret
+c123:
+db 93,0,68,101,98
+db 101,32,115,101,114
+db 32,117,110,32,110
+db 163,109,101,114,111
+db 0,84,97,109,97
+db 164,111,32,110,101
+db 103,97,116,105,118
+db 111,0,93,0
+qnewfunc:
+ajw -6
+ldlp 1
+ldl 7
+call qsymname
+eqc 0
+cj c132
+ldl 7
+ldnl 3752
+eqc 0
+cj c133
+ldc c131-c134+0
+ldpi
+c134:
+ldl 7
+call qerror
+c133:
+ldl 7
+call qkill
+ajw 6
+ret
+c132:
+ldl 7
+ldnl 3761
+ldl 7
+stnl 3760
+ldc 1
+ldl 7
+stnl 3762
+ldlp 1
+ldl 7
+call qfindglb
+dup
+ldl 7
+stnl 3766
+cj c135
+ldl 7
+ldnl 3766
+adc 17
+lb
+eqc 4
+eqc 0
+cj c136
+ldlp 1
+ldl 7
+call qmultidef
+j c137
+c136:
+ldl 7
+ldnl 3766
+adc 20
+lb
+eqc 4
+cj c138
+ldlp 1
+ldl 7
+call qmultidef
+j c139
+c138:
+ldc 4
+ldl 7
+ldnl 3766
+adc 20
+sb
+c139:
+c137:
+j c140
+c135:
+ajw -2
+ldc 2
+stl 0
+ldc 4
+stl 1
+ldc 4
+ldlp 3
+ldl 9
+call qaddglb
+ajw 2
+ldl 7
+stnl 3766
+c140:
+ldl 7
+call qtoconsole
+ldc c131-c141+29
+ldpi
+c141:
+ldl 7
+call qoutstr
+ldl 7
+ldnl 3766
+ldl 7
+call qoutstr
+ldc c131-c142+41
+ldpi
+c142:
+ldl 7
+call qoutstr
+ldl 7
+call qnl
+ldl 7
+call qtofile
+ldc c131-c144+47
+ldpi
+c144:
+ldl 7
+call qmatch
+eqc 0
+cj c143
+ldc c131-c145+49
+ldpi
+c145:
+ldl 7
+call qerror
+c143:
+ldlp 1
+ldl 7
+call qoutname
+ldl 7
+call qcol
+ldl 7
+call qnl
+ldl 7
+ldnlp 2
+adc 7224
+ldl 7
+stnl 2103
+ldc 0
+ldl 7
+stnl 3748
+c146:
+ldc c131-c148+81
+ldpi
+c148:
+ldl 7
+call qmatch
+eqc 0
+cj c147
+ldlp 1
+ldl 7
+call qsymname
+cj c149
+ldlp 1
+ldl 7
+call qfindloc
+cj c150
+ldlp 1
+ldl 7
+call qmultidef
+j c151
+c150:
+ajw -2
+ldc 0
+stl 0
+ldl 9
+ldnl 3748
+adc 2
+stl 1
+ldc 0
+ldlp 3
+ldl 9
+call qaddloc
+ajw 2
+ldl 7
+ldnlp 3748
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+c151:
+j c152
+c149:
+ldc c131-c153+83
+ldpi
+c153:
+ldl 7
+call qerror
+ldl 7
+call qjunk
+c152:
+ldl 7
+call qblanks
+ldl 7
+ldnlp 3487
+ldl 7
+ldnl 3743
+bsub
+ldc c131-c155+115
+ldpi
+c155:
+rev
+ldl 7
+call qstreq
+eqc 0
+cj c154
+ldc c131-c157+117
+ldpi
+c157:
+ldl 7
+call qmatch
+eqc 0
+cj c156
+ldc c131-c158+119
+ldpi
+c158:
+ldl 7
+call qerror
+c156:
+c154:
+ldl 7
+call qendst
+cj c159
+j c147
+c159:
+j c146
+c147:
+ldl 7
+ldnl 3748
+stl 0
+c160:
+ldl 7
+ldnl 3748
+cj c161
+ldc 4
+ldc c131-c163+140
+ldpi
+c163:
+ldl 7
+call qamatch
+cj c162
+ldl 0
+ldc 1
+ldl 7
+call qgetarg
+ldl 7
+call qns
+j c164
+c162:
+ldc 3
+ldc c131-c166+145
+ldpi
+c166:
+ldl 7
+call qamatch
+cj c165
+ldl 0
+ldc 2
+ldl 7
+call qgetarg
+ldl 7
+call qns
+j c167
+c165:
+ldc c131-c168+149
+ldpi
+c168:
+ldl 7
+call qerror
+j c161
+c167:
+c164:
+j c160
+c161:
+ldc 0
+ldl 7
+stnl 3747
+ldl 7
+call qgetlabel
+ldl 7
+stnl 3746
+ldc 0
+ldl 7
+stnl 2461
+ldl 7
+call qstatement
+eqc 3
+eqc 0
+cj c169
+ldc 0
+ldl 7
+call qmodstk
+ldl 7
+call qzret
+c169:
+ldl 7
+call qdumplits
+ldc 0
+ldl 7
+stnl 3747
+ldl 7
+ldnlp 2
+adc 7224
+ldl 7
+stnl 2103
+ldc 0
+ldl 7
+stnl 3762
+ajw 6
+ret
+c131:
+db 68,101,99,108,97
+db 114,97,99,105,111
+db 110,32,111,32,102
+db 117,110,99,105,111
+db 110,32,105,108,101
+db 103,97,108,0,67
+db 111,109,112,105,108
+db 97,110,100,111,32
+db 0,40,41,46,46
+db 46,0,40,0,70
+db 97,108,116,97,32
+db 117,110,32,112,97
+db 114,101,110,116,101
+db 115,105,115,32,100
+db 101,32,97,112,101
+db 114,116,117,114,97
+db 0,41,0,78,111
+db 109,98,114,101,32
+db 105,108,101,103,97
+db 108,32,112,97,114
+db 97,32,101,108,32
+db 97,114,103,117,109
+db 101,110,116,111,0
+db 41,0,44,0,83
+db 101,32,114,101,113
+db 117,105,101,114,101
+db 32,117,110,97,32
+db 99,111,109,97,0
+db 99,104,97,114,0
+db 105,110,116,0,78
+db 117,109,101,114,111
+db 32,105,110,99,111
+db 114,114,101,99,116
+db 111,32,100,101,32
+db 97,114,103,117,109
+db 101,110,116,111,115
+db 0
+qgetarg:
+ajw -7
+c171:
+ldc 1
+cj c172
+ldc c170-c174+0
+ldpi
+c174:
+ldl 8
+call qmatch
+cj c173
+ldc 3
+stl 0
+j c175
+c173:
+ldc 1
+stl 0
+c175:
+ldlp 2
+ldl 8
+call qsymname
+cj c176
+ldc c170-c178+2
+ldpi
+c178:
+ldl 8
+call qmatch
+cj c177
+c179:
+ldl 8
+call qinbyte
+eqc 93
+eqc 0
+cj c180
+ldl 8
+call qendst
+cj c181
+j c180
+c181:
+j c179
+c180:
+ldc 3
+stl 0
+c177:
+ldlp 2
+ldl 8
+call qfindloc
+dup
+stl 1
+cj c182
+ldl 0
+ldl 1
+adc 17
+sb
+ldl 9
+ldl 1
+adc 18
+sb
+j c183
+c182:
+ldc c170-c184+4
+ldpi
+c184:
+ldl 8
+call qerror
+c183:
+j c185
+c176:
+ldl 8
+call qillname
+c185:
+ldl 8
+ldnlp 3748
+dup
+ldnl 0
+adc -1
+rev
+stnl 0
+ldl 8
+call qendst
+cj c186
+ajw 7
+ret
+c186:
+ldc c170-c188+42
+ldpi
+c188:
+ldl 8
+call qmatch
+eqc 0
+cj c187
+ldc c170-c189+44
+ldpi
+c189:
+ldl 8
+call qerror
+c187:
+j c171
+c172:
+ajw 7
+ret
+c170:
+db 42,0,91,0,83
+db 101,32,114,101,113
+db 117,105,101,114,101
+db 32,101,108,32,110
+db 111,109,98,114,101
+db 32,100,101,32,117
+db 110,32,97,114,103
+db 117,109,101,110,116
+db 111,0,44,0,83
+db 101,32,114,101,113
+db 117,105,101,114,101
+db 32,117,110,97,32
+db 99,111,109,97,0
+qstatement:
+ldl 1
+call qch
+eqc 0
+ldl 1
+ldnl 3752
+and
+cj c191
+ret
+j c192
+c191:
+ldc c190-c194+0
+ldpi
+c194:
+ldl 1
+call qmatch
+cj c193
+ldl 1
+call qcompound
+j c195
+c193:
+ldc 2
+ldc c190-c197+2
+ldpi
+c197:
+ldl 1
+call qamatch
+cj c196
+ldl 1
+call qdoif
+ldc 1
+ldl 1
+stnl 3758
+j c198
+c196:
+ldc 5
+ldc c190-c200+5
+ldpi
+c200:
+ldl 1
+call qamatch
+cj c199
+ldl 1
+call qdowhile
+ldc 2
+ldl 1
+stnl 3758
+j c201
+c199:
+ldc 6
+ldc c190-c203+11
+ldpi
+c203:
+ldl 1
+call qamatch
+cj c202
+ldl 1
+call qdoreturn
+ldl 1
+call qns
+ldc 3
+ldl 1
+stnl 3758
+j c204
+c202:
+ldc 5
+ldc c190-c206+18
+ldpi
+c206:
+ldl 1
+call qamatch
+cj c205
+ldl 1
+call qdobreak
+ldl 1
+call qns
+ldc 4
+ldl 1
+stnl 3758
+j c207
+c205:
+ldc 8
+ldc c190-c209+24
+ldpi
+c209:
+ldl 1
+call qamatch
+cj c208
+ldl 1
+call qdocont
+ldl 1
+call qns
+ldc 5
+ldl 1
+stnl 3758
+j c210
+c208:
+ldc c190-c212+33
+ldpi
+c212:
+ldl 1
+call qmatch
+cj c211
+ldc 7
+ldl 1
+stnl 3758
+j c213
+c211:
+ldc c190-c215+35
+ldpi
+c215:
+ldl 1
+call qmatch
+cj c214
+ldl 1
+call qdoasm
+ldc 6
+ldl 1
+stnl 3758
+j c216
+c214:
+ldc 0
+ldl 1
+stnl 3772
+ldl 1
+call qexpression
+ldl 1
+call qns
+ldc 7
+ldl 1
+stnl 3758
+c216:
+c213:
+c210:
+c207:
+c204:
+c201:
+c198:
+c195:
+c192:
+ldl 1
+ldnl 3758
+ret
+c190:
+db 123,0,105,102,0
+db 119,104,105,108,101
+db 0,114,101,116,117
+db 114,110,0,98,114
+db 101,97,107,0,99
+db 111,110,116,105,110
+db 117,101,0,59,0
+db 35,97,115,109,0
+qns:
+ldc c217-c219+0
+ldpi
+c219:
+ldl 1
+call qmatch
+eqc 0
+cj c218
+ldc c217-c220+2
+ldpi
+c220:
+ldl 1
+call qerror
+c218:
+ret
+c217:
+db 59,0,70,97,108
+db 116,97,32,112,117
+db 110,116,111,32,121
+db 32,99,111,109,97
+db 0
+qcompound:
+ajw -2
+ldl 3
+ldnl 2103
+stl 1
+ldl 3
+ldnl 3747
+stl 0
+ldl 3
+ldnlp 3749
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 3
+call qdeclloc
+c222:
+ldc c221-c224+0
+ldpi
+c224:
+ldl 3
+call qmatch
+eqc 0
+cj c223
+ldl 3
+call qstatement
+j c222
+c223:
+ldl 3
+ldnlp 3749
+dup
+ldnl 0
+adc -1
+rev
+stnl 0
+ldl 1
+ldl 3
+stnl 2103
+ldl 3
+ldnl 3758
+eqc 3
+cj c225
+ajw 2
+ret
+c225:
+ldl 3
+ldnl 3758
+eqc 4
+cj c226
+ajw 2
+ret
+c226:
+ldl 3
+ldnl 3758
+eqc 5
+cj c227
+ajw 2
+ret
+c227:
+ldl 0
+ldl 3
+call qmodstk
+ldl 3
+stnl 3747
+ajw 2
+ret
+c221:
+db 125,0
+qdoif:
+ajw -2
+ldl 3
+call qgetlabel
+stl 1
+ldl 1
+ldl 3
+call qtest
+ldl 3
+call qstatement
+ldc 4
+ldc c228-c230+0
+ldpi
+c230:
+ldl 3
+call qamatch
+eqc 0
+cj c229
+ldl 1
+ldl 3
+call qprintlabel
+ldl 3
+call qcol
+ldl 3
+call qnl
+ajw 2
+ret
+c229:
+ldl 3
+call qgetlabel
+dup
+stl 0
+ldl 3
+call qjump
+ldl 1
+ldl 3
+call qprintlabel
+ldl 3
+call qcol
+ldl 3
+call qnl
+ldl 3
+call qstatement
+ldl 0
+ldl 3
+call qprintlabel
+ldl 3
+call qcol
+ldl 3
+call qnl
+ajw 2
+ret
+c228:
+db 101,108,115,101,0
+qdowhile:
+ajw -4
+ldl 5
+ldnl 2103
+stl 0
+ldl 5
+ldnl 3747
+stl 1
+ldl 5
+call qgetlabel
+stl 2
+ldl 5
+call qgetlabel
+stl 3
+ldlp 0
+ldl 5
+call qaddwhile
+ldl 2
+ldl 5
+call qprintlabel
+ldl 5
+call qcol
+ldl 5
+call qnl
+ldl 3
+ldl 5
+call qtest
+ldl 5
+call qstatement
+ldl 5
+ldnl 3758
+eqc 3
+eqc 0
+ldl 5
+ldnl 3758
+eqc 5
+eqc 0
+and
+ldl 5
+ldnl 3758
+eqc 4
+eqc 0
+and
+cj c232
+ldl 2
+ldl 5
+call qjump
+c232:
+ldl 3
+ldl 5
+call qprintlabel
+ldl 5
+call qcol
+ldl 5
+call qnl
+ldl 5
+call qdelwhile
+ajw 4
+ret
+qdoreturn:
+ldl 1
+call qendst
+eqc 0
+cj c234
+ldc 1
+ldl 1
+stnl 3772
+ldl 1
+call qexpression
+c234:
+ldc 0
+ldl 1
+call qmodstk
+ldl 1
+call qzret
+ret
+qdobreak:
+ajw -1
+ldl 2
+call qreadwhile
+dup
+stl 0
+eqc 0
+cj c236
+ajw 1
+ret
+c236:
+ldl 0
+ldnl 1
+ldl 2
+call qmodstk
+ldl 0
+ldnl 3
+ldl 2
+call qjump
+ajw 1
+ret
+qdocont:
+ajw -1
+ldl 2
+call qreadwhile
+dup
+stl 0
+eqc 0
+cj c238
+ajw 1
+ret
+c238:
+ldl 0
+ldnl 1
+ldl 2
+call qmodstk
+ldl 0
+ldnl 2
+ldl 2
+call qjump
+ajw 1
+ret
+qdoasm:
+ldc 0
+ldl 1
+stnl 3757
+c240:
+ldc 1
+cj c241
+ldl 1
+call qinline
+ldc c239-c243+0
+ldpi
+c243:
+ldl 1
+call qmatch
+cj c242
+j c241
+c242:
+ldl 1
+ldnl 3752
+cj c244
+j c241
+c244:
+ldl 1
+ldnlp 3487
+ldl 1
+call qoutstr
+ldl 1
+call qnl
+j c240
+c241:
+ldl 1
+call qkill
+ldc 1
+ldl 1
+stnl 3757
+ret
+c239:
+db 35,101,110,100,97
+db 115,109,0
+qjunk:
+ldl 1
+call qinbyte
+ldl 1
+call qan
+cj c246
+c247:
+ldl 1
+call qch
+ldl 1
+call qan
+cj c248
+ldl 1
+call qgch
+j c247
+c248:
+j c249
+c246:
+c250:
+ldl 1
+call qch
+ldl 1
+call qan
+eqc 0
+cj c251
+ldl 1
+call qch
+eqc 0
+cj c252
+j c251
+c252:
+ldl 1
+call qgch
+j c250
+c251:
+c249:
+ldl 1
+call qblanks
+ret
+qendst:
+ldl 1
+call qblanks
+ldl 1
+call qch
+eqc 0
+ajw -1
+stl 0
+ldl 2
+ldnlp 3487
+ldl 2
+ldnl 3743
+bsub
+ldc c253-c254+0
+ldpi
+c254:
+rev
+ldl 2
+call qstreq
+ldl 0
+ajw 1
+or
+ret
+c253:
+db 59,0
+qillname:
+ldc c255-c256+0
+ldpi
+c256:
+ldl 1
+call qerror
+ldl 1
+call qjunk
+ret
+c255:
+db 78,111,109,98,114
+db 101,32,105,108,101
+db 103,97,108,0
+qmultidef:
+ldc c257-c258+0
+ldpi
+c258:
+ldl 1
+call qerror
+ldl 1
+call qcomment
+ldl 2
+ldl 1
+call qoutstr
+ldl 1
+call qnl
+ret
+c257:
+db 78,111,109,98,114
+db 101,32,114,101,100
+db 101,102,105,110,105
+db 100,111,0
+qneedbrack:
+ldl 2
+ldl 1
+call qmatch
+eqc 0
+cj c260
+ldc c259-c261+0
+ldpi
+c261:
+ldl 1
+call qerror
+ldl 1
+call qcomment
+ldl 2
+ldl 1
+call qoutstr
+ldl 1
+call qnl
+c260:
+ret
+c259:
+db 70,97,108,116,97
+db 32,117,110,32,0
+qneedlval:
+ldc c262-c263+0
+ldpi
+c263:
+ldl 1
+call qerror
+ret
+c262:
+db 68,101,98,101,32
+db 115,101,114,32,117
+db 110,32,118,97,108
+db 111,114,45,108,0
+qfindglb:
+ajw -1
+ldl 2
+ldnlp 2
+stl 0
+c265:
+ldl 0
+ldl 2
+ldnl 2102
+diff
+eqc 0
+eqc 0
+cj c266
+ajw -1
+ldc 16
+stl 0
+ldl 1
+ldl 4
+ldl 3
+call qastreq
+ajw 1
+cj c267
+ldl 0
+ajw 1
+ret
+c267:
+ldl 0
+adc 24
+stl 0
+j c265
+c266:
+ldc 0
+ajw 1
+ret
+qfindloc:
+ajw -1
+ldl 2
+ldnlp 2
+adc 7224
+stl 0
+c269:
+ldl 0
+ldl 2
+ldnl 2103
+diff
+eqc 0
+eqc 0
+cj c270
+ajw -1
+ldc 16
+stl 0
+ldl 1
+ldl 4
+ldl 3
+call qastreq
+ajw 1
+cj c271
+ldl 0
+ajw 1
+ret
+c271:
+ldl 0
+adc 24
+stl 0
+j c269
+c270:
+ldc 0
+ajw 1
+ret
+qaddglb:
+ajw -1
+ldl 3
+ldl 2
+call qfindglb
+dup
+ldl 2
+stnl 3769
+cj c273
+ldl 2
+ldnl 3769
+ajw 1
+ret
+c273:
+ldl 2
+ldnlp 2
+adc 7200
+ldl 2
+ldnl 2102
+rev
+mint
+xor
+rev
+mint
+xor
+gt
+eqc 0
+cj c274
+ldc c272-c275+0
+ldpi
+c275:
+ldl 2
+call qerror
+ldc 0
+ajw 1
+ret
+c274:
+ldl 2
+ldnl 2102
+dup
+stl 0
+ldl 2
+stnl 3769
+c276:
+ldl 0
+dup
+adc 1
+stl 0
+ajw -1
+stl 0
+ldl 4
+dup
+adc 1
+stl 4
+lb
+dup
+ldl 0
+ajw 1
+sb
+ldl 2
+call qan
+cj c277
+j c276
+c277:
+ldlp 4
+lb
+ldl 2
+ldnl 3769
+adc 17
+sb
+ldlp 5
+lb
+ldl 2
+ldnl 3769
+adc 18
+sb
+ldc 1
+ldl 2
+ldnl 3769
+adc 19
+sb
+ldl 6
+ldl 2
+ldnl 3769
+adc 20
+sb
+ldl 6
+ldc 8
+shr
+ldl 2
+ldnl 3769
+adc 21
+sb
+ldl 6
+ldc 16
+shr
+ldl 2
+ldnl 3769
+adc 22
+sb
+ldl 6
+ldc 24
+shr
+ldl 2
+ldnl 3769
+adc 23
+sb
+ldl 2
+ldnl 2102
+adc 24
+ldl 2
+stnl 2102
+ldl 2
+ldnl 3769
+ajw 1
+ret
+c272:
+db 84,97,98,108,97
+db 32,103,108,111,98
+db 97,108,32,108,108
+db 101,110,97,0
+qaddloc:
+ajw -1
+ldl 3
+ldl 2
+call qfindloc
+dup
+ldl 2
+stnl 3769
+cj c279
+ldl 2
+ldnl 3769
+ajw 1
+ret
+c279:
+ldl 2
+ldnlp 2
+adc 8376
+ldl 2
+ldnl 2103
+rev
+mint
+xor
+rev
+mint
+xor
+gt
+eqc 0
+cj c280
+ldc c278-c281+0
+ldpi
+c281:
+ldl 2
+call qerror
+ldc 0
+ajw 1
+ret
+c280:
+ldl 2
+ldnl 2103
+dup
+stl 0
+ldl 2
+stnl 3769
+c282:
+ldl 0
+dup
+adc 1
+stl 0
+ajw -1
+stl 0
+ldl 4
+dup
+adc 1
+stl 4
+lb
+dup
+ldl 0
+ajw 1
+sb
+ldl 2
+call qan
+cj c283
+j c282
+c283:
+ldlp 4
+lb
+ldl 2
+ldnl 3769
+adc 17
+sb
+ldlp 5
+lb
+ldl 2
+ldnl 3769
+adc 18
+sb
+ldc 2
+ldl 2
+ldnl 3769
+adc 19
+sb
+ldl 6
+ldl 2
+ldnl 3769
+adc 20
+sb
+ldl 6
+ldc 8
+shr
+ldl 2
+ldnl 3769
+adc 21
+sb
+ldl 6
+ldc 16
+shr
+ldl 2
+ldnl 3769
+adc 22
+sb
+ldl 6
+ldc 24
+shr
+ldl 2
+ldnl 3769
+adc 23
+sb
+ldl 2
+ldnl 2103
+adc 24
+ldl 2
+stnl 2103
+ldl 2
+ldnl 3769
+ajw 1
+ret
+c278:
+db 84,97,98,108,97
+db 32,108,111,99,97
+db 108,32,108,108,101
+db 110,97,0
+qsymname:
+ajw -2
+ldl 3
+call qblanks
+ldl 3
+call qch
+ldl 3
+call qalpha
+eqc 0
+cj c285
+ldc 0
+ajw 2
+ret
+c285:
+ldc 0
+stl 1
+c286:
+ldl 3
+call qch
+ldl 3
+call qan
+cj c287
+ldl 3
+call qgch
+ldl 1
+dup
+adc 1
+stl 1
+ldl 4
+bsub
+sb
+j c286
+c287:
+ldc 0
+ldl 1
+ldl 4
+bsub
+sb
+ldc 1
+ajw 2
+ret
+qalpha:
+ldl 2
+ldc 255
+and
+stl 2
+ldc 65
+ldl 2
+gt
+eqc 0
+ldl 2
+ldc 90
+gt
+eqc 0
+and
+ajw -1
+stl 0
+ldc 97
+ldl 3
+gt
+eqc 0
+ldl 3
+ldc 122
+gt
+eqc 0
+and
+ldl 0
+ajw 1
+or
+ldl 2
+eqc 95
+or
+ret
+qnumeric:
+ldl 2
+ldc 255
+and
+stl 2
+ldc 48
+ldl 2
+gt
+eqc 0
+ldl 2
+ldc 57
+gt
+eqc 0
+and
+ret
+qan:
+ldlp 2
+lb
+ldl 1
+call qnumeric
+ajw -1
+stl 0
+ldlp 3
+lb
+ldl 2
+call qalpha
+ldl 0
+ajw 1
+or
+ret
+qpl:
+ajw -1
+ldc 0
+stl 0
+ldc 13
+ldl 2
+call qputchar
+ldc 10
+ldl 2
+call qputchar
+c292:
+ldl 3
+lb
+cj c293
+ldl 3
+dup
+adc 1
+stl 3
+lb
+ldl 2
+call qputchar
+j c292
+c293:
+ajw 1
+ret
+qaddwhile:
+ajw -1
+ldl 2
+ldnl 2204
+ldl 2
+ldnlp 2104
+adc 96
+diff
+eqc 0
+cj c295
+ldc c294-c296+0
+ldpi
+c296:
+ldl 2
+call qerror
+ajw 1
+ret
+c295:
+ldc 0
+stl 0
+c297:
+ldc 4
+ldl 0
+gt
+cj c298
+ldl 2
+ldnlp 2204
+dup
+ldnl 0
+dup
+adc 4
+pop
+pop
+stnl 0
+ldl 0
+dup
+adc 1
+stl 0
+ldl 3
+wsub
+ldnl 0
+rev
+stnl 0
+j c297
+c298:
+ajw 1
+ret
+c294:
+db 68,101,109,97,115
+db 105,97,100,111,115
+db 32,98,117,99,108
+db 101,115,32,97,99
+db 116,105,118,111,115
+db 0
+qdelwhile:
+ldl 1
+call qreadwhile
+cj c300
+ldl 1
+ldnl 2204
+adc -16
+ldl 1
+stnl 2204
+c300:
+ret
+qreadwhile:
+ldl 1
+ldnl 2204
+ldl 1
+ldnlp 2104
+diff
+eqc 0
+cj c302
+ldc c301-c303+0
+ldpi
+c303:
+ldl 1
+call qerror
+ldc 0
+ret
+j c304
+c302:
+ldl 1
+ldnl 2204
+adc -16
+ret
+c304:
+ret
+c301:
+db 78,111,32,104,97
+db 121,32,98,117,99
+db 108,101,115,32,97
+db 99,116,105,118,111
+db 115,0
+qch:
+ldl 1
+ldnl 3743
+ldl 1
+ldnlp 3487
+bsub
+lb
+ldc 255
+and
+ret
+qnch:
+ldl 1
+call qch
+eqc 0
+cj c307
+ldc 0
+ret
+j c308
+c307:
+ldl 1
+ldnl 3743
+adc 1
+ldl 1
+ldnlp 3487
+bsub
+lb
+ldc 255
+and
+ret
+c308:
+ret
+qgch:
+ldl 1
+call qch
+eqc 0
+cj c310
+ldc 0
+ret
+j c311
+c310:
+ldl 1
+ldnlp 3743
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ldl 1
+ldnlp 3487
+bsub
+lb
+ldc 255
+and
+ret
+c311:
+ret
+qkill:
+ldc 0
+ldl 1
+stnl 3743
+ldc 0
+ldl 1
+ldnl 3743
+ldl 1
+ldnlp 3487
+bsub
+sb
+ret
+qinbyte:
+c314:
+ldl 1
+call qch
+eqc 0
+cj c315
+ldl 1
+ldnl 3752
+cj c316
+ldc 0
+ret
+c316:
+ldl 1
+call qinline
+ldl 1
+call qpreprocess
+j c314
+c315:
+ldl 1
+call qgch
+ret
+qinline:
+ajw -2
+c318:
+ldc 1
+cj c319
+ldl 3
+ldnl 3753
+eqc 0
+cj c320
+ldc 1
+ldl 3
+stnl 3752
+ajw 2
+ret
+c320:
+ldl 3
+ldnl 3755
+dup
+stl 0
+eqc 0
+cj c321
+ldl 3
+ldnl 3753
+stl 0
+c321:
+ldl 3
+call qkill
+c322:
+ldl 0
+ldl 3
+call qfgetc
+dup
+stl 1
+ldc 0
+gt
+cj c323
+ldl 1
+eqc 13
+cj c324
+j c322
+c324:
+ldc 511
+ldl 3
+ldnl 3743
+gt
+eqc 0
+ldl 1
+eqc 10
+or
+cj c325
+j c323
+c325:
+ldl 3
+ldnlp 3743
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ldl 3
+ldnlp 3487
+bsub
+ldl 1
+rev
+sb
+j c322
+c323:
+ldc 0
+ldl 3
+ldnl 3743
+ldl 3
+ldnlp 3487
+bsub
+sb
+ldl 3
+ldnlp 3761
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 1
+ldc 0
+gt
+eqc 0
+cj c326
+ldl 0
+ldl 3
+call qfclose
+ldl 3
+ldnl 3755
+cj c327
+ldl 3
+call qendinclude
+j c328
+c327:
+ldc 0
+ldl 3
+stnl 3753
+c328:
+c326:
+ldl 3
+ldnl 3743
+cj c329
+ldl 3
+ldnl 3756
+ldl 3
+ldnl 3757
+and
+cj c330
+ldl 3
+call qcomment
+ldl 3
+ldnlp 3487
+ldl 3
+call qoutstr
+ldl 3
+call qnl
+c330:
+ldc 0
+ldl 3
+stnl 3743
+ajw 2
+ret
+c329:
+j c318
+c319:
+ajw 2
+ret
+qpreprocess:
+ajw -7
+ldl 8
+ldnl 3757
+eqc 0
+cj c332
+ajw 7
+ret
+c332:
+ldc 0
+dup
+ldl 8
+stnl 3743
+ldl 8
+stnl 3744
+c333:
+ldl 8
+call qch
+cj c334
+ldl 8
+call qch
+eqc 9
+ajw -1
+stl 0
+ldl 9
+call qch
+eqc 32
+ldl 0
+ajw 1
+or
+cj c335
+ldl 8
+call qpredel
+j c336
+c335:
+ldl 8
+call qch
+eqc 34
+cj c337
+ldl 8
+call qprequote
+j c338
+c337:
+ldl 8
+call qch
+eqc 39
+cj c339
+ldl 8
+call qpreapos
+j c340
+c339:
+ldl 8
+call qnch
+eqc 42
+ajw -1
+stl 0
+ldl 9
+call qch
+eqc 47
+ldl 0
+ajw 1
+and
+cj c341
+ldl 8
+call qprecomm
+j c342
+c341:
+ldl 8
+call qch
+ldl 8
+call qalpha
+cj c343
+ldc 0
+stl 6
+c344:
+ldl 8
+call qch
+ldl 8
+call qan
+cj c345
+ldc 16
+ldl 6
+gt
+cj c346
+ldl 8
+call qch
+ldl 6
+dup
+adc 1
+stl 6
+ldlp 0
+bsub
+sb
+c346:
+ldl 8
+call qgch
+j c344
+c345:
+ldc 0
+ldl 6
+ldlp 0
+bsub
+sb
+ldlp 0
+ldl 8
+call qfindmac
+dup
+stl 6
+cj c347
+c348:
+ldl 6
+dup
+adc 1
+stl 6
+ldl 8
+ldnlp 2462
+bsub
+lb
+dup
+ldlp 5
+sb
+cj c349
+ldlp 5
+lb
+ldl 8
+call qkeepch
+j c348
+c349:
+j c350
+c347:
+ldc 0
+stl 6
+c351:
+ldl 6
+dup
+adc 1
+stl 6
+ldlp 0
+bsub
+lb
+dup
+ldlp 5
+sb
+cj c352
+ldlp 5
+lb
+ldl 8
+call qkeepch
+j c351
+c352:
+c350:
+j c353
+c343:
+ldl 8
+call qgch
+ldl 8
+call qkeepch
+c353:
+c342:
+c340:
+c338:
+c336:
+j c333
+c334:
+ldc 0
+ldl 8
+call qkeepch
+ldc 511
+ldl 8
+ldnl 3744
+gt
+eqc 0
+cj c354
+ldc c331-c355+0
+ldpi
+c355:
+ldl 8
+call qerror
+c354:
+ldc 0
+dup
+ldl 8
+stnl 3744
+ldl 8
+stnl 3743
+c356:
+ldl 8
+ldnlp 3743
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ldl 8
+ldnlp 3487
+bsub
+ajw -1
+stl 0
+ldl 9
+ldnlp 3744
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ldl 9
+ldnlp 3615
+bsub
+lb
+dup
+ldl 0
+ajw 1
+sb
+cj c357
+j c356
+c357:
+ldc 0
+ldl 8
+stnl 3743
+ajw 7
+ret
+c331:
+db 76,105,110,101,97
+db 32,109,117,121,32
+db 108,97,114,103,97
+db 0
+qkeepch:
+ldlp 2
+lb
+ldl 1
+ldnl 3744
+ldl 1
+ldnlp 3615
+bsub
+sb
+ldc 511
+ldl 1
+ldnl 3744
+gt
+cj c359
+ldl 1
+ldnlp 3744
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+c359:
+ldlp 2
+lb
+ret
+qpredel:
+ldc 32
+ldl 1
+call qkeepch
+c361:
+ldl 1
+call qch
+eqc 9
+ajw -1
+stl 0
+ldl 2
+call qch
+eqc 32
+ldl 0
+ajw 1
+or
+cj c362
+ldl 1
+call qgch
+j c361
+c362:
+ret
+qprequote:
+ldl 1
+call qch
+ldl 1
+call qkeepch
+ldl 1
+call qgch
+c364:
+ldl 1
+ldnl 3743
+adc -1
+ldl 1
+ldnlp 3487
+bsub
+lb
+eqc 92
+ldl 1
+ldnl 3743
+adc -2
+ldl 1
+ldnlp 3487
+bsub
+lb
+eqc 92
+eqc 0
+and
+ajw -1
+stl 0
+ldl 2
+call qch
+eqc 34
+eqc 0
+ldl 0
+ajw 1
+or
+cj c365
+ldl 1
+call qch
+eqc 0
+cj c366
+ldc c363-c367+0
+ldpi
+c367:
+ldl 1
+call qerror
+j c365
+c366:
+ldl 1
+call qgch
+ldl 1
+call qkeepch
+j c364
+c365:
+ldl 1
+call qgch
+ldc 34
+ldl 1
+call qkeepch
+ret
+c363:
+db 70,97,108,116,97
+db 110,32,99,111,109
+db 105,108,108,97,115
+db 0
+qpreapos:
+ldc 39
+ldl 1
+call qkeepch
+ldl 1
+call qgch
+c369:
+ldl 1
+ldnl 3743
+adc -1
+ldl 1
+ldnlp 3487
+bsub
+lb
+eqc 92
+ldl 1
+ldnl 3743
+adc -2
+ldl 1
+ldnlp 3487
+bsub
+lb
+eqc 92
+eqc 0
+and
+ajw -1
+stl 0
+ldl 2
+call qch
+eqc 39
+eqc 0
+ldl 0
+ajw 1
+or
+cj c370
+ldl 1
+call qch
+eqc 0
+cj c371
+ldc c368-c372+0
+ldpi
+c372:
+ldl 1
+call qerror
+j c370
+c371:
+ldl 1
+call qgch
+ldl 1
+call qkeepch
+j c369
+c370:
+ldl 1
+call qgch
+ldc 39
+ldl 1
+call qkeepch
+ret
+c368:
+db 70,97,108,116,97
+db 32,117,110,32,97
+db 112,111,115,116,114
+db 111,102,101,0
+qprecomm:
+ldl 1
+ldnl 3743
+adc 2
+ldl 1
+stnl 3743
+c374:
+ldl 1
+call qnch
+eqc 47
+ajw -1
+stl 0
+ldl 2
+call qch
+eqc 42
+ldl 0
+ajw 1
+and
+eqc 0
+cj c375
+ldl 1
+call qch
+eqc 0
+cj c376
+ldl 1
+call qinline
+j c377
+c376:
+ldl 1
+ldnlp 3743
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+c377:
+ldl 1
+ldnl 3752
+cj c378
+j c375
+c378:
+j c374
+c375:
+ldl 1
+ldnl 3743
+adc 2
+ldl 1
+stnl 3743
+ret
+qaddmac:
+ajw -6
+ldlp 1
+ldl 7
+call qsymname
+eqc 0
+cj c380
+ldl 7
+call qillname
+ldl 7
+call qkill
+ajw 6
+ret
+c380:
+ldc 0
+stl 0
+c381:
+ldl 0
+dup
+adc 1
+stl 0
+ldlp 1
+bsub
+lb
+ldl 7
+call qputmac
+cj c382
+j c381
+c382:
+c383:
+ldl 7
+call qch
+eqc 9
+ajw -1
+stl 0
+ldl 8
+call qch
+eqc 32
+ldl 0
+ajw 1
+or
+cj c384
+ldl 7
+call qgch
+j c383
+c384:
+c385:
+ldl 7
+call qgch
+ldl 7
+call qputmac
+cj c386
+j c385
+c386:
+ldc 4095
+ldl 7
+ldnl 3486
+gt
+eqc 0
+cj c387
+ldc c379-c388+0
+ldpi
+c388:
+ldl 7
+call qerror
+c387:
+ajw 6
+ret
+c379:
+db 84,97,98,108,97
+db 32,100,101,32,109
+db 97,99,114,111,115
+db 32,108,108,101,110
+db 97,0
+qputmac:
+ldlp 2
+lb
+ldl 1
+ldnl 3486
+ldl 1
+ldnlp 2462
+bsub
+sb
+ldc 4095
+ldl 1
+ldnl 3486
+gt
+cj c390
+ldl 1
+ldnlp 3486
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+c390:
+ldlp 2
+lb
+ret
+qfindmac:
+ajw -1
+ldc 0
+stl 0
+c392:
+ldl 2
+ldnl 3486
+ldl 0
+gt
+cj c393
+ajw -1
+ldc 16
+stl 0
+ldl 3
+ldnlp 2462
+ldl 1
+bsub
+ldl 4
+ldl 3
+call qastreq
+ajw 1
+cj c394
+c395:
+ldl 0
+dup
+adc 1
+stl 0
+ldl 2
+ldnlp 2462
+bsub
+lb
+cj c396
+j c395
+c396:
+ldl 0
+ajw 1
+ret
+c394:
+c397:
+ldl 0
+dup
+adc 1
+stl 0
+ldl 2
+ldnlp 2462
+bsub
+lb
+cj c398
+j c397
+c398:
+c399:
+ldl 0
+dup
+adc 1
+stl 0
+ldl 2
+ldnlp 2462
+bsub
+lb
+cj c400
+j c399
+c400:
+j c392
+c393:
+ldc 0
+ajw 1
+ret
+qtoconsole:
+ldl 1
+ldnl 3754
+ldl 1
+stnl 3759
+ldc 0
+ldl 1
+stnl 3754
+ret
+qtofile:
+ldl 1
+ldnl 3759
+cj c403
+ldl 1
+ldnl 3759
+ldl 1
+stnl 3754
+c403:
+ldc 0
+ldl 1
+stnl 3759
+ret
+qoutbyte:
+ldlp 2
+lb
+eqc 0
+cj c405
+ldc 0
+ret
+c405:
+ldl 1
+ldnl 3754
+cj c406
+ldl 1
+ldnl 3754
+ldlp 2
+lb
+ldl 1
+call qfputc
+ldc 0
+gt
+eqc 0
+cj c407
+ldl 1
+call qcloseout
+ldc c404-c408+0
+ldpi
+c408:
+ldl 1
+call qerror
+ldl 1
+call qabort
+c407:
+j c409
+c406:
+ldlp 2
+lb
+ldl 1
+call qputchar
+c409:
+ldlp 2
+lb
+ret
+c404:
+db 69,114,114,111,114
+db 32,97,108,32,101
+db 115,99,114,105,98
+db 105,114,0
+qnl:
+ldc 13
+ldl 1
+call qoutbyte
+ldc 10
+ldl 1
+call qoutbyte
+ret
+qoutstr:
+c412:
+ldl 2
+dup
+adc 1
+stl 2
+lb
+ldl 1
+call qoutbyte
+cj c413
+j c412
+c413:
+ret
+qoutasm:
+c415:
+ldl 2
+dup
+adc 1
+stl 2
+lb
+ldl 1
+call qoutbyte
+cj c416
+j c415
+c416:
+ret
+qerror:
+ajw -22
+ldl 23
+call qtoconsole
+ldc c417-c418+0
+ldpi
+c418:
+ldl 23
+call qoutstr
+ldl 23
+ldnl 3761
+ldl 23
+call qoutdec
+ldc c417-c419+7
+ldpi
+c419:
+ldl 23
+call qoutstr
+ldl 23
+ldnl 3762
+eqc 0
+cj c420
+ldc 40
+ldl 23
+call qoutbyte
+c420:
+ldl 23
+ldnl 3766
+eqc 0
+cj c421
+ldc c417-c422+10
+ldpi
+c422:
+ldl 23
+call qoutstr
+j c423
+c421:
+ldl 23
+ldnl 3766
+ldl 23
+call qoutstr
+c423:
+ldl 23
+ldnl 3762
+eqc 0
+cj c424
+ldc 41
+ldl 23
+call qoutbyte
+c424:
+ldc c417-c425+31
+ldpi
+c425:
+ldl 23
+call qoutstr
+ldl 23
+ldnl 3761
+ldl 23
+ldnl 3760
+diff
+ldl 23
+call qoutdec
+ldc c417-c426+35
+ldpi
+c426:
+ldl 23
+call qoutstr
+ldl 24
+ldl 23
+call qoutstr
+ldl 23
+call qnl
+ldl 23
+ldnlp 3487
+ldl 23
+call qoutstr
+ldl 23
+call qnl
+ldc 0
+stl 21
+c427:
+ldl 23
+ldnl 3743
+ldl 21
+gt
+cj c428
+ldl 21
+dup
+adc 1
+stl 21
+ldl 23
+ldnlp 3487
+bsub
+lb
+eqc 9
+cj c429
+ldc 9
+ldl 23
+call qoutbyte
+j c430
+c429:
+ldc 32
+ldl 23
+call qoutbyte
+c430:
+j c427
+c428:
+ldc 94
+ldl 23
+call qoutbyte
+ldl 23
+call qnl
+ldl 23
+ldnlp 3750
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 23
+ldnl 3751
+cj c431
+ldc c417-c432+38
+ldpi
+c432:
+ldl 23
+call qpl
+ldlp 0
+ldl 23
+call qgets
+ldlp 0
+lb
+stl 21
+ldl 21
+eqc 78
+ldl 21
+eqc 110
+or
+cj c433
+ldl 23
+call qabort
+c433:
+ldl 21
+eqc 80
+ldl 21
+eqc 112
+or
+cj c434
+ldc 0
+ldl 23
+stnl 3751
+c434:
+c431:
+ldl 23
+call qtofile
+ajw 22
+ret
+c417:
+db 76,161,110,101,97
+db 32,0,44,32,0
+db 99,111,109,105,101
+db 110,122,111,32,100
+db 101,108,32,97,114
+db 99,104,105,118,111
+db 0,32,43,32,0
+db 58,32,0,67,111
+db 110,116,105,110,117
+db 97,114,32,40,83
+db 105,44,32,78,111
+db 44,32,80,97,115
+db 97,114,32,100,101
+db 32,108,97,114,103
+db 111,41,32,63,32
+db 0
+qol:
+ldl 2
+ldl 1
+call qot
+ldl 1
+call qnl
+ret
+qot:
+ldl 2
+ldl 1
+call qoutasm
+ret
+qstreq:
+ajw -1
+ldc 0
+stl 0
+c438:
+ldl 0
+ldl 4
+bsub
+lb
+cj c439
+ldl 0
+ldl 3
+bsub
+lb
+ldl 0
+ldl 4
+bsub
+lb
+diff
+eqc 0
+eqc 0
+cj c440
+ldc 0
+ajw 1
+ret
+c440:
+ldl 0
+adc 1
+stl 0
+j c438
+c439:
+ldl 0
+ajw 1
+ret
+qastreq:
+ajw -1
+ldc 0
+stl 0
+c442:
+ldl 5
+ldl 0
+gt
+cj c443
+ldl 0
+ldl 3
+bsub
+lb
+ldl 0
+ldl 4
+bsub
+lb
+diff
+eqc 0
+eqc 0
+cj c444
+j c443
+c444:
+ldl 0
+ldl 3
+bsub
+lb
+eqc 0
+cj c445
+j c443
+c445:
+ldl 0
+ldl 4
+bsub
+lb
+eqc 0
+cj c446
+j c443
+c446:
+ldl 0
+adc 1
+stl 0
+j c442
+c443:
+ldl 0
+ldl 3
+bsub
+lb
+ldl 2
+call qan
+cj c447
+ldc 0
+ajw 1
+ret
+c447:
+ldl 0
+ldl 4
+bsub
+lb
+ldl 2
+call qan
+cj c448
+ldc 0
+ajw 1
+ret
+c448:
+ldl 0
+ajw 1
+ret
+qmatch:
+ajw -1
+ldl 2
+call qblanks
+ldl 2
+ldnlp 3487
+ldl 2
+ldnl 3743
+bsub
+ldl 3
+rev
+ldl 2
+call qstreq
+dup
+stl 0
+cj c450
+ldl 2
+ldnl 3743
+ldl 0
+bsub
+ldl 2
+stnl 3743
+ldc 1
+ajw 1
+ret
+c450:
+ldc 0
+ajw 1
+ret
+qamatch:
+ajw -1
+ldl 2
+call qblanks
+ajw -1
+ldl 5
+stl 0
+ldl 3
+ldnlp 3487
+ldl 3
+ldnl 3743
+bsub
+ldl 4
+rev
+ldl 3
+call qastreq
+ajw 1
+dup
+stl 0
+cj c452
+ldl 2
+ldnl 3743
+ldl 0
+bsub
+ldl 2
+stnl 3743
+c453:
+ldl 2
+call qch
+ldl 2
+call qan
+cj c454
+ldl 2
+call qinbyte
+j c453
+c454:
+ldc 1
+ajw 1
+ret
+c452:
+ldc 0
+ajw 1
+ret
+qblanks:
+c456:
+ldc 1
+cj c457
+c458:
+ldl 1
+call qch
+eqc 0
+cj c459
+ldl 1
+call qinline
+ldl 1
+call qpreprocess
+ldl 1
+ldnl 3752
+cj c460
+j c459
+c460:
+j c458
+c459:
+ldl 1
+call qch
+eqc 32
+cj c461
+ldl 1
+call qgch
+j c462
+c461:
+ldl 1
+call qch
+eqc 9
+cj c463
+ldl 1
+call qgch
+j c464
+c463:
+ret
+c464:
+c462:
+j c456
+c457:
+ret
+qoutdec:
+ldc 0
+ldl 2
+gt
+cj c466
+ldc 45
+ldl 1
+call qoutbyte
+ldc -9
+ldl 2
+gt
+cj c467
+ldl 2
+ldc 10
+div
+not
+adc 1
+ldl 1
+call qoutdec
+c467:
+ldl 2
+ldc 10
+rem
+not
+adc 1
+adc 48
+ldl 1
+call qoutbyte
+j c468
+c466:
+ldl 2
+ldc 9
+gt
+cj c469
+ldl 2
+ldc 10
+div
+ldl 1
+call qoutdec
+c469:
+ldl 2
+ldc 10
+rem
+adc 48
+ldl 1
+call qoutbyte
+c468:
+ret
+qstrlen:
+ajw -1
+ldl 3
+stl 0
+c471:
+ldl 3
+lb
+cj c472
+ldl 3
+adc 1
+stl 3
+j c471
+c472:
+ldl 3
+ldl 0
+diff
+ajw 1
+ret
+qraise:
+ldc 97
+ldlp 2
+lb
+gt
+eqc 0
+ldlp 2
+lb
+ldc 122
+gt
+eqc 0
+and
+cj c474
+ldlp 2
+lb
+adc -32
+ldlp 2
+sb
+c474:
+ldlp 2
+lb
+ret
+qexpression:
+ajw -2
+ldc 0
+ldl 3
+stnl 4413
+ldlp 0
+ldl 3
+call qheir1
+cj c476
+ldlp 0
+ldl 3
+call qrvalue
+c476:
+ldl 3
+ldnl 4413
+ldl 3
+call qetiqueta
+ldl 3
+ldnl 4413
+ldl 3
+stnl 4414
+ldl 3
+ldnl 4413
+ldl 3
+call qgen_codigo
+ajw 2
+ret
+qheir1:
+ajw -5
+ldl 7
+ldl 6
+call qheir2
+stl 4
+ldl 6
+call qblanks
+ldl 6
+call qch
+eqc 61
+eqc 0
+cj c478
+ldl 4
+ajw 5
+ret
+c478:
+ldl 6
+ldnlp 3743
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 6
+ldnl 4413
+stl 1
+ldl 4
+eqc 0
+cj c479
+ldl 6
+call qneedlval
+c479:
+ldlp 2
+ldl 6
+call qheir1
+cj c480
+ldlp 2
+ldl 6
+call qrvalue
+c480:
+ldl 7
+ldnl 1
+eqc 2
+cj c481
+ajw -2
+ldl 3
+stl 0
+ldc 0
+stl 1
+ldl 8
+ldnl 4413
+ldc 38
+ldl 8
+call qcrea_nodo
+ajw 2
+j c482
+c481:
+ajw -2
+ldl 3
+stl 0
+ldc 0
+stl 1
+ldl 8
+ldnl 4413
+ldc 37
+ldl 8
+call qcrea_nodo
+ajw 2
+c482:
+ldc 0
+ajw 5
+ret
+qheir2:
+ajw -4
+ldl 6
+ldl 5
+call qheir3
+stl 3
+ldl 5
+call qblanks
+ldl 5
+call qch
+eqc 124
+eqc 0
+cj c484
+ldl 3
+ajw 4
+ret
+c484:
+ldl 3
+cj c485
+ldl 6
+ldl 5
+call qrvalue
+c485:
+c486:
+ldc c483-c488+0
+ldpi
+c488:
+ldl 5
+call qmatch
+cj c487
+ldl 5
+ldnl 4413
+stl 0
+ldlp 1
+ldl 5
+call qheir3
+cj c489
+ldlp 1
+ldl 5
+call qrvalue
+c489:
+ajw -2
+ldl 7
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 1
+ldl 7
+call qcrea_nodo
+ajw 2
+j c486
+c487:
+ldc 0
+ajw 4
+ret
+c483:
+db 124,0
+qheir3:
+ajw -4
+ldl 6
+ldl 5
+call qheir4
+stl 3
+ldl 5
+call qblanks
+ldl 5
+call qch
+eqc 94
+eqc 0
+cj c491
+ldl 3
+ajw 4
+ret
+c491:
+ldl 3
+cj c492
+ldl 6
+ldl 5
+call qrvalue
+c492:
+c493:
+ldc c490-c495+0
+ldpi
+c495:
+ldl 5
+call qmatch
+cj c494
+ldl 5
+ldnl 4413
+stl 0
+ldlp 1
+ldl 5
+call qheir4
+cj c496
+ldlp 1
+ldl 5
+call qrvalue
+c496:
+ajw -2
+ldl 7
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 2
+ldl 7
+call qcrea_nodo
+ajw 2
+j c493
+c494:
+ldc 0
+ajw 4
+ret
+c490:
+db 94,0
+qheir4:
+ajw -4
+ldl 6
+ldl 5
+call qheir5
+stl 3
+ldl 5
+call qblanks
+ldl 5
+call qch
+eqc 38
+eqc 0
+cj c498
+ldl 3
+ajw 4
+ret
+c498:
+ldl 3
+cj c499
+ldl 6
+ldl 5
+call qrvalue
+c499:
+c500:
+ldc c497-c502+0
+ldpi
+c502:
+ldl 5
+call qmatch
+cj c501
+ldl 5
+ldnl 4413
+stl 0
+ldlp 1
+ldl 5
+call qheir5
+cj c503
+ldlp 1
+ldl 5
+call qrvalue
+c503:
+ajw -2
+ldl 7
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 3
+ldl 7
+call qcrea_nodo
+ajw 2
+j c500
+c501:
+ldc 0
+ajw 4
+ret
+c497:
+db 38,0
+qheir5:
+ajw -4
+ldl 6
+ldl 5
+call qheir6
+stl 3
+ldl 5
+call qblanks
+ldl 5
+ldnlp 3487
+ldl 5
+ldnl 3743
+bsub
+ldc c504-c506+3
+ldpi
+c506:
+rev
+ldl 5
+call qstreq
+eqc 0
+ajw -1
+stl 0
+ldl 6
+ldnlp 3487
+ldl 6
+ldnl 3743
+bsub
+ldc c504-c507+0
+ldpi
+c507:
+rev
+ldl 6
+call qstreq
+eqc 0
+ldl 0
+ajw 1
+and
+cj c505
+ldl 3
+ajw 4
+ret
+c505:
+ldl 3
+cj c508
+ldl 6
+ldl 5
+call qrvalue
+c508:
+c509:
+ldc 1
+cj c510
+ldl 5
+ldnl 4413
+stl 0
+ldc c504-c512+6
+ldpi
+c512:
+ldl 5
+call qmatch
+cj c511
+ldlp 1
+ldl 5
+call qheir6
+cj c513
+ldlp 1
+ldl 5
+call qrvalue
+c513:
+ldl 5
+ldnl 4413
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c514
+ldl 0
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c515
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+diff
+eqc 0
+stl 1
+ldc 0
+ldc 30
+ldl 7
+call qcrea_nodo
+ajw 2
+j c516
+c515:
+ajw -2
+ldc 0
+stl 0
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+stl 1
+ldl 2
+ldc 5
+ldl 7
+call qcrea_nodo
+ajw 2
+c516:
+j c517
+c514:
+ldl 0
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c518
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+stl 1
+ldl 7
+ldnl 4413
+ldc 5
+ldl 7
+call qcrea_nodo
+ajw 2
+j c519
+c518:
+ajw -2
+ldl 7
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 4
+ldl 7
+call qcrea_nodo
+ajw 2
+c519:
+c517:
+j c520
+c511:
+ldc c504-c522+9
+ldpi
+c522:
+ldl 5
+call qmatch
+cj c521
+ldlp 1
+ldl 5
+call qheir6
+cj c523
+ldlp 1
+ldl 5
+call qrvalue
+c523:
+ldl 5
+ldnl 4413
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c524
+ldl 0
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c525
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+diff
+eqc 0
+eqc 0
+stl 1
+ldc 0
+ldc 30
+ldl 7
+call qcrea_nodo
+ajw 2
+j c526
+c525:
+ajw -2
+ldc 0
+stl 0
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+stl 1
+ldl 2
+ldc 5
+ldl 7
+call qcrea_nodo
+ajw 2
+ajw -2
+ldc 0
+stl 0
+ldc 0
+stl 1
+ldl 7
+ldnl 4413
+ldc 27
+ldl 7
+call qcrea_nodo
+ajw 2
+c526:
+j c527
+c524:
+ldl 0
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c528
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+stl 1
+ldl 7
+ldnl 4413
+ldc 5
+ldl 7
+call qcrea_nodo
+ajw 2
+ajw -2
+ldc 0
+stl 0
+ldc 0
+stl 1
+ldl 7
+ldnl 4413
+ldc 27
+ldl 7
+call qcrea_nodo
+ajw 2
+j c529
+c528:
+ajw -2
+ldl 7
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 4
+ldl 7
+call qcrea_nodo
+ajw 2
+ajw -2
+ldc 0
+stl 0
+ldc 0
+stl 1
+ldl 7
+ldnl 4413
+ldc 27
+ldl 7
+call qcrea_nodo
+ajw 2
+c529:
+c527:
+j c530
+c521:
+ldc 0
+ajw 4
+ret
+c530:
+c520:
+j c509
+c510:
+ajw 4
+ret
+c504:
+db 61,61,0,33,61
+db 0,61,61,0,33
+db 61,0
+qheir6:
+ajw -1
+ldl 3
+ldl 2
+call qheir7
+stl 0
+ldl 2
+call qblanks
+ldl 2
+ldnlp 3487
+ldl 2
+ldnl 3743
+bsub
+ldc c531-c533+7
+ldpi
+c533:
+rev
+ldl 2
+call qstreq
+eqc 0
+ajw -1
+stl 0
+ldl 3
+ldnlp 3487
+ldl 3
+ldnl 3743
+bsub
+ldc c531-c534+4
+ldpi
+c534:
+rev
+ldl 3
+call qstreq
+eqc 0
+ajw -1
+stl 0
+ldl 4
+ldnlp 3487
+ldl 4
+ldnl 3743
+bsub
+ldc c531-c535+2
+ldpi
+c535:
+rev
+ldl 4
+call qstreq
+eqc 0
+ajw -1
+stl 0
+ldl 5
+ldnlp 3487
+ldl 5
+ldnl 3743
+bsub
+ldc c531-c536+0
+ldpi
+c536:
+rev
+ldl 5
+call qstreq
+eqc 0
+ldl 0
+ajw 1
+and
+ldl 0
+ajw 1
+and
+ldl 0
+ajw 1
+and
+cj c532
+ldl 0
+ajw 1
+ret
+c532:
+ldl 2
+ldnlp 3487
+ldl 2
+ldnl 3743
+bsub
+ldc c531-c538+10
+ldpi
+c538:
+rev
+ldl 2
+call qstreq
+cj c537
+ldl 0
+ajw 1
+ret
+c537:
+ldl 2
+ldnlp 3487
+ldl 2
+ldnl 3743
+bsub
+ldc c531-c540+13
+ldpi
+c540:
+rev
+ldl 2
+call qstreq
+cj c539
+ldl 0
+ajw 1
+ret
+c539:
+ldl 0
+cj c541
+ldl 3
+ldl 2
+call qrvalue
+c541:
+c542:
+ldc 1
+cj c543
+ldc c531-c545+16
+ldpi
+c545:
+ldl 2
+call qmatch
+cj c544
+ldl 3
+ldc 1
+ldl 2
+call qheir6wrk
+j c546
+c544:
+ldc c531-c548+19
+ldpi
+c548:
+ldl 2
+call qmatch
+cj c547
+ldl 3
+ldc 2
+ldl 2
+call qheir6wrk
+j c549
+c547:
+ldl 2
+ldnlp 3487
+ldl 2
+ldnl 3743
+bsub
+ldc c531-c551+24
+ldpi
+c551:
+rev
+ldl 2
+call qstreq
+eqc 0
+ajw -1
+stl 0
+ldl 3
+ldnlp 3487
+ldl 3
+ldnl 3743
+bsub
+ldc c531-c552+22
+ldpi
+c552:
+rev
+ldl 3
+call qstreq
+ldl 0
+ajw 1
+and
+cj c550
+ldl 2
+call qinbyte
+ldl 3
+ldc 3
+ldl 2
+call qheir6wrk
+j c553
+c550:
+ldl 2
+ldnlp 3487
+ldl 2
+ldnl 3743
+bsub
+ldc c531-c555+29
+ldpi
+c555:
+rev
+ldl 2
+call qstreq
+eqc 0
+ajw -1
+stl 0
+ldl 3
+ldnlp 3487
+ldl 3
+ldnl 3743
+bsub
+ldc c531-c556+27
+ldpi
+c556:
+rev
+ldl 3
+call qstreq
+ldl 0
+ajw 1
+and
+cj c554
+ldl 2
+call qinbyte
+ldl 3
+ldc 4
+ldl 2
+call qheir6wrk
+j c557
+c554:
+ldc 0
+ajw 1
+ret
+c557:
+c553:
+c549:
+c546:
+j c542
+c543:
+ajw 1
+ret
+c531:
+db 60,0,62,0,60
+db 61,0,62,61,0
+db 62,62,0,60,60
+db 0,60,61,0,62
+db 61,0,60,0,60
+db 60,0,62,0,62
+db 62,0
+qheir6wrk:
+ajw -3
+ldl 4
+ldnl 4413
+stl 0
+ldlp 1
+ldl 4
+call qheir7
+cj c559
+ldlp 1
+ldl 4
+call qrvalue
+c559:
+ldl 6
+ldnl 0
+dup
+ldl 4
+stnl 3769
+cj c560
+ldl 4
+ldnl 3769
+adc 17
+lb
+eqc 3
+cj c561
+ldl 5
+ldl 0
+ldl 4
+call qheir6op
+ajw 3
+ret
+c561:
+c560:
+ldl 1
+dup
+ldl 4
+stnl 3769
+cj c562
+ldl 4
+ldnl 3769
+adc 17
+lb
+eqc 3
+cj c563
+ldl 5
+ldl 0
+ldl 4
+call qheir6op
+ajw 3
+ret
+c563:
+c562:
+ldl 5
+eqc 4
+cj c564
+ldl 0
+ldl 4
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+ldl 4
+ldnl 4413
+ldl 4
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+and
+cj c565
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 6
+ldnlp 4157
+wsub
+ldnl 0
+ldl 6
+ldnl 4413
+ldl 6
+ldnlp 4157
+wsub
+ldnl 0
+gt
+stl 1
+ldc 0
+ldc 30
+ldl 6
+call qcrea_nodo
+ajw 2
+j c566
+c565:
+ajw -2
+ldl 6
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 6
+ldl 6
+call qcrea_nodo
+ajw 2
+c566:
+j c567
+c564:
+ldl 5
+eqc 3
+cj c568
+ldl 0
+ldl 4
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+ldl 4
+ldnl 4413
+ldl 4
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+and
+cj c569
+ajw -2
+ldc 0
+stl 0
+ldl 6
+ldnl 4413
+ldl 6
+ldnlp 4157
+wsub
+ldnl 0
+ldl 2
+ldl 6
+ldnlp 4157
+wsub
+ldnl 0
+gt
+stl 1
+ldc 0
+ldc 30
+ldl 6
+call qcrea_nodo
+ajw 2
+j c570
+c569:
+ajw -2
+ldl 2
+stl 0
+ldc 0
+stl 1
+ldl 6
+ldnl 4413
+ldc 6
+ldl 6
+call qcrea_nodo
+ajw 2
+c570:
+j c571
+c568:
+ldl 5
+eqc 1
+cj c572
+ldl 0
+ldl 4
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+ldl 4
+ldnl 4413
+ldl 4
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+and
+cj c573
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 6
+ldnlp 4157
+wsub
+ldnl 0
+ldl 6
+ldnl 4413
+ldl 6
+ldnlp 4157
+wsub
+ldnl 0
+gt
+eqc 0
+stl 1
+ldc 0
+ldc 30
+ldl 6
+call qcrea_nodo
+ajw 2
+j c574
+c573:
+ajw -2
+ldl 6
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 6
+ldl 6
+call qcrea_nodo
+ajw 2
+ajw -1
+ldc 0
+stl 0
+ldl 5
+ldnl 4413
+ldc 27
+ldl 5
+call qcrea_nodo
+ajw 1
+c574:
+j c575
+c572:
+ldl 0
+ldl 4
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+ldl 4
+ldnl 4413
+ldl 4
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+and
+cj c576
+ajw -2
+ldc 0
+stl 0
+ldl 6
+ldnl 4413
+ldl 6
+ldnlp 4157
+wsub
+ldnl 0
+ldl 2
+ldl 6
+ldnlp 4157
+wsub
+ldnl 0
+gt
+eqc 0
+stl 1
+ldc 0
+ldc 30
+ldl 6
+call qcrea_nodo
+ajw 2
+j c577
+c576:
+ajw -2
+ldl 2
+stl 0
+ldc 0
+stl 1
+ldl 6
+ldnl 4413
+ldc 6
+ldl 6
+call qcrea_nodo
+ajw 2
+ajw -1
+ldc 0
+stl 0
+ldl 5
+ldnl 4413
+ldc 27
+ldl 5
+call qcrea_nodo
+ajw 1
+c577:
+c575:
+c571:
+c567:
+ajw 3
+ret
+qheir6op:
+ldl 3
+eqc 4
+cj c579
+ajw -2
+ldl 3
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 4
+ldc 10
+ldl 3
+call qcrea_nodo
+ajw 2
+j c580
+c579:
+ldl 3
+eqc 3
+cj c581
+ajw -2
+ldl 4
+stl 0
+ldc 0
+stl 1
+ldl 3
+ldnl 4413
+ldc 10
+ldl 3
+call qcrea_nodo
+ajw 2
+j c582
+c581:
+ldl 3
+eqc 1
+cj c583
+ajw -2
+ldl 3
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 4
+ldc 10
+ldl 3
+call qcrea_nodo
+ajw 2
+ajw -1
+ldc 0
+stl 0
+ldl 2
+ldnl 4413
+ldc 27
+ldl 2
+call qcrea_nodo
+ajw 1
+j c584
+c583:
+ajw -2
+ldl 4
+stl 0
+ldc 0
+stl 1
+ldl 3
+ldnl 4413
+ldc 10
+ldl 3
+call qcrea_nodo
+ajw 2
+ajw -1
+ldc 0
+stl 0
+ldl 2
+ldnl 4413
+ldc 27
+ldl 2
+call qcrea_nodo
+ajw 1
+c584:
+c582:
+c580:
+ret
+qheir7:
+ajw -4
+ldl 6
+ldl 5
+call qheir8
+stl 3
+ldl 5
+call qblanks
+ldl 5
+ldnlp 3487
+ldl 5
+ldnl 3743
+bsub
+ldc c585-c587+3
+ldpi
+c587:
+rev
+ldl 5
+call qstreq
+eqc 0
+ajw -1
+stl 0
+ldl 6
+ldnlp 3487
+ldl 6
+ldnl 3743
+bsub
+ldc c585-c588+0
+ldpi
+c588:
+rev
+ldl 6
+call qstreq
+eqc 0
+ldl 0
+ajw 1
+and
+cj c586
+ldl 3
+ajw 4
+ret
+c586:
+ldl 3
+cj c589
+ldl 6
+ldl 5
+call qrvalue
+c589:
+c590:
+ldc 1
+cj c591
+ldl 5
+ldnl 4413
+stl 0
+ldc c585-c593+6
+ldpi
+c593:
+ldl 5
+call qmatch
+cj c592
+ldlp 1
+ldl 5
+call qheir8
+cj c594
+ldlp 1
+ldl 5
+call qrvalue
+c594:
+ldl 0
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+ldl 5
+ldnl 4413
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+and
+cj c595
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+shr
+stl 1
+ldc 0
+ldc 30
+ldl 7
+call qcrea_nodo
+ajw 2
+j c596
+c595:
+ajw -2
+ldl 7
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 14
+ldl 7
+call qcrea_nodo
+ajw 2
+c596:
+j c597
+c592:
+ldc c585-c599+9
+ldpi
+c599:
+ldl 5
+call qmatch
+cj c598
+ldlp 1
+ldl 5
+call qheir8
+cj c600
+ldlp 1
+ldl 5
+call qrvalue
+c600:
+ldl 0
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+ldl 5
+ldnl 4413
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+and
+cj c601
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+shl
+stl 1
+ldc 0
+ldc 30
+ldl 7
+call qcrea_nodo
+ajw 2
+j c602
+c601:
+ajw -2
+ldl 7
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 15
+ldl 7
+call qcrea_nodo
+ajw 2
+c602:
+j c603
+c598:
+ldc 0
+ajw 4
+ret
+c603:
+c597:
+j c590
+c591:
+ajw 4
+ret
+c585:
+db 62,62,0,60,60
+db 0,62,62,0,60
+db 60,0
+qheir8:
+ajw -4
+ldl 6
+ldl 5
+call qheir9
+stl 3
+ldl 5
+call qblanks
+ldl 5
+call qch
+eqc 45
+eqc 0
+ajw -1
+stl 0
+ldl 6
+call qch
+eqc 43
+eqc 0
+ldl 0
+ajw 1
+and
+cj c605
+ldl 3
+ajw 4
+ret
+c605:
+ldl 3
+cj c606
+ldl 6
+ldl 5
+call qrvalue
+c606:
+c607:
+ldc 1
+cj c608
+ldl 5
+ldnl 4413
+stl 0
+ldc c604-c610+0
+ldpi
+c610:
+ldl 5
+call qmatch
+cj c609
+ldlp 1
+ldl 5
+call qheir9
+cj c611
+ldlp 1
+ldl 5
+call qrvalue
+c611:
+ldl 6
+ldnl 0
+dup
+ldl 5
+stnl 3769
+cj c612
+ldl 5
+ldnl 3769
+adc 17
+lb
+eqc 3
+ldl 5
+ldnl 3769
+adc 18
+lb
+eqc 2
+and
+cj c613
+ldl 5
+call qdoublereg
+c613:
+c612:
+ldl 0
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+ldl 5
+ldnl 4413
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+and
+cj c614
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+bsub
+stl 1
+ldc 0
+ldc 30
+ldl 7
+call qcrea_nodo
+ajw 2
+j c615
+c614:
+ldl 5
+ldnl 4413
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c616
+ajw -2
+ldc 0
+stl 0
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+stl 1
+ldl 2
+ldc 7
+ldl 7
+call qcrea_nodo
+ajw 2
+j c617
+c616:
+ldl 0
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c618
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+stl 1
+ldl 7
+ldnl 4413
+ldc 7
+ldl 7
+call qcrea_nodo
+ajw 2
+j c619
+c618:
+ajw -2
+ldl 7
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 16
+ldl 7
+call qcrea_nodo
+ajw 2
+c619:
+c617:
+c615:
+j c620
+c609:
+ldc c604-c622+2
+ldpi
+c622:
+ldl 5
+call qmatch
+cj c621
+ldlp 1
+ldl 5
+call qheir9
+cj c623
+ldlp 1
+ldl 5
+call qrvalue
+c623:
+ldl 6
+ldnl 0
+dup
+ldl 5
+stnl 3769
+cj c624
+ldl 5
+ldnl 3769
+adc 17
+lb
+eqc 3
+ldl 5
+ldnl 3769
+adc 18
+lb
+eqc 2
+and
+cj c625
+ldl 5
+call qdoublereg
+c625:
+c624:
+ldl 0
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+ldl 5
+ldnl 4413
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+and
+cj c626
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+diff
+stl 1
+ldc 0
+ldc 30
+ldl 7
+call qcrea_nodo
+ajw 2
+j c627
+c626:
+ldl 5
+ldnl 4413
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c628
+ajw -2
+ldc 0
+stl 0
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+not
+adc 1
+stl 1
+ldl 2
+ldc 7
+ldl 7
+call qcrea_nodo
+ajw 2
+j c629
+c628:
+ajw -2
+ldl 7
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 17
+ldl 7
+call qcrea_nodo
+ajw 2
+c629:
+c627:
+j c630
+c621:
+ldc 0
+ajw 4
+ret
+c630:
+c620:
+j c607
+c608:
+ajw 4
+ret
+c604:
+db 43,0,45,0
+qheir9:
+ajw -4
+ldl 6
+ldl 5
+call qheir10
+stl 3
+ldl 5
+call qblanks
+ldl 5
+call qch
+eqc 37
+eqc 0
+ajw -1
+stl 0
+ldl 6
+call qch
+eqc 47
+eqc 0
+ajw -1
+stl 0
+ldl 7
+call qch
+eqc 42
+eqc 0
+ldl 0
+ajw 1
+and
+ldl 0
+ajw 1
+and
+cj c632
+ldl 3
+ajw 4
+ret
+c632:
+ldl 3
+cj c633
+ldl 6
+ldl 5
+call qrvalue
+c633:
+c634:
+ldc 1
+cj c635
+ldl 5
+ldnl 4413
+stl 0
+ldc c631-c637+0
+ldpi
+c637:
+ldl 5
+call qmatch
+cj c636
+ldlp 1
+ldl 5
+call qheir10
+cj c638
+ldlp 1
+ldl 5
+call qrvalue
+c638:
+ldl 0
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+ldl 5
+ldnl 4413
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+and
+cj c639
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+prod
+stl 1
+ldc 0
+ldc 30
+ldl 7
+call qcrea_nodo
+ajw 2
+j c640
+c639:
+ajw -2
+ldl 7
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 18
+ldl 7
+call qcrea_nodo
+ajw 2
+c640:
+j c641
+c636:
+ldc c631-c643+2
+ldpi
+c643:
+ldl 5
+call qmatch
+cj c642
+ldlp 1
+ldl 5
+call qheir10
+cj c644
+ldlp 1
+ldl 5
+call qrvalue
+c644:
+ldl 0
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+ldl 5
+ldnl 4413
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+and
+cj c645
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+div
+stl 1
+ldc 0
+ldc 30
+ldl 7
+call qcrea_nodo
+ajw 2
+j c646
+c645:
+ajw -2
+ldl 7
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 19
+ldl 7
+call qcrea_nodo
+ajw 2
+c646:
+j c647
+c642:
+ldc c631-c649+4
+ldpi
+c649:
+ldl 5
+call qmatch
+cj c648
+ldlp 1
+ldl 5
+call qheir10
+cj c650
+ldlp 1
+ldl 5
+call qrvalue
+c650:
+ldl 0
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+ldl 5
+ldnl 4413
+ldl 5
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+and
+cj c651
+ajw -2
+ldc 0
+stl 0
+ldl 2
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4157
+wsub
+ldnl 0
+rem
+stl 1
+ldc 0
+ldc 30
+ldl 7
+call qcrea_nodo
+ajw 2
+j c652
+c651:
+ajw -2
+ldl 7
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 2
+ldc 20
+ldl 7
+call qcrea_nodo
+ajw 2
+c652:
+j c653
+c648:
+ldc 0
+ajw 4
+ret
+c653:
+c647:
+c641:
+j c634
+c635:
+ajw 4
+ret
+c631:
+db 42,0,47,0,37
+db 0
+qheir10:
+ajw -1
+ldc c654-c656+0
+ldpi
+c656:
+ldl 2
+call qmatch
+cj c655
+ldl 3
+ldl 2
+call qheir10
+eqc 0
+cj c657
+ldl 2
+call qneedlval
+c657:
+ldl 3
+ldl 2
+call qheir10inc
+ldc 0
+ajw 1
+ret
+j c658
+c655:
+ldc c654-c660+3
+ldpi
+c660:
+ldl 2
+call qmatch
+cj c659
+ldl 3
+ldl 2
+call qheir10
+eqc 0
+cj c661
+ldl 2
+call qneedlval
+c661:
+ldl 3
+ldl 2
+call qheir10dec
+ldc 0
+ajw 1
+ret
+j c662
+c659:
+ldc c654-c664+6
+ldpi
+c664:
+ldl 2
+call qmatch
+cj c663
+ldl 3
+ldl 2
+call qheir10
+cj c665
+ldl 3
+ldl 2
+call qrvalue
+c665:
+ldl 2
+ldnl 4413
+ldl 2
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c666
+ldl 2
+ldnl 4413
+ldl 2
+ldnlp 4157
+wsub
+ldnl 0
+not
+adc 1
+ldl 2
+ldnl 4413
+ldl 2
+ldnlp 4157
+wsub
+stnl 0
+j c667
+c666:
+ajw -2
+ldc 0
+stl 0
+ldc 0
+stl 1
+ldl 4
+ldnl 4413
+ldc 21
+ldl 4
+call qcrea_nodo
+ajw 2
+c667:
+ldc 0
+ajw 1
+ret
+j c668
+c663:
+ldc c654-c670+8
+ldpi
+c670:
+ldl 2
+call qmatch
+cj c669
+ldl 3
+ldl 2
+call qheir10
+cj c671
+ldl 3
+ldl 2
+call qrvalue
+c671:
+ldl 2
+ldnl 4413
+ldl 2
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c672
+ldl 2
+ldnl 4413
+ldl 2
+ldnlp 4157
+wsub
+ldnl 0
+not
+ldl 2
+ldnl 4413
+ldl 2
+ldnlp 4157
+wsub
+stnl 0
+j c673
+c672:
+ajw -2
+ldc 0
+stl 0
+ldc 0
+stl 1
+ldl 4
+ldnl 4413
+ldc 22
+ldl 4
+call qcrea_nodo
+ajw 2
+c673:
+ldc 0
+ajw 1
+ret
+j c674
+c669:
+ldc c654-c676+10
+ldpi
+c676:
+ldl 2
+call qmatch
+cj c675
+ldl 3
+ldl 2
+call qheir10
+cj c677
+ldl 3
+ldl 2
+call qrvalue
+c677:
+ldl 2
+ldnl 4413
+ldl 2
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c678
+ldl 2
+ldnl 4413
+ldl 2
+ldnlp 4157
+wsub
+ldnl 0
+eqc 0
+ldl 2
+ldnl 4413
+ldl 2
+ldnlp 4157
+wsub
+stnl 0
+j c679
+c678:
+ajw -2
+ldc 0
+stl 0
+ldc 0
+stl 1
+ldl 4
+ldnl 4413
+ldc 27
+ldl 4
+call qcrea_nodo
+ajw 2
+c679:
+ldc 0
+ajw 1
+ret
+j c680
+c675:
+ldc c654-c682+12
+ldpi
+c682:
+ldl 2
+call qmatch
+cj c681
+ldl 3
+ldl 2
+call qheir10as
+ldc 1
+ajw 1
+ret
+j c683
+c681:
+ldc c654-c685+14
+ldpi
+c685:
+ldl 2
+call qmatch
+cj c684
+ldl 3
+ldl 2
+call qheir10
+eqc 0
+cj c686
+ldc c654-c687+16
+ldpi
+c687:
+ldl 2
+call qerror
+ldc 0
+ajw 1
+ret
+c686:
+ldl 3
+ldnl 1
+cj c688
+ldc 0
+ajw 1
+ret
+c688:
+ldl 3
+ldl 2
+call qheir10at
+ldc 0
+ajw 1
+ret
+c684:
+c683:
+c680:
+c674:
+c668:
+c662:
+c658:
+ldl 3
+ldl 2
+call qheir11
+stl 0
+ldc c654-c690+33
+ldpi
+c690:
+ldl 2
+call qmatch
+cj c689
+ldl 0
+eqc 0
+cj c691
+ldl 2
+call qneedlval
+c691:
+ldl 3
+ldl 2
+call qheir10id
+ldc 0
+ajw 1
+ret
+j c692
+c689:
+ldc c654-c694+36
+ldpi
+c694:
+ldl 2
+call qmatch
+cj c693
+ldl 0
+eqc 0
+cj c695
+ldl 2
+call qneedlval
+c695:
+ldl 3
+ldl 2
+call qheir10di
+ldc 0
+ajw 1
+ret
+j c696
+c693:
+ldl 0
+ajw 1
+ret
+c696:
+c692:
+ajw 1
+ret
+c654:
+db 43,43,0,45,45
+db 0,45,0,126,0
+db 33,0,42,0,38
+db 0,68,105,114,101
+db 99,99,105,162,110
+db 32,105,108,101,103
+db 97,108,0,43,43
+db 0,45,45,0
+qheir10inc:
+ajw -1
+ldl 3
+ldnl 0
+stl 0
+ldl 0
+adc 17
+lb
+eqc 3
+ldl 0
+adc 18
+lb
+eqc 2
+and
+cj c698
+ajw -2
+ldc 0
+stl 0
+ldc 4
+stl 1
+ldl 4
+ldnl 4413
+ldc 23
+ldl 4
+call qcrea_nodo
+ajw 2
+j c699
+c698:
+ajw -2
+ldc 0
+stl 0
+ldc 1
+stl 1
+ldl 4
+ldnl 4413
+ldc 23
+ldl 4
+call qcrea_nodo
+ajw 2
+c699:
+ajw 1
+ret
+qheir10dec:
+ajw -1
+ldl 3
+ldnl 0
+stl 0
+ldl 0
+adc 17
+lb
+eqc 3
+ldl 0
+adc 18
+lb
+eqc 2
+and
+cj c701
+ajw -2
+ldc 0
+stl 0
+ldc -4
+stl 1
+ldl 4
+ldnl 4413
+ldc 23
+ldl 4
+call qcrea_nodo
+ajw 2
+j c702
+c701:
+ajw -2
+ldc 0
+stl 0
+ldc -1
+stl 1
+ldl 4
+ldnl 4413
+ldc 23
+ldl 4
+call qcrea_nodo
+ajw 2
+c702:
+ajw 1
+ret
+qheir10as:
+ajw -2
+ldl 4
+ldl 3
+call qheir10
+stl 1
+ldl 1
+cj c704
+ldl 4
+ldl 3
+call qrvalue
+c704:
+ldc 2
+ldl 4
+stnl 1
+ldl 4
+ldnl 0
+dup
+stl 0
+cj c705
+ldl 0
+adc 18
+lb
+ldl 4
+stnl 1
+c705:
+ldc 0
+ldl 4
+stnl 0
+ajw 2
+ret
+qheir10at:
+ajw -1
+ldl 0
+adc 18
+lb
+ldl 3
+stnl 1
+ajw 1
+ret
+qheir10id:
+ajw -1
+ldl 3
+ldnl 0
+stl 0
+ldl 0
+adc 17
+lb
+eqc 3
+ldl 0
+adc 18
+lb
+eqc 2
+and
+cj c708
+ajw -2
+ldc 0
+stl 0
+ldc 4
+stl 1
+ldl 4
+ldnl 4413
+ldc 25
+ldl 4
+call qcrea_nodo
+ajw 2
+j c709
+c708:
+ajw -2
+ldc 0
+stl 0
+ldc 1
+stl 1
+ldl 4
+ldnl 4413
+ldc 25
+ldl 4
+call qcrea_nodo
+ajw 2
+c709:
+ajw 1
+ret
+qheir10di:
+ajw -1
+ldl 3
+ldnl 0
+stl 0
+ldl 0
+adc 17
+lb
+eqc 3
+ldl 0
+adc 18
+lb
+eqc 2
+and
+cj c711
+ajw -2
+ldc 0
+stl 0
+ldc -4
+stl 1
+ldl 4
+ldnl 4413
+ldc 25
+ldl 4
+call qcrea_nodo
+ajw 2
+j c712
+c711:
+ajw -2
+ldc 0
+stl 0
+ldc -1
+stl 1
+ldl 4
+ldnl 4413
+ldc 25
+ldl 4
+call qcrea_nodo
+ajw 2
+c712:
+ajw 1
+ret
+qheir11:
+ajw -6
+ldl 8
+ldl 7
+call qprimary
+stl 5
+ldl 8
+ldnl 0
+stl 2
+ldl 7
+call qblanks
+ldl 7
+call qch
+eqc 40
+ajw -1
+stl 0
+ldl 8
+call qch
+eqc 91
+ldl 0
+ajw 1
+or
+cj c714
+c715:
+ldc 1
+cj c716
+ldc c713-c718+0
+ldpi
+c718:
+ldl 7
+call qmatch
+cj c717
+ldl 2
+eqc 0
+cj c719
+ldc c713-c720+2
+ldpi
+c720:
+ldl 7
+call qerror
+ldl 7
+call qjunk
+ldc c713-c721+30
+ldpi
+c721:
+ldl 7
+call qneedbrack
+ldc 0
+ajw 6
+ret
+j c722
+c719:
+ldl 2
+adc 17
+lb
+eqc 3
+cj c723
+ldl 8
+ldl 7
+call qrvalue
+j c724
+c723:
+ldl 2
+adc 17
+lb
+eqc 2
+eqc 0
+cj c725
+ldc c713-c726+32
+ldpi
+c726:
+ldl 7
+call qerror
+ldc 0
+stl 5
+c725:
+c724:
+c722:
+ldl 7
+ldnl 4413
+stl 3
+ldlp 0
+ldl 7
+call qheir1
+cj c727
+ldlp 0
+ldl 7
+call qrvalue
+c727:
+ldc c713-c728+60
+ldpi
+c728:
+ldl 7
+call qneedbrack
+ldl 2
+adc 18
+lb
+eqc 2
+cj c729
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c730
+ajw -2
+ldc 0
+stl 0
+ldl 9
+ldnl 4413
+ldl 9
+ldnlp 4157
+wsub
+ldnl 0
+stl 1
+ldl 5
+ldc 36
+ldl 9
+call qcrea_nodo
+ajw 2
+j c731
+c730:
+ajw -2
+ldl 5
+stl 0
+ldc 0
+stl 1
+ldl 9
+ldnl 4413
+ldc 28
+ldl 9
+call qcrea_nodo
+ajw 2
+c731:
+j c732
+c729:
+ldl 7
+ldnl 4413
+ldl 7
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c733
+ajw -2
+ldc 0
+stl 0
+ldl 9
+ldnl 4413
+ldl 9
+ldnlp 4157
+wsub
+ldnl 0
+stl 1
+ldl 5
+ldc 7
+ldl 9
+call qcrea_nodo
+ajw 2
+j c734
+c733:
+ajw -2
+ldl 5
+stl 0
+ldc 0
+stl 1
+ldl 9
+ldnl 4413
+ldc 16
+ldl 9
+call qcrea_nodo
+ajw 2
+c734:
+c732:
+ldl 2
+adc 18
+lb
+ldl 8
+stnl 1
+ldc 1
+stl 5
+j c735
+c717:
+ldc c713-c737+62
+ldpi
+c737:
+ldl 7
+call qmatch
+cj c736
+ldl 2
+eqc 0
+cj c738
+ldc 0
+ldl 7
+call qcallfunction
+j c739
+c738:
+ldl 2
+adc 17
+lb
+eqc 4
+eqc 0
+cj c740
+ldl 8
+ldl 7
+call qrvalue
+ldc 0
+ldl 7
+call qcallfunction
+j c741
+c740:
+ldl 2
+ldl 7
+call qcallfunction
+c741:
+c739:
+ldc 0
+dup
+ldl 8
+stnl 0
+stl 5
+j c742
+c736:
+ldl 5
+ajw 6
+ret
+c742:
+c735:
+j c715
+c716:
+c714:
+ldl 2
+eqc 0
+cj c743
+ldl 5
+ajw 6
+ret
+c743:
+ldl 2
+adc 17
+lb
+eqc 4
+cj c744
+ajw -2
+ldc 0
+stl 0
+ldl 4
+stl 1
+ldc 0
+ldc 29
+ldl 9
+call qcrea_nodo
+ajw 2
+ldc 0
+ajw 6
+ret
+c744:
+ldl 5
+ajw 6
+ret
+c713:
+db 91,0,78,111,32
+db 115,101,32,112,117
+db 101,100,101,32,117
+db 115,97,114,32,115
+db 117,98,115,99,114
+db 105,112,116,111,0
+db 93,0,78,111,32
+db 115,101,32,112,117
+db 101,100,101,32,117
+db 115,97,114,32,115
+db 117,98,115,99,114
+db 105,112,116,111,0
+db 93,0,40,0
+qprimary:
+ajw -8
+ldc c745-c747+0
+ldpi
+c747:
+ldl 9
+call qmatch
+cj c746
+ldl 10
+ldl 9
+call qheir1
+stl 0
+ldc c745-c748+2
+ldpi
+c748:
+ldl 9
+call qneedbrack
+ldl 0
+ajw 8
+ret
+c746:
+ldlp 2
+ldl 9
+call qsymname
+cj c749
+ldlp 2
+ldl 9
+call qfindloc
+dup
+stl 7
+cj c750
+ldl 7
+ldl 9
+call qgetloc
+ldl 7
+ldl 10
+stnl 0
+ldl 7
+adc 18
+lb
+ldl 10
+stnl 1
+ldl 7
+adc 17
+lb
+eqc 3
+cj c751
+ldc 2
+ldl 10
+stnl 1
+c751:
+ldl 7
+adc 17
+lb
+eqc 2
+cj c752
+ldc 0
+ajw 8
+ret
+c752:
+ldc 1
+ajw 8
+ret
+c750:
+ldlp 2
+ldl 9
+call qfindglb
+dup
+stl 7
+cj c753
+ldl 7
+adc 17
+lb
+eqc 4
+eqc 0
+cj c754
+ldl 7
+ldc 0
+ldl 9
+call qoutpos
+ldl 7
+ldl 10
+stnl 0
+ldl 7
+adc 18
+lb
+ldl 10
+stnl 1
+ldl 7
+adc 17
+lb
+eqc 3
+cj c755
+ldc 2
+ldl 10
+stnl 1
+c755:
+ldl 7
+adc 17
+lb
+eqc 2
+cj c756
+ldc 0
+ajw 8
+ret
+c756:
+ldc 1
+ajw 8
+ret
+c754:
+j c757
+c753:
+ajw -2
+ldc 2
+stl 0
+ldc 0
+stl 1
+ldc 4
+ldlp 4
+ldl 11
+call qaddglb
+ajw 2
+stl 7
+c757:
+ldl 7
+ldl 10
+stnl 0
+ldc 0
+ldl 10
+stnl 1
+ldc 0
+ajw 8
+ret
+c749:
+ldlp 1
+ldl 9
+call qconstant
+cj c758
+ldc 0
+dup
+ldl 10
+stnl 1
+dup
+ldl 10
+stnl 0
+ajw 8
+ret
+j c759
+c758:
+ldc c745-c760+4
+ldpi
+c760:
+ldl 9
+call qerror
+ajw -2
+ldc 0
+stl 0
+ldc 0
+stl 1
+ldc 0
+ldc 30
+ldl 11
+call qcrea_nodo
+ajw 2
+ldl 9
+call qjunk
+ldc 0
+ajw 8
+ret
+c759:
+ajw 8
+ret
+c745:
+db 40,0,41,0,69
+db 120,112,114,101,115
+db 105,111,110,32,105
+db 110,118,97,108,105
+db 100,97,0
+qcallfunction:
+ajw -5
+ldc 0
+dup
+stl 1
+stl 2
+ldl 6
+call qblanks
+ldl 7
+eqc 0
+cj c762
+ldl 6
+ldnl 4413
+stl 0
+c762:
+c763:
+ldl 6
+ldnlp 3487
+ldl 6
+ldnl 3743
+bsub
+ldc c761-c765+0
+ldpi
+c765:
+rev
+ldl 6
+call qstreq
+eqc 0
+cj c764
+ldl 6
+call qendst
+cj c766
+j c764
+c766:
+ldlp 3
+ldl 6
+call qheir1
+cj c767
+ldlp 3
+ldl 6
+call qrvalue
+c767:
+ajw -2
+ldc 0
+stl 0
+ldc 0
+stl 1
+ldl 8
+ldnl 4413
+ldc 13
+ldl 8
+call qcrea_nodo
+ajw 2
+ldl 1
+eqc 0
+cj c768
+ldl 6
+ldnl 4413
+stl 1
+c768:
+ldl 2
+eqc 0
+eqc 0
+cj c769
+ldl 6
+ldnl 4413
+ldl 2
+ldl 6
+ldnlp 4157
+wsub
+stnl 0
+c769:
+ldl 6
+ldnl 4413
+stl 2
+ldc c761-c771+2
+ldpi
+c771:
+ldl 6
+call qmatch
+eqc 0
+cj c770
+j c764
+c770:
+ldl 6
+call qblanks
+j c763
+c764:
+ldc c761-c772+4
+ldpi
+c772:
+ldl 6
+call qneedbrack
+ldl 7
+eqc 0
+cj c773
+ajw -2
+ldc 0
+stl 0
+ldl 2
+stl 1
+ldl 3
+ldc 12
+ldl 8
+call qcrea_nodo
+ajw 2
+j c774
+c773:
+ajw -2
+ldc 0
+stl 0
+ldl 9
+stl 1
+ldl 3
+ldc 11
+ldl 8
+call qcrea_nodo
+ajw 2
+c774:
+ajw 5
+ret
+c761:
+db 41,0,44,0,41
+db 0
+qrvalue:
+ldl 2
+ldnl 1
+eqc 1
+cj c776
+ajw -2
+ldc 0
+stl 0
+ldc 0
+stl 1
+ldl 3
+ldnl 4413
+ldc 32
+ldl 3
+call qcrea_nodo
+ajw 2
+j c777
+c776:
+ajw -2
+ldc 0
+stl 0
+ldc 0
+stl 1
+ldl 3
+ldnl 4413
+ldc 33
+ldl 3
+call qcrea_nodo
+ajw 2
+c777:
+ret
+qgetloc:
+ajw -2
+ldc 0
+stl 0
+ldl 4
+adc 20
+lb
+ldc 255
+and
+ldl 4
+adc 21
+lb
+ldc 255
+and
+ldc 8
+shl
+bsub
+ldl 4
+adc 22
+lb
+ldc 255
+and
+ldc 16
+shl
+bsub
+ldl 4
+adc 23
+lb
+ldc 255
+and
+ldc 24
+shl
+bsub
+stl 1
+ldc 0
+ldc 34
+ldl 3
+call qcrea_nodo
+ajw 2
+ret
+qenlace:
+ajw -2
+ldc 0
+stl 0
+ldc 1
+stl 1
+ldc 0
+ldc 35
+ldl 3
+call qcrea_nodo
+ajw 2
+ret
+qoutpos:
+ajw -1
+ldl 4
+adc 20
+lb
+ldc 255
+and
+ldl 4
+adc 21
+lb
+ldc 255
+and
+ldc 8
+shl
+bsub
+ldl 4
+adc 22
+lb
+ldc 255
+and
+ldc 16
+shl
+bsub
+ldl 4
+adc 23
+lb
+ldc 255
+and
+ldc 24
+shl
+bsub
+stl 0
+ldl 2
+call qenlace
+ajw -2
+ldc 0
+stl 0
+ldl 2
+stl 1
+ldl 4
+ldnl 4413
+ldc 36
+ldl 4
+call qcrea_nodo
+ajw 2
+ajw 1
+ret
+qdoublereg:
+ldl 1
+ldnl 4413
+ldl 1
+ldnlp 4029
+wsub
+ldnl 0
+eqc 30
+cj c782
+ldl 1
+ldnl 4413
+ldl 1
+ldnlp 4157
+wsub
+ldnl 0
+ldc 4
+prod
+ldl 1
+ldnl 4413
+ldl 1
+ldnlp 4157
+wsub
+stnl 0
+j c783
+c782:
+ajw -2
+ldc 0
+stl 0
+ldc 4
+stl 1
+ldc 0
+ldc 30
+ldl 3
+call qcrea_nodo
+ajw 2
+ajw -2
+ldl 3
+ldnl 4413
+stl 0
+ldc 0
+stl 1
+ldl 3
+ldnl 4413
+adc -1
+ldc 18
+ldl 3
+call qcrea_nodo
+ajw 2
+c783:
+ret
+qtest:
+ldc c784-c785+0
+ldpi
+c785:
+ldl 1
+call qneedbrack
+ldc 1
+ldl 1
+stnl 3772
+ldl 1
+call qexpression
+ldc c784-c786+2
+ldpi
+c786:
+ldl 1
+call qneedbrack
+ldl 2
+ldl 1
+call qtestjump
+ret
+c784:
+db 40,0,41,0
+qconstant:
+ldl 2
+ldl 1
+call qnumber
+cj c788
+ajw -2
+ldc 0
+stl 0
+ldl 4
+ldnl 0
+stl 1
+ldc 0
+ldc 30
+ldl 3
+call qcrea_nodo
+ajw 2
+j c789
+c788:
+ldl 2
+ldl 1
+call qpstr
+cj c790
+ajw -2
+ldc 0
+stl 0
+ldl 4
+ldnl 0
+stl 1
+ldc 0
+ldc 30
+ldl 3
+call qcrea_nodo
+ajw 2
+j c791
+c790:
+ldl 2
+ldl 1
+call qqstr
+cj c792
+ajw -2
+ldc 0
+stl 0
+ldl 4
+ldnl 0
+stl 1
+ldc 0
+ldc 31
+ldl 3
+call qcrea_nodo
+ajw 2
+j c793
+c792:
+ldc 0
+ret
+c793:
+c791:
+c789:
+ldc 1
+ret
+qisxdigit:
+ldc 97
+ldlp 2
+lb
+gt
+eqc 0
+ldlp 2
+lb
+ldc 102
+gt
+eqc 0
+and
+ajw -1
+stl 0
+ldc 65
+ldlp 3
+lb
+gt
+eqc 0
+ldlp 3
+lb
+ldc 70
+gt
+eqc 0
+and
+ajw -1
+stl 0
+ldc 48
+ldlp 4
+lb
+gt
+eqc 0
+ldlp 4
+lb
+ldc 57
+gt
+eqc 0
+and
+ldl 0
+ajw 1
+or
+ldl 0
+ajw 1
+or
+ret
+qnumber:
+ajw -4
+ldc 1
+dup
+stl 2
+stl 3
+c796:
+ldl 3
+cj c797
+ldc 0
+stl 3
+ldc c795-c799+0
+ldpi
+c799:
+ldl 5
+call qmatch
+cj c798
+ldc 1
+stl 3
+c798:
+ldc c795-c801+2
+ldpi
+c801:
+ldl 5
+call qmatch
+cj c800
+ldl 2
+not
+adc 1
+stl 2
+ldc 1
+stl 3
+c800:
+j c796
+c797:
+ldl 5
+call qch
+ldl 5
+call qnumeric
+eqc 0
+cj c802
+ldc 0
+ajw 4
+ret
+c802:
+ldl 5
+call qch
+eqc 48
+cj c803
+c804:
+ldl 5
+call qch
+eqc 48
+cj c805
+ldl 5
+call qgch
+j c804
+c805:
+ldl 5
+call qch
+ldl 5
+call qraise
+eqc 88
+cj c806
+ldl 5
+call qgch
+c807:
+ldl 5
+call qch
+ldl 5
+call qisxdigit
+cj c808
+ldl 5
+call qgch
+ldl 5
+call qraise
+adc -48
+ldlp 0
+sb
+ldlp 0
+lb
+ldc 9
+gt
+cj c809
+ldlp 0
+lb
+adc -7
+ldlp 0
+sb
+c809:
+ldl 3
+ldc 4
+shl
+ldlp 0
+lb
+or
+stl 3
+j c807
+c808:
+j c810
+c806:
+c811:
+ldl 5
+call qch
+ldc 55
+gt
+eqc 0
+ajw -1
+stl 0
+ldl 6
+call qch
+ldc 48
+rev
+gt
+eqc 0
+ldl 0
+ajw 1
+and
+cj c812
+ldl 5
+call qgch
+adc -48
+ldl 3
+ldc 8
+prod
+bsub
+stl 3
+j c811
+c812:
+c810:
+j c813
+c803:
+c814:
+ldl 5
+call qch
+ldl 5
+call qnumeric
+cj c815
+ldl 5
+call qgch
+adc -48
+ldl 3
+ldc 10
+prod
+bsub
+stl 3
+j c814
+c815:
+c813:
+ldc 0
+ldl 2
+gt
+cj c816
+ldl 3
+not
+adc 1
+stl 3
+c816:
+ldl 3
+ldl 6
+stnl 0
+ldc 1
+ajw 4
+ret
+c795:
+db 43,0,45,0
+qpstr:
+ajw -1
+ldc 0
+stl 0
+ldc c817-c819+0
+ldpi
+c819:
+ldl 2
+call qmatch
+eqc 0
+cj c818
+ldc 0
+ajw 1
+ret
+c818:
+c820:
+ldl 2
+call qch
+eqc 39
+eqc 0
+cj c821
+ldl 2
+call qlitchar
+ldc 255
+and
+ldl 0
+ldc 255
+and
+ldc 256
+prod
+bsub
+stl 0
+j c820
+c821:
+ldl 2
+ldnlp 3743
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 0
+ldl 3
+stnl 0
+ldc 1
+ajw 1
+ret
+c817:
+db 39,0
+qqstr:
+ajw -1
+ldl 2
+ldnlp 3768
+ldl 2
+call qmatch
+eqc 0
+cj c823
+ldc 0
+ajw 1
+ret
+c823:
+ldl 2
+ldnl 2461
+ldl 3
+stnl 0
+c824:
+ldl 2
+call qch
+eqc 34
+eqc 0
+cj c825
+ldl 2
+call qch
+eqc 0
+cj c826
+j c825
+c826:
+ldc 1023
+ldl 2
+ldnl 2461
+gt
+eqc 0
+cj c827
+ldc c822-c828+0
+ldpi
+c828:
+ldl 2
+call qerror
+c829:
+ldl 2
+ldnlp 3768
+ldl 2
+call qmatch
+eqc 0
+cj c830
+ldl 2
+call qgch
+eqc 0
+cj c831
+j c830
+c831:
+j c829
+c830:
+ldc 1
+ajw 1
+ret
+c827:
+ldl 2
+ldnlp 2461
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ldl 2
+ldnlp 2205
+bsub
+ajw -1
+stl 0
+ldl 3
+call qlitchar
+dup
+ldl 0
+ajw 1
+sb
+j c824
+c825:
+ldl 2
+call qgch
+ldl 2
+ldnlp 2461
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ldl 2
+ldnlp 2205
+bsub
+ldc 0
+rev
+sb
+ldc 1
+ajw 1
+ret
+c822:
+db 69,115,112,97,99
+db 105,111,32,100,101
+db 32,97,108,109,97
+db 99,101,110,97,109
+db 105,101,110,116,111
+db 32,100,101,32,99
+db 97,100,101,110,97
+db 115,32,97,103,111
+db 116,97,100,111,0
+qlitchar:
+ajw -2
+ldl 3
+call qnch
+eqc 0
+ajw -1
+stl 0
+ldl 4
+call qch
+eqc 92
+eqc 0
+ldl 0
+ajw 1
+or
+cj c833
+ldl 3
+call qgch
+ajw 2
+ret
+c833:
+ldl 3
+call qgch
+ldl 3
+call qch
+eqc 110
+cj c834
+ldl 3
+ldnlp 3743
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldc 10
+ajw 2
+ret
+c834:
+ldl 3
+call qch
+eqc 116
+cj c835
+ldl 3
+ldnlp 3743
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldc 9
+ajw 2
+ret
+c835:
+ldl 3
+call qch
+eqc 98
+cj c836
+ldl 3
+ldnlp 3743
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldc 8
+ajw 2
+ret
+c836:
+ldl 3
+call qch
+eqc 102
+cj c837
+ldl 3
+ldnlp 3743
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldc 12
+ajw 2
+ret
+c837:
+ldl 3
+call qch
+eqc 114
+cj c838
+ldl 3
+ldnlp 3743
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldc 13
+ajw 2
+ret
+c838:
+ldc 3
+stl 1
+ldc 0
+stl 0
+c839:
+ldl 3
+call qch
+ldc 55
+gt
+eqc 0
+ajw -1
+stl 0
+ldl 4
+call qch
+ldc 48
+rev
+gt
+eqc 0
+ldl 2
+dup
+adc -1
+stl 2
+ldc 0
+gt
+and
+ldl 0
+ajw 1
+and
+cj c840
+ldl 3
+call qgch
+ldl 0
+ldc 3
+shl
+bsub
+adc -48
+stl 0
+j c839
+c840:
+ldl 1
+eqc 2
+cj c841
+ldl 3
+call qgch
+ajw 2
+ret
+j c842
+c841:
+ldl 0
+ajw 2
+ret
+c842:
+ajw 2
+ret
+qcrea_nodo:
+ldl 2
+eqc 7
+cj c844
+ldl 3
+ldl 1
+ldnlp 4029
+wsub
+ldnl 0
+eqc 7
+cj c845
+ldl 3
+ldl 1
+ldnlp 4157
+wsub
+ldnl 0
+ldl 5
+bsub
+stl 5
+ldl 3
+ldl 1
+ldnlp 3773
+wsub
+ldnl 0
+stl 3
+c845:
+j c846
+c844:
+ldl 2
+eqc 36
+cj c847
+ldl 3
+ldl 1
+ldnlp 4029
+wsub
+ldnl 0
+eqc 36
+cj c848
+ldl 3
+ldl 1
+ldnlp 4157
+wsub
+ldnl 0
+ldl 5
+bsub
+stl 5
+ldl 3
+ldl 1
+ldnlp 3773
+wsub
+ldnl 0
+stl 3
+j c849
+c848:
+ldl 3
+ldl 1
+ldnlp 4029
+wsub
+ldnl 0
+eqc 34
+cj c850
+ldl 3
+ldl 1
+ldnlp 4157
+wsub
+ldnl 0
+ldl 5
+bsub
+stl 5
+ldc 0
+stl 3
+ldc 34
+stl 2
+c850:
+c849:
+c847:
+c846:
+ldl 1
+ldnlp 4413
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 1
+ldnl 4413
+eqc 128
+cj c851
+ldc c843-c852+0
+ldpi
+c852:
+ldl 1
+call qerror
+ldl 1
+call qabort
+c851:
+ldl 3
+ldl 1
+ldnl 4413
+ldl 1
+ldnlp 3773
+wsub
+stnl 0
+ldl 4
+ldl 1
+ldnl 4413
+ldl 1
+ldnlp 3901
+wsub
+stnl 0
+ldl 2
+ldl 1
+ldnl 4413
+ldl 1
+ldnlp 4029
+wsub
+stnl 0
+ldl 5
+ldl 1
+ldnl 4413
+ldl 1
+ldnlp 4157
+wsub
+stnl 0
+ldc 0
+ldl 1
+ldnl 4413
+ldl 1
+ldnlp 4285
+wsub
+stnl 0
+ret
+c843:
+db 69,120,112,114,101
+db 115,105,111,110,32
+db 109,117,121,32,99
+db 111,109,112,108,101
+db 106,97,0
+qetiqueta:
+ajw -2
+ldl 4
+ldl 3
+ldnlp 3773
+wsub
+ldnl 0
+cj c854
+ldl 4
+ldl 3
+ldnlp 3773
+wsub
+ldnl 0
+ldl 3
+call qetiqueta
+c854:
+ldl 4
+ldl 3
+ldnlp 3901
+wsub
+ldnl 0
+cj c855
+ldl 4
+ldl 3
+ldnlp 3901
+wsub
+ldnl 0
+ldl 3
+call qetiqueta
+c855:
+ldl 4
+ldl 3
+ldnlp 4029
+wsub
+ldnl 0
+eqc 12
+ldl 4
+ldl 3
+ldnlp 4029
+wsub
+ldnl 0
+eqc 13
+or
+cj c856
+ldl 4
+ldl 3
+ldnlp 4157
+wsub
+ldnl 0
+cj c857
+ldl 4
+ldl 3
+ldnlp 4157
+wsub
+ldnl 0
+ldl 3
+call qetiqueta
+c857:
+c856:
+ldl 4
+ldl 3
+ldnlp 4029
+wsub
+ldnl 0
+eqc 12
+ldl 4
+ldl 3
+ldnlp 4029
+wsub
+ldnl 0
+eqc 11
+or
+ldl 4
+ldl 3
+ldnlp 4029
+wsub
+ldnl 0
+eqc 37
+or
+ldl 4
+ldl 3
+ldnlp 4029
+wsub
+ldnl 0
+eqc 38
+or
+cj c858
+ldc 3
+ldl 4
+ldl 3
+ldnlp 4285
+wsub
+stnl 0
+j c859
+c858:
+ldl 4
+ldl 3
+ldnlp 4029
+wsub
+ldnl 0
+eqc 23
+ldl 4
+ldl 3
+ldnlp 4029
+wsub
+ldnl 0
+eqc 25
+or
+cj c860
+ldc 3
+ldl 4
+ldl 3
+ldnlp 4285
+wsub
+stnl 0
+ldl 4
+ldl 3
+ldnlp 3773
+wsub
+ldnl 0
+ldl 3
+ldnlp 4285
+wsub
+ldnl 0
+eqc 1
+cj c861
+ldl 4
+ldl 3
+ldnlp 3773
+wsub
+ldnl 0
+ldl 3
+ldnlp 4029
+wsub
+ldnl 0
+eqc 34
+cj c862
+ldc 2
+ldl 4
+ldl 3
+ldnlp 4285
+wsub
+stnl 0
+c862:
+c861:
+j c863
+c860:
+ldl 4
+ldl 3
+ldnlp 3773
+wsub
+ldnl 0
+eqc 0
+cj c864
+ldc 1
+ldl 4
+ldl 3
+ldnlp 4285
+wsub
+stnl 0
+j c865
+c864:
+ldl 4
+ldl 3
+ldnlp 3901
+wsub
+ldnl 0
+eqc 0
+cj c866
+ldl 4
+ldl 3
+ldnlp 3773
+wsub
+ldnl 0
+ldl 3
+ldnlp 4285
+wsub
+ldnl 0
+ldl 4
+ldl 3
+ldnlp 4285
+wsub
+stnl 0
+j c867
+c866:
+ldl 4
+ldl 3
+ldnlp 3773
+wsub
+ldnl 0
+ldl 3
+ldnlp 4285
+wsub
+ldnl 0
+stl 1
+ldl 4
+ldl 3
+ldnlp 3901
+wsub
+ldnl 0
+ldl 3
+ldnlp 4285
+wsub
+ldnl 0
+stl 0
+ldl 1
+ldl 0
+gt
+cj c868
+ldl 1
+stl 0
+j c869
+c868:
+ldl 1
+ldl 0
+diff
+eqc 0
+cj c870
+ldl 0
+adc 1
+stl 0
+c870:
+c869:
+ldl 0
+ldl 4
+ldl 3
+ldnlp 4285
+wsub
+stnl 0
+c867:
+c865:
+c863:
+c859:
+ajw 2
+ret
+qgen_oper:
+ldl 2
+eqc 1
+cj c872
+ldc c871-c873+0
+ldpi
+c873:
+ldl 1
+call qol
+j c874
+c872:
+ldl 2
+eqc 2
+cj c875
+ldc c871-c876+3
+ldpi
+c876:
+ldl 1
+call qol
+j c877
+c875:
+ldl 2
+eqc 3
+cj c878
+ldc c871-c879+7
+ldpi
+c879:
+ldl 1
+call qol
+j c880
+c878:
+ldl 2
+eqc 4
+cj c881
+ldc c871-c882+11
+ldpi
+c882:
+ldl 1
+call qol
+ldc c871-c883+16
+ldpi
+c883:
+ldl 1
+call qol
+j c884
+c881:
+ldl 2
+eqc 16
+cj c885
+ldc c871-c886+22
+ldpi
+c886:
+ldl 1
+call qol
+j c887
+c885:
+ldl 2
+eqc 18
+cj c888
+ldc c871-c889+27
+ldpi
+c889:
+ldl 1
+call qol
+j c890
+c888:
+ldl 2
+eqc 21
+cj c891
+ldc c871-c892+32
+ldpi
+c892:
+ldl 1
+call qol
+ldc c871-c893+36
+ldpi
+c893:
+ldl 1
+call qol
+j c894
+c891:
+ldl 2
+eqc 22
+cj c895
+ldc c871-c896+42
+ldpi
+c896:
+ldl 1
+call qol
+j c897
+c895:
+ldl 2
+eqc 27
+cj c898
+ldc c871-c899+46
+ldpi
+c899:
+ldl 1
+call qol
+j c900
+c898:
+ldl 2
+eqc 32
+cj c901
+ldc c871-c902+52
+ldpi
+c902:
+ldl 1
+call qol
+j c903
+c901:
+ldl 2
+eqc 33
+cj c904
+ldc c871-c905+55
+ldpi
+c905:
+ldl 1
+call qol
+j c906
+c904:
+ldl 2
+eqc 10
+cj c907
+ldl 3
+eqc 0
+cj c908
+ldc c871-c909+62
+ldpi
+c909:
+ldl 1
+call qol
+c908:
+ldc c871-c910+66
+ldpi
+c910:
+ldl 1
+call qol
+ldc c871-c911+71
+ldpi
+c911:
+ldl 1
+call qol
+ldc c871-c912+75
+ldpi
+c912:
+ldl 1
+call qol
+ldc c871-c913+79
+ldpi
+c913:
+ldl 1
+call qol
+ldc c871-c914+84
+ldpi
+c914:
+ldl 1
+call qol
+ldc c871-c915+88
+ldpi
+c915:
+ldl 1
+call qol
+j c916
+c907:
+ldl 3
+cj c917
+ldc c871-c918+91
+ldpi
+c918:
+ldl 1
+call qol
+c917:
+ldl 2
+eqc 6
+cj c919
+ldc c871-c920+95
+ldpi
+c920:
+ldl 1
+call qol
+j c921
+c919:
+ldl 2
+eqc 14
+cj c922
+ldc c871-c923+98
+ldpi
+c923:
+ldl 1
+call qol
+j c924
+c922:
+ldl 2
+eqc 15
+cj c925
+ldc c871-c926+102
+ldpi
+c926:
+ldl 1
+call qol
+j c927
+c925:
+ldl 2
+eqc 17
+cj c928
+ldc c871-c929+106
+ldpi
+c929:
+ldl 1
+call qol
+j c930
+c928:
+ldl 2
+eqc 19
+cj c931
+ldc c871-c932+111
+ldpi
+c932:
+ldl 1
+call qol
+j c933
+c931:
+ldl 2
+eqc 20
+cj c934
+ldc c871-c935+115
+ldpi
+c935:
+ldl 1
+call qol
+j c936
+c934:
+ldl 2
+eqc 28
+cj c937
+ldc c871-c938+119
+ldpi
+c938:
+ldl 1
+call qol
+c937:
+c936:
+c933:
+c930:
+c927:
+c924:
+c921:
+c916:
+c906:
+c903:
+c900:
+c897:
+c894:
+c890:
+c887:
+c884:
+c880:
+c877:
+c874:
+ret
+c871:
+db 111,114,0,120,111
+db 114,0,97,110,100
+db 0,100,105,102,102
+db 0,101,113,99,32
+db 48,0,98,115,117
+db 98,0,112,114,111
+db 100,0,110,111,116
+db 0,97,100,99,32
+db 49,0,110,111,116
+db 0,101,113,99,32
+db 48,0,108,98,0
+db 108,100,110,108,32
+db 48,0,114,101,118
+db 0,109,105,110,116
+db 0,120,111,114,0
+db 114,101,118,0,109
+db 105,110,116,0,120
+db 111,114,0,103,116
+db 0,114,101,118,0
+db 103,116,0,115,104
+db 114,0,115,104,108
+db 0,100,105,102,102
+db 0,100,105,118,0
+db 114,101,109,0,119
+db 115,117,98,0
+qgen_codigo:
+ajw -10
+ldl 12
+ldl 11
+ldnl 4414
+diff
+eqc 0
+eqc 0
+ldl 11
+ldnl 3772
+eqc 1
+or
+cj c940
+ldc 1
+stl 2
+j c941
+c940:
+ldc 0
+stl 2
+c941:
+ldl 12
+ldl 11
+ldnlp 4029
+wsub
+ldnl 0
+stl 4
+ldl 4
+eqc 11
+ldl 4
+eqc 12
+or
+cj c942
+ldc 0
+dup
+stl 8
+stl 7
+ldc 0
+dup
+stl 0
+stl 1
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+stl 9
+c943:
+ldl 9
+cj c944
+ldl 1
+eqc 0
+cj c945
+ldl 9
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+stl 1
+j c946
+c945:
+ldl 0
+eqc 0
+cj c947
+ldl 9
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+stl 0
+j c948
+c947:
+ldl 7
+adc 1
+stl 7
+ldl 8
+adc 1
+stl 8
+c948:
+c946:
+ldl 9
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+stl 9
+j c943
+c944:
+ldl 11
+ldnl 3747
+ldl 7
+diff
+ldl 11
+call qmodstk
+ldl 11
+stnl 3747
+ldl 8
+cj c949
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+stl 9
+ldc 0
+stl 6
+c950:
+ldl 8
+dup
+adc -1
+stl 8
+cj c951
+ldl 9
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ldl 6
+dup
+adc 1
+stl 6
+ldc c939-c952+0
+ldpi
+c952:
+ldl 11
+call qins
+ldl 9
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+stl 9
+j c950
+c951:
+c949:
+ldl 12
+ldl 11
+ldnlp 4029
+wsub
+ldnl 0
+eqc 11
+cj c953
+ldl 0
+eqc 0
+cj c954
+ldl 1
+cj c955
+ldl 1
+ldl 11
+call qgen_codigo
+c955:
+j c956
+c954:
+ldl 1
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+ldl 0
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+gt
+eqc 0
+ldl 1
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+ldc 3
+rev
+gt
+and
+cj c957
+ldl 0
+ldl 11
+call qgen_codigo
+ldl 1
+ldl 11
+call qgen_codigo
+j c958
+c957:
+ldl 1
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+ldl 0
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+gt
+ldl 0
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+ldc 3
+rev
+gt
+and
+cj c959
+ldl 1
+ldl 11
+call qgen_codigo
+ldl 0
+ldl 11
+call qgen_codigo
+ldc c939-c960+5
+ldpi
+c960:
+ldl 11
+call qol
+j c961
+c959:
+ldl 1
+ldl 11
+call qgen_codigo
+ldl 11
+call qzpush
+ldl 0
+ldl 11
+call qgen_codigo
+ldl 11
+call qzpop
+c961:
+c958:
+c956:
+ldc 1
+ldl 11
+ldnl 3747
+diff
+ldc c939-c962+9
+ldpi
+c962:
+ldl 11
+call qins
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldl 11
+call qzcall
+j c963
+c953:
+ldl 11
+ldnl 3747
+adc -4
+ldl 11
+call qmodstk
+ldl 11
+stnl 3747
+ldl 1
+cj c964
+ldl 1
+ldl 11
+call qgen_codigo
+ldc c939-c965+14
+ldpi
+c965:
+ldl 11
+call qol
+c964:
+ldl 0
+cj c966
+ldl 0
+ldl 11
+call qgen_codigo
+ldc c939-c967+20
+ldpi
+c967:
+ldl 11
+call qol
+c966:
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ldc 1
+ldl 11
+ldnl 3747
+diff
+ldc c939-c968+26
+ldpi
+c968:
+ldl 11
+call qins
+ldc c939-c969+31
+ldpi
+c969:
+ldl 11
+call qol
+ldc c939-c970+37
+ldpi
+c970:
+ldl 11
+call qol
+ldc c939-c971+42
+ldpi
+c971:
+ldl 11
+call qol
+ldc c939-c972+48
+ldpi
+c972:
+ldl 11
+call qol
+ldc c939-c973+54
+ldpi
+c973:
+ldl 11
+call qol
+ldl 11
+ldnl 3747
+adc 4
+ldl 11
+stnl 3747
+c963:
+ldl 11
+ldnl 3747
+ldl 7
+bsub
+ldl 11
+call qmodstk
+ldl 11
+stnl 3747
+ajw 10
+ret
+c942:
+ldl 4
+eqc 37
+ldl 4
+eqc 38
+or
+cj c974
+ldl 2
+cj c975
+ldc 2
+stl 3
+j c976
+c975:
+ldc 3
+stl 3
+c976:
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+ldl 3
+rev
+gt
+cj c977
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ldl 2
+cj c978
+ldc c939-c979+60
+ldpi
+c979:
+ldl 11
+call qol
+c978:
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+ldnlp 4029
+wsub
+ldnl 0
+eqc 34
+ldl 4
+eqc 38
+and
+cj c980
+ldc 24
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+ldnlp 4029
+wsub
+stnl 0
+j c981
+c980:
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+ldnlp 4029
+wsub
+ldnl 0
+eqc 36
+ldl 4
+eqc 38
+and
+cj c982
+ldc 9
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+ldnlp 4029
+wsub
+stnl 0
+j c983
+c982:
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ldl 4
+eqc 38
+cj c984
+ldc c939-c985+64
+ldpi
+c985:
+ldl 11
+call qol
+j c986
+c984:
+ldc c939-c987+71
+ldpi
+c987:
+ldl 11
+call qol
+c986:
+ajw 10
+ret
+c983:
+c981:
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ajw 10
+ret
+c977:
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ldl 2
+cj c988
+ldc 1
+stl 3
+j c989
+c988:
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+ldc 3
+rev
+gt
+cj c990
+ldc 0
+stl 3
+j c991
+c990:
+ldc 1
+stl 3
+c991:
+c989:
+ldl 3
+cj c992
+ldl 11
+call qzpush
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ldc c939-c993+74
+ldpi
+c993:
+ldl 11
+call qol
+ldl 11
+call qzpop
+j c994
+c992:
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ldc c939-c995+78
+ldpi
+c995:
+ldl 11
+call qol
+c994:
+ldl 4
+eqc 38
+cj c996
+ldc c939-c997+82
+ldpi
+c997:
+ldl 11
+call qol
+j c998
+c996:
+ldc c939-c999+89
+ldpi
+c999:
+ldl 11
+call qol
+c998:
+ajw 10
+ret
+c974:
+ldl 4
+eqc 29
+cj c1000
+ldc c939-c1001+92
+ldpi
+c1001:
+ldl 11
+call qot
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldl 11
+call qoutname
+ldc c939-c1002+97
+ldpi
+c1002:
+ldl 11
+call qoutasm
+ldl 11
+call qgetlabel
+dup
+stl 9
+ldl 11
+call qprintlabel
+ldl 11
+call qnl
+ldc c939-c1003+99
+ldpi
+c1003:
+ldl 11
+call qol
+ldl 9
+ldl 11
+call qprintlabel
+ldl 11
+call qcol
+ldl 11
+call qnl
+ajw 10
+ret
+c1000:
+ldl 4
+eqc 30
+cj c1004
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldc c939-c1005+104
+ldpi
+c1005:
+ldl 11
+call qins
+ajw 10
+ret
+c1004:
+ldl 4
+eqc 31
+cj c1006
+ldc c939-c1007+109
+ldpi
+c1007:
+ldl 11
+call qot
+ldl 11
+ldnl 3746
+ldl 11
+call qprintlabel
+ldc c939-c1008+114
+ldpi
+c1008:
+ldl 11
+call qoutasm
+ldl 11
+call qgetlabel
+dup
+stl 9
+ldl 11
+call qprintlabel
+ldc c939-c1009+116
+ldpi
+c1009:
+ldl 11
+call qoutasm
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldl 11
+call qoutdec
+ldl 11
+call qnl
+ldc c939-c1010+118
+ldpi
+c1010:
+ldl 11
+call qol
+ldl 9
+ldl 11
+call qprintlabel
+ldl 11
+call qcol
+ldl 11
+call qnl
+ajw 10
+ret
+c1006:
+ldl 4
+eqc 34
+cj c1011
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldl 11
+ldnl 3747
+diff
+ldc c939-c1012+123
+ldpi
+c1012:
+ldl 11
+call qins
+ajw 10
+ret
+c1011:
+ldl 4
+eqc 35
+cj c1013
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldl 11
+ldnl 3747
+diff
+ldc c939-c1014+129
+ldpi
+c1014:
+ldl 11
+call qins
+ajw 10
+ret
+c1013:
+ldl 4
+eqc 24
+cj c1015
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldl 11
+ldnl 3747
+diff
+ldc c939-c1016+134
+ldpi
+c1016:
+ldl 11
+call qins
+ajw 10
+ret
+c1015:
+ldl 4
+eqc 23
+ldl 4
+eqc 25
+or
+cj c1017
+ldl 12
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+eqc 2
+cj c1018
+ldc 35
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+ldnlp 4029
+wsub
+stnl 0
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+j c1019
+c1018:
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ldc c939-c1020+139
+ldpi
+c1020:
+ldl 11
+call qol
+ldc c939-c1021+143
+ldpi
+c1021:
+ldl 11
+call qol
+c1019:
+ldl 4
+eqc 25
+cj c1022
+ldl 2
+cj c1023
+ldc c939-c1024+150
+ldpi
+c1024:
+ldl 11
+call qol
+c1023:
+c1022:
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldc c939-c1025+154
+ldpi
+c1025:
+ldl 11
+call qins
+ldl 4
+eqc 23
+cj c1026
+ldl 2
+cj c1027
+ldc c939-c1028+159
+ldpi
+c1028:
+ldl 11
+call qol
+c1027:
+c1026:
+ldl 12
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+eqc 2
+cj c1029
+ldc 24
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+ldnlp 4029
+wsub
+stnl 0
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+j c1030
+c1029:
+ldl 2
+cj c1031
+ldc c939-c1032+163
+ldpi
+c1032:
+ldl 11
+call qol
+ldc c939-c1033+167
+ldpi
+c1033:
+ldl 11
+call qol
+ldc c939-c1034+171
+ldpi
+c1034:
+ldl 11
+call qol
+j c1035
+c1031:
+ldc c939-c1036+178
+ldpi
+c1036:
+ldl 11
+call qol
+ldc c939-c1037+182
+ldpi
+c1037:
+ldl 11
+call qol
+c1035:
+c1030:
+ajw 10
+ret
+c1017:
+ldl 4
+eqc 33
+cj c1038
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+ldnlp 4029
+wsub
+ldnl 0
+eqc 34
+cj c1039
+ldc 35
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+ldnlp 4029
+wsub
+stnl 0
+ldc 8
+stl 4
+j c1040
+c1039:
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+ldnlp 4029
+wsub
+ldnl 0
+eqc 36
+cj c1041
+ldc 26
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+ldnlp 4029
+wsub
+stnl 0
+ldc 8
+stl 4
+c1041:
+c1040:
+c1038:
+ldc 0
+stl 5
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+cj c1042
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+gt
+eqc 0
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+ldc 3
+rev
+gt
+and
+cj c1043
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+j c1044
+c1043:
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+gt
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+ldnlp 4285
+wsub
+ldnl 0
+ldc 3
+rev
+gt
+and
+cj c1045
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ldc 1
+stl 5
+j c1046
+c1045:
+ldl 12
+ldl 11
+ldnlp 3901
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ldl 11
+call qzpush
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+ldl 11
+call qzpop
+c1046:
+c1044:
+j c1047
+c1042:
+ldl 12
+ldl 11
+ldnlp 3773
+wsub
+ldnl 0
+ldl 11
+call qgen_codigo
+c1047:
+ldl 4
+eqc 5
+cj c1048
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldc c939-c1049+189
+ldpi
+c1049:
+ldl 11
+call qins
+ajw 10
+ret
+c1048:
+ldl 4
+eqc 7
+cj c1050
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+cj c1051
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldc c939-c1052+194
+ldpi
+c1052:
+ldl 11
+call qins
+c1051:
+ajw 10
+ret
+c1050:
+ldl 4
+eqc 36
+cj c1053
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+cj c1054
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldc c939-c1055+199
+ldpi
+c1055:
+ldl 11
+call qins
+c1054:
+ajw 10
+ret
+c1053:
+ldl 4
+eqc 26
+cj c1056
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldc c939-c1057+206
+ldpi
+c1057:
+ldl 11
+call qins
+ajw 10
+ret
+c1056:
+ldl 4
+eqc 9
+cj c1058
+ldl 12
+ldl 11
+ldnlp 4157
+wsub
+ldnl 0
+ldc c939-c1059+212
+ldpi
+c1059:
+ldl 11
+call qins
+ajw 10
+ret
+c1058:
+ldl 5
+ldl 4
+ldl 11
+call qgen_oper
+ajw 10
+ret
+c939:
+db 115,116,108,32,0
+db 114,101,118,0,108
+db 100,108,32,0,115
+db 116,108,32,50,0
+db 115,116,108,32,51
+db 0,108,100,108,32
+db 0,108,100,99,32
+db 51,0,108,100,112
+db 105,0,115,116,108
+db 32,48,0,115,116
+db 108,32,49,0,103
+db 99,97,108,108,0
+db 100,117,112,0,115
+db 116,110,108,32,48
+db 0,115,98,0,100
+db 117,112,0,114,101
+db 118,0,115,116,110
+db 108,32,48,0,115
+db 98,0,108,100,99
+db 32,0,45,0,108
+db 100,112,105,0,108
+db 100,99,32,0,108
+db 100,99,32,0,45
+db 0,43,0,108,100
+db 112,105,0,108,100
+db 108,112,32,0,108
+db 100,108,32,0,115
+db 116,108,32,0,100
+db 117,112,0,108,100
+db 110,108,32,48,0
+db 100,117,112,0,97
+db 100,99,32,0,100
+db 117,112,0,112,111
+db 112,0,112,111,112
+db 0,115,116,110,108
+db 32,48,0,114,101
+db 118,0,115,116,110
+db 108,32,48,0,101
+db 113,99,32,0,97
+db 100,99,32,0,108
+db 100,110,108,112,32
+db 0,108,100,110,108
+db 32,0,115,116,110
+db 108,32,0
+qins:
+ldl 2
+ldl 1
+call qoutasm
+ldl 3
+ldl 1
+call qoutdec
+ldl 1
+call qnl
+ret
+qcomment:
+ldc 59
+ldl 1
+call qoutbyte
+ret
+qheader:
+ldl 1
+call qcomment
+ldc c1062-c1063+0
+ldpi
+c1063:
+ldl 1
+call qoutstr
+ldl 1
+call qnl
+ldl 1
+call qcomment
+ldc c1062-c1064+34
+ldpi
+c1064:
+ldl 1
+call qoutstr
+ldl 1
+call qnl
+ldl 1
+call qcomment
+ldc c1062-c1065+57
+ldpi
+c1065:
+ldl 1
+call qoutstr
+ldl 1
+call qnl
+ldl 1
+call qcomment
+ldl 1
+call qnl
+ldc c1062-c1066+88
+ldpi
+c1066:
+ldl 1
+call qol
+ldc c1062-c1067+98
+ldpi
+c1067:
+ldl 1
+call qol
+ret
+c1062:
+db 42,42,42,32,67
+db 111,109,112,105,108
+db 97,100,111,114,32
+db 100,101,32,67,32
+db 112,97,114,97,32
+db 71,45,49,48,32
+db 42,42,42,0,32
+db 32,32,32,32,32
+db 32,32,32,32,86
+db 101,114,115,105,111
+db 110,32,49,46,48
+db 48,0,32,32,32
+db 112,111,114,32,79
+db 115,99,97,114,32
+db 84,111,108,101,100
+db 111,32,71,117,116
+db 105,101,114,114,101
+db 122,46,0,67,79
+db 77,73,69,78,90
+db 79,58,0,106,32
+db 73,78,73,67,73
+db 79,0
+qtrailer:
+ldl 1
+call qnl
+ldl 1
+call qcomment
+ldc c1068-c1069+0
+ldpi
+c1069:
+ldl 1
+call qoutstr
+ldl 1
+call qnl
+ldc c1068-c1070+20
+ldpi
+c1070:
+ldl 1
+call qoutasm
+ldl 1
+call qcol
+ldl 1
+call qnl
+ldl 1
+ldnl 3771
+not
+adc 1
+ldc c1068-c1071+27
+ldpi
+c1071:
+ldl 1
+call qins
+ldl 1
+ldnl 3771
+ldc 2
+gt
+cj c1072
+ldc c1068-c1073+32
+ldpi
+c1073:
+ldl 1
+call qol
+ldc c1068-c1074+39
+ldpi
+c1074:
+ldl 1
+call qol
+ldl 1
+ldnl 3771
+adc -2
+ldc c1068-c1075+45
+ldpi
+c1075:
+ldl 1
+call qins
+ldc c1068-c1076+50
+ldpi
+c1076:
+ldl 1
+call qol
+ldc c1068-c1077+56
+ldpi
+c1077:
+ldl 1
+call qoutasm
+ldl 1
+call qcol
+ldl 1
+call qnl
+ldc c1068-c1078+64
+ldpi
+c1078:
+ldl 1
+call qol
+ldc c1068-c1079+70
+ldpi
+c1079:
+ldl 1
+call qol
+ldc c1068-c1080+76
+ldpi
+c1080:
+ldl 1
+call qol
+ldc c1068-c1081+83
+ldpi
+c1081:
+ldl 1
+call qol
+ldc c1068-c1082+89
+ldpi
+c1082:
+ldl 1
+call qol
+ldc c1068-c1083+95
+ldpi
+c1083:
+ldl 1
+call qol
+ldc c1068-c1084+101
+ldpi
+c1084:
+ldl 1
+call qol
+ldc c1068-c1085+107
+ldpi
+c1085:
+ldl 1
+call qol
+ldc c1068-c1086+114
+ldpi
+c1086:
+ldl 1
+call qol
+ldc c1068-c1087+120
+ldpi
+c1087:
+ldl 1
+call qol
+ldc c1068-c1088+126
+ldpi
+c1088:
+ldl 1
+call qol
+ldc c1068-c1089+132
+ldpi
+c1089:
+ldl 1
+call qol
+c1072:
+ldc c1068-c1090+143
+ldpi
+c1090:
+ldl 1
+call qol
+ldc c1068-c1091+150
+ldpi
+c1091:
+ldl 1
+call qol
+ldl 1
+ldnl 3771
+ldc c1068-c1092+161
+ldpi
+c1092:
+ldl 1
+call qins
+ldc c1068-c1093+166
+ldpi
+c1093:
+ldl 1
+call qol
+ret
+c1068:
+db 32,70,105,110,32
+db 100,101,32,99,111
+db 109,112,105,108,97
+db 99,105,111,110,0
+db 73,78,73,67,73
+db 79,0,97,106,119
+db 32,0,108,100,108
+db 112,32,50,0,115
+db 116,108,32,48,0
+db 108,100,99,32,0
+db 115,116,108,32,49
+db 0,73,78,73,67
+db 73,79,50,0,108
+db 100,99,32,48,0
+db 108,100,108,32,48
+db 0,115,116,110,108
+db 32,48,0,108,100
+db 108,32,48,0,97
+db 100,99,32,52,0
+db 115,116,108,32,48
+db 0,108,100,108,32
+db 49,0,97,100,99
+db 32,45,49,0,115
+db 116,108,32,49,0
+db 108,100,108,32,49
+db 0,101,113,99,32
+db 48,0,99,106,32
+db 73,78,73,67,73
+db 79,50,0,108,100
+db 108,112,32,48,0
+db 99,97,108,108,32
+db 113,109,97,105,110
+db 0,97,106,119,32
+db 0,114,101,116,0
+qoutname:
+ldc c1094-c1095+0
+ldpi
+c1095:
+ldl 1
+call qoutasm
+ldl 2
+ldl 1
+call qoutasm
+ret
+c1094:
+db 113,0
+qzpush:
+ldc c1096-c1097+0
+ldpi
+c1097:
+ldl 1
+call qol
+ldc c1096-c1098+7
+ldpi
+c1098:
+ldl 1
+call qol
+ldl 1
+ldnlp 3747
+dup
+ldnl 0
+adc -1
+rev
+stnl 0
+ret
+c1096:
+db 97,106,119,32,45
+db 49,0,115,116,108
+db 32,48,0
+qzpop:
+ldc c1099-c1100+0
+ldpi
+c1100:
+ldl 1
+call qol
+ldc c1099-c1101+6
+ldpi
+c1101:
+ldl 1
+call qol
+ldl 1
+ldnlp 3747
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ret
+c1099:
+db 108,100,108,32,48
+db 0,97,106,119,32
+db 49,0
+qzcall:
+ldc c1102-c1103+0
+ldpi
+c1103:
+ldl 1
+call qot
+ldl 2
+ldl 1
+call qoutname
+ldl 1
+call qnl
+ret
+c1102:
+db 99,97,108,108,32
+db 0
+qzret:
+ldc c1104-c1105+0
+ldpi
+c1105:
+ldl 1
+call qol
+ret
+c1104:
+db 114,101,116,0
+qjump:
+ldl 2
+ldc c1106-c1107+0
+ldpi
+c1107:
+ldl 1
+call qins
+ret
+c1106:
+db 106,32,99,0
+qtestjump:
+ldl 2
+ldc c1108-c1109+0
+ldpi
+c1109:
+ldl 1
+call qins
+ret
+c1108:
+db 99,106,32,99,0
+qgetlabel:
+ldl 1
+ldnlp 3745
+dup
+ldnl 0
+adc 1
+dup
+pop
+pop
+stnl 0
+ret
+qprintlabel:
+ldc c1111-c1112+0
+ldpi
+c1112:
+ldl 1
+call qoutasm
+ldl 2
+ldl 1
+call qoutdec
+ret
+c1111:
+db 99,0
+qcol:
+ldc 58
+ldl 1
+call qoutbyte
+ret
+qdefbyte:
+ldc c1114-c1115+0
+ldpi
+c1115:
+ldl 1
+call qot
+ret
+c1114:
+db 100,98,32,0
+qmodstk:
+ajw -1
+ldl 3
+ldl 2
+ldnl 3747
+diff
+dup
+stl 0
+cj c1117
+ldl 0
+ldc c1116-c1118+0
+ldpi
+c1118:
+ldl 2
+call qins
+c1117:
+ldl 3
+ajw 1
+ret
+c1116:
+db 97,106,119,32,0
+
+; Fin de compilaci¢n
+INICIO:
+ajw -4415
+ldlp 2
+stl 0
+ldc 4413
+stl 1
+INICIO2:
+ldc 0
+ldl 0
+stnl 0
+ldl 0
+adc 4
+stl 0
+ldl 1
+adc -1
+stl 1
+ldl 1
+eqc 0
+cj INICIO2
+ldlp 0
+call qmain
+ajw 4415
+ret

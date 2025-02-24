@@ -1,0 +1,282 @@
+; 15-jun-1995
+
+;
+; Libreria de soporte para los programas escritos en C.
+;
+
+q_llamada:
+ldl 2
+ajw -4
+ldc 2
+ldpi
+stl 0
+gcall
+ajw -3
+stl 0
+stl 1
+stl 2
+ldl 0
+ldl 6
+stnl 0
+ldl 1
+ldl 7
+stnl 0
+ldl 2
+ldl 8
+stnl 0
+ldlp 0
+ldl 9
+stnl 0
+ajw 3
+ret
+
+q_finprog:
+ldc FINPROG-P4
+ldpi
+P4:
+ret
+
+qexit:
+ldl 1
+ldnlp -4
+gajw
+ret
+
+qgetchar:
+ldc 5
+stl 1
+ldlp 1
+call EMENSAJE
+stl 1
+ldl 1
+cj qgetchar
+ldl 1
+ret
+
+qputs:
+ldl 2
+lb
+cj puts
+ldl 2
+lb
+ldl 1
+call qputchar
+ldl 2
+adc 1
+stl 2
+j qputs
+puts:
+ret
+
+qgets:
+ldl 2
+stl 1
+ldl 1
+stl 2
+P2:
+call qgetchar
+stl 3
+ldl 3
+eqc 8
+cj P1
+ldl 2
+ldl 1
+diff
+cj P2
+ldc 8
+ldc 0
+call qputchar
+ldl 2
+adc -1
+stl 2
+j P2
+P1:
+ldl 3
+eqc 13
+cj P3
+ldc 0
+ldl 2
+sb
+ldc 13
+ldc 0
+call qputchar
+ldc 10
+ldc 0
+call qputchar
+ret
+P3:
+ldl 3
+ldc 0
+call qputchar
+ldl 3
+ldl 2
+sb
+ldl 2
+adc 1
+stl 2
+j P2
+
+qputchar:
+ldc 6
+ldlp 1
+sb
+ldl 2
+ldlp 1
+adc 1
+sb
+ldlp 1
+call EMENSAJE
+ret
+
+qfopen:
+ajw -16
+ldlp 2
+adc 1
+stl 1
+ldc 1
+ldlp 2
+sb
+fopen1:
+ldl 18
+lb
+dup
+ldl 1
+sb
+ldl 18
+adc 1
+stl 18
+ldl 1
+adc 1
+stl 1
+eqc 0
+cj fopen1
+fopen2:
+ldl 19
+lb
+dup
+ldl 1
+sb
+ldl 19
+adc 1
+stl 19
+ldl 1
+adc 1
+stl 1
+eqc 0
+cj fopen2
+ldlp 2
+call EMENSAJE
+ajw 16
+ret
+
+qfclose:
+ldc 2
+ldlp 1
+sb
+ldl 2
+ldlp 1
+adc 1
+sb
+ldlp 1
+call EMENSAJE
+ret
+
+qfputc:
+ldc 4
+ldlp 1
+sb
+ldl 2
+ldlp 1
+adc 1
+sb
+ldl 3
+ldlp 1
+adc 2
+sb
+ldlp 1
+call EMENSAJE
+ret
+
+qfgetc:
+ldc 3
+ldlp 1
+sb
+ldl 2
+ldlp 1
+adc 1
+sb
+ldlp 1
+call EMENSAJE
+ret
+
+EMENSAJE:
+ajw -1
+mint
+ldnlp 64
+ldl 2
+outword
+ldc 0
+stl 2
+ldlp 2
+mint
+ldnlp 65
+ldc 2
+in
+ldl 2
+ldc 0x8000
+xword
+ajw 1
+ret
+
+;
+; Rutinas para mandar y recibir mensajes.
+;
+; mandar(canal, *mensaje, bytes)
+;
+qmandar:
+ldl 3
+ldl 2
+ldl 4
+out
+ret
+
+;
+; recibir(canal, *mensaje, bytes)
+;
+qrecibir:
+ldl 3
+ldl 2
+ldl 4
+in
+ret
+
+;
+; memcpy(destino, origen, bytes)
+;
+qmemcpy:
+ldl 3
+ldl 2
+ldl 4
+move
+ret
+
+;
+; memset(destino, byte, cuantos)
+;
+qmemset:
+ldl 4
+cj memset
+ldl 3
+ldl 2
+sb
+ldl 2
+adc 1
+stl 2
+ldl 4
+adc -1
+stl 4
+j qmemset
+memset:
+ret
+
+FINPROG:

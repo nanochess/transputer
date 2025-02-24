@@ -1,0 +1,3503 @@
+;*** Compilador de C para G-10 ***
+;          Versi¢n 1.00
+;   por Oscar Toledo Gutierrez.
+;
+COMIENZO:
+j INICIO
+qmain:
+ajw -3
+ldc -2147483376
+ldl 4
+stnl 2
+ldl 4
+ldnl 2
+ldnl 0
+ldl 4
+stnl 3
+ldc 31
+ldl 4
+stnl 16
+ldc 63
+ldl 4
+stnl 17
+ldl 4
+ldnl 17
+ldl 4
+call qcolor
+ldc 12
+ldl 4
+call qputchar
+ldc c1-c2+0
+ldpi
+c2:
+ldl 4
+call qputs
+ldl 4
+ldnl 16
+ldl 4
+call qcolor
+ldc c1-c3+81
+ldpi
+c3:
+ldl 4
+ldnlp 18
+ldl 4
+call qstrcpy
+ldc 0
+ldl 4
+ldnlp 22
+sb
+ldl 4
+ldnlp 22
+dup
+ldl 4
+stnl 5
+dup
+ldl 4
+stnl 4
+dup
+ldl 4
+stnl 6
+ldl 4
+stnl 7
+ldc 0
+dup
+ldl 4
+stnl 9
+ldl 4
+stnl 8
+ldc 0
+dup
+ldl 4
+stnl 11
+ldl 4
+stnl 10
+ldc 0
+dup
+ldl 4
+stnl 13
+ldl 4
+stnl 12
+ldc 1
+ldl 4
+stnl 14
+ldc 22
+ldc 0
+ldl 4
+call qactualiza_ventan
+ldl 4
+call qposiciona_cursor
+c4:
+ldc 1
+cj c5
+ldl 4
+call qestatus
+ldl 4
+call qgetchar
+stl 0
+ldl 0
+eqc 27
+cj c6
+j c5
+c6:
+ldc 128
+ldl 0
+gt
+eqc 0
+ldl 0
+ldc 255
+gt
+eqc 0
+and
+cj c7
+ldc 0
+stl 0
+c7:
+ldl 0
+eqc 3
+cj c8
+ldlp 0
+ldl 4
+call qacentua
+c8:
+ldc 32
+ldl 0
+gt
+eqc 0
+ldl 0
+ldc 255
+gt
+eqc 0
+and
+ldl 0
+eqc 13
+or
+cj c9
+ldl 0
+eqc 13
+cj c10
+ldc 10
+stl 0
+c10:
+ldl 4
+ldnl 14
+cj c11
+ldl 0
+ldl 4
+call qinserta_caracter
+j c12
+c11:
+ldl 4
+ldnl 6
+lb
+eqc 10
+ldl 4
+ldnl 6
+lb
+eqc 0
+or
+cj c13
+ldl 0
+ldl 4
+call qinserta_caracter
+j c14
+c13:
+ldl 0
+ldl 4
+ldnl 6
+sb
+ldl 0
+eqc 10
+eqc 0
+cj c15
+ldl 4
+ldnl 8
+ldl 4
+ldnl 8
+ldl 4
+call qactualiza_ventan
+j c16
+c15:
+ldc 22
+ldl 4
+ldnl 8
+ldl 4
+call qactualiza_ventan
+c16:
+ldl 4
+call qposiciona_cursor
+c14:
+c12:
+ldl 4
+call qmueve_der
+j c17
+c9:
+ldl 0
+eqc 22
+cj c18
+ldc 1
+ldl 4
+call qmueve_der
+j c19
+c18:
+ldl 0
+eqc 20
+cj c20
+ldc 1
+ldl 4
+call qmueve_izq
+j c21
+c20:
+ldl 0
+eqc 24
+cj c22
+ldc 1
+ldl 4
+call qmueve_arriba
+j c23
+c22:
+ldl 0
+eqc 18
+cj c24
+ldc 1
+ldl 4
+call qmueve_abajo
+j c25
+c24:
+ldl 0
+eqc 25
+cj c26
+ldl 4
+ldnl 10
+stl 2
+ldl 4
+ldnl 11
+stl 1
+ldc 0
+stl 0
+c27:
+ldl 0
+dup
+adc 1
+stl 0
+ldc 23
+rev
+gt
+cj c28
+ldc 0
+ldl 4
+call qmueve_arriba
+j c27
+c28:
+ldl 2
+ldl 4
+ldnl 10
+diff
+eqc 0
+eqc 0
+ldl 1
+ldl 4
+ldnl 11
+diff
+eqc 0
+eqc 0
+or
+cj c29
+ldc 22
+ldc 0
+ldl 4
+call qactualiza_ventan
+c29:
+ldl 4
+call qposiciona_cursor
+j c30
+c26:
+ldl 0
+eqc 19
+cj c31
+ldl 4
+ldnl 10
+stl 2
+ldl 4
+ldnl 11
+stl 1
+ldc 0
+stl 0
+c32:
+ldl 0
+dup
+adc 1
+stl 0
+ldc 23
+rev
+gt
+cj c33
+ldc 0
+ldl 4
+call qmueve_abajo
+j c32
+c33:
+ldl 2
+ldl 4
+ldnl 10
+diff
+eqc 0
+eqc 0
+ldl 1
+ldl 4
+ldnl 11
+diff
+eqc 0
+eqc 0
+or
+cj c34
+ldc 22
+ldc 0
+ldl 4
+call qactualiza_ventan
+c34:
+ldl 4
+call qposiciona_cursor
+j c35
+c31:
+ldl 0
+eqc 23
+cj c36
+ldl 4
+ldnl 4
+dup
+ldl 4
+stnl 7
+ldl 4
+stnl 6
+ldc 0
+dup
+ldl 4
+stnl 9
+ldl 4
+stnl 8
+ldc 0
+dup
+ldl 4
+stnl 11
+ldl 4
+stnl 10
+ldc 0
+dup
+ldl 4
+stnl 13
+ldl 4
+stnl 12
+ldc 22
+ldc 0
+ldl 4
+call qactualiza_ventan
+ldl 4
+call qposiciona_cursor
+j c37
+c36:
+ldl 0
+eqc 17
+cj c38
+ldl 4
+ldnl 4
+dup
+ldl 4
+stnl 7
+ldl 4
+stnl 6
+ldc 0
+dup
+ldl 4
+stnl 9
+ldl 4
+stnl 8
+ldc 0
+dup
+ldl 4
+stnl 11
+ldl 4
+stnl 10
+ldc 0
+dup
+ldl 4
+stnl 13
+ldl 4
+stnl 12
+c39:
+ldl 4
+ldnl 6
+lb
+eqc 0
+eqc 0
+cj c40
+ldc 0
+ldl 4
+call qmueve_der
+j c39
+c40:
+ldc 22
+ldc 0
+ldl 4
+call qactualiza_ventan
+ldl 4
+call qposiciona_cursor
+j c41
+c38:
+ldl 0
+eqc 16
+cj c42
+ldl 4
+ldnl 14
+eqc 0
+ldl 4
+stnl 14
+j c43
+c42:
+ldl 0
+eqc 1
+cj c44
+ldl 4
+call qayuda
+j c45
+c44:
+ldl 0
+eqc 2
+cj c46
+ldl 4
+call qgraba
+j c47
+c46:
+ldl 0
+eqc 4
+cj c48
+ldl 4
+call qlee
+j c49
+c48:
+ldl 0
+eqc 5
+cj c50
+ldl 4
+call qbusca
+j c51
+c50:
+ldl 0
+eqc 6
+cj c52
+ldl 4
+call qpega
+j c53
+c52:
+ldl 0
+eqc 7
+cj c54
+ldl 4
+call qsubstituye
+j c55
+c54:
+ldl 0
+eqc 8
+cj c56
+ldl 4
+call qmueve_izq
+ldl 4
+call qborra
+j c57
+c56:
+ldl 0
+eqc 9
+cj c58
+ldl 4
+call qmarca_inicio
+j c59
+c58:
+ldl 0
+eqc 10
+cj c60
+ldl 4
+call qmarca_final
+j c61
+c60:
+ldl 0
+eqc 11
+cj c62
+ldl 4
+call qcopia
+j c63
+c62:
+ldl 0
+eqc 12
+cj c64
+ldl 4
+call qcorta
+j c65
+c64:
+ldl 0
+eqc 14
+cj c66
+ldl 4
+call qborra
+c66:
+c65:
+c63:
+c61:
+c59:
+c57:
+c55:
+c53:
+c51:
+c49:
+c47:
+c45:
+c43:
+c41:
+c37:
+c35:
+c30:
+c25:
+c23:
+c21:
+c19:
+c17:
+j c4
+c5:
+ldc 10
+ldl 4
+call qcolor
+ldc 12
+ldl 4
+call qputchar
+ldc 1
+ldl 4
+call qexit
+ajw 3
+ret
+c1:
+db 32,69,68,73,84
+db 79,82,32,32,32
+db 70,49,61,65,121
+db 117,100,97,32,32
+db 32,78,85,69,86
+db 79,46,67,32,32
+db 32,32,32,32,32
+db 32,76,105,110,101
+db 97,58,49,32,32
+db 32,32,32,32,67
+db 111,108,117,109,110
+db 97,58,49,32,32
+db 32,32,32,32,32
+db 77,111,100,111,58
+db 73,110,115,101,114
+db 99,105,162,110,32
+db 0,78,85,69,86
+db 79,46,67,0
+qinserta_caracter:
+ajw -3
+ldl 4
+ldnl 5
+ldl 4
+ldnlp 22
+adc 65535
+diff
+eqc 0
+cj c68
+ajw 3
+ret
+c68:
+ldl 4
+ldnl 5
+stl 2
+ldl 4
+ldnl 5
+adc 1
+stl 1
+c69:
+ldl 2
+ldl 4
+ldnl 6
+adc -1
+diff
+eqc 0
+eqc 0
+cj c70
+ldl 2
+lb
+ldl 1
+sb
+ldl 1
+adc -1
+stl 1
+ldl 2
+adc -1
+stl 2
+j c69
+c70:
+ldl 4
+ldnlp 5
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 5
+ldl 4
+ldnl 6
+sb
+ldl 5
+eqc 10
+eqc 0
+cj c71
+ldl 4
+ldnl 8
+ldl 4
+ldnl 8
+ldl 4
+call qactualiza_ventan
+j c72
+c71:
+ldc 22
+ldl 4
+ldnl 8
+ldl 4
+call qactualiza_ventan
+c72:
+ldl 4
+call qposiciona_cursor
+ajw 3
+ret
+qacentua:
+ajw -1
+ldl 2
+call qgetchar
+stl 0
+ldc 0
+ldl 3
+sb
+ldl 0
+eqc 111
+cj c74
+ldc 162
+ldl 3
+sb
+j c75
+c74:
+ldl 0
+eqc 97
+cj c76
+ldc 160
+ldl 3
+sb
+j c77
+c76:
+ldl 0
+eqc 101
+cj c78
+ldc 130
+ldl 3
+sb
+j c79
+c78:
+ldl 0
+eqc 105
+cj c80
+ldc 161
+ldl 3
+sb
+j c81
+c80:
+ldl 0
+eqc 117
+cj c82
+ldc 163
+ldl 3
+sb
+j c83
+c82:
+ldl 0
+eqc 118
+cj c84
+ldc 129
+ldl 3
+sb
+j c85
+c84:
+ldl 0
+eqc 113
+cj c86
+ldc 168
+ldl 3
+sb
+j c87
+c86:
+ldl 0
+eqc 119
+cj c88
+ldc 173
+ldl 3
+sb
+j c89
+c88:
+ldl 0
+eqc 110
+cj c90
+ldc 164
+ldl 3
+sb
+j c91
+c90:
+ldl 0
+eqc 69
+cj c92
+ldc 144
+ldl 3
+sb
+j c93
+c92:
+ldl 0
+eqc 81
+cj c94
+ldc 168
+ldl 3
+sb
+j c95
+c94:
+ldl 0
+eqc 87
+cj c96
+ldc 173
+ldl 3
+sb
+c96:
+c95:
+c93:
+c91:
+c89:
+c87:
+c85:
+c83:
+c81:
+c79:
+c77:
+c75:
+ajw 1
+ret
+qestatus:
+ldl 1
+ldnl 17
+ldl 1
+call qcolor
+ldc 0
+ldc 42
+ldl 1
+call qpos
+ldl 1
+ldnl 12
+adc 1
+ldl 1
+call qdecimal
+ldc 0
+ldc 57
+ldl 1
+call qpos
+ldl 1
+ldnl 13
+adc 1
+ldl 1
+call qdecimal
+ldc 0
+ldc 70
+ldl 1
+call qpos
+ldl 1
+ldnl 14
+cj c98
+ldc c97-c99+0
+ldpi
+c99:
+ldl 1
+call qputs
+j c100
+c98:
+ldc c97-c101+10
+ldpi
+c101:
+ldl 1
+call qputs
+c100:
+ldl 1
+ldnl 16
+ldl 1
+call qcolor
+ldl 1
+call qposiciona_cursor
+ret
+c97:
+db 73,110,115,101,114
+db 99,105,162,110,0
+db 78,111,114,109,97
+db 108,32,32,32,0
+qdecimal:
+ajw -2
+ldc 0
+ldlp 0
+adc 5
+sb
+ldl 4
+ldc 10000
+div
+ldc 10
+rem
+adc 48
+ldlp 0
+sb
+ldl 4
+ldc 1000
+div
+ldc 10
+rem
+adc 48
+ldlp 0
+adc 1
+sb
+ldl 4
+ldc 100
+div
+ldc 10
+rem
+adc 48
+ldlp 0
+adc 2
+sb
+ldl 4
+ldc 10
+div
+ldc 10
+rem
+adc 48
+ldlp 0
+adc 3
+sb
+ldl 4
+ldc 10
+rem
+adc 48
+ldlp 0
+adc 4
+sb
+c103:
+ldlp 0
+lb
+eqc 48
+ldlp 0
+adc 1
+lb
+eqc 32
+eqc 0
+and
+cj c104
+ldlp 0
+adc 1
+lb
+ldlp 0
+sb
+ldlp 0
+adc 2
+lb
+ldlp 0
+adc 1
+sb
+ldlp 0
+adc 3
+lb
+ldlp 0
+adc 2
+sb
+ldlp 0
+adc 4
+lb
+ldlp 0
+adc 3
+sb
+ldc 32
+ldlp 0
+adc 4
+sb
+j c103
+c104:
+ldlp 0
+ldl 3
+call qputs
+ajw 2
+ret
+qborra:
+ajw -3
+ldl 4
+ldnl 6
+ldl 4
+ldnl 5
+diff
+eqc 0
+cj c106
+ajw 3
+ret
+c106:
+ldl 4
+ldnl 6
+lb
+ldlp 0
+sb
+ldl 4
+ldnl 6
+adc 1
+stl 2
+ldl 4
+ldnl 6
+stl 1
+c107:
+ldl 1
+ldl 4
+ldnl 5
+diff
+eqc 0
+eqc 0
+cj c108
+ldl 2
+lb
+ldl 1
+sb
+ldl 1
+adc 1
+stl 1
+ldl 2
+adc 1
+stl 2
+j c107
+c108:
+ldl 4
+ldnlp 5
+dup
+ldnl 0
+adc -1
+rev
+stnl 0
+ldlp 0
+lb
+eqc 10
+eqc 0
+cj c109
+ldl 4
+ldnl 8
+ldl 4
+ldnl 8
+ldl 4
+call qactualiza_ventan
+j c110
+c109:
+ldc 22
+ldl 4
+ldnl 8
+ldl 4
+call qactualiza_ventan
+c110:
+ldl 4
+call qposiciona_cursor
+ajw 3
+ret
+qmueve_arriba:
+ajw -2
+ldl 3
+ldnl 6
+ldl 3
+ldnl 4
+diff
+eqc 0
+cj c112
+ajw 2
+ret
+c112:
+ldl 3
+ldnl 10
+stl 1
+ldl 3
+ldnl 11
+stl 0
+ldl 3
+ldnl 6
+adc -1
+lb
+eqc 10
+eqc 0
+cj c113
+c114:
+ldc 1
+cj c115
+ldl 3
+ldnl 6
+ldl 3
+ldnl 4
+diff
+eqc 0
+cj c116
+j c115
+c116:
+ldl 3
+ldnl 6
+adc -1
+lb
+eqc 10
+cj c117
+j c115
+c117:
+ldc 0
+ldl 3
+call qmueve_izq
+j c114
+c115:
+j c118
+c113:
+ldc 0
+ldl 3
+call qmueve_izq
+c119:
+ldc 1
+cj c120
+ldl 3
+ldnl 6
+ldl 3
+ldnl 4
+diff
+eqc 0
+cj c121
+j c120
+c121:
+ldl 3
+ldnl 6
+adc -1
+lb
+eqc 10
+cj c122
+j c120
+c122:
+ldc 0
+ldl 3
+call qmueve_izq
+j c119
+c120:
+c118:
+ldl 4
+cj c123
+ldl 1
+ldl 3
+ldnl 10
+diff
+eqc 0
+eqc 0
+ldl 0
+ldl 3
+ldnl 11
+diff
+eqc 0
+eqc 0
+or
+cj c124
+ldc 22
+ldc 0
+ldl 3
+call qactualiza_ventan
+c124:
+ldl 3
+call qposiciona_cursor
+c123:
+ajw 2
+ret
+qmueve_abajo:
+ajw -2
+ldl 3
+ldnl 10
+stl 1
+ldl 3
+ldnl 11
+stl 0
+ldl 3
+ldnl 6
+ldl 3
+ldnl 4
+diff
+eqc 0
+eqc 0
+ldl 3
+ldnl 6
+adc -1
+lb
+eqc 10
+eqc 0
+and
+cj c126
+c127:
+ldc 1
+cj c128
+ldl 3
+ldnl 6
+ldl 3
+ldnl 4
+diff
+eqc 0
+cj c129
+j c128
+c129:
+ldl 3
+ldnl 6
+adc -1
+lb
+eqc 10
+cj c130
+j c128
+c130:
+ldc 0
+ldl 3
+call qmueve_izq
+j c127
+c128:
+j c131
+c126:
+c132:
+ldc 1
+cj c133
+ldl 3
+ldnl 6
+lb
+eqc 0
+cj c134
+j c133
+c134:
+ldl 3
+ldnl 6
+lb
+eqc 10
+cj c135
+ldc 0
+ldl 3
+call qmueve_der
+j c133
+c135:
+ldc 0
+ldl 3
+call qmueve_der
+j c132
+c133:
+c131:
+ldl 4
+cj c136
+ldl 1
+ldl 3
+ldnl 10
+diff
+eqc 0
+eqc 0
+ldl 0
+ldl 3
+ldnl 11
+diff
+eqc 0
+eqc 0
+or
+cj c137
+ldc 22
+ldc 0
+ldl 3
+call qactualiza_ventan
+c137:
+ldl 3
+call qposiciona_cursor
+c136:
+ajw 2
+ret
+qmueve_izq:
+ajw -3
+ldl 4
+ldnl 6
+ldl 4
+ldnl 4
+diff
+eqc 0
+cj c139
+ajw 3
+ret
+c139:
+ldl 4
+ldnlp 6
+dup
+ldnl 0
+adc -1
+dup
+pop
+pop
+stnl 0
+lb
+eqc 10
+eqc 0
+cj c140
+ldl 4
+ldnlp 9
+dup
+ldnl 0
+adc -1
+rev
+stnl 0
+ldl 4
+ldnlp 13
+dup
+ldnl 0
+adc -1
+rev
+stnl 0
+ldl 4
+ldnl 9
+eqc -1
+cj c141
+ldl 4
+ldnlp 9
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 4
+ldnlp 11
+dup
+ldnl 0
+adc -1
+rev
+stnl 0
+ldl 5
+cj c142
+ldc 22
+ldc 0
+ldl 4
+call qactualiza_ventan
+c142:
+c141:
+j c143
+c140:
+ldl 4
+ldnl 10
+stl 1
+ldl 4
+ldnl 11
+stl 0
+ldl 4
+ldnlp 8
+dup
+ldnl 0
+adc -1
+rev
+stnl 0
+ldl 4
+ldnlp 12
+dup
+ldnl 0
+adc -1
+rev
+stnl 0
+ldl 4
+ldnl 8
+eqc -1
+cj c144
+ldl 4
+ldnlp 8
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 4
+ldnlp 10
+dup
+ldnl 0
+adc -1
+rev
+stnl 0
+ldl 4
+ldnl 7
+ldl 4
+call qlinea_ant
+ldl 4
+stnl 7
+c144:
+ldc 0
+dup
+ldl 4
+stnl 13
+dup
+ldl 4
+stnl 11
+ldl 4
+stnl 9
+ldl 4
+ldnl 6
+ldl 4
+call qprin_lin
+stl 2
+c145:
+ldl 2
+dup
+adc 1
+stl 2
+lb
+eqc 10
+eqc 0
+cj c146
+ldl 4
+ldnlp 9
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 4
+ldnlp 13
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 4
+ldnl 9
+eqc 80
+cj c147
+ldl 4
+ldnlp 9
+dup
+ldnl 0
+adc -1
+rev
+stnl 0
+ldl 4
+ldnlp 11
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+c147:
+j c145
+c146:
+ldl 1
+ldl 4
+ldnl 10
+diff
+eqc 0
+eqc 0
+ldl 0
+ldl 4
+ldnl 11
+diff
+eqc 0
+eqc 0
+or
+cj c148
+ldl 5
+cj c149
+ldc 22
+ldc 0
+ldl 4
+call qactualiza_ventan
+c149:
+c148:
+c143:
+ldl 5
+cj c150
+ldl 4
+call qposiciona_cursor
+c150:
+ajw 3
+ret
+qmueve_der:
+ldl 1
+ldnl 6
+lb
+eqc 0
+cj c152
+ret
+c152:
+ldl 1
+ldnlp 6
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+lb
+eqc 10
+eqc 0
+cj c153
+ldl 1
+ldnlp 9
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 1
+ldnlp 13
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 1
+ldnl 9
+eqc 80
+cj c154
+ldl 1
+ldnlp 9
+dup
+ldnl 0
+adc -1
+rev
+stnl 0
+ldl 1
+ldnlp 11
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 2
+cj c155
+ldc 22
+ldc 0
+ldl 1
+call qactualiza_ventan
+c155:
+c154:
+j c156
+c153:
+ldc 0
+dup
+ldl 1
+stnl 13
+dup
+ldl 1
+stnl 11
+ldl 1
+stnl 9
+ldl 1
+ldnlp 8
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 1
+ldnlp 12
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 1
+ldnl 8
+eqc 23
+cj c157
+ldl 1
+ldnlp 8
+dup
+ldnl 0
+adc -1
+rev
+stnl 0
+ldl 1
+ldnlp 10
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 1
+ldnl 7
+ldl 1
+call qsig_linea
+ldl 1
+stnl 7
+ldl 2
+cj c158
+ldc 22
+ldc 0
+ldl 1
+call qactualiza_ventan
+c158:
+c157:
+c156:
+ldl 2
+cj c159
+ldl 1
+call qposiciona_cursor
+c159:
+ret
+qactualiza_ventan:
+ajw -4
+ldl 5
+ldnl 7
+stl 3
+ldl 6
+stl 0
+c161:
+ldl 0
+dup
+adc -1
+stl 0
+cj c162
+ldl 3
+ldl 5
+call qsig_linea
+stl 3
+j c161
+c162:
+c163:
+ldl 6
+ldl 7
+gt
+eqc 0
+cj c164
+ldl 6
+adc 1
+ldc 160
+prod
+ldl 5
+ldnl 3
+bsub
+stl 1
+ldl 3
+stl 2
+ldl 5
+ldnl 11
+stl 0
+c165:
+ldl 0
+dup
+adc -1
+stl 0
+cj c166
+ldl 2
+lb
+eqc 10
+eqc 0
+ldl 2
+lb
+eqc 0
+eqc 0
+and
+cj c167
+ldl 2
+adc 1
+stl 2
+j c168
+c167:
+j c166
+c168:
+j c165
+c166:
+ldc 0
+stl 0
+c169:
+ldc 80
+ldl 0
+gt
+cj c170
+ldl 2
+lb
+eqc 10
+ldl 2
+lb
+eqc 0
+or
+cj c171
+j c170
+c171:
+ldl 2
+dup
+adc 1
+stl 2
+lb
+ldl 1
+dup
+adc 1
+stl 1
+sb
+ldc 31
+ldl 1
+dup
+adc 1
+stl 1
+sb
+ldl 0
+adc 1
+stl 0
+j c169
+c170:
+c172:
+ldc 80
+ldl 0
+gt
+cj c173
+ldc 32
+ldl 1
+dup
+adc 1
+stl 1
+sb
+ldc 31
+ldl 1
+dup
+adc 1
+stl 1
+sb
+ldl 0
+adc 1
+stl 0
+j c172
+c173:
+ldl 2
+lb
+eqc 10
+cj c174
+ldl 2
+adc 1
+stl 2
+c174:
+ldl 6
+adc 1
+stl 6
+ldl 3
+ldl 5
+call qsig_linea
+stl 3
+j c163
+c164:
+ajw 4
+ret
+qprin_lin:
+c176:
+ldc 1
+cj c177
+ldl 2
+ldl 1
+ldnl 4
+diff
+eqc 0
+cj c178
+ldl 2
+ret
+c178:
+ldl 2
+adc -1
+dup
+stl 2
+lb
+eqc 10
+cj c179
+ldl 2
+adc 1
+ret
+c179:
+j c176
+c177:
+ret
+qlinea_ant:
+c181:
+ldc 1
+cj c182
+ldl 2
+ldl 1
+ldnl 4
+diff
+eqc 0
+cj c183
+ldl 2
+ret
+c183:
+ldl 2
+adc -1
+dup
+stl 2
+lb
+eqc 10
+cj c184
+j c182
+c184:
+j c181
+c182:
+c185:
+ldc 1
+cj c186
+ldl 2
+ldl 1
+ldnl 4
+diff
+eqc 0
+cj c187
+ldl 2
+ret
+c187:
+ldl 2
+adc -1
+dup
+stl 2
+lb
+eqc 10
+cj c188
+j c186
+c188:
+j c185
+c186:
+ldl 2
+adc 1
+dup
+stl 2
+ret
+qsig_linea:
+c190:
+ldl 2
+lb
+eqc 10
+eqc 0
+ldl 2
+lb
+eqc 0
+eqc 0
+and
+cj c191
+ldl 2
+adc 1
+stl 2
+j c190
+c191:
+ldl 2
+lb
+eqc 10
+cj c192
+ldl 2
+adc 1
+stl 2
+c192:
+ldl 2
+ret
+qposiciona_cursor:
+ldl 1
+ldnl 8
+adc 1
+ldl 1
+ldnl 9
+ldl 1
+call qpos
+ret
+qpos:
+ldc 27
+ldl 1
+call qputchar
+ldc 2
+ldl 1
+call qputchar
+ldl 2
+ldl 1
+call qputchar
+ldc 27
+ldl 1
+call qputchar
+ldc 3
+ldl 1
+call qputchar
+ldl 3
+ldl 1
+call qputchar
+ret
+qstrcmp:
+c196:
+ldc 1
+cj c197
+ldl 3
+lb
+ldl 2
+lb
+gt
+cj c198
+ldc -1
+ret
+c198:
+ldl 2
+lb
+ldl 3
+lb
+gt
+cj c199
+ldc 1
+ret
+c199:
+ldl 2
+lb
+eqc 0
+cj c200
+ldc 0
+ret
+c200:
+ldl 2
+adc 1
+stl 2
+ldl 3
+adc 1
+stl 3
+j c196
+c197:
+ret
+qstrcpy:
+c202:
+ldl 2
+dup
+adc 1
+stl 2
+ajw -1
+stl 0
+ldl 4
+dup
+adc 1
+stl 4
+lb
+dup
+ldl 0
+ajw 1
+sb
+cj c203
+j c202
+c203:
+ret
+qstrcat:
+c205:
+ldl 2
+lb
+cj c206
+ldl 2
+adc 1
+stl 2
+j c205
+c206:
+ldl 3
+ldl 2
+ldl 1
+call qstrcpy
+ret
+qcolor:
+ldc 27
+ldl 1
+call qputchar
+ldc 1
+ldl 1
+call qputchar
+ldl 2
+ldl 1
+call qputchar
+ret
+qtoupper:
+ldc 97
+ldl 2
+gt
+eqc 0
+ldl 2
+ldc 122
+gt
+eqc 0
+and
+cj c209
+ldl 2
+adc -32
+ret
+j c210
+c209:
+ldl 2
+ret
+c210:
+ret
+qventana:
+ajw -4
+ldl 6
+dup
+stl 1
+ajw -1
+stl 0
+ldl 8
+dup
+stl 1
+ldl 0
+ajw 1
+ldl 5
+call qpos
+ldl 10
+ldl 5
+call qcolor
+ldc 218
+ldl 5
+call qputchar
+ldc 0
+stl 3
+c212:
+ldl 3
+dup
+adc 1
+stl 3
+ldl 8
+rev
+gt
+cj c213
+ldc 196
+ldl 5
+call qputchar
+j c212
+c213:
+ldc 191
+ldl 5
+call qputchar
+ldc 0
+stl 2
+c214:
+ldl 2
+dup
+adc 1
+stl 2
+ldl 9
+rev
+gt
+cj c215
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 5
+call qpos
+ldl 10
+ldl 5
+call qcolor
+ldc 179
+ldl 5
+call qputchar
+ldl 11
+ldl 5
+call qcolor
+ldc 0
+stl 3
+c216:
+ldl 3
+dup
+adc 1
+stl 3
+ldl 8
+rev
+gt
+cj c217
+ldc 32
+ldl 5
+call qputchar
+j c216
+c217:
+ldl 10
+ldl 5
+call qcolor
+ldc 179
+ldl 5
+call qputchar
+j c214
+c215:
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 5
+call qpos
+ldl 10
+ldl 5
+call qcolor
+ldc 192
+ldl 5
+call qputchar
+ldc 0
+stl 3
+c218:
+ldl 3
+dup
+adc 1
+stl 3
+ldl 8
+rev
+gt
+cj c219
+ldc 196
+ldl 5
+call qputchar
+j c218
+c219:
+ldc 217
+ldl 5
+call qputchar
+ldl 7
+adc 1
+ldl 6
+adc 1
+ldl 5
+call qpos
+ldl 11
+ldl 5
+call qcolor
+ajw 4
+ret
+qmarca_inicio:
+ret
+qmarca_final:
+ret
+qcopia:
+ret
+qcorta:
+ret
+qpega:
+ret
+qbusca:
+ret
+qsubstituye:
+ret
+qayuda:
+ajw -2
+ldc 15
+stl 1
+ldc 2
+stl 0
+ajw -4
+ldc 45
+stl 0
+ldc 15
+stl 1
+ldc 46
+stl 2
+ldc 47
+stl 3
+ldl 4
+ldl 5
+ldl 7
+call qventana
+ajw 4
+ldl 1
+adc 1
+stl 1
+ldl 1
+adc 1
+stl 1
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c228+0
+ldpi
+c228:
+ldl 3
+call qputs
+ldl 0
+adc 1
+stl 0
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c229+6
+ldpi
+c229:
+ldl 3
+call qputs
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c230+39
+ldpi
+c230:
+ldl 3
+call qputs
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c231+71
+ldpi
+c231:
+ldl 3
+call qputs
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c232+100
+ldpi
+c232:
+ldl 3
+call qputs
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c233+115
+ldpi
+c233:
+ldl 3
+call qputs
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c234+143
+ldpi
+c234:
+ldl 3
+call qputs
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c235+173
+ldpi
+c235:
+ldl 3
+call qputs
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c236+202
+ldpi
+c236:
+ldl 3
+call qputs
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c237+230
+ldpi
+c237:
+ldl 3
+call qputs
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c238+274
+ldpi
+c238:
+ldl 3
+call qputs
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c239+296
+ldpi
+c239:
+ldl 3
+call qputs
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c240+338
+ldpi
+c240:
+ldl 3
+call qputs
+ldl 0
+adc 1
+stl 0
+ldl 0
+ldl 1
+ldl 3
+call qpos
+ldc c227-c241+381
+ldpi
+c241:
+ldl 3
+call qputs
+ldl 3
+call qgetchar
+ldl 3
+ldnl 16
+ldl 3
+call qcolor
+ldc 22
+ldc 0
+ldl 3
+call qactualiza_ventan
+ldl 3
+call qposiciona_cursor
+ajw 2
+ret
+c227:
+db 65,121,117,100,97
+db 0,70,50,32,61
+db 32,71,114,97,98
+db 97,32,101,108,32
+db 116,101,120,116,111
+db 32,101,110,32,101
+db 108,32,100,105,115
+db 99,111,46,0,70
+db 51,32,61,32,65
+db 99,101,110,116,117
+db 97,32,108,97,32
+db 115,105,103,46,32
+db 112,117,108,115,97
+db 99,105,111,110,46
+db 0,70,52,32,61
+db 32,76,101,101,32
+db 117,110,32,116,101
+db 120,116,111,32,100
+db 101,108,32,100,105
+db 115,99,111,46,0
+db 70,53,32,61,32
+db 66,117,115,113,117
+db 101,100,97,46,0
+db 70,54,32,61,32
+db 80,101,103,97,32
+db 101,108,32,116,101
+db 120,116,111,32,99
+db 111,114,116,97,100
+db 111,46,0,70,55
+db 32,61,32,66,117
+db 115,113,117,101,100
+db 97,32,121,32,115
+db 117,98,115,116,105
+db 116,117,99,105,162
+db 110,46,0,70,57
+db 32,61,32,77,97
+db 114,99,97,32,105
+db 110,105,99,105,111
+db 32,100,101,32,98
+db 108,111,113,117,101
+db 46,0,70,49,48
+db 61,32,77,97,114
+db 99,97,32,102,105
+db 110,97,108,32,100
+db 101,32,98,108,111
+db 113,117,101,46,0
+db 70,49,49,61,32
+db 67,111,112,105,97
+db 32,101,108,32,98
+db 108,111,113,117,101
+db 32,101,110,32,108
+db 97,32,112,111,115
+db 46,32,100,101,108
+db 32,99,117,114,115
+db 111,114,46,0,70
+db 49,50,61,32,67
+db 111,114,116,97,32
+db 101,108,32,98,108
+db 111,113,117,101,46
+db 0,68,101,108,61
+db 32,66,111,114,114
+db 97,32,101,108,32
+db 99,97,114,97,99
+db 116,101,114,32,100
+db 101,98,97,106,111
+db 32,100,101,108,32
+db 99,117,114,115,111
+db 114,46,0,66,107
+db 83,112,61,32,66
+db 111,114,114,97,32
+db 101,108,32,99,97
+db 114,97,99,116,101
+db 114,32,100,101,116
+db 114,97,115,32,100
+db 101,108,32,99,117
+db 114,115,111,114,46
+db 0,73,110,115,61
+db 32,67,97,109,98
+db 105,97,32,101,108
+db 32,109,111,100,111
+db 32,100,101,32,105
+db 110,115,101,114,99
+db 105,111,110,47,110
+db 111,114,109,97,108
+db 46,0
+qlee_sector:
+ldc 1
+ldl 1
+ldnlp 17686
+sb
+ldl 2
+ldl 1
+ldnlp 17686
+adc 1
+sb
+ldl 3
+ldl 1
+ldnlp 17686
+adc 2
+sb
+ldl 4
+ldl 1
+ldnlp 17686
+adc 3
+sb
+ldl 1
+ldnlp 17686
+ldl 1
+stnl 2
+ajw -1
+ldc 4
+stl 0
+ldl 2
+ldnlp 2
+ldc -2147483384
+ldl 2
+call qmandar
+ajw 1
+ajw -1
+ldc 1
+stl 0
+ldl 2
+ldnlp 2
+ldc -2147483380
+ldl 2
+call qrecibir
+ajw 1
+ldl 1
+ldnlp 17686
+lb
+ret
+qtraga_dir:
+ajw -13
+ldc 4
+ldc 2
+ldl 14
+call qpos
+ldc 2
+stl 9
+ldc -1
+stl 8
+ldc 0
+stl 10
+c244:
+ldc 1
+cj c245
+ldl 8
+eqc -1
+cj c246
+ajw -1
+ldl 10
+adc 1
+dup
+stl 10
+stl 0
+ldc 0
+ldc 0
+ldl 15
+call qlee_sector
+ajw 1
+ldc 1
+stl 8
+c246:
+ldc 0
+stl 12
+c247:
+ldc 32
+ldl 12
+gt
+cj c248
+ldl 8
+dup
+adc 1
+stl 8
+ldl 14
+ldnlp 17686
+bsub
+lb
+ldl 12
+dup
+adc 1
+stl 12
+ldlp 0
+bsub
+sb
+j c247
+c248:
+ldl 8
+eqc 513
+cj c249
+ldc -1
+stl 8
+c249:
+ldlp 0
+lb
+eqc 128
+cj c250
+j c244
+c250:
+ldlp 0
+lb
+eqc 0
+cj c251
+j c245
+c251:
+ldc 0
+stl 12
+c252:
+ldc 8
+ldl 12
+gt
+cj c253
+ldl 12
+dup
+adc 1
+stl 12
+ldlp 0
+bsub
+lb
+ldl 10
+dup
+adc 1
+stl 10
+ldl 14
+ldnlp 16406
+bsub
+sb
+j c252
+c253:
+ldl 12
+ldlp 0
+bsub
+lb
+eqc 32
+cj c254
+ldc 32
+ldl 10
+dup
+adc 1
+stl 10
+ldl 14
+ldnlp 16406
+bsub
+sb
+j c255
+c254:
+ldc 46
+ldl 10
+dup
+adc 1
+stl 10
+ldl 14
+ldnlp 16406
+bsub
+sb
+c255:
+c256:
+ldc 11
+ldl 12
+gt
+cj c257
+ldl 12
+dup
+adc 1
+stl 12
+ldlp 0
+bsub
+lb
+ldl 10
+dup
+adc 1
+stl 10
+ldl 14
+ldnlp 16406
+bsub
+sb
+j c256
+c257:
+j c244
+c245:
+ldl 10
+ldc 12
+div
+ajw 13
+ret
+qvisual_dir:
+ajw -4
+ldc 2
+stl 3
+ldc 4
+stl 2
+ldc 0
+stl 0
+c259:
+ldl 6
+dup
+adc -1
+stl 6
+cj c260
+ldl 2
+ldl 3
+ldl 5
+call qpos
+ldc 0
+stl 1
+c261:
+ldl 1
+dup
+adc 1
+stl 1
+ldc 12
+rev
+gt
+cj c262
+ldl 0
+dup
+adc 1
+stl 0
+ldl 5
+ldnlp 16406
+bsub
+lb
+ldl 5
+call qputchar
+j c261
+c262:
+ldl 2
+adc 1
+dup
+stl 2
+eqc 20
+cj c263
+ldc 4
+stl 2
+ldl 3
+adc 16
+stl 3
+c263:
+j c259
+c260:
+ajw 4
+ret
+qsel:
+ajw -6
+ldc 1
+stl 5
+ldc 4
+stl 4
+ldc 0
+stl 3
+c265:
+ldc 1
+cj c266
+ldl 4
+ldl 5
+ldl 7
+call qpos
+ldc 207
+ldl 7
+call qcolor
+ldc 32
+ldl 7
+call qputchar
+ldl 7
+ldnlp 16406
+stl 0
+ldc 12
+ldl 3
+prod
+ldl 0
+bsub
+stl 0
+ldc 0
+stl 1
+c267:
+ldl 1
+dup
+adc 1
+stl 1
+ldc 12
+rev
+gt
+cj c268
+ldl 0
+dup
+adc 1
+stl 0
+lb
+ldl 7
+call qputchar
+j c267
+c268:
+ldc 32
+ldl 7
+call qputchar
+ldl 7
+call qgetchar
+stl 2
+ldl 4
+ldl 5
+ldl 7
+call qpos
+ldc 47
+ldl 7
+call qcolor
+ldc 32
+ldl 7
+call qputchar
+ldl 7
+ldnlp 16406
+stl 0
+ldc 12
+ldl 3
+prod
+ldl 0
+bsub
+stl 0
+ldc 0
+stl 1
+c269:
+ldl 1
+dup
+adc 1
+stl 1
+ldc 12
+rev
+gt
+cj c270
+ldl 0
+dup
+adc 1
+stl 0
+lb
+ldl 7
+call qputchar
+j c269
+c270:
+ldc 32
+ldl 7
+call qputchar
+ldl 2
+eqc 13
+cj c271
+ldl 3
+ajw 6
+ret
+j c272
+c271:
+ldl 2
+eqc 27
+cj c273
+ldc -1
+ajw 6
+ret
+j c274
+c273:
+ldl 2
+eqc 24
+cj c275
+ldl 3
+cj c276
+ldl 3
+adc -1
+stl 3
+ldl 4
+adc -1
+dup
+stl 4
+eqc 3
+cj c277
+ldl 5
+adc -16
+stl 5
+ldc 19
+stl 4
+c277:
+c276:
+j c278
+c275:
+ldl 2
+eqc 20
+cj c279
+ldl 5
+eqc 1
+eqc 0
+cj c280
+ldl 5
+adc -16
+stl 5
+ldl 3
+adc -16
+stl 3
+c280:
+j c281
+c279:
+ldl 2
+eqc 22
+cj c282
+ldl 3
+adc 16
+ldl 8
+adc -1
+gt
+eqc 0
+cj c283
+ldl 5
+adc 16
+stl 5
+ldl 3
+adc 16
+stl 3
+c283:
+j c284
+c282:
+ldl 2
+eqc 18
+cj c285
+ldl 3
+ldl 8
+adc -1
+diff
+eqc 0
+eqc 0
+cj c286
+ldl 3
+adc 1
+stl 3
+ldl 4
+adc 1
+dup
+stl 4
+eqc 20
+cj c287
+ldl 5
+adc 16
+stl 5
+ldc 4
+stl 4
+c287:
+c286:
+j c288
+c285:
+ldl 2
+eqc 23
+cj c289
+ldc 0
+stl 3
+ldc 1
+stl 5
+ldc 4
+stl 4
+j c290
+c289:
+ldl 2
+eqc 17
+cj c291
+ldl 8
+adc -1
+ldc 16
+div
+ldc 16
+prod
+adc 1
+stl 5
+ldl 8
+adc -1
+ldc 16
+rem
+adc 4
+stl 4
+ldl 8
+adc -1
+stl 3
+c291:
+c290:
+c288:
+c284:
+c281:
+c278:
+c274:
+c272:
+j c265
+c266:
+ajw 6
+ret
+qlee:
+ajw -8
+ajw -4
+ldc 78
+stl 0
+ldc 21
+stl 1
+ldc 46
+stl 2
+ldc 47
+stl 3
+ldc 1
+ldc 0
+ldl 13
+call qventana
+ajw 4
+ldc c292-c293+0
+ldpi
+c293:
+ldl 9
+call qputs
+ldl 9
+call qtraga_dir
+stl 7
+ldl 7
+ldl 9
+call qvisual_dir
+ldl 7
+ldl 9
+call qsel
+stl 7
+ldl 7
+eqc -1
+eqc 0
+cj c294
+ldl 9
+ldnlp 16406
+stl 6
+ldl 7
+ldc 12
+prod
+ldl 6
+bsub
+stl 6
+ldc 0
+dup
+stl 4
+stl 5
+c295:
+ldl 5
+dup
+adc 1
+stl 5
+ldc 12
+rev
+gt
+cj c296
+ldl 6
+lb
+eqc 32
+eqc 0
+cj c297
+ldl 6
+lb
+ldl 4
+dup
+adc 1
+stl 4
+ldlp 0
+bsub
+sb
+c297:
+ldl 6
+adc 1
+stl 6
+j c295
+c296:
+c298:
+ldc 12
+ldl 4
+gt
+cj c299
+ldc 32
+ldl 4
+dup
+adc 1
+stl 4
+ldlp 0
+bsub
+sb
+j c298
+c299:
+ldc 0
+ldl 4
+ldlp 0
+bsub
+sb
+ldlp 0
+ldl 9
+ldnlp 18
+ldl 9
+call qstrcpy
+ldc 0
+ldc 21
+ldl 9
+call qpos
+ldl 9
+ldnl 17
+ldl 9
+call qcolor
+ldl 9
+ldnlp 18
+ldl 9
+call qputs
+ldc 0
+ldl 9
+ldnlp 22
+sb
+ldl 9
+ldnlp 22
+dup
+ldl 9
+stnl 5
+dup
+ldl 9
+stnl 4
+dup
+ldl 9
+stnl 6
+ldl 9
+stnl 7
+ldc 0
+dup
+ldl 9
+stnl 9
+ldl 9
+stnl 8
+ldc 0
+dup
+ldl 9
+stnl 11
+ldl 9
+stnl 10
+ldc 0
+dup
+ldl 9
+stnl 13
+ldl 9
+stnl 12
+ldl 9
+call qestatus
+ldc 22
+ldc 0
+ldl 9
+call qactualiza_ventan
+ldl 9
+call qposiciona_cursor
+ldc c292-c300+21
+ldpi
+c300:
+ldl 9
+ldnlp 18
+ldl 9
+call qfopen
+ldl 9
+stnl 15
+c301:
+ldl 9
+ldnl 15
+ldl 9
+call qfgetc
+dup
+stl 4
+eqc -1
+eqc 0
+cj c302
+ldl 4
+eqc 13
+cj c303
+j c301
+c303:
+ldl 4
+eqc 26
+cj c304
+j c301
+c304:
+ldl 4
+eqc 10
+cj c305
+ldl 9
+ldnlp 12
+dup
+ldnl 0
+adc 1
+rev
+stnl 0
+ldl 9
+call qestatus
+c305:
+ldl 9
+ldnl 5
+ldl 9
+ldnlp 22
+adc 65535
+diff
+eqc 0
+cj c306
+ldl 9
+call qmemoria_agotada
+j c302
+c306:
+ldl 9
+ldnlp 5
+dup
+ldnl 0
+dup
+adc 1
+pop
+pop
+stnl 0
+ldl 4
+rev
+sb
+j c301
+c302:
+ldc 0
+ldl 9
+ldnl 5
+sb
+ldc 0
+ldl 9
+stnl 12
+ldl 9
+ldnl 15
+ldl 9
+call qfclose
+ldl 9
+call qestatus
+c294:
+ldl 9
+ldnl 16
+ldl 9
+call qcolor
+ldc 22
+ldc 0
+ldl 9
+call qactualiza_ventan
+ldl 9
+call qposiciona_cursor
+ajw 8
+ret
+c292:
+db 32,76,101,99,116
+db 117,114,97,32,100
+db 101,32,97,114,99
+db 104,105,118,111,58
+db 0,114,0
+qmemoria_agotada:
+ajw -4
+ldc 18
+stl 0
+ldc 1
+stl 1
+ldc 78
+stl 2
+ldc 79
+stl 3
+ldc 10
+ldc 29
+ldl 5
+call qventana
+ajw 4
+ldc c307-c308+0
+ldpi
+c308:
+ldl 1
+call qputs
+ldl 1
+call qgetchar
+ldl 1
+ldnl 16
+ldl 1
+call qcolor
+ldc 22
+ldc 0
+ldl 1
+call qactualiza_ventan
+ldl 1
+call qposiciona_cursor
+ret
+c307:
+db 32,77,101,109,111
+db 114,105,97,32,97
+db 103,111,116,97,100
+db 97,46,32,0
+qerror_crea:
+ajw -4
+ldc 37
+stl 0
+ldc 1
+stl 1
+ldc 78
+stl 2
+ldc 79
+stl 3
+ldc 10
+ldc 19
+ldl 5
+call qventana
+ajw 4
+ldc c309-c310+0
+ldpi
+c310:
+ldl 1
+call qputs
+ldl 1
+call qgetchar
+ret
+c309:
+db 32,69,114,114,111
+db 114,58,32,78,111
+db 32,115,101,32,112
+db 117,100,111,32,99
+db 114,101,97,114,32
+db 101,108,32,97,114
+db 99,104,105,118,111
+db 46,32,0
+qerror_esc:
+ajw -4
+ldc 29
+stl 0
+ldc 1
+stl 1
+ldc 78
+stl 2
+ldc 79
+stl 3
+ldc 10
+ldc 24
+ldl 5
+call qventana
+ajw 4
+ldc c311-c312+0
+ldpi
+c312:
+ldl 1
+call qputs
+ldl 1
+call qgetchar
+ret
+c311:
+db 32,69,114,114,111
+db 114,58,32,69,108
+db 32,100,105,115,99
+db 111,32,101,115,116
+db 97,32,108,108,101
+db 110,111,46,32,0
+qlee_linea:
+ajw -2
+ldl 4
+stl 1
+c314:
+ldc 1
+cj c315
+ldl 3
+call qgetchar
+stl 0
+ldl 0
+eqc 8
+cj c316
+ldl 1
+ldl 4
+diff
+eqc 0
+cj c317
+j c314
+c317:
+ldc 8
+ldl 3
+call qputchar
+ldl 1
+adc -1
+stl 1
+j c314
+j c318
+c316:
+ldl 0
+eqc 13
+cj c319
+ldc c313-c320+0
+ldpi
+c320:
+ldl 3
+call qputs
+ldc 0
+ldl 1
+sb
+ldc 1
+ajw 2
+ret
+j c321
+c319:
+ldl 0
+eqc 27
+cj c322
+ldc c313-c323+3
+ldpi
+c323:
+ldl 3
+call qputs
+ldc 0
+ldl 4
+sb
+ldc 0
+ajw 2
+ret
+j c324
+c322:
+ldl 4
+ldl 5
+bsub
+adc -1
+ldl 1
+diff
+eqc 0
+cj c325
+j c314
+c325:
+ldl 0
+ldl 3
+call qputchar
+ldl 0
+ldl 1
+dup
+adc 1
+stl 1
+sb
+c324:
+c321:
+c318:
+j c314
+c315:
+ajw 2
+ret
+c313:
+db 13,10,0,13,10
+db 0
+qgraba:
+ajw -7
+ajw -4
+ldc 78
+stl 0
+ldc 21
+stl 1
+ldc 46
+stl 2
+ldc 47
+stl 3
+ldc 1
+ldc 0
+ldl 12
+call qventana
+ajw 4
+ldc c326-c327+0
+ldpi
+c327:
+ldl 8
+call qputs
+ldl 8
+call qtraga_dir
+stl 6
+ldl 6
+ldl 8
+call qvisual_dir
+ldc 21
+ldc 2
+ldl 8
+call qpos
+ldc c326-c328+23
+ldpi
+c328:
+ldl 8
+call qputs
+ldc 15
+ldlp 1
+ldl 8
+call qlee_linea
+ldlp 1
+lb
+eqc 0
+eqc 0
+and
+cj c329
+ldc 22
+ldc 2
+ldl 8
+call qpos
+ldc c326-c330+51
+ldpi
+c330:
+ldl 8
+call qputs
+ldc c326-c331+66
+ldpi
+c331:
+ldlp 1
+ldl 8
+call qfopen
+ldl 8
+stnl 15
+ldc 0
+stl 5
+c332:
+ldl 5
+ldlp 1
+bsub
+lb
+eqc 0
+eqc 0
+cj c333
+ldl 5
+adc 1
+stl 5
+j c332
+c333:
+c334:
+ldc 12
+ldl 5
+gt
+cj c335
+ldc 32
+ldl 5
+dup
+adc 1
+stl 5
+ldlp 1
+bsub
+sb
+j c334
+c335:
+ldc 0
+ldl 5
+ldlp 1
+bsub
+sb
+ldlp 1
+ldl 8
+ldnlp 18
+ldl 8
+call qstrcpy
+ldc 0
+ldc 21
+ldl 8
+call qpos
+ldl 8
+ldnl 17
+ldl 8
+call qcolor
+ldl 8
+ldnlp 18
+ldl 8
+call qputs
+ldc 22
+ldc 16
+ldl 8
+call qpos
+ldl 8
+ldnl 15
+eqc 0
+cj c336
+ldl 8
+call qerror_crea
+j c337
+c336:
+ldl 8
+ldnl 4
+stl 0
+c338:
+ldl 0
+ldl 8
+ldnl 5
+diff
+eqc 0
+eqc 0
+cj c339
+ldl 0
+lb
+eqc 10
+cj c340
+ldl 8
+ldnl 15
+ldc 13
+ldl 8
+call qfputc
+eqc -1
+cj c341
+ldl 8
+call qerror_esc
+j c339
+c341:
+c340:
+ldl 0
+dup
+adc 1
+stl 0
+lb
+ldl 8
+ldnl 15
+rev
+ldl 8
+call qfputc
+eqc -1
+cj c342
+ldl 8
+call qerror_esc
+j c339
+c342:
+j c338
+c339:
+ldl 8
+ldnl 15
+ldl 8
+call qfclose
+c337:
+c329:
+ldl 8
+ldnl 16
+ldl 8
+call qcolor
+ldc 22
+ldc 0
+ldl 8
+call qactualiza_ventan
+ldl 8
+call qposiciona_cursor
+ajw 7
+ret
+c326:
+db 32,71,114,97,98
+db 97,99,105,162,110
+db 32,100,101,32,97
+db 114,99,104,105,118
+db 111,58,0,168,32
+db 78,111,109,98,114
+db 101,32,112,97,114
+db 97,32,101,108,32
+db 97,114,99,104,105
+db 118,111,32,63,32
+db 0,69,115,99,114
+db 105,98,105,101,110
+db 100,111,46,46,46
+db 0,119,0
+
+; Fin de compilaci¢n
+INICIO:
+ajw -17816
+ldlp 2
+stl 0
+ldc 17814
+stl 1
+INICIO2:
+ldc 0
+ldl 0
+stnl 0
+ldl 0
+adc 4
+stl 0
+ldl 1
+adc -1
+stl 1
+ldl 1
+eqc 0
+cj INICIO2
+ldlp 0
+call qmain
+ajw 17816
+ret

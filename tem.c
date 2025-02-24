@@ -1427,7 +1427,6 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                             fclose(dump);
                         }
                         exit(1);
-                        
                     }
                 }
             } else {

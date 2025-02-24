@@ -1,6 +1,6 @@
-## Transputer T805 emulator, assembler, and Pascal compiler
-
-### by Oscar Toledo G. https://nanochess.org/
+## Transputer T805 emulator
+### (also including assembler, Pascal compiler, Small-C compiler and OS)
+#### by Oscar Toledo G. https://nanochess.org/
 
 Once upon a time when I was a teen (1993), I wrote an almost full Pascal compiler for a transputer processor (the FILE type wasn't never completed)
 
@@ -9,6 +9,8 @@ It was the convergence of several things I had been learning that year: Pascal (
 It was a time when the INMOS transputer promised parallel computing for everyone, but it was too expensive. They did a few good things, like a very fast 32-bit T805 transputer with 64-bit floating-point before the Intel 486DX2 was a thing.
 
 In case you want to read the complete article: [https://nanochess.org/pascal.html](https://nanochess.org/pascal.html)
+
+I've added also my early operating system complete with simple command-line interface, text editor, C compiler, and assembler: [https://nanochess.org/bootstrapping_c_os_transputer.html](https://nanochess.org/bootstrapping_c_os_transputer.html)
 
 ### What we have here
 
@@ -88,6 +90,49 @@ I did a few demos and animations. I still haven't found the animations.
 You can also find a Julia demo as pascal/julia.pas ported from the same book.
 
 ![image](README.png)
+
+## Small-C compiler
+
+The Small-C compiler is based on the Ron Cain's public domain Small-C compiler. I've ported it to transputer, and made a very much enhanced version that generates pretty small code using my tree generator evaluator (the compiler sizes up at 16 kb of code).
+
+To execute it:
+
+    ./tem -cc os/tc.cmg
+    
+The first two questions can be answered N (stop on errors and show C language source code). It will then ask for the input file name, and the output file name.
+
+The resulting assembly file can be passed through tasm, and added STDIO2.LEN for executing it this way, or STDIO3.LEN for executing it inside the operating system SOM32.
+
+## Operating system
+
+This is my early version of first operating system (Jun/1995). It is composed of several files:
+
+    os/arranque.len    Boot sector.
+    os/editor.c        Visual text editor for running it inside the OS.
+    os/ensg10.c        The transputer assembler for running it inside the OS.
+    os/interfaz.c      The command-line interpreter for the OS.
+    os/monitor.c       Debugging monitor.
+    os/som32.c         The operating system (SOM32 stands for Sistema Operativo Mexicano 32 bits)
+    os/tc.c            The Small-C compiler.
+    os/tc2.c           The Small-C compiler with optimized code generator.
+    os/mensajes.len    Library for assembling som32.c
+    os/stdio.len       Library for the tc.c compiler (running in host)
+    os/stdio2.len      Library for the tc2.c compiler (running in host)
+    os/stdio3.len      Library for the tc2.c compiler (running inside the OS)
+    os/buildboot.c     Program to build a 1.44 mb disk image file.
+
+To run the operating system (using the prebuilt disk image):
+
+    ./tem -os os/maestro.cmg os/disk.img
+    
+The disk image is built with os/build_disk.sh
+
+Each compiled C file generates a LEN file. There are so many LEN files, that I've provided os/assemble_os.sh for assembling all in one pass.
+
+It requires the host system to provide an ANSI escape terminal, because it refreshes it like a text framebuffer. It works just fine in macOS (including mapping the function and arrows keys for the visual text editor), I haven't tested Windows nor Linux.
+
+This environment is pretty powerful, as I evolved the operating system starting from this. I'll talk later more about this.
+
 
 ## Further notes
 

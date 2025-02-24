@@ -1,0 +1,183 @@
+; 09-jun-1995
+
+;
+; Libreria de soporte para los programas escritos en C.
+;
+
+qzexit:
+ldl 1
+ldnlp -4
+gajw
+ret
+
+qzgets:
+ldl 4
+stl 1
+ldl 1
+stl 2
+P2:
+call LEECANAL
+stl 3
+ldl 3
+eqc 8
+cj P1
+ldl 2
+ldl 1
+diff
+cj P2
+ldc 8
+call ESCRIBECANAL
+ldl 2
+adc -1
+stl 2
+j P2
+P1:
+ldl 3
+eqc 13
+cj P3
+ldc 0
+ldl 2
+sb
+ldc 13
+call ESCRIBECANAL
+ldc 10
+call ESCRIBECANAL
+ret
+P3:
+ldl 3
+call ESCRIBECANAL
+ldl 3
+ldl 2
+sb
+ldl 2
+adc 1
+stl 2
+j P2
+
+qzputchar:
+ldl 4
+call ESCRIBECANAL
+ret
+
+qzfopen:
+ldc 28
+call ESCRIBECANAL
+ldl 5
+call ESCRIBECADENA
+ldl 4
+call ESCRIBECADENA
+call LEECANALP
+ret
+
+qzfclose:
+ldc 29
+call ESCRIBECANAL
+ldl 4
+call ESCRIBECANAL
+call LEECANALP
+ret
+
+qzfputc:
+ldc 30
+call ESCRIBECANAL
+ldl 4
+call ESCRIBECANAL
+ldl 5
+call ESCRIBECANAL
+call LEECANALP
+ret
+
+qzfgetc:
+ldc 31
+call ESCRIBECANAL
+ldl 4
+call ESCRIBECANAL
+call LEECANALP
+ret
+
+ENTRADA: equ 0 ; Canal de entrada
+; donde la terminal pone
+; los datos del teclado.
+;
+; Poner 0-3, para los canales
+; 0-3 respectivamente
+
+SALIDA: equ 0 ; Canal de salida
+; donde la terminal recibe
+; los datos para ilustrarlos.
+;
+; Poner 0-3, para los canales
+; 0-3 respectivamente.
+
+;
+; Las siguientes definiciones
+; no deben ser alteradas, pues
+; indican la posicion local de
+; los registros despues de una
+; llamada.
+;
+A: equ 1
+B: equ 2
+C: equ 3
+
+; Obtencion de un caracter
+; por el canal definido hacia el
+; registro A.
+;
+LEECANAL:
+ldc 0
+stl A
+ldlp A
+mint
+ldnlp ENTRADA+4
+ldc 1
+in
+ldl A
+ret
+
+; Obtencion de una palabra
+; por el canal definido hacia el
+; registro A.
+;
+LEECANALP:
+ldc 0
+stl A
+ldlp A
+mint
+ldnlp ENTRADA+4
+ldc 2
+in
+ldl A
+ldc 0x8000
+xword
+ret
+
+; Envio de un caracter
+; del registro A por el
+; canal definido.
+;
+ESCRIBECANAL:
+ldlp A
+mint
+ldnlp SALIDA
+ldc 1
+out
+ret
+
+;
+; Escribe una cadena terminada en 0
+; en el canal de salida definido.
+;
+ESCRIBECADENA:
+ldl 1
+lb
+call ESCRIBECANAL
+ldl 1
+lb
+ldl 1
+adc 1
+stl 1
+eqc 0
+cj ESCRIBECADENA
+ret
+
