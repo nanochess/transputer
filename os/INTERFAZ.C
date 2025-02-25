@@ -109,7 +109,7 @@ dir() {
     conteo = 0;
     while(conteo < 32)
       arc[conteo++] = mensaje[posdir++];
-    if(posdir == 513) posdir == -1;
+    if(posdir == 513) posdir = -1;
     if(arc[0] == 0x80) continue;
     if(arc[0] == 0) break;
     color(15);

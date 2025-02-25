@@ -1,5 +1,5 @@
 ;*** Compilador de C para G-10 ***
-;          Versi¢n 1.00
+;          Version 1.00
 ;   por Oscar Toledo Gutierrez.
 ;
 COMIENZO:
@@ -460,8 +460,8 @@ c40:
 ldl 0
 eqc 513
 cj c41
-ldl 0
-eqc -1
+ldc -1
+stl 0
 c41:
 ldlp 133
 lb
@@ -1310,7 +1310,7 @@ ldnlp 151
 lb
 ret
 
-; Fin de compilaci¢n
+; Fin de compilacion
 INICIO:
 ajw -282
 ldlp 2

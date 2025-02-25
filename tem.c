@@ -92,7 +92,9 @@ int getkey(int fd)
     
     if (len > 0) {
         len = buf[0];
-        if (len == 27) {
+        if (len == 127) {   /* Backspace */
+            len = 8;
+        } else if (len == 27) { /* Esc */
             len = read(fd,buf,1);
             if (len > 0) {
                 if (buf[0] == 91) {
