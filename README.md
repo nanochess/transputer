@@ -97,15 +97,15 @@ The Small-C compiler is based on the Ron Cain's public domain Small-C compiler. 
 
 To execute it:
 
-    ./tem -cc os/tc.cmg
+    ./tem -cc os/tc2.cmg
     
 The first two questions can be answered N (stop on errors and show C language source code). It will then ask for the input file name, and the output file name.
 
-The resulting assembly file can be passed through tasm, and added STDIO2.LEN for executing it this way, or STDIO3.LEN for executing it inside the operating system SOM32.
+The resulting assembly file can be passed through tasm, and added STDIO2.LEN for executing it using the emulator, or STDIO3.LEN for executing it inside the operating system (see below).
 
 ## Operating system
 
-This is my early version of first operating system (Jun/1995). It is composed of several files:
+This is my early version of my first operating system (Jun/1995). It is composed of several files:
 
     os/arranque.len    Boot sector.
     os/editor.c        Visual text editor for running it inside the OS.
@@ -127,11 +127,15 @@ To run the operating system (using the prebuilt disk image):
     
 The disk image is built with os/build_disk.sh
 
+![image](README1.png)
+
 Each compiled C file generates a LEN file. There are so many LEN files, that I've provided os/assemble_os.sh for assembling all in one pass.
 
 It requires the host system to provide an ANSI escape terminal, because it refreshes it like a text framebuffer. It works just fine in macOS (including mapping the function and arrows keys for the visual text editor), I haven't tested Windows nor Linux.
 
 This environment is pretty powerful, as I evolved the operating system starting from this. I'll talk later more about this.
+
+![image](README2.png)
 
 
 ## Further notes
