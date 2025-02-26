@@ -279,6 +279,7 @@ int main(int argc, char *argv[])
         emulator_mode = 2;
         c = 2;
         ttyinit(0);
+        fflush(stdout);
     } else {
         if (argc == 2)
             emulator_mode = 0;

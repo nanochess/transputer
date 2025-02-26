@@ -125,6 +125,8 @@ To run the operating system (using the prebuilt disk image):
 
     ./tem -os os/maestro.cmg os/disk.img
     
+I suggest to set your terminal in ANSI/VT100 mode, 80 columns by 25 rows, and using PC-8 or Latin/USA DOS character set.
+
 The disk image is built with os/build_disk.sh
 
 ![image](README1.png)
