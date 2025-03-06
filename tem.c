@@ -235,6 +235,12 @@ FILE *input;
 FILE *output;
 char *disk_name;
 FILE *disk;
+char *harddisk_name;
+FILE *harddisk;
+char *cdrom_name;
+FILE *cdrom;
+unsigned char ram_disk[524288];
+
 FILE *debug;
 
 /*
@@ -258,18 +264,24 @@ int main(int argc, char *argv[])
         fprintf(stderr, "       tem m3d.prg [scene.m3d]\n");
         fprintf(stderr, "       tem -cc tc.cmg\n");
         fprintf(stderr, "       tem -os maestro.cmg disk.img\n\n");
+        fprintf(stderr, "       tem -os2 maestro.cmg disk.img harddisk.img [cdrom.iso]\n\n");
         fprintf(stderr, "The use of a Pascal input file triggers a special mode\n");
         fprintf(stderr, "to display the source code on stderr, and the assembler\n");
         fprintf(stderr, "result on stdout.\n\n");
         fprintf(stderr, "The same mode is used to feed scene files into the raytracer.\n\n");
         fprintf(stderr, "The -cc mode is for compiling C files.\n\n");
         fprintf(stderr, "The -os mode is for executing my transputer operating system.\n\n");
+        fprintf(stderr, "The -os2 mode is for executing my improved transputer operating system.\n\n");
         exit(1);
     }
     if (strcmp(argv[1], "-cc") == 0 || strcmp(argv[1], "-CC") == 0) {   /* C compiler */
         emulator_mode = 3;
         c = 2;
     } else if (strcmp(argv[1], "-os") == 0 || strcmp(argv[1], "-OS") == 0) {   /* Operating system mode */
+        if (argc != 4) {
+            fprintf(stderr, "Not enough argumentos for -os mode\n");
+            exit(1);
+        }
         disk_name = argv[3];
         disk = fopen(disk_name, "r+b");
         if (disk == NULL) {
@@ -277,6 +289,35 @@ int main(int argc, char *argv[])
             exit(1);
         }
         emulator_mode = 2;
+        c = 2;
+        ttyinit(0);
+        fflush(stdout);
+    } else if (strcmp(argv[1], "-os2") == 0 || strcmp(argv[1], "-OS2") == 0) {   /* Operating system mode */
+        if (argc < 5) {
+            fprintf(stderr, "Not enough argumentos for -os2 mode\n");
+            exit(1);
+        }
+        disk_name = argv[3];
+        disk = fopen(disk_name, "r+b");
+        if (disk == NULL) {
+            fprintf(stderr, "Couldn't open the disk image file '%s'\n", argv[3]);
+            exit(1);
+        }
+        harddisk_name = argv[4];
+        harddisk = fopen(harddisk_name, "r+b");
+        if (harddisk == NULL) {
+            fprintf(stderr, "Couldn't open the hard disk image file '%s'\n", argv[4]);
+            exit(1);
+        }
+        if (argc >= 5) {
+            cdrom_name = argv[5];
+            cdrom = fopen(cdrom_name, "rb");
+            if (cdrom == NULL) {
+                fprintf(stderr, "Couldn't open the CD-ROM image file '%s'\n", argv[5]);
+                exit(1);
+            }
+        }
+        emulator_mode = 4;
         c = 2;
         ttyinit(0);
         fflush(stdout);
@@ -425,7 +466,7 @@ void handle_input(unsigned int addr, unsigned int channel, unsigned int bytes)
                 }
             }
         }
-    } else if (emulator_mode == 2) {    /* OS mode */
+    } else if (emulator_mode == 2 || emulator_mode == 4) {    /* OS mode */
 //        fprintf(stderr, "Available data: $%08x\n", bytes_channel0);
     } else if (emulator_mode == 3) {    /* C compiler mode */
         if (bytes_channel0 == 0) {
@@ -661,7 +702,7 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
                 }
             }
         }
-    } else if (emulator_mode == 2) {    /* OS mode */
+    } else if (emulator_mode == 2 || emulator_mode == 4) {    /* OS mode */
         int v;
         int v2;
         
@@ -683,25 +724,69 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
         if (output_pointer - output_buffer < 2)
             return;
         if (memcmp(output_buffer, "01", 2) == 0) {  /* Code 01: Read sector */
-            if (output_pointer - output_buffer < 8)
+            unsigned int sector;
+            
+            if (emulator_mode == 2)
+                c = 8;
+            else
+                c = 12;
+            if (output_pointer - output_buffer < c)
                 return;
 #if DEBUG_DISK
             debug_message("Read sector: ");
-            output_buffer[8] = '\n';
-            output_buffer[9] = 0;
+            output_buffer[c] = '\n';
+            output_buffer[c + 1] = 0;
             debug_message(output_buffer);
 #endif
-            c = extract_hex(output_buffer + 2) * 36;    /* Track */
-            c += extract_hex(output_buffer + 4) * 18;    /* Head */
-            c += extract_hex(output_buffer + 6) - 1;    /* Sector */
-            /*            fprintf(stderr, "Reading disk sector %d\n", c);*/
-            if (c < 0 || c >= 2880) {    /* Not so many sectors */
+            if (emulator_mode == 2) {   /* Only access to floppy disk */
+                sector = extract_hex(output_buffer + 2) * 36;    /* Track */
+                sector += extract_hex(output_buffer + 4) * 18;    /* Head */
+                sector += extract_hex(output_buffer + 6) - 1;    /* Sector */
+                c = 0;
+            } else {
+                sector = extract_hex(output_buffer + 4);
+                sector |= extract_hex(output_buffer + 6) << 8;
+                sector |= extract_hex(output_buffer + 8) << 16;
+                sector |= extract_hex(output_buffer + 10) << 24;
+                c = extract_hex(output_buffer + 2); /* Unit */
+            }
+            if (c == 0) {   /* Floppy disk */
+                if (sector >= (unsigned int) 2880) {    /* Not so many sectors */
+                    channel0[0] = 1; /* All bad */
+                    memset(&channel0[1], 0xfc, 512);
+                } else {
+                    fseek(disk, sector * 512, SEEK_SET);
+                    fread(&channel0[1], 1, 512, disk);
+                    channel0[0] = 0;  /* All good */
+                }
+            } else if (c == 1) {    /* RAM disk */
+                if (sector >= (unsigned int) 1024) {    /* Not so many sectors */
+                    channel0[0] = 1; /* All bad */
+                    memset(&channel0[1], 0xfc, 512);
+                } else {
+                    memcpy(&channel0[1], &ram_disk[sector * 512], 512);
+                }
+            } else if (c == 2) {    /* Hard disk drive */
+                if (harddisk == NULL || sector >= (unsigned int) (40 * 1048576 / 512)) {    /* Not so many sectors */
+                    channel0[0] = 1; /* All bad */
+                    memset(&channel0[1], 0xfc, 512);
+                } else {
+                    fseek(harddisk, sector * 512, SEEK_SET);
+                    fread(&channel0[1], 1, 512, harddisk);
+                    channel0[0] = 0;  /* All good */
+                }
+            } else if (c == 3) {    /* CD-ROM */
+                if (cdrom == NULL || sector >= (unsigned int) (700 * 1048576 / 512)) {    /* Not so many sectors */
+                    channel0[0] = 1; /* All bad */
+                    memset(&channel0[1], 0xfc, 512);
+                } else {
+                    fseek(cdrom, sector * 512, SEEK_SET);
+                    fread(&channel0[1], 1, 512, cdrom);
+                    channel0[0] = 0;  /* All good */
+                }
+            } else {
                 channel0[0] = 1; /* All bad */
                 memset(&channel0[1], 0xfc, 512);
-            } else {
-                fseek(disk, c * 512, SEEK_SET);
-                fread(&channel0[1], 1, 512, disk);
-                channel0[0] = 0;  /* All good */
             }
             offset_channel0 = 0;
             bytes_channel0 = 513;
@@ -709,27 +794,83 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
             return;
         }
         if (memcmp(output_buffer, "02", 2) == 0) {  /* Code 02: Write sector */
-            if (output_pointer - output_buffer < 1032)
+            unsigned int sector;
+            
+            if (emulator_mode == 2)
+                c = 1032;
+            else
+                c = 1036;
+            if (output_pointer - output_buffer < c)
                 return;
-            c = extract_hex(output_buffer + 2) * 36;    /* Track */
-            c += extract_hex(output_buffer + 4) * 18;    /* Head */
-            c += extract_hex(output_buffer + 6) - 1;    /* Sector */
-            /*            fprintf(stderr, "Reading disk sector %d\n", c);*/
-            if (c < 0 || c >= 2880) {    /* Not so many sectors */
+            if (emulator_mode == 2) {
+                sector = extract_hex(output_buffer + 2) * 36;    /* Track */
+                sector += extract_hex(output_buffer + 4) * 18;    /* Head */
+                sector += extract_hex(output_buffer + 6) - 1;    /* Sector */
+                c = 0;
+            } else {
+                sector = extract_hex(output_buffer + 4);
+                sector |= extract_hex(output_buffer + 6) << 8;
+                sector |= extract_hex(output_buffer + 8) << 16;
+                sector |= extract_hex(output_buffer + 10) << 24;
+                c = extract_hex(output_buffer + 2); /* Unit */
+            }
+            /*            fprintf(stderr, "Writing disk sector %d\n", c);*/
+            if (c == 0) {   /* Floppy disk drive */
+                if (sector >= (unsigned int) 2880) {    /* Not so many sectors */
+                    channel0[0] = 1; /* All bad */
+                } else {
+                    char *p;
+                    unsigned char *p2;
+                    
+                    fseek(disk, sector * 512, SEEK_SET);
+                    if (emulator_mode == 2)
+                        p = output_buffer + 8;
+                    else
+                        p = output_buffer + 12;
+                    p2 = (unsigned char *) &output_buffer[0];
+                    do {
+                        *p2++ = extract_hex(p);
+                        p += 2;
+                    } while (p2 < (unsigned char *) output_buffer + 512);
+                    fwrite(output_buffer, 1, 512, disk);
+                    channel0[0] = 0;  /* All good */
+                }
+            } else if (c == 1) {    /* RAM disk */
+                if (sector >= (unsigned int) 1024) {    /* Not so many sectors */
+                    channel0[0] = 1; /* All bad */
+                } else {
+                    char *p;
+                    unsigned char *p2;
+                    
+                    p = output_buffer + 12;
+                    p2 = (unsigned char *) &ram_disk[sector * 512];
+                    do {
+                        *p2++ = extract_hex(p);
+                        p += 2;
+                    } while (p < output_buffer + 1036);
+                    channel0[0] = 0;  /* All good */
+                }
+            } else if (c == 2) {    /* Hard disk drive */
+                if (sector >= (unsigned int) (40 * 1048576 / 512)) {    /* Not so many sectors */
+                    channel0[0] = 1; /* All bad */
+                } else {
+                    char *p;
+                    unsigned char *p2;
+                    
+                    fseek(harddisk, sector * 512, SEEK_SET);
+                    p = output_buffer + 12;
+                    p2 = (unsigned char *) &output_buffer[0];
+                    do {
+                        *p2++ = extract_hex(p);
+                        p += 2;
+                    } while (p2 < (unsigned char *) output_buffer + 512);
+                    fwrite(output_buffer, 1, 512, harddisk);
+                    channel0[0] = 0;  /* All good */
+                }
+            } else if (c == 3) {    /* CD-ROM drive */
                 channel0[0] = 1; /* All bad */
             } else {
-                char *p;
-                unsigned char *p2;
-                
-                fseek(disk, c * 512, SEEK_SET);
-                p = output_buffer + 8;
-                p2 = (unsigned char *) &output_buffer[0];
-                do {
-                    *p2++ = extract_hex(p);
-                    p += 2;
-                } while (p2 < (unsigned char *) output_buffer + 512);
-                fwrite(output_buffer, 1, 512, disk);
-                channel0[0] = 0;  /* All good */
+                channel0[0] = 1; /* All bad */
             }
 #if DEBUG_DISK
             debug_message("Write sector: ");
@@ -737,6 +878,16 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
             output_buffer[9] = 0;
             debug_message(output_buffer);
 #endif
+            offset_channel0 = 0;
+            bytes_channel0 = 1;
+            output_pointer = output_buffer;
+            return;
+        }
+        if (memcmp(output_buffer, "03", 2) == 0) {  /* Code 03: Format track (floppy disk) */
+            if (output_pointer - output_buffer < 6)
+                return;
+            /* Code / Track / Head */
+            channel0[0] = 0; /* All good */
             offset_channel0 = 0;
             bytes_channel0 = 1;
             output_pointer = output_buffer;
@@ -874,6 +1025,63 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
             output_buffer[7] = 0;
             debug_message(output_buffer);
 #endif
+            output_pointer = output_buffer;
+            return;
+        }
+        if (memcmp(output_buffer, "09", 2) == 0) {  /* Code 09: Printer */
+            if (output_pointer - output_buffer < 4)
+                return;
+            /* Code / Byte for printer */
+            channel0[0] = 0; /* All good */
+            offset_channel0 = 0;
+            bytes_channel0 = 1;
+            output_pointer = output_buffer;
+            return;
+        }
+        if (memcmp(output_buffer, "18", 2) == 0) {  /* Code 18: Read serial port */
+            if (output_pointer - output_buffer < 2)
+                return;
+            channel0[0] = 0; /* All good */
+            offset_channel0 = 0;
+            bytes_channel0 = 1;
+            output_pointer = output_buffer;
+            return;
+        }
+        if (memcmp(output_buffer, "19", 2) == 0) {  /* Code 19: Write serial port */
+            if (output_pointer - output_buffer < 4)
+                return;
+            /* Code / Byte for printer */
+            channel0[0] = 0; /* All good */
+            offset_channel0 = 0;
+            bytes_channel0 = 1;
+            output_pointer = output_buffer;
+            return;
+        }
+        if (memcmp(output_buffer, "1:", 2) == 0) {  /* Code 1a: Read tape */
+            if (output_pointer - output_buffer < 2)
+                return;
+            channel0[0] = 0; /* All good */
+            offset_channel0 = 0;
+            bytes_channel0 = 1;
+            output_pointer = output_buffer;
+            return;
+        }
+        if (memcmp(output_buffer, "1;", 2) == 0) {  /* Code 1b: Write tape */
+            if (output_pointer - output_buffer < 4)
+                return;
+            /* Code / Byte for printer */
+            channel0[0] = 0; /* All good */
+            offset_channel0 = 0;
+            bytes_channel0 = 1;
+            output_pointer = output_buffer;
+            return;
+        }
+        if (memcmp(output_buffer, "1<", 2) == 0) {  /* Code 1c: Rewind tape */
+            if (output_pointer - output_buffer < 2)
+                return;
+            channel0[0] = 0; /* All good */
+            offset_channel0 = 0;
+            bytes_channel0 = 1;
             output_pointer = output_buffer;
             return;
         }
