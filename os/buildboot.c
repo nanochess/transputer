@@ -194,6 +194,7 @@ int main(int argc, char *argv[])
     int arg;
     int media;
     int version;
+    unsigned int size;
     
     fprintf(stderr, "\nbuildboot v0.2. Transputer disk image creator\n");
     fprintf(stderr, "by Oscar Toledo G. https://nanochess.org/\n\n");
@@ -234,6 +235,15 @@ int main(int argc, char *argv[])
                 break;
             }
             media = 1;
+            size = 40 * 1048576;
+            arg++;
+        } else if (tolower(argv[arg][1]) == 'r' && tolower(argv[arg][2]) == 'd') {
+            if (media != -1) {
+                fprintf(stderr, "Error: Mixed output options\n");
+                break;
+            }
+            media = 1;
+            size = 524288;  /* RAM disk */
             arg++;
         } else if (tolower(argv[arg][1]) == 'v' && tolower(argv[arg][2]) == '2') {
             if (version != -1) {
@@ -274,8 +284,11 @@ int main(int argc, char *argv[])
             next_block = directory_block + 1;
         }
     } else {
-        total_sectors = 40 * (1048576 / SECTOR_SIZE); /* 40 mb */
-        block_size = 8;  /* 4 kb. block size */
+        total_sectors = size / SECTOR_SIZE; /* 40 mb */
+        if (size > 10 * 1048576)
+            block_size = 8;  /* 4 kb. block size */
+        else
+            block_size = 4;  /* 2 kb. block size */
         max_blocks = total_sectors / block_size;
         if (max_blocks > 256)
             directory_block = (SECTOR_SIZE + max_blocks * 2 + (block_size * SECTOR_SIZE - 1)) / (block_size * SECTOR_SIZE);
@@ -428,16 +441,9 @@ int main(int argc, char *argv[])
     } else {    /* Hard disk */
         
         /*
-         ** Reset FAT
+         ** Initial FAT
          */
         memset(fat, 0, max_blocks * 2);
-        
-        /*
-         ** Calculate FAT size
-         */
-        next_block = directory_block;
-        next_entry = &image[directory_block * block_size * SECTOR_SIZE];
-        memset(next_entry, 0, block_size * SECTOR_SIZE);
         c = directory_block;
         fat[c * 2] = 0xff;      /* Mark directory */
         fat[c * 2 + 1] = 0xff;
@@ -445,6 +451,17 @@ int main(int argc, char *argv[])
             fat[c * 2] = 0xfd;      /* Mark boot structures */
             fat[c * 2 + 1] = 0xff;
         }
+
+        /*
+         ** Clear directory block
+         */
+        next_entry = &image[directory_block * block_size * SECTOR_SIZE];
+        memset(next_entry, 0, block_size * SECTOR_SIZE);
+        
+        /*
+         ** Block for data
+         */
+        next_block = directory_block + 1;
     }
     
     /*
