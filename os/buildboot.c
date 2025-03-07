@@ -1,12 +1,12 @@
 /*
-** Build a disk image file of my transputer operating system
-**
-** by Oscar Toledo G.
-**
-** (c) Copyright 1995-2025 Oscar Toledo G.
-**
-** Creation date: Feb/20/2025.
-*/
+ ** Build a disk image file of my transputer operating system
+ **
+ ** by Oscar Toledo G.
+ **
+ ** (c) Copyright 1995-2025 Oscar Toledo G.
+ **
+ ** Creation date: Feb/20/2025.
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,10 +24,10 @@ int directory_sector;
 int directory_block;
 
 /*
-** We need this program to bootstrap my transputer operating system
-** because we have some missing files, and we need to rebuild these
-** but it would be hard to rebuild the disk image file each time.
-*/
+ ** We need this program to bootstrap my transputer operating system
+ ** because we have some missing files, and we need to rebuild these
+ ** but it would be hard to rebuild the disk image file each time.
+ */
 
 unsigned char bootv1[] = {
     0x24, 0x0e, 0x53, 0x4f, 0x4d, 0x33, 0x32, 0x20,
@@ -166,45 +166,47 @@ unsigned char bootv2[] = {
 char label[32];
 
 /*
-** This is for the early version of my transputer operating system,
-** a further improved version used 15 letter freeform names.
-*/
+ ** This is for the early version of my transputer operating system,
+ ** a further improved version used 15 letter freeform names.
+ */
 
 /*
-** Main program
-*/
+ ** Main program
+ */
 int main(int argc, char *argv[])
 {
-	FILE *input;
-	FILE *output;
-	int c;
-	unsigned char entry[64];
-	char *p;
-	unsigned char *p2;
-	unsigned char *next_entry;
-	int next_block;
-	unsigned int length;
-	int blocks;
-	unsigned char *fat;
-	time_t current_time;
-	struct tm *time_data;
-	int temp;
+    FILE *input;
+    FILE *output;
+    int c;
+    unsigned char entry[64];
+    char *p;
+    char *p1;
+    unsigned char *p2;
+    unsigned char *next_entry;
+    int next_block;
+    int block;
+    unsigned int length;
+    int blocks;
+    unsigned char *fat;
+    time_t current_time;
+    struct tm *time_data;
+    int temp;
     int arg;
     int media;
     int version;
-
+    
     fprintf(stderr, "\nbuildboot v0.2. Transputer disk image creator\n");
     fprintf(stderr, "by Oscar Toledo G. https://nanochess.org/\n\n");
     time(&current_time);
-	time_data = localtime(&current_time);
-	if (argc < 3) {
-		fprintf(stderr, "Usage: buildboot [options] disk.img arranque.cmg [...files...]\n\n");
-		fprintf(stderr, "disk.img is the final disk image (1.44 mb / 40 mb)\n");
-		fprintf(stderr, "arranque.cmg is a 512 byte boot sector.\n");
+    time_data = localtime(&current_time);
+    if (argc < 3) {
+        fprintf(stderr, "Usage: buildboot [options] disk.img arranque.cmg [...files...]\n\n");
+        fprintf(stderr, "disk.img is the final disk image (1.44 mb / 40 mb)\n");
+        fprintf(stderr, "arranque.cmg is a 512 byte boot sector.\n");
         fprintf(stderr, "             (you can use a period for creating a\n");
         fprintf(stderr, "             default boot sector)\n");
-		fprintf(stderr, "[...files...] are files to be added:\n");
-		fprintf(stderr, "  * SOM32.BIN must be the first file (operating system v1).\n");
+        fprintf(stderr, "[...files...] are files to be added:\n");
+        fprintf(stderr, "  * SOM32.BIN must be the first file (operating system v1).\n");
         fprintf(stderr, "  * SOM.32.bin must be the first file (operating system v2).\n");
         fprintf(stderr, "\n");
         fprintf(stderr, "-fd       Create image for 1.44mb floppy disk (default)\n");
@@ -212,8 +214,8 @@ int main(int argc, char *argv[])
         fprintf(stderr, "-v2       Create image for operating system v.2\n");
         fprintf(stderr, "-l name   Label name for the disk\n");
         fprintf(stderr, "\n");
-		exit(1);
-	}
+        exit(1);
+    }
     
     version = -1;
     media = -1;
@@ -257,41 +259,57 @@ int main(int argc, char *argv[])
         version = 0;
     if (media == -1)
         media = 0;
-
+    
     if (media == 0) {
         total_sectors = 80 * 2 * 18;
         if (version == 0) {
             block_size = 18;    /* 9 kb. block size (same size as track) */
+            max_blocks = total_sectors / block_size;
             directory_sector = 2;
+            next_block = 1;
         } else {
-            block_size = 1024;
-            directory_block = 1;
+            block_size = 2;
+            max_blocks = total_sectors / block_size;
+            directory_block = (SECTOR_SIZE + max_blocks * 2 + (block_size * SECTOR_SIZE - 1)) / (block_size * SECTOR_SIZE);
+            next_block = directory_block + 1;
         }
     } else {
-        total_sectors = 40 * 1048576 / SECTOR_SIZE; /* 40 mb */
+        total_sectors = 40 * (1048576 / SECTOR_SIZE); /* 40 mb */
         block_size = 8;  /* 4 kb. block size */
-        directory_block = (SECTOR_SIZE + max_blocks * 2 + (block_size - 1)) / block_size;
+        max_blocks = total_sectors / block_size;
+        if (max_blocks > 256)
+            directory_block = (SECTOR_SIZE + max_blocks * 2 + (block_size * SECTOR_SIZE - 1)) / (block_size * SECTOR_SIZE);
+        else
+            directory_block = (SECTOR_SIZE + max_blocks + (block_size * SECTOR_SIZE - 1)) / (block_size * SECTOR_SIZE);
+        next_block = directory_block + 1;
         if (version == 0) {
             fprintf(stderr, "First version of operating system doesn't support hard disks\n");
             exit(1);
         }
     }
-    max_blocks = total_sectors / block_size;
-    if (max_blocks > 256)
-        directory_block = (SECTOR_SIZE + max_blocks * 2 + (block_size * SECTOR_SIZE - 1)) / (block_size * SECTOR_SIZE);
-    else
-        directory_block = (SECTOR_SIZE + max_blocks + (block_size + SECTOR_SIZE - 1)) / (block_size * SECTOR_SIZE);
-    image = malloc(max_blocks * block_size);
+    image = malloc(max_blocks * block_size * SECTOR_SIZE);
     if (image == NULL) {
         fprintf(stderr, "Couldn't allocate memory for imaye file\n");
         exit(1);
     }
-	/* My personal filler byte for formatted disks, circa 1989 */
-	memset(image, 0xfc, max_blocks * block_size);
+    /* My personal filler byte for formatted disks, circa 1989 */
+    memset(image, 0xfc, max_blocks * block_size * SECTOR_SIZE);
+    
+    /*
+     ** Create an empty FAT
+     **
+     ** The disk is divided into 160 allocation blocks (80 tracks * 2 sides)
+     */
+    fat = &image[1 * SECTOR_SIZE + 0];
+    if (max_blocks > 256)
+        memset(fat, 0, max_blocks * 2);
+    else
+        memset(fat, 0, max_blocks);
+    
 
-	/*
-	** Put the boot sector (1 sector)
-	*/
+    /*
+     ** Put the boot sector (1 sector)
+     */
     if (arg + 1 >= argc) {
         fprintf(stderr, "Missing boot sector file in arguments\n");
         exit(1);
@@ -386,16 +404,7 @@ int main(int argc, char *argv[])
         fclose(input);
     }
     
-    fat = &image[1 * SECTOR_SIZE + 0];
     if (media == 0) {    /* Floppy disk */
-        
-        /*
-         ** Create an empty FAT (1 sector)
-         **
-         ** The disk is divided into 160 allocation blocks (80 tracks * 2 sides)
-         */
-        memset(fat, 0, max_blocks);
-        fat[0] = 0xfd;      /* Mark boot structures */
         
         if (version == 0) {
             
@@ -403,12 +412,18 @@ int main(int argc, char *argv[])
              ** Create an empty directory (10 sectors)
              */
             memset(&image[directory_sector * SECTOR_SIZE], 0, 10 * SECTOR_SIZE);
-            next_block = (directory_sector + 10 + 17) / 18;
             next_entry = &image[directory_sector * SECTOR_SIZE];
+            fat[0] = 0xfd;      /* Mark boot structures */
         } else {
+            for (c = 0; c < directory_block; c++) {
+                fat[c * 2] = 0xfd;      /* Mark boot structures */
+                fat[c * 2 + 1] = 0xff;
+            }
+            fat[c * 2] = 0xff;      /* Mark directory */
+            fat[c * 2 + 1] = 0xff;
             image[1 * SECTOR_SIZE + 1] = 0xff;      /* Mark directory */
-            next_block = 2;
-            next_entry = &image[block_size * SECTOR_SIZE];
+            next_entry = &image[directory_block * block_size * SECTOR_SIZE];
+            memset(next_entry, 0, block_size * SECTOR_SIZE);
         }
     } else {    /* Hard disk */
         
@@ -420,23 +435,22 @@ int main(int argc, char *argv[])
         /*
          ** Calculate FAT size
          */
-        next_block = (512 + max_blocks * 2 + block_size * SECTOR_SIZE - 1) / (block_size * SECTOR_SIZE);         /* Assign one block for the directory */
-        next_entry = &image[next_block * block_size * SECTOR_SIZE];
+        next_block = directory_block;
+        next_entry = &image[directory_block * block_size * SECTOR_SIZE];
         memset(next_entry, 0, block_size * SECTOR_SIZE);
-        c = next_block;
+        c = directory_block;
         fat[c * 2] = 0xff;      /* Mark directory */
         fat[c * 2 + 1] = 0xff;
-        next_block++;
         while (c--) {
             fat[c * 2] = 0xfd;      /* Mark boot structures */
             fat[c * 2 + 1] = 0xff;
         }
     }
-
-	/*
-	** Add the files
-	*/
-	for (c = arg + 2; c < argc; c++) {
+    
+    /*
+     ** Add the files
+     */
+    for (c = arg + 2; c < argc; c++) {
         fprintf(stderr, "Adding %s... ", argv[c]);
         input = fopen(argv[c], "rb");
         if (input == NULL) {
@@ -445,14 +459,22 @@ int main(int argc, char *argv[])
         }
         fseek(input, 0, SEEK_END);
         length = (unsigned int) ftell(input);
-        fseek(input, 0, SEEK_SET);
-        fread(&image[next_block * block_size * SECTOR_SIZE], 1, length, input);
-        fclose(input);
         fprintf(stderr, "(length %d)\n", length);
         blocks = (length + block_size * SECTOR_SIZE - 1) / (block_size * SECTOR_SIZE);
         if (next_block + blocks > max_blocks) {
             fprintf(stderr, "The file '%s' doesn't fit inside the floppy disk image\n", argv[c]);
+            fprintf(stderr, "next_block = %d, block_size = %d, blocks = %d, max_blocks = %d\n", next_block, block_size, blocks, max_blocks);
             exit(1);
+        }
+        fseek(input, 0, SEEK_SET);
+        fread(&image[next_block * block_size * SECTOR_SIZE], 1, length, input);
+        fclose(input);
+        p = argv[c];
+        while (1) {
+            p1 = strchr(p, '/');
+            if (p1 == NULL)
+                break;
+            p = p1 + 1;
         }
         if (version == 0) {
             
@@ -463,7 +485,6 @@ int main(int argc, char *argv[])
              */
             memset(&entry[0], ' ', 11);
             memset(&entry[11], 0, 21);
-            p = argv[c];
             p2 = entry;
             while (*p) {
                 if (*p == '.') {
@@ -496,7 +517,6 @@ int main(int argc, char *argv[])
              ** Build a directory entry (up to 31 letters per filename)
              */
             memset(&entry[0], '\0', 64);
-            p = argv[c];
             p2 = entry;
             while (*p) {
                 if (p2 < entry + 31)
@@ -540,16 +560,16 @@ int main(int argc, char *argv[])
             fat[next_block] = 0xff;
         }
         next_block++;
-	}
-
-	/*
-	** Write the final disk image
-	*/
-	output = fopen(argv[arg], "wb");
-	if (output == NULL) {
-		fprintf(stderr, "Couldn't open '%s' for output\n", argv[1]);
-		exit(1);
-	}
-	fwrite(image, 1, max_blocks * block_size * SECTOR_SIZE, output);
-	fclose(output);
+    }
+    
+    /*
+     ** Write the final disk image
+     */
+    output = fopen(argv[arg], "wb");
+    if (output == NULL) {
+        fprintf(stderr, "Couldn't open '%s' for output\n", argv[1]);
+        exit(1);
+    }
+    fwrite(image, 1, max_blocks * block_size * SECTOR_SIZE, output);
+    fclose(output);
 }
