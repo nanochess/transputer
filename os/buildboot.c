@@ -183,6 +183,7 @@ int main(int argc, char *argv[])
     char *p1;
     unsigned char *p2;
     unsigned char *next_entry;
+    unsigned char *entry_limit;
     int next_block;
     int block;
     unsigned int length;
@@ -426,6 +427,7 @@ int main(int argc, char *argv[])
              */
             memset(&image[directory_sector * SECTOR_SIZE], 0, 10 * SECTOR_SIZE);
             next_entry = &image[directory_sector * SECTOR_SIZE];
+            entry_limit = &image[(directory_sector + 10) * SECTOR_SIZE];
             fat[0] = 0xfd;      /* Mark boot structures */
         } else {
             for (c = 0; c < directory_block; c++) {
@@ -437,6 +439,7 @@ int main(int argc, char *argv[])
             image[1 * SECTOR_SIZE + 1] = 0xff;      /* Mark directory */
             next_entry = &image[directory_block * block_size * SECTOR_SIZE];
             memset(next_entry, 0, block_size * SECTOR_SIZE);
+            entry_limit = next_entry + block_size * SECTOR_SIZE;
         }
     } else {    /* Hard disk */
         
@@ -457,6 +460,7 @@ int main(int argc, char *argv[])
          */
         next_entry = &image[directory_block * block_size * SECTOR_SIZE];
         memset(next_entry, 0, block_size * SECTOR_SIZE);
+        entry_limit = next_entry + block_size * SECTOR_SIZE;
         
         /*
          ** Block for data
@@ -577,6 +581,31 @@ int main(int argc, char *argv[])
             fat[next_block] = 0xff;
         }
         next_block++;
+        if (next_entry == entry_limit) {    /* Expand directory? */
+            if (version == 0) {
+                fprintf(stderr, "Error: Reached limit of directory\n");
+                exit(1);
+            }
+            if (max_blocks > 256) {
+                fat[directory_block * 2] = next_block;
+                fat[directory_block * 2 + 1] = next_block >> 8;
+                directory_block = next_block;
+                fat[directory_block * 2] = 0xff;
+                fat[directory_block * 2 + 1] = 0xff;
+            } else {
+                fat[directory_block] = next_block;
+                directory_block = next_block;
+                fat[directory_block] = 0xff;
+            }
+            next_entry = &image[next_block * block_size * SECTOR_SIZE];
+            memset(next_entry, 0, block_size * SECTOR_SIZE);
+            entry_limit = next_entry + block_size * SECTOR_SIZE;
+            if (next_block >= max_blocks) {
+                fprintf(stderr, "Error: Media full when expanding directory\n");
+                exit(1);
+            }
+            next_block++;
+        }
     }
     
     /*

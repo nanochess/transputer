@@ -12,7 +12,7 @@
  ** For getting detailed execution trace.
  */
 #define DEBUG       0
-#define DEBUG_DISK  1
+#define DEBUG_DISK  0
 
 /*
  ** The supported machine is a T805 homebrew board made by Oscar Toledo E. circa 1992
@@ -199,16 +199,54 @@ int output_channel0;
 int offset_channel0;
 int bytes_channel0;
 
+/*
+ ** Boot program
+ **
+ ** The transputer board had 128 KB. of high-speed RAM, however,
+ ** we need to take in account the internal 4 KB. of transputer RAM.
+ ** So we can start our workspace at 0x80021000 because the lower
+ ** 4 KB. ram of the external RAM are accesible there (mirroring).
+ */
 unsigned char boot_image[] = {
-    0x24, 0xf2, 0x22, 0x20, 0x20, 0x20, 0x80, 0x23,
-    0xfc, 0x22, 0xf9, 0x25, 0xf7, 0x29, 0xfc, 0x24,
-    0xf2, 0x21, 0xf8, 0x24, 0xf2, 0x21, 0xfc, 0x24,
-    0xf2, 0x24, 0xf2, 0xe9, 0x24, 0xf2, 0x24, 0xf2,
-    0xea, 0x40, 0x25, 0xf4, 0x27, 0xfa, 0x27, 0xfb,
-    0x40, 0xd0, 0x49, 0xd1, 0x70, 0x24, 0xf2, 0xfa,
-    0x21, 0xf2, 0x10, 0x4a, 0x22, 0xf1, 0x24, 0xf2,
-    0x24, 0x50, 0x24, 0xf2, 0x54, 0x20, 0x20, 0x20,
-    0x40, 0xf7, 0x24, 0x9c, 0x2f, 0xff, /*0x60, 0x0c*/
+    0x24, 0xf2,                     /* mint */
+    0x22, 0x20, 0x2f, 0x2f, 0x88,   /* adc 0x20ff8 */
+    0x23, 0xfc,                     /* gajw */
+    0x22, 0xf9,                     /* testerr */
+    0x25, 0xf7,                     /* clrhalterr */
+    0x29, 0xfc,                     /* fptesterr */
+    0x24, 0xf2,                     /* mint */
+    0x21, 0xf8,                     /* sthf */
+    0x24, 0xf2,                     /* mint */
+    0x21, 0xfc,                     /* stlf */
+    0x24, 0xf2,                     /* mint */
+    0x24, 0xf2,                     /* mint */
+    0xe9,                           /* stnl 9 */
+    0x24, 0xf2,                     /* mint */
+    0x24, 0xf2,                     /* mint */
+    0xea,                           /* stnl 10 */
+    0x40,                           /* ldc 0 */
+    0x25, 0xf4,                     /* sttimer */
+    0x27, 0xfa,                     /* timerdisableh */
+    0x27, 0xfb,                     /* timerdisablel */
+    0x40,                           /* ldc 0 */
+    0xd0,                           /* stl 0 */
+    0x49,                           /* ldc 9 */
+    0xd1,                           /* stl 1 */
+    0x70,                           /* ldl 0 */
+    0x24, 0xf2,                     /* mint */
+    0xfa,                           /* wsub */
+    0x21, 0xf2,                     /* resetch */
+    0x10,                           /* ldlp 0 */
+    0x4a,                           /* ldc 10 */
+    0x22, 0xf1,                     /* lend */
+    0x24, 0xf2,                     /* mint */
+    0x24, 0x50,                     /* ldnlp 64 */
+    0x24, 0xf2,                     /* mint */
+    0x54,                           /* ldnlp 4 */
+    0x20, 0x20, 0x20, 0x40,         /* ldc initial_code_length */
+    0xf7,                           /* in */
+    0x24, 0x9c,                     /* call 0x80000100 */
+    0x2f, 0xff, /*0x60, 0x0c*/
 };
 
 /*
