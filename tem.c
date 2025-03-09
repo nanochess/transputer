@@ -606,6 +606,67 @@ char ansi[256];
 char *p2 = NULL;
 
 /*
+ ** Save a image file
+ */
+void save_image(void)
+{
+    FILE *a;
+    char output_file[256];
+    int c;
+    int y;
+    int x;
+    unsigned char header[54];
+    
+    next_image++;
+    sprintf(output_file, "image%03d.bmp", next_image);
+    
+    a = fopen(output_file, "wb");
+    if (a == NULL) {
+        fprintf(stderr, "Unable to write output file \"%s\"\n", output_file);
+    } else {
+        memset(header, 0, sizeof(header));
+        header[0x00] = 'B';     /* Header */
+        header[0x01] = 'M';
+        c = X_WIDTH * Y_HEIGHT * 3 + 54;
+        header[0x02] = c;       /* Complete size of file */
+        header[0x03] = c >> 8;
+        header[0x04] = c >> 16;
+        header[0x05] = c >> 24;
+        c = 54;
+        header[0x0a] = c;       /* Size of header plus palette */
+        c = 40;
+        header[0x0e] = c;       /* Size of header */
+        header[0x12] = X_WIDTH & 0xff;
+        header[0x13] = X_WIDTH >> 8;
+        header[0x16] = Y_HEIGHT & 0xff;
+        header[0x17] = Y_HEIGHT >> 8;
+        header[0x1a] = 0x01;    /* 1 plane */
+        header[0x1c] = 0x18;    /* 24 bits */
+        c = X_WIDTH * Y_HEIGHT * 3;
+        header[0x22] = c;       /* Complete size of file */
+        header[0x23] = c >> 8;
+        header[0x24] = c >> 16;
+        header[0x25] = c >> 24;
+        c = 0x0ec4;             /* 96 dpi */
+        header[0x26] = c;       /* X */
+        header[0x27] = c >> 8;
+        header[0x2a] = c;       /* Y */
+        header[0x2b] = c >> 8;
+        fwrite(header, 1, sizeof(header), a);
+        
+        for (y = Y_HEIGHT - 1; y >= 0; y--) {
+            for (x = 0; x < X_WIDTH; x++) {
+                header[0x00] = framebuffer[y * X_WIDTH + x];
+                header[0x01] = framebuffer[y * X_WIDTH + x] >> 8;
+                header[0x02] = framebuffer[y * X_WIDTH + x] >> 16;
+                fwrite(header, 1, 3, a);
+            }
+        }
+        fclose(a);
+    }
+}
+
+/*
  ** Process output
  */
 void process_output(int c)
@@ -616,60 +677,7 @@ void process_output(int c)
             if (c == 'G') {
                 memset(framebuffer, 0, sizeof(framebuffer));
             } else if (c == 'T') {
-                FILE *a;
-                char output_file[256];
-                int c;
-                int y;
-                int x;
-                unsigned char header[54];
-                
-                next_image++;
-                sprintf(output_file, "image%03d.bmp", next_image);
-                
-                a = fopen(output_file, "wb");
-                if (a == NULL) {
-                    fprintf(stderr, "Unable to write output file \"%s\"\n", output_file);
-                } else {
-                    memset(header, 0, sizeof(header));
-                    header[0x00] = 'B';     /* Header */
-                    header[0x01] = 'M';
-                    c = X_WIDTH * Y_HEIGHT * 3 + 54;
-                    header[0x02] = c;       /* Complete size of file */
-                    header[0x03] = c >> 8;
-                    header[0x04] = c >> 16;
-                    header[0x05] = c >> 24;
-                    c = 54;
-                    header[0x0a] = c;       /* Size of header plus palette */
-                    c = 40;
-                    header[0x0e] = c;       /* Size of header */
-                    header[0x12] = X_WIDTH & 0xff;
-                    header[0x13] = X_WIDTH >> 8;
-                    header[0x16] = Y_HEIGHT & 0xff;
-                    header[0x17] = Y_HEIGHT >> 8;
-                    header[0x1a] = 0x01;    /* 1 plane */
-                    header[0x1c] = 0x18;    /* 24 bits */
-                    c = X_WIDTH * Y_HEIGHT * 3;
-                    header[0x22] = c;       /* Complete size of file */
-                    header[0x23] = c >> 8;
-                    header[0x24] = c >> 16;
-                    header[0x25] = c >> 24;
-                    c = 0x0ec4;             /* 96 dpi */
-                    header[0x26] = c;       /* X */
-                    header[0x27] = c >> 8;
-                    header[0x2a] = c;       /* Y */
-                    header[0x2b] = c >> 8;
-                    fwrite(header, 1, sizeof(header), a);
-                    
-                    for (y = Y_HEIGHT - 1; y >= 0; y--) {
-                        for (x = 0; x < X_WIDTH; x++) {
-                            header[0x00] = framebuffer[y * X_WIDTH + x];
-                            header[0x01] = framebuffer[y * X_WIDTH + x] >> 8;
-                            header[0x02] = framebuffer[y * X_WIDTH + x] >> 16;
-                            fwrite(header, 1, 3, a);
-                        }
-                    }
-                    fclose(a);
-                }
+                save_image();
             } else if (c == 'P') {
                 int x;
                 int y;
@@ -1136,6 +1144,74 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
             if (output_pointer - output_buffer < 4)
                 return;
             /* Code / Byte for printer */
+            channel0[0] = 0; /* All good */
+            offset_channel0 = 0;
+            bytes_channel0 = 1;
+            output_pointer = output_buffer;
+            return;
+        }
+        if (memcmp(output_buffer, "10", 2) == 0) {  /* Code 10: Enter graphic mode */
+            if (output_pointer - output_buffer < 2)
+                return;
+            memset(framebuffer, 0, sizeof(framebuffer));
+            channel0[0] = 0; /* All good */
+            offset_channel0 = 0;
+            bytes_channel0 = 1;
+            output_pointer = output_buffer;
+            return;
+        }
+        if (memcmp(output_buffer, "11", 2) == 0) {  /* Code 11: Exit graphic mode */
+            if (output_pointer - output_buffer < 2)
+                return;
+            save_image();
+            channel0[0] = 0; /* All good */
+            offset_channel0 = 0;
+            bytes_channel0 = 1;
+            output_pointer = output_buffer;
+            return;
+        }
+        if (memcmp(output_buffer, "12", 2) == 0) {  /* Code 12: Draw pixel */
+            int x;
+            int y;
+            int r;
+            int g;
+            int b;
+            
+            if (output_pointer - output_buffer < 16)
+                return;
+            x = extract_hex(output_buffer + 2);
+            x |= extract_hex(output_buffer + 4) << 8;
+            y = extract_hex(output_buffer + 6);
+            y |= extract_hex(output_buffer + 8) << 8;
+            r = extract_hex(output_buffer + 10);
+            g = extract_hex(output_buffer + 12);
+            b = extract_hex(output_buffer + 14);
+            if (x >= 0 && x < X_WIDTH && y >= 0 && y < Y_HEIGHT)
+                framebuffer[y * X_WIDTH + x] = (r << 16) | (g << 8) | b;
+            channel0[0] = 0; /* All good */
+            offset_channel0 = 0;
+            bytes_channel0 = 1;
+            output_pointer = output_buffer;
+            return;
+        }
+        if (memcmp(output_buffer, "13", 2) == 0) {  /* Code 13: Draw grey pixel */
+            int x;
+            int y;
+            int r;
+            int g;
+            int b;
+            
+            if (output_pointer - output_buffer < 12)
+                return;
+            x = extract_hex(output_buffer + 2);
+            x |= extract_hex(output_buffer + 4) << 8;
+            y = extract_hex(output_buffer + 6);
+            y |= extract_hex(output_buffer + 8) << 8;
+            r = extract_hex(output_buffer + 10);
+            g = r;
+            b = r;
+            if (x >= 0 && x < X_WIDTH && y >= 0 && y < Y_HEIGHT)
+                framebuffer[y * X_WIDTH + x] = (r << 16) | (g << 8) | b;
             channel0[0] = 0; /* All good */
             offset_channel0 = 0;
             bytes_channel0 = 1;
@@ -2417,13 +2493,11 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         break;
                     case 0x82:  /* fpldnldbi */
                         Areg = Areg + Breg * 8;
-                        Breg = Creg;
                         fp[2] = fp[1];
                         fp[1] = fp[0];
                         fp[0].type = 1;
                         read_memory_fp64(Areg, &fp[0].v.d);
-                        Areg = Breg;
-                        Breg = Creg;
+                        Areg = Creg;
                         RoundMode = ROUND_NEAREST;
                         break;
                     case 0x83:  /* fpchkerr */
@@ -2439,14 +2513,12 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         RoundMode = ROUND_NEAREST;
                         break;
                     case 0x86:  /* fpldnlsni */
-                        Areg = Areg + Breg * 8;
-                        Breg = Creg;
+                        Areg = Areg + Breg * 4;
                         fp[2] = fp[1];
                         fp[1] = fp[0];
                         fp[0].type = 0;
                         read_memory_fp32(Areg, &fp[0].v.f);
-                        Areg = Breg;
-                        Breg = Creg;
+                        Areg = Creg;
                         RoundMode = ROUND_NEAREST;
                         break;
                     case 0x87:  /* fpadd */
@@ -2773,10 +2845,18 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                                 transputer_fperr = 0;
                                 RoundMode = ROUND_NEAREST;
                                 break;
+                            case 0x07:  /* fpur32tor64 */
+                                fp[0].v.d = fp[0].v.f;
+                                fp[0].type = 1;
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x08:  /* fpur64tor32 */
+                                fp[0].v.f = fp[0].v.d;
+                                fp[0].type = 0;
+                                RoundMode = ROUND_NEAREST;
+                                break;
                             case 0x0e:  /* fpuchki32 */
                             case 0x0f:  /* fpuchki64 */
-                            case 0x07:  /* fpur32tor64 */
-                            case 0x08:  /* fpur64tor32 */
                             case 0x0d:  /* fpunoround */
                             case 0x0a:  /* fpuexpinc32 */
                             case 0x09:  /* fpuexpdec32 */
