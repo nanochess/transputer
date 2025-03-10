@@ -1585,6 +1585,9 @@ write_memory_32(0x80000034, Areg); \
 write_memory_32(0x80000038, Breg); \
 write_memory_32(0x8000003c, Creg); \
 write_memory_32(0x80000040, transputer_StatusReg); \
+fp[4] = fp[0];\
+fp[5] = fp[1];\
+fp[6] = fp[2];\
 }
 
 #define RestoreRegisters() \
@@ -1596,6 +1599,9 @@ Areg = read_memory_32(0x80000034);\
 Breg = read_memory_32(0x80000038);\
 Creg = read_memory_32(0x8000003c);\
 transputer_StatusReg = read_memory_32(0x80000040);\
+fp[0] = fp[4];\
+fp[1] = fp[5];\
+fp[2] = fp[6];\
 }
 
 #define Enqueue(ProcPtr, Fptr, Bptr) \
@@ -1749,7 +1755,7 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
             float f;
             double d;
         } v;
-    } fp[4];
+    } fp[7];
     int byte;
     unsigned char word_buffer[4];
     int c;
@@ -2668,10 +2674,11 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         break;
                     case 0x9e:  /* fpstnli32 */
                         if (fp[0].type == 0) {
-                            write_memory_32(Areg, (int) fp[0].v.f);
+                            temp = (int) fp[0].v.f;
                         } else {
-                            write_memory_32(Areg, (int) fp[0].v.d);
+                            temp = (int) fp[0].v.d;
                         }
+                        write_memory_32(Areg, temp);
                         fp[0] = fp[1];
                         fp[1] = fp[2];
                         Areg = Breg;
@@ -2816,18 +2823,18 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                             case 0x05:  /* fpurm */
                                 RoundMode = ROUND_MINUS;
                                 break;
-                            case 0x12:  /* fpumulby2 */
-                                if (fp[0].type == 0)
-                                    fp[0].v.f *= 2.0f;
-                                else
-                                    fp[0].v.d *= 2.0;
-                                RoundMode = ROUND_NEAREST;
-                                break;
                             case 0x11:  /* fpudivby2 */
                                 if (fp[0].type == 0)
                                     fp[0].v.f /= 2.0f;
                                 else
                                     fp[0].v.d /= 2.0;
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x12:  /* fpumulby2 */
+                                if (fp[0].type == 0)
+                                    fp[0].v.f *= 2.0f;
+                                else
+                                    fp[0].v.d *= 2.0;
                                 RoundMode = ROUND_NEAREST;
                                 break;
                             case 0x0b:  /* fpuabs */
