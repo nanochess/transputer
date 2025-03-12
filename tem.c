@@ -500,12 +500,15 @@ void debug_memory(unsigned int Areg, unsigned int Breg, unsigned int Creg, unsig
 {
     FILE *a;
     
+    ttyrestore(0);
+#if 0
     a = fopen("memory.txt", "w");
     fprintf(a, "Areg=%08x Breg=%08x Creg=%08x Iptr=%08x Wptr=%08x\n", Areg, Breg, Creg, Iptr, Wptr);
     fclose(a);
     a = fopen("memory.bin", "wb");
     fwrite(memory, 1, sizeof(memory), a);
     fclose(a);
+#endif
     exit(1);
 }
 
