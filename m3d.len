@@ -1,0 +1,15548 @@
+j INIC
+P2:
+ldc 0
+ajw -3
+stl 1
+ldl 4
+stl 0
+P3:
+ldlp 2
+ajw -1
+stl 0
+ldl 1
+ldnl 0
+ldnlp -NUMCONSLIB
+call L1
+ldl 0
+stnl 0
+ldlp 3
+lb
+eqc 13
+eqc 0
+ldlp 3
+lb
+eqc 26
+eqc 0
+and
+ajw 1
+cj P4
+ldlp 2
+lb
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+sb
+ldl 1
+adc 1
+stl 1
+P4:
+ldlp 2
+lb
+eqc 13
+ldlp 2
+lb
+eqc 26
+or
+cj P3
+ldc 13
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+sb
+ajw 3
+ret
+P5:
+ldl 3
+ldnl 0
+ldl 1
+ldnlp 106
+bsub
+lb
+eqc 45
+ajw -4
+ldl 5
+stl 0
+cj P6
+ldl 0
+ldnl 0
+ldnl 6
+stl 3
+ldl 7
+ldnl 0
+adc 1
+ldl 7
+stnl 0
+j P7
+P6:
+ldl 0
+ldnl 0
+ldnl 5
+stl 3
+P7:
+ldc 0
+ldl 6
+stnl 0
+P8:
+ldl 7
+ldnl 0
+ldl 0
+ldnlp 106
+bsub
+lb
+ldc 48
+rev
+gt
+eqc 0
+ldl 7
+ldnl 0
+ldl 0
+ldnlp 106
+bsub
+lb
+ldc 57
+gt
+eqc 0
+and
+cj P9
+ldl 6
+fpldnlsn
+ldl 0
+ldnl 0
+ldnlp 7
+fpldnlmulsn
+ldl 7
+ldnl 0
+ldl 0
+ldnlp 106
+bsub
+lb
+adc -48
+ajw -1
+stl 0
+ldlp 0
+fpi32tor32
+fpadd
+ldl 7
+fpstnlsn
+ldl 8
+ldnl 0
+adc 1
+ldl 8
+stnl 0
+ajw 1
+j P8
+P9:
+ldl 7
+ldnl 0
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 46
+cj P10
+ldl 7
+ldnl 0
+adc 1
+ldl 7
+stnl 0
+ldc 0
+stl 1
+ldl 0
+ldnl 0
+ldnl 5
+stl 2
+P11:
+ldl 7
+ldnl 0
+ldl 0
+ldnlp 106
+bsub
+lb
+ldc 48
+rev
+gt
+eqc 0
+ldl 7
+ldnl 0
+ldl 0
+ldnlp 106
+bsub
+lb
+ldc 57
+gt
+eqc 0
+and
+cj P12
+ldlp 1
+fpldnlsn
+ldl 0
+ldnl 0
+ldnlp 7
+fpldnlmulsn
+ldl 7
+ldnl 0
+ldl 0
+ldnlp 106
+bsub
+lb
+adc -48
+ajw -1
+stl 0
+ldlp 0
+fpi32tor32
+fpadd
+ldlp 2
+fpstnlsn
+ldlp 3
+fpldnlsn
+ldl 1
+ldnl 0
+ldnlp 7
+fpldnlmulsn
+ldlp 3
+fpstnlsn
+ldl 8
+ldnl 0
+adc 1
+ldl 8
+stnl 0
+ajw 1
+j P11
+P12:
+ldlp 1
+fpldnlsn
+ldlp 2
+fpldnlsn
+fpdiv
+ldl 6
+fpldnladdsn
+ldl 6
+fpstnlsn
+P10:
+ldl 6
+fpldnlsn
+ldlp 3
+fpldnlmulsn
+ldl 6
+fpstnlsn
+ajw 4
+ret
+P13:
+ldc 0
+ajw -5
+stl 1
+ldc 9
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+ldl 6
+stl 2
+cj P15
+P14:
+ldl 1
+stl 3
+ldc 32
+ldl 3
+ldl 2
+ldnlp 127
+bsub
+sb
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P14
+P15:
+ldl 2
+ajw 2
+call P2
+ldc 0
+stl 1
+ldc 0
+stl 2
+P16:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 32
+cj P17
+ldl 1
+adc 1
+stl 1
+j P16
+P17:
+P18:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 32
+eqc 0
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 13
+eqc 0
+and
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 26
+eqc 0
+and
+cj P19
+ldc 10
+ldl 2
+gt
+cj P20
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+ldl 2
+ldl 0
+ldnlp 127
+bsub
+sb
+P20:
+ldl 2
+adc 1
+stl 2
+ldl 1
+adc 1
+stl 1
+j P18
+P19:
+ajw 3
+ret
+P21:
+ldl 1
+ajw -2
+call P2
+ldc 0
+stl 1
+ldl 3
+stl 0
+P22:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 61
+eqc 0
+cj P23
+ldl 1
+adc 1
+stl 1
+j P22
+P23:
+ldl 1
+adc 1
+stl 1
+P24:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 32
+cj P25
+ldl 1
+adc 1
+stl 1
+j P24
+P25:
+ldlp 1
+ldl 4
+ldl 0
+call P5
+P26:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 32
+cj P27
+ldl 1
+adc 1
+stl 1
+j P26
+P27:
+ldlp 1
+ldl 4
+ldnlp 1
+ldl 0
+call P5
+P28:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 32
+cj P29
+ldl 1
+adc 1
+stl 1
+j P28
+P29:
+ldlp 1
+ldl 4
+ldnlp 2
+ldl 0
+call P5
+ajw 2
+ret
+P30:
+ldl 1
+ajw -2
+call P2
+ldc 0
+stl 1
+ldl 3
+stl 0
+P31:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 61
+eqc 0
+cj P32
+ldl 1
+adc 1
+stl 1
+j P31
+P32:
+ldl 1
+adc 1
+stl 1
+P33:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 32
+cj P34
+ldl 1
+adc 1
+stl 1
+j P33
+P34:
+ldlp 1
+ldl 4
+ldl 0
+call P5
+ajw 2
+ret
+P35:
+ldl 1
+ajw -2
+call P2
+ldc 0
+stl 1
+ldl 3
+stl 0
+P36:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 61
+eqc 0
+cj P37
+ldl 1
+adc 1
+stl 1
+j P36
+P37:
+ldl 1
+adc 1
+stl 1
+P38:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 32
+cj P39
+ldl 1
+adc 1
+stl 1
+j P38
+P39:
+ldc 0
+ldl 4
+stnl 0
+P40:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+ldc 48
+rev
+gt
+eqc 0
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+ldc 57
+gt
+eqc 0
+and
+cj P41
+ldl 4
+ldnl 0
+ldc 10
+prod
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+adc -48
+bsub
+ldl 4
+stnl 0
+ldl 1
+adc 1
+stl 1
+j P40
+P41:
+ajw 2
+ret
+P42:
+ldc 0
+ajw -5
+stl 1
+ldc 31
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+ldl 6
+stl 2
+cj P44
+P43:
+ldl 1
+stl 3
+ldc 32
+ldl 3
+ldl 7
+bsub
+sb
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P43
+P44:
+ldl 2
+ajw 2
+call P2
+ldc 0
+stl 1
+P45:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 61
+eqc 0
+cj P46
+ldl 1
+adc 1
+stl 1
+j P45
+P46:
+ldl 1
+adc 1
+stl 1
+P47:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 32
+cj P48
+ldl 1
+adc 1
+stl 1
+j P47
+P48:
+ldc 0
+stl 2
+P49:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 32
+eqc 0
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 13
+eqc 0
+and
+cj P50
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+ldl 2
+ldl 5
+bsub
+sb
+ldl 1
+adc 1
+stl 1
+ldl 2
+adc 1
+stl 2
+j P49
+P50:
+ajw 3
+ret
+P51:
+ldl 1
+ajw -2
+call P2
+ldc 0
+stl 1
+ldl 3
+stl 0
+P52:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 61
+eqc 0
+cj P53
+ldl 1
+adc 1
+stl 1
+j P52
+P53:
+ldl 1
+adc 1
+stl 1
+P54:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 32
+cj P55
+ldl 1
+adc 1
+stl 1
+j P54
+P55:
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 70
+ldl 1
+ldl 0
+ldnlp 106
+bsub
+lb
+eqc 102
+or
+cj P56
+ldc 0
+stl 6
+j P57
+P56:
+ldc 1
+stl 6
+P57:
+ajw 2
+ldl 4
+ret
+P58:
+ldc 1
+ajw -4
+stl 1
+ldl 5
+ldnl 141
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+ldl 5
+stl 2
+cj P60
+P59:
+ldl 1
+stl 3
+ldc 30
+ldl 3
+prod
+ldl 2
+ldnlp 351
+wsub
+ldl 6
+ldc 32
+call IGUAL
+cj P61
+ldl 3
+ldl 7
+stnl 0
+P61:
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P59
+P60:
+ajw 4
+ret
+P62:
+ldc 0
+ajw -7
+stl 1
+ldc 9
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+ldl 8
+stl 2
+cj P64
+P63:
+ldl 1
+stl 6
+ldl 6
+ldl 9
+bsub
+lb
+ldl 6
+ldlp 3
+bsub
+sb
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P63
+P64:
+ldlp 3
+ldc P66-P67
+ldpi
+P67:
+ldc 10
+call IGUAL
+ajw 2
+cj P65
+ldc 1
+ldl 8
+stnl 0
+j P68
+P66:
+db 83,85,65,86,69,32,32,32
+db 32,32
+P65:
+ldlp 1
+ldc P70-P71
+ldpi
+P71:
+ldc 10
+call IGUAL
+cj P69
+ldc 2
+ldl 8
+stnl 0
+j P72
+P70:
+db 65,76,84,69,82,78,65,68
+db 79,32
+P69:
+ldlp 1
+ldc P74-P75
+ldpi
+P75:
+ldc 10
+call IGUAL
+cj P73
+ldc 3
+ldl 8
+stnl 0
+j P76
+P74:
+db 65,82,69,78,65,32,32,32
+db 32,32
+P73:
+ldlp 1
+ldc P78-P79
+ldpi
+P79:
+ldc 10
+call IGUAL
+cj P77
+ldc 4
+ldl 8
+stnl 0
+j P80
+P78:
+db 77,65,82,77,79,76,32,32
+db 32,32
+P77:
+ldlp 1
+ldc P82-P83
+ldpi
+P83:
+ldc 10
+call IGUAL
+cj P81
+ldc 5
+ldl 8
+stnl 0
+j P84
+P82:
+db 77,65,68,69,82,65,32,32
+db 32,32
+P81:
+ldlp 1
+ldc P86-P87
+ldpi
+P87:
+ldc 10
+call IGUAL
+cj P85
+ldc 6
+ldl 8
+stnl 0
+j P88
+P86:
+db 80,73,69,68,82,65,32,32
+db 32,32
+P85:
+ldlp 1
+ldc P90-P91
+ldpi
+P91:
+ldc 10
+call IGUAL
+cj P89
+ldc 7
+ldl 8
+stnl 0
+j P92
+P90:
+db 80,65,82,84,73,67,85,76
+db 65,32
+P89:
+ldlp 1
+ldc P94-P95
+ldpi
+P95:
+ldc 10
+call IGUAL
+cj P93
+ldc 8
+ldl 8
+stnl 0
+j P96
+P94:
+db 79,78,68,65,83,77,65,82
+db 32,32
+P93:
+ldlp 1
+ldc P98-P99
+ldpi
+P99:
+ldc 10
+call IGUAL
+cj P97
+ldc 9
+ldl 8
+stnl 0
+j P100
+P98:
+db 79,78,68,65,83,65,71,85
+db 65,32
+P97:
+ldlp 1
+ldc P102-P103
+ldpi
+P103:
+ldc 10
+call IGUAL
+cj P101
+ldc 10
+ldl 8
+stnl 0
+j P104
+P102:
+db 79,78,68,65,83,32,32,32
+db 32,32
+P101:
+ldlp 1
+ldc P106-P107
+ldpi
+P107:
+ldc 10
+call IGUAL
+cj P105
+ldc 11
+ldl 8
+stnl 0
+P105:
+P104:
+P100:
+P96:
+P92:
+P88:
+P84:
+P80:
+P76:
+P72:
+P68:
+ajw 5
+ret
+P106:
+db 73,77,65,71,69,78,32,32
+db 32,32
+P108:
+ldc 0
+ldl 1
+stnl 3
+ldc 0
+ldl 1
+stnl 4
+ldc 0
+ldl 1
+stnl 10
+ldc 0
+ldl 1
+stnl 11
+ldc 0
+ldl 1
+stnl 21
+ldc 0
+ajw -3
+stl 2
+ldl 4
+stl 0
+P109:
+ldl 0
+call P13
+ldl 0
+ldnlp 127
+ldc P111-P112
+ldpi
+P112:
+ldc 10
+call IGUAL
+cj P110
+ldl 0
+ldnlp 10
+ldl 0
+call P35
+ldl 0
+ldnlp 11
+ldl 0
+call P35
+ldl 2
+adc 1
+stl 2
+j P113
+P111:
+db 82,69,83,79,76,85,67,73
+db 79,78
+P110:
+ldl 0
+ldnlp 127
+ldc P115-P116
+ldpi
+P116:
+ldc 10
+call IGUAL
+cj P114
+ldl 0
+ldnlp 21
+ldl 0
+call P35
+ldl 2
+adc 1
+stl 2
+P114:
+P113:
+ldl 2
+eqc 2
+cj P109
+ajw 3
+ret
+P115:
+db 67,85,65,68,82,79,83,32
+db 32,32
+P117:
+ldlp 5
+fpldnlsn
+ldlp 4
+fpldnlsn
+fpgt
+ajw -1
+ldl 2
+stl 0
+cj P118
+ldl 5
+stl 7
+j P119
+P118:
+ldl 6
+stl 7
+P119:
+ajw 1
+ldlp 6
+fpldnlsn
+ret
+P120:
+ldlp 4
+fpldnlsn
+ldlp 5
+fpldnlsn
+fpgt
+ajw -1
+ldl 2
+stl 0
+cj P121
+ldl 5
+stl 7
+j P122
+P121:
+ldl 6
+stl 7
+P122:
+ajw 1
+ldlp 6
+fpldnlsn
+ret
+P123:
+ldl 4
+ajw -7
+stl 0
+ldl 12
+stl 1
+ldl 8
+call P117
+ldlp 3
+fpstnlsn
+ldl 13
+stl 4
+ldl 8
+ajw 3
+call P117
+ajw 4
+ret
+P124:
+ldl 4
+ajw -8
+stl 0
+ldl 13
+stl 1
+ldl 9
+call P120
+ldlp 3
+fpstnlsn
+ldl 14
+stl 4
+ldl 9
+ajw 3
+call P120
+ajw 5
+ret
+P125:
+ldl 4
+ajw -7
+stl 0
+ldl 12
+stl 1
+ldl 8
+call P117
+ldlp 3
+fpstnlsn
+ldl 13
+stl 0
+ldl 14
+stl 1
+ldl 8
+call P117
+ldlp 4
+fpstnlsn
+ldl 8
+ajw 3
+call P117
+ajw 4
+ret
+P126:
+ldl 4
+ajw -7
+stl 0
+ldl 12
+stl 1
+ldl 8
+call P120
+ldlp 3
+fpstnlsn
+ldl 13
+stl 0
+ldl 14
+stl 1
+ldl 8
+call P120
+ldlp 4
+fpstnlsn
+ldl 8
+ajw 3
+call P120
+ajw 4
+ret
+P127:
+ldl 4
+ldl 2
+stnl 0
+ldl 5
+ldl 2
+stnl 1
+ldl 6
+ldl 2
+stnl 2
+ret
+P128:
+ldl 2
+ldnl 0
+ldl 3
+stnl 0
+ldl 2
+ldnl 1
+ldl 4
+stnl 0
+ldl 2
+ldnl 2
+ldl 5
+stnl 0
+ret
+P129:
+ldl 2
+fpldnlsn
+ldl 3
+fpldnlmulsn
+ldl 2
+ldnlp 1
+fpldnlsn
+ldl 3
+ldnlp 1
+fpldnlmulsn
+fpadd
+ldl 2
+ldnlp 2
+fpldnlsn
+ldl 3
+ldnlp 2
+fpldnlmulsn
+fpadd
+ret
+P130:
+ldl 2
+ldnlp 1
+fpldnlsn
+ldl 3
+ldnlp 2
+fpldnlmulsn
+ldl 2
+ldnlp 2
+fpldnlsn
+ldl 3
+ldnlp 1
+fpldnlmulsn
+fpsub
+ldl 4
+fpstnlsn
+ldl 2
+ldnlp 2
+fpldnlsn
+ldl 3
+fpldnlmulsn
+ldl 2
+fpldnlsn
+ldl 3
+ldnlp 2
+fpldnlmulsn
+fpsub
+ldl 4
+ldnlp 1
+fpstnlsn
+ldl 2
+fpldnlsn
+ldl 3
+ldnlp 1
+fpldnlmulsn
+ldl 2
+ldnlp 1
+fpldnlsn
+ldl 3
+fpldnlmulsn
+fpsub
+ldl 4
+ldnlp 2
+fpstnlsn
+ret
+P131:
+ldl 2
+fpldnlsn
+fpdup
+fpmul
+ldl 2
+ldnlp 1
+fpldnlsn
+fpdup
+fpmul
+fpadd
+ldl 2
+ldnlp 2
+fpldnlsn
+fpdup
+fpmul
+fpadd
+fpusqrtfirst
+fpusqrtstep
+fpusqrtstep
+fpusqrtlast
+ret
+P132:
+ldl 2
+ldl 1
+ajw -3
+call P131
+ldl 4
+ldnl 0
+ldnlp 5
+fpldnlsn
+fprev
+fpdiv
+ldlp 2
+fpstnlsn
+ldl 5
+fpldnlsn
+ldlp 2
+fpldnlmulsn
+ldl 5
+fpstnlsn
+ldl 5
+ldnlp 1
+fpldnlsn
+ldlp 2
+fpldnlmulsn
+ldl 5
+ldnlp 1
+fpstnlsn
+ldl 5
+ldnlp 2
+fpldnlsn
+ldlp 2
+fpldnlmulsn
+ldl 5
+ldnlp 2
+fpstnlsn
+ajw 3
+ret
+P133:
+ldl 2
+fpldnlsn
+ldl 3
+fpldnlsn
+fpsub
+ldl 4
+fpstnlsn
+ldl 2
+ldnlp 1
+fpldnlsn
+ldl 3
+ldnlp 1
+fpldnlsn
+fpsub
+ldl 4
+ldnlp 1
+fpstnlsn
+ldl 2
+ldnlp 2
+fpldnlsn
+ldl 3
+ldnlp 2
+fpldnlsn
+fpsub
+ldl 4
+ldnlp 2
+fpstnlsn
+ret
+P134:
+ldl 2
+fpldnlsn
+ldl 3
+fpldnladdsn
+ldl 4
+fpstnlsn
+ldl 2
+ldnlp 1
+fpldnlsn
+ldl 3
+ldnlp 1
+fpldnladdsn
+ldl 4
+ldnlp 1
+fpstnlsn
+ldl 2
+ldnlp 2
+fpldnlsn
+ldl 3
+ldnlp 2
+fpldnladdsn
+ldl 4
+ldnlp 2
+fpstnlsn
+ret
+P135:
+ldl 2
+fpldnlsn
+ldl 3
+fpldnladdsn
+ldl 4
+fpldnladdsn
+ldl 5
+fpstnlsn
+ldl 2
+ldnlp 1
+fpldnlsn
+ldl 3
+ldnlp 1
+fpldnladdsn
+ldl 4
+ldnlp 1
+fpldnladdsn
+ldl 5
+ldnlp 1
+fpstnlsn
+ldl 2
+ldnlp 2
+fpldnlsn
+ldl 3
+ldnlp 2
+fpldnladdsn
+ldl 4
+ldnlp 2
+fpldnladdsn
+ldl 5
+ldnlp 2
+fpstnlsn
+ret
+P136:
+ldlp 4
+fpldnlsn
+ldl 2
+fpldnlmulsn
+ldlp 5
+fpldnlsn
+ldl 3
+fpldnlmulsn
+fpadd
+ldl 6
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 2
+ldnlp 1
+fpldnlmulsn
+ldlp 5
+fpldnlsn
+ldl 3
+ldnlp 1
+fpldnlmulsn
+fpadd
+ldl 6
+ldnlp 1
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 2
+ldnlp 2
+fpldnlmulsn
+ldlp 5
+fpldnlsn
+ldl 3
+ldnlp 2
+fpldnlmulsn
+fpadd
+ldl 6
+ldnlp 2
+fpstnlsn
+ret
+P137:
+ldlp 4
+fpldnlsn
+ldl 2
+fpldnlmulsn
+ldl 3
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 2
+ldnlp 1
+fpldnlmulsn
+ldl 3
+ldnlp 1
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 2
+ldnlp 2
+fpldnlmulsn
+ldl 3
+ldnlp 2
+fpstnlsn
+ret
+P138:
+ldlp 4
+fpldnlsn
+ldl 2
+fpi32tor32
+fpmul
+ldl 3
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 2
+ldnlp 1
+fpi32tor32
+fpmul
+ldl 3
+ldnlp 1
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 2
+ldnlp 2
+fpi32tor32
+fpmul
+ldl 3
+ldnlp 2
+fpstnlsn
+ret
+P139:
+ldlp 4
+fpldnlsn
+ldl 2
+fpldnlmulsn
+fpint
+ajw -2
+ldlp 0
+fpstnli32
+ldl 0
+ldl 5
+stnl 0
+ldlp 6
+fpldnlsn
+ldl 4
+ldnlp 1
+fpldnlmulsn
+fpint
+ldlp 0
+fpstnli32
+ldl 0
+ldl 5
+stnl 1
+ldlp 6
+fpldnlsn
+ldl 4
+ldnlp 2
+fpldnlmulsn
+fpint
+ldlp 0
+fpstnli32
+ldl 0
+ldl 5
+stnl 2
+ajw 2
+ret
+P140:
+ldlp 4
+fpldnlsn
+ldl 2
+fpldnlmulsn
+ldl 3
+fpldnladdsn
+ldl 5
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 2
+ldnlp 1
+fpldnlmulsn
+ldl 3
+ldnlp 1
+fpldnladdsn
+ldl 5
+ldnlp 1
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 2
+ldnlp 2
+fpldnlmulsn
+ldl 3
+ldnlp 2
+fpldnladdsn
+ldl 5
+ldnlp 2
+fpstnlsn
+ret
+P141:
+ldlp 4
+fpldnlsn
+ldl 2
+fpldnlmulsn
+ldl 3
+fpldnlmulsn
+ldl 5
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 2
+ldnlp 1
+fpldnlmulsn
+ldl 3
+ldnlp 1
+fpldnlmulsn
+ldl 5
+ldnlp 1
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 2
+ldnlp 2
+fpldnlmulsn
+ldl 3
+ldnlp 2
+fpldnlmulsn
+ldl 5
+ldnlp 2
+fpstnlsn
+ret
+P142:
+ldl 3
+fpldnlsn
+ldl 2
+fpldnlsn
+fpgt
+ajw -1
+ldl 2
+stl 0
+cj P143
+ldl 3
+ldnl 0
+ldl 5
+stnl 0
+j P144
+P143:
+ldl 4
+ldnl 0
+ldl 5
+stnl 0
+P144:
+ldl 4
+ldnlp 1
+fpldnlsn
+ldl 3
+ldnlp 1
+fpldnlsn
+fpgt
+cj P145
+ldl 3
+ldnl 1
+ldl 5
+stnl 1
+j P146
+P145:
+ldl 4
+ldnl 1
+ldl 5
+stnl 1
+P146:
+ldl 4
+ldnlp 2
+fpldnlsn
+ldl 3
+ldnlp 2
+fpldnlsn
+fpgt
+cj P147
+ldl 3
+ldnl 2
+ldl 5
+stnl 2
+j P148
+P147:
+ldl 4
+ldnl 2
+ldl 5
+stnl 2
+P148:
+ajw 1
+ret
+P149:
+ldl 2
+fpldnlsn
+ldl 3
+fpldnlsn
+fpgt
+ajw -1
+ldl 2
+stl 0
+cj P150
+ldl 3
+ldnl 0
+ldl 5
+stnl 0
+j P151
+P150:
+ldl 4
+ldnl 0
+ldl 5
+stnl 0
+P151:
+ldl 3
+ldnlp 1
+fpldnlsn
+ldl 4
+ldnlp 1
+fpldnlsn
+fpgt
+cj P152
+ldl 3
+ldnl 1
+ldl 5
+stnl 1
+j P153
+P152:
+ldl 4
+ldnl 1
+ldl 5
+stnl 1
+P153:
+ldl 3
+ldnlp 2
+fpldnlsn
+ldl 4
+ldnlp 2
+fpldnlsn
+fpgt
+cj P154
+ldl 3
+ldnl 2
+ldl 5
+stnl 2
+j P155
+P154:
+ldl 4
+ldnl 2
+ldl 5
+stnl 2
+P155:
+ajw 1
+ret
+P156:
+ldc 0
+ldl 2
+stnl 0
+ldc 0
+ldl 2
+stnl 1
+ldc 0
+ldl 2
+stnl 2
+ret
+P157:
+ldl 2
+ldl 1
+ajw -1
+call P156
+ldc 0
+ldl 3
+stnl 3
+ldc 0
+ldl 3
+stnl 4
+ldl 3
+ldnlp 5
+ldl 2
+call P156
+ldc 0
+ldl 3
+stnl 8
+ldl 3
+ldnlp 9
+ldl 2
+call P156
+ldl 3
+ldnlp 12
+ldl 2
+call P156
+ldl 3
+ldnlp 15
+ldl 2
+call P156
+ldc 0
+ldl 3
+stnl 18
+ldc 0
+ldl 3
+stnl 19
+ldc 0
+ldl 3
+stnl 20
+ldc 0
+ldl 3
+stnl 21
+ldc 0
+ldl 3
+ldnlp 22
+stnl 0
+ldc 0
+ldl 3
+stnl 23
+ldc 0
+ldl 3
+stnl 24
+ajw 1
+ret
+P158:
+ldc 0
+ajw -4
+stl 1
+ldc 31
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+ldl 5
+stl 2
+cj P160
+P159:
+ldl 1
+stl 3
+ldc 32
+ldl 3
+ldl 6
+bsub
+sb
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P159
+P160:
+ajw 4
+ret
+P161:
+ldl 1
+ldnlp 22
+ldl 1
+ajw -2
+call P156
+ldl 3
+ldnlp 25
+ldl 3
+call P156
+ldl 3
+ldnlp 28
+ldl 3
+call P156
+ldl 3
+ldnlp 31
+ldl 3
+call P156
+ldl 3
+ldnlp 34
+ldl 3
+call P156
+ldc 0
+ldl 3
+stnl 37
+ldc 0
+ldl 3
+stnl 38
+ldl 3
+ldnlp 39
+ldl 3
+call P156
+ldc 0
+ldl 3
+stnl 42
+ldc 0
+ldl 3
+stnl 49
+ldl 3
+ldnlp 50
+ldl 3
+call P156
+ldc 0
+ldl 3
+stnl 53
+ldc 0
+ldl 3
+stnl 54
+ldl 3
+ldnlp 55
+ldl 3
+call P156
+ldl 3
+ldnlp 58
+ldl 3
+call P156
+ldl 3
+ldnlp 61
+ldl 3
+call P156
+ldl 3
+ldnlp 64
+ldl 3
+call P156
+ldl 3
+ldnlp 67
+ldl 3
+call P156
+ldc 0
+ldl 3
+stnl 70
+ldc 0
+ldl 3
+stnl 71
+ldl 3
+ldnlp 72
+ldl 3
+call P156
+ldl 3
+ldnlp 75
+ldl 3
+call P156
+ldc 0
+ldl 3
+stnl 78
+ldc 0
+ldl 3
+stnl 79
+ldc 0
+ldl 3
+stnl 80
+ldc 0
+ldl 3
+stnl 81
+ldc 0
+ldl 3
+stnl 82
+ldc 0
+ldl 3
+stnl 83
+ldc 0
+ldl 3
+stnl 84
+ldc 0
+ldl 3
+stnl 85
+ldc 0
+ldl 3
+stnl 86
+ldc 0
+ldl 3
+stnl 87
+ldc 0
+ldl 3
+stnl 88
+ldc 0
+ldl 3
+stnl 89
+ldc 0
+ldl 3
+stnl 90
+ldl 3
+ldnlp 91
+ldl 3
+call P156
+ldl 3
+ldnlp 94
+ldl 3
+call P156
+ldl 3
+ldnlp 97
+ldl 3
+call P156
+ldl 3
+ldnlp 100
+ldl 3
+call P156
+ldc 0
+ldl 3
+stnl 103
+ldc 0
+ldl 3
+stnl 104
+ldc 0
+ldl 3
+stnl 105
+ldc 0
+ajw -2
+stl 1
+ldc 20
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+ldl 5
+stl 2
+cj P163
+P162:
+ldl 1
+stl 3
+ldc 30
+ldl 3
+prod
+ldl 2
+ldnlp 351
+wsub
+ldl 2
+call P158
+ldc 30
+ldl 3
+prod
+ldl 2
+ldnlp 351
+wsub
+ldnlp 8
+ldl 2
+call P158
+ldc 30
+ldl 3
+prod
+ldl 2
+ldnlp 351
+wsub
+ldnlp 16
+ldl 2
+call P156
+ldc 30
+ldl 3
+prod
+ldl 2
+ldnlp 351
+wsub
+ldnlp 19
+ldl 2
+call P156
+ldc 30
+ldl 3
+prod
+ldl 2
+ldnlp 351
+wsub
+ldnlp 22
+ldl 2
+call P156
+ldc 0
+ldc 30
+ldl 3
+prod
+ldl 2
+ldnlp 351
+wsub
+stnl 25
+ldc 30
+ldl 3
+prod
+ldl 2
+ldnlp 351
+wsub
+ldnlp 26
+ldl 2
+call P156
+ldc 0
+ldc 30
+ldl 3
+prod
+ldl 2
+ldnlp 351
+wsub
+stnl 29
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P162
+P163:
+ldc 0
+stl 1
+ldc 8
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P165
+P164:
+ldl 1
+stl 3
+ldc 0
+ldl 3
+ldl 2
+ldnlp 981
+wsub
+stnl 0
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P164
+P165:
+ldc 0
+ldl 2
+stnl 990
+ldc 0
+ldl 2
+stnl 991
+ldc 0
+stl 1
+ldc 10
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P167
+P166:
+ldl 1
+stl 3
+ldc 8
+ldl 3
+prod
+ldl 2
+ldnlp 992
+wsub
+ldl 2
+call P156
+ldc 0
+ldc 8
+ldl 3
+prod
+ldl 2
+ldnlp 992
+wsub
+stnl 3
+ldc 0
+ldc 8
+ldl 3
+prod
+ldl 2
+ldnlp 992
+wsub
+stnl 4
+ldc 8
+ldl 3
+prod
+ldl 2
+ldnlp 992
+wsub
+ldnlp 5
+ldl 2
+call P156
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P166
+P167:
+ldc 0
+stl 1
+ldc 512
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P169
+P168:
+ldl 1
+stl 3
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 1080
+wsub
+ldl 2
+call P156
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 1080
+wsub
+ldnlp 3
+ldl 2
+call P156
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 1080
+wsub
+ldnlp 6
+ldl 2
+call P156
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 2
+call P156
+ldc 0
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 1080
+wsub
+stnl 12
+ldc 0
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 1080
+wsub
+stnl 13
+ldc 0
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 1080
+wsub
+stnl 14
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P168
+P169:
+ldc 0
+stl 1
+ldc 50
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P171
+P170:
+ldl 1
+stl 3
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 8775
+wsub
+ldl 2
+call P156
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 8775
+wsub
+ldnlp 3
+ldl 2
+call P156
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 8775
+wsub
+ldnlp 6
+ldl 2
+call P156
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 2
+call P156
+ldc 0
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 8775
+wsub
+stnl 12
+ldc 0
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 8775
+wsub
+stnl 13
+ldc 0
+ldc 15
+ldl 3
+prod
+ldl 2
+ldnlp 8775
+wsub
+stnl 14
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P170
+P171:
+ldc 0
+stl 1
+ldc 50
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P173
+P172:
+ldl 1
+stl 3
+ldc 16
+ldl 3
+prod
+ldl 2
+ldnlp 9540
+wsub
+ldl 2
+call P156
+ldc 16
+ldl 3
+prod
+ldl 2
+ldnlp 9540
+wsub
+ldnlp 3
+ldl 2
+call P156
+ldc 16
+ldl 3
+prod
+ldl 2
+ldnlp 9540
+wsub
+ldnlp 6
+ldl 2
+call P156
+ldc 16
+ldl 3
+prod
+ldl 2
+ldnlp 9540
+wsub
+ldnlp 9
+ldl 2
+call P156
+ldc 0
+ldc 16
+ldl 3
+prod
+ldl 2
+ldnlp 9540
+wsub
+stnl 12
+ldc 0
+ldc 16
+ldl 3
+prod
+ldl 2
+ldnlp 9540
+wsub
+stnl 13
+ldc 0
+ldc 16
+ldl 3
+prod
+ldl 2
+ldnlp 9540
+wsub
+stnl 14
+ldc 0
+ldc 16
+ldl 3
+prod
+ldl 2
+ldnlp 9540
+wsub
+stnl 15
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P172
+P173:
+ldc 0
+stl 1
+ldc 50
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P175
+P174:
+ldl 1
+stl 3
+ldc 17
+ldl 3
+prod
+ldl 2
+ldnlp 10356
+wsub
+ldl 2
+call P156
+ldc 17
+ldl 3
+prod
+ldl 2
+ldnlp 10356
+wsub
+ldnlp 3
+ldl 2
+call P156
+ldc 17
+ldl 3
+prod
+ldl 2
+ldnlp 10356
+wsub
+ldnlp 6
+ldl 2
+call P156
+ldc 17
+ldl 3
+prod
+ldl 2
+ldnlp 10356
+wsub
+ldnlp 9
+ldl 2
+call P156
+ldc 0
+ldc 17
+ldl 3
+prod
+ldl 2
+ldnlp 10356
+wsub
+stnl 12
+ldc 0
+ldc 17
+ldl 3
+prod
+ldl 2
+ldnlp 10356
+wsub
+stnl 13
+ldc 0
+ldc 17
+ldl 3
+prod
+ldl 2
+ldnlp 10356
+wsub
+stnl 14
+ldc 0
+ldc 17
+ldl 3
+prod
+ldl 2
+ldnlp 10356
+wsub
+stnl 15
+ldc 0
+ldc 17
+ldl 3
+prod
+ldl 2
+ldnlp 10356
+wsub
+stnl 16
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P174
+P175:
+ldc 0
+stl 1
+ldc 256
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P177
+P176:
+ldl 1
+stl 3
+ldc 7
+ldl 3
+prod
+ldl 2
+ldnlp 11223
+wsub
+ldl 2
+call P156
+ldc 0
+ldc 7
+ldl 3
+prod
+ldl 2
+ldnlp 11223
+wsub
+stnl 3
+ldc 0
+ldc 7
+ldl 3
+prod
+ldl 2
+ldnlp 11223
+wsub
+stnl 4
+ldc 0
+ldc 7
+ldl 3
+prod
+ldl 2
+ldnlp 11223
+wsub
+stnl 5
+ldc 0
+ldc 7
+ldl 3
+prod
+ldl 2
+ldnlp 11223
+wsub
+stnl 6
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P176
+P177:
+ldc 0
+stl 1
+ldc 50
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P179
+P178:
+ldl 1
+stl 3
+ldc 25
+ldl 3
+prod
+ldl 2
+ldnlp 13022
+wsub
+ldl 2
+call P157
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P178
+P179:
+ldc 0
+stl 1
+ldc 50
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P181
+P180:
+ldl 1
+stl 3
+ldc 25
+ldl 3
+prod
+ldl 2
+ldnlp 14297
+wsub
+ldl 2
+call P157
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P180
+P181:
+ajw 4
+ret
+P182:
+ldlp 4
+fpldnlsn
+ldl 1
+ldnl 0
+ldnlp 3
+fpldnlmulsn
+ret
+P183:
+ldl 4
+ajw -8
+stl 0
+ldl 9
+call P182
+ldlp 3
+fpstnlsn
+ldl 13
+stl 0
+ldl 9
+call P182
+ldlp 4
+fpstnlsn
+ldlp 3
+fpldnlsn
+ldl 9
+ldnl 0
+ldnlp -NUMCONSLIB
+call SIN
+ldlp 1
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 9
+ldnl 0
+ldnlp -NUMCONSLIB
+call COS
+ldlp 1
+fpldnlmulsn
+ldlp 5
+fpstnlsn
+ldlp 3
+fpldnlsn
+ldl 9
+ldnl 0
+ldnlp -NUMCONSLIB
+call COS
+ldlp 1
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 9
+ldnl 0
+ldnlp -NUMCONSLIB
+call COS
+ldlp 1
+fpldnlmulsn
+ldlp 6
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 9
+ldnl 0
+ldnlp -NUMCONSLIB
+call SIN
+fpldzerosn
+fprev
+fpsub
+ldlp 7
+fpstnlsn
+ldl 5
+ajw -1
+stl 0
+ldl 7
+stl 1
+ldl 8
+stl 2
+ldl 11
+ldl 10
+call P127
+ldlp 4
+fpldnlsn
+ldl 10
+ldnl 0
+ldnlp -NUMCONSLIB
+call COS
+ldlp 6
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 10
+ldnl 0
+ldnlp -NUMCONSLIB
+call SIN
+fpldzerosn
+fprev
+fpsub
+ldlp 7
+fpstnlsn
+ldc 0
+stl 8
+ldl 6
+stl 0
+ldl 7
+stl 1
+ldl 8
+stl 2
+ldl 12
+ldl 10
+call P127
+ldlp 4
+fpldnlsn
+ldl 10
+ldnl 0
+ldnlp -NUMCONSLIB
+call SIN
+ldlp 2
+fpstnlsn
+ldlp 5
+fpldnlsn
+ldl 10
+ldnl 0
+ldnlp -NUMCONSLIB
+call SIN
+ldlp 2
+fpldnlmulsn
+ldlp 6
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 10
+ldnl 0
+ldnlp -NUMCONSLIB
+call COS
+ldlp 2
+fpstnlsn
+ldlp 5
+fpldnlsn
+ldl 10
+ldnl 0
+ldnlp -NUMCONSLIB
+call SIN
+ldlp 2
+fpldnlmulsn
+ldlp 7
+fpstnlsn
+ldlp 5
+fpldnlsn
+ldl 10
+ldnl 0
+ldnlp -NUMCONSLIB
+call COS
+ldlp 8
+fpstnlsn
+ldl 6
+stl 0
+ldl 7
+stl 1
+ldl 8
+stl 2
+ldl 15
+ldl 10
+call P127
+ajw 9
+ret
+P184:
+fpldzerosn
+ldl 2
+ldnlp 3
+fpldnlsn
+fpgt
+fpldzerosn
+ldl 2
+ldnlp 8
+fpldnlsn
+fpgt
+or
+ajw -5
+ldl 6
+stl 0
+cj P185
+ldl 7
+ldnlp 3
+fpldnlsn
+fpuabs
+ldl 7
+ldnlp 3
+fpstnlsn
+ldl 7
+ldnlp 8
+fpldnlsn
+fpuabs
+ldl 7
+ldnlp 8
+fpstnlsn
+ldc 1
+ldl 7
+ldnlp 22
+stnl 0
+j P186
+P185:
+ldc 0
+ldl 7
+ldnlp 22
+stnl 0
+P186:
+ldl 7
+ldnlp 15
+ajw -1
+stl 0
+ldl 8
+ldl 8
+ldnlp 5
+ldl 1
+call P133
+ldl 8
+ldnlp 15
+ldl 1
+call P131
+ldl 8
+ldnlp 18
+fpstnlsn
+ldl 8
+ldnlp 15
+ldl 1
+ajw 1
+call P132
+ldl 7
+ldnlp 8
+fpldnlsn
+ldl 7
+ldnlp 3
+fpldnlsn
+fpsub
+ldl 7
+ldnlp 18
+fpldnlsn
+fpdiv
+ldl 7
+ldnlp 19
+fpstnlsn
+ldl 7
+ldnlp 15
+ldl 7
+ldl 0
+ajw -1
+call P129
+fpldzerosn
+fprev
+fpsub
+ldl 8
+ldnlp 4
+fpstnlsn
+ldc 0
+ajw -2
+stl 0
+ldc 0
+stl 1
+ldl 3
+ldnl 0
+ldnl 5
+stl 2
+ldlp 4
+ldl 3
+call P127
+ldl 10
+ldnlp 15
+ldlp 4
+ldl 3
+ajw 2
+call P129
+fpuabs
+ldl 1
+ldnl 0
+ldnlp 5
+fpldnlsn
+fpsub
+fpuabs
+ldlp 5
+fpstnlsn
+ldl 1
+ldnlp 2
+fpldnlsn
+ldlp 5
+fpldnlsn
+fpgt
+ajw 1
+cj P187
+ldc 0
+ajw -3
+stl 0
+ldl 3
+ldnl 0
+ldnl 5
+stl 1
+ldc 0
+stl 2
+ldlp 4
+ldl 3
+call P127
+ajw 3
+P187:
+ldl 7
+ldnlp 9
+ajw -1
+stl 0
+ldlp 2
+ldl 8
+ldnlp 15
+ldl 1
+call P130
+ldl 8
+ldnlp 12
+stl 0
+ldl 8
+ldnlp 15
+ldl 8
+ldnlp 9
+ldl 1
+call P130
+ldl 8
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldl 7
+ldnlp 12
+ldl 0
+call P132
+ldl 7
+ldl 7
+ldnlp 15
+ldl 0
+ajw -1
+call P129
+ldl 8
+ldnlp 20
+fpstnlsn
+ldl 8
+ldnlp 5
+ldl 8
+ldnlp 15
+ldl 1
+call P129
+ldl 8
+ldnlp 21
+fpstnlsn
+ldl 8
+ldnlp 20
+fpldnlsn
+ldl 8
+ldnlp 21
+fpldnlsn
+fpgt
+ajw 1
+cj P188
+ldl 7
+ldnl 21
+stl 4
+ldl 7
+ldnl 20
+ldl 7
+stnl 21
+ldl 4
+ldl 7
+stnl 20
+P188:
+ajw 5
+ret
+P189:
+ldc 0
+ldl 1
+stnl 141
+ajw -32
+ldl 33
+stl 0
+P190:
+ldl 0
+call P13
+ldl 0
+ldnlp 127
+ldc P192-P193
+ldpi
+P193:
+ldc 10
+call IGUAL
+cj P191
+ldl 0
+ldnlp 22
+ldl 0
+call P21
+ldl 0
+ldnlp 25
+ldl 0
+call P21
+ldl 0
+ldnlp 28
+ldl 0
+call P21
+ldl 0
+ldnlp 31
+ldl 0
+call P21
+ldl 0
+ldnlp 34
+ldl 0
+call P21
+ldl 0
+ldnlp 37
+ldl 0
+call P35
+j P194
+P192:
+db 65,77,66,73,69,78,84,69
+db 32,32
+P191:
+ldl 0
+ldnlp 127
+ldc P196-P197
+ldpi
+P197:
+ldc 10
+call IGUAL
+cj P195
+ldl 0
+ajw -1
+call P51
+ldl 1
+stnl 38
+ldl 1
+ldnlp 39
+ldl 1
+ajw 1
+call P21
+ldl 0
+ldnlp 42
+ldl 0
+call P30
+j P198
+P196:
+db 76,65,77,80,65,82,65,83
+db 32,32
+P195:
+ldl 0
+ldnlp 127
+ldc P200-P201
+ldpi
+P201:
+ldc 10
+call IGUAL
+cj P199
+ldl 0
+ldnlp 49
+ldl 0
+call P30
+ldl 0
+ldnlp 50
+ldl 0
+call P21
+ldl 0
+ldnlp 53
+ldl 0
+call P30
+ldl 0
+ldnlp 54
+ldl 0
+call P30
+ldl 0
+ldnl 53
+ajw -3
+stl 0
+ldl 3
+ldnl 54
+stl 1
+ldl 3
+ldnlp 61
+stl 2
+ldl 3
+ldnlp 58
+ldl 3
+ldnlp 55
+ldl 3
+call P183
+ajw 3
+j P202
+P200:
+db 79,66,83,69,82,86,65,68
+db 79,82
+P199:
+ldl 0
+ldnlp 127
+ldc P204-P205
+ldpi
+P205:
+ldc 10
+call IGUAL
+cj P203
+ldl 0
+ldnlp 64
+ldl 0
+call P21
+ldl 0
+ldnlp 67
+ldl 0
+call P21
+ldl 0
+ajw -1
+call P51
+ldl 1
+stnl 70
+ldc 1
+ldl 1
+stnl 71
+ajw 1
+j P206
+P204:
+db 67,73,69,76,79,32,32,32
+db 32,32
+P203:
+ldl 0
+ldnlp 127
+ldc P208-P209
+ldpi
+P209:
+ldc 10
+call IGUAL
+cj P207
+ldl 0
+ldnl 141
+adc 1
+ldl 0
+stnl 141
+ldc 30
+ldl 0
+ldnl 141
+prod
+ldl 0
+ldnlp 351
+wsub
+ajw -1
+stl 0
+ldl 0
+ldl 1
+call P42
+ldl 0
+ldnlp 8
+ldl 1
+call P42
+ldl 0
+ldnlp 16
+ldl 1
+call P21
+ldl 0
+ldnlp 19
+ldl 1
+call P21
+ldl 0
+ldnlp 22
+ldl 1
+call P21
+ldl 0
+ldnlp 25
+ldl 1
+call P30
+ldl 0
+ldnlp 26
+ldl 1
+call P21
+ldl 0
+ldnlp 29
+ldl 1
+call P30
+ldc 30
+ldl 1
+ldnl 141
+prod
+ldl 1
+ldnlp 351
+wsub
+ldnlp 8
+ldc P211-P212
+ldpi
+P212:
+ldc 32
+call IGUAL
+ajw 1
+cj P210
+ldl 0
+ldnlp 72
+ldl 0
+call P21
+ldl 0
+ldnlp 75
+ldl 0
+call P21
+ldl 0
+ldnlp 78
+ldl 0
+call P30
+j P213
+P208:
+db 77,65,84,69,82,73,65,76
+db 32,32
+P211:
+db 65,76,84,69,82,78,65,68
+db 79,32,32,32,32,32,32,32
+db 32,32,32,32,32,32,32,32
+db 32,32,32,32,32,32,32,32
+P210:
+ldc 30
+ldl 0
+ldnl 141
+prod
+ldl 0
+ldnlp 351
+wsub
+ldnlp 8
+ldc P215-P216
+ldpi
+P216:
+ldc 32
+call IGUAL
+cj P214
+ldl 0
+ldnlp 79
+ldl 0
+call P30
+ldl 0
+ldnlp 80
+ldl 0
+call P30
+j P217
+P215:
+db 79,78,68,65,83,77,65,82
+db 32,32,32,32,32,32,32,32
+db 32,32,32,32,32,32,32,32
+db 32,32,32,32,32,32,32,32
+P214:
+ldc 30
+ldl 0
+ldnl 141
+prod
+ldl 0
+ldnlp 351
+wsub
+ldnlp 8
+ldc P219-P220
+ldpi
+P220:
+ldc 32
+call IGUAL
+cj P218
+ldl 0
+ldnlp 81
+ldl 0
+call P30
+ldl 0
+ldnlp 82
+ldl 0
+call P30
+ldl 0
+ldnlp 83
+ldl 0
+call P30
+ldl 0
+ldnlp 84
+ldl 0
+call P30
+j P221
+P219:
+db 79,78,68,65,83,65,71,85
+db 65,32,32,32,32,32,32,32
+db 32,32,32,32,32,32,32,32
+db 32,32,32,32,32,32,32,32
+P218:
+ldc 30
+ldl 0
+ldnl 141
+prod
+ldl 0
+ldnlp 351
+wsub
+ldnlp 8
+ldc P223-P224
+ldpi
+P224:
+ldc 32
+call IGUAL
+cj P222
+ldl 0
+ldnlp 85
+ldl 0
+call P30
+ldl 0
+ldnlp 86
+ldl 0
+call P30
+ldl 0
+ldnlp 87
+ldl 0
+call P30
+ldl 0
+ldnlp 88
+ldl 0
+call P30
+ldl 0
+ldnlp 89
+ldl 0
+call P30
+P222:
+P221:
+P217:
+P213:
+j P225
+P223:
+db 79,78,68,65,83,32,32,32
+db 32,32,32,32,32,32,32,32
+db 32,32,32,32,32,32,32,32
+db 32,32,32,32,32,32,32,32
+P207:
+ldl 0
+ldnlp 127
+ldc P227-P228
+ldpi
+P228:
+ldc 10
+call IGUAL
+cj P226
+ldc 1
+ldl 0
+stnl 90
+ldl 0
+ldnl 981
+adc 1
+ldl 0
+stnl 981
+ldl 0
+ldnlp 133
+ldl 0
+call P42
+ldl 0
+ldnlp 990
+ldl 0
+ldnlp 133
+ldl 0
+call P58
+ldc 30
+ldl 0
+ldnl 990
+prod
+ldl 0
+ldnlp 351
+wsub
+ldnlp 8
+ldl 0
+ldnlp 991
+rev
+ldl 0
+call P62
+j P229
+P227:
+db 80,73,83,79,32,32,32,32
+db 32,32
+P226:
+ldl 0
+ldnlp 127
+ldc P231-P232
+ldpi
+P232:
+ldc 10
+call IGUAL
+cj P230
+ldl 0
+ldnl 982
+adc 1
+ldl 0
+stnl 982
+ldc 8
+ldl 0
+ldnl 982
+prod
+ldl 0
+ldnlp 992
+wsub
+ldl 0
+call P21
+ldc 8
+ldl 0
+ldnl 982
+prod
+ldl 0
+ldnlp 992
+wsub
+ldnlp 3
+ldl 0
+call P30
+ldc 8
+ldl 0
+ldnl 982
+prod
+ldl 0
+ldnlp 992
+wsub
+ldnlp 3
+fpldnlsn
+fpdup
+fpmul
+ldc 8
+ldl 0
+ldnl 982
+prod
+ldl 0
+ldnlp 992
+wsub
+ldnlp 4
+fpstnlsn
+ldc 8
+ldl 0
+ldnl 982
+prod
+ldl 0
+ldnlp 992
+wsub
+ldnlp 5
+ldl 0
+call P21
+j P233
+P231:
+db 76,65,77,80,65,82,65,32
+db 32,32
+P230:
+ldl 0
+ldnlp 127
+ldc P235-P236
+ldpi
+P236:
+ldc 10
+call IGUAL
+cj P234
+ldl 0
+ldnl 983
+adc 1
+ldl 0
+stnl 983
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ajw -1
+stl 0
+ldl 0
+ldl 1
+call P21
+ldl 0
+ldnlp 3
+ldl 1
+call P21
+ldl 0
+ldnlp 6
+ldl 1
+call P21
+ldl 0
+ldnlp 9
+ajw -1
+stl 0
+ldl 1
+ldnlp 6
+ldl 1
+ldnlp 3
+ldl 2
+call P130
+ldl 1
+ldnlp 9
+ldl 2
+ajw 1
+call P132
+ldl 0
+ldl 0
+ldnlp 9
+ldl 1
+ajw -1
+call P129
+ldl 1
+ldnlp 12
+fpstnlsn
+ldl 2
+ldnlp 133
+ldl 2
+ajw 1
+call P42
+ldl 0
+ldnlp 13
+ldl 1
+ldnlp 133
+ldl 1
+call P58
+ldc 30
+ldl 0
+ldnl 13
+prod
+ldl 1
+ldnlp 351
+wsub
+ldnlp 8
+ldl 0
+ldnlp 14
+rev
+ldl 1
+call P62
+ajw 1
+j P237
+P235:
+db 84,82,73,65,78,71,85,76
+db 79,32
+P234:
+ldl 0
+ldnlp 127
+ldc P239-P240
+ldpi
+P240:
+ldc 10
+call IGUAL
+cj P238
+ldl 0
+ldnl 984
+adc 1
+ldl 0
+stnl 984
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ajw -1
+stl 0
+ldl 0
+ldl 1
+call P21
+ldl 0
+ldnlp 3
+ldl 1
+call P21
+ldl 0
+ldnlp 6
+ldl 1
+call P21
+ldl 0
+ldnlp 9
+ajw -1
+stl 0
+ldl 1
+ldnlp 6
+ldl 1
+ldnlp 3
+ldl 2
+call P130
+ldl 1
+ldnlp 9
+ldl 2
+ajw 1
+call P132
+ldl 0
+ldl 0
+ldnlp 9
+ldl 1
+ajw -1
+call P129
+ldl 1
+ldnlp 12
+fpstnlsn
+ldl 2
+ldnlp 133
+ldl 2
+ajw 1
+call P42
+ldl 0
+ldnlp 13
+ldl 1
+ldnlp 133
+ldl 1
+call P58
+ldc 30
+ldl 0
+ldnl 13
+prod
+ldl 1
+ldnlp 351
+wsub
+ldnlp 8
+ldl 0
+ldnlp 14
+rev
+ldl 1
+call P62
+ajw 1
+j P241
+P239:
+db 80,65,82,65,76,69,76,79
+db 71,82
+P238:
+ldl 0
+ldnlp 127
+ldc P243-P244
+ldpi
+P244:
+ldc 10
+call IGUAL
+cj P242
+ldl 0
+ldnl 985
+adc 1
+ldl 0
+stnl 985
+ldc 16
+ldl 0
+ldnl 985
+prod
+ldl 0
+ldnlp 9540
+wsub
+ajw -1
+stl 0
+ldl 0
+ldl 1
+call P21
+ldl 0
+ldnlp 3
+ldl 1
+call P21
+ldl 0
+ldnlp 3
+ldl 1
+call P132
+ldl 0
+ldnlp 6
+ldl 1
+call P21
+ldl 0
+ldnlp 6
+ldl 1
+call P132
+ldl 0
+ldnlp 9
+ajw -1
+stl 0
+ldl 1
+ldnlp 6
+ldl 1
+ldnlp 3
+ldl 2
+call P130
+ldl 1
+ldnlp 9
+ldl 2
+ajw 1
+call P132
+ldl 0
+ldl 0
+ldnlp 9
+ldl 1
+ajw -1
+call P129
+ldl 1
+ldnlp 12
+fpstnlsn
+ldl 1
+ldnlp 13
+ldl 2
+ajw 1
+call P30
+ldl 1
+ldnlp 133
+ldl 1
+call P42
+ldl 0
+ldnlp 14
+ldl 1
+ldnlp 133
+ldl 1
+call P58
+ldc 30
+ldl 0
+ldnl 14
+prod
+ldl 1
+ldnlp 351
+wsub
+ldnlp 8
+ldl 0
+ldnlp 15
+rev
+ldl 1
+call P62
+ajw 1
+j P245
+P243:
+db 67,73,82,67,85,76,79,32
+db 32,32
+P242:
+ldl 0
+ldnlp 127
+ldc P247-P248
+ldpi
+P248:
+ldc 10
+call IGUAL
+cj P246
+ldl 0
+ldnl 986
+adc 1
+ldl 0
+stnl 986
+ldc 17
+ldl 0
+ldnl 986
+prod
+ldl 0
+ldnlp 10356
+wsub
+ajw -1
+stl 0
+ldl 0
+ldl 1
+call P21
+ldl 0
+ldnlp 3
+ldl 1
+call P21
+ldl 0
+ldnlp 3
+ldl 1
+call P132
+ldl 0
+ldnlp 6
+ldl 1
+call P21
+ldl 0
+ldnlp 6
+ldl 1
+call P132
+ldl 0
+ldnlp 9
+ajw -1
+stl 0
+ldl 1
+ldnlp 6
+ldl 1
+ldnlp 3
+ldl 2
+call P130
+ldl 1
+ldnlp 9
+ldl 2
+ajw 1
+call P132
+ldl 0
+ldl 0
+ldnlp 9
+ldl 1
+ajw -1
+call P129
+ldl 1
+ldnlp 12
+fpstnlsn
+ldl 1
+ldnlp 13
+ldl 2
+ajw 1
+call P30
+ldl 0
+ldnlp 14
+ldl 1
+call P30
+ldl 1
+ldnlp 133
+ldl 1
+call P42
+ldl 0
+ldnlp 15
+ldl 1
+ldnlp 133
+ldl 1
+call P58
+ldc 30
+ldl 0
+ldnl 15
+prod
+ldl 1
+ldnlp 351
+wsub
+ldnlp 8
+ldl 0
+ldnlp 16
+rev
+ldl 1
+call P62
+ajw 1
+j P249
+P247:
+db 65,78,73,76,76,79,32,32
+db 32,32
+P246:
+ldl 0
+ldnlp 127
+ldc P251-P252
+ldpi
+P252:
+ldc 10
+call IGUAL
+cj P250
+ldl 0
+ldnl 987
+adc 1
+ldl 0
+stnl 987
+ldc 7
+ldl 0
+ldnl 987
+prod
+ldl 0
+ldnlp 11223
+wsub
+ajw -1
+stl 0
+ldl 0
+ldl 1
+call P21
+ldl 0
+ldnlp 3
+ldl 1
+call P30
+ldl 0
+ldnlp 3
+fpldnlsn
+fpdup
+fpmul
+ldl 0
+ldnlp 4
+fpstnlsn
+ldl 1
+ldnlp 133
+ldl 1
+call P42
+ldl 0
+ldnlp 5
+ldl 1
+ldnlp 133
+ldl 1
+call P58
+ldc 30
+ldl 0
+ldnl 5
+prod
+ldl 1
+ldnlp 351
+wsub
+ldnlp 8
+ldl 0
+ldnlp 6
+rev
+ldl 1
+call P62
+ajw 1
+j P253
+P251:
+db 69,83,70,69,82,65,32,32
+db 32,32
+P250:
+ldl 0
+ldnlp 127
+ldc P255-P256
+ldpi
+P256:
+ldc 10
+call IGUAL
+cj P254
+ldl 0
+ldnl 988
+adc 1
+ldl 0
+stnl 988
+ldc 25
+ldl 0
+ldnl 988
+prod
+ldl 0
+ldnlp 13022
+wsub
+ajw -1
+stl 0
+ldl 0
+ldl 1
+call P21
+ldl 0
+ldnlp 3
+ldl 1
+call P30
+ldl 0
+ldnlp 5
+ldl 1
+call P21
+ldl 0
+ldnlp 8
+ldl 1
+call P30
+ldc 25
+ldl 1
+ldnl 988
+prod
+ldl 1
+ldnlp 13022
+wsub
+ldl 1
+call P184
+ldl 1
+ldnlp 133
+ldl 1
+call P42
+ldl 0
+ldnlp 23
+ldl 1
+ldnlp 133
+ldl 1
+call P58
+ldc 30
+ldl 0
+ldnl 23
+prod
+ldl 1
+ldnlp 351
+wsub
+ldnlp 8
+ldl 0
+ldnlp 24
+rev
+ldl 1
+call P62
+ajw 1
+j P257
+P255:
+db 67,79,78,79,32,32,32,32
+db 32,32
+P254:
+ldl 0
+ldnlp 127
+ldc P259-P260
+ldpi
+P260:
+ldc 10
+call IGUAL
+cj P258
+ldl 0
+ldnl 989
+adc 1
+ldl 0
+stnl 989
+ldc 25
+ldl 0
+ldnl 989
+prod
+ldl 0
+ldnlp 14297
+wsub
+ajw -1
+stl 0
+ldl 0
+ldl 1
+call P21
+ldl 0
+ldnlp 3
+ldl 1
+call P30
+ldl 0
+ldnlp 5
+ldl 1
+call P21
+ldl 0
+ldnl 3
+ldl 0
+stnl 8
+ldc 25
+ldl 1
+ldnl 989
+prod
+ldl 1
+ldnlp 14297
+wsub
+ldl 1
+call P184
+ldl 1
+ldnlp 133
+ldl 1
+call P42
+ldl 0
+ldnlp 23
+ldl 1
+ldnlp 133
+ldl 1
+call P58
+ldc 30
+ldl 0
+ldnl 23
+prod
+ldl 1
+ldnlp 351
+wsub
+ldnlp 8
+ldl 0
+ldnlp 24
+rev
+ldl 1
+call P62
+ajw 1
+j P261
+P259:
+db 67,73,76,73,78,68,82,79
+db 32,32
+P258:
+ldl 0
+ldnlp 127
+ldc P263-P264
+ldpi
+P264:
+ldc 10
+call IGUAL
+cj P262
+ldlp 3
+ldl 0
+call P21
+ldlp 9
+ldl 0
+call P21
+ldlp 12
+ldl 0
+call P21
+ldlp 15
+ldl 0
+call P21
+ldl 0
+ldnlp 133
+ldl 0
+call P42
+ldlp 30
+ldl 0
+ldnlp 133
+ldl 0
+call P58
+ldc 30
+ldl 30
+prod
+ldl 0
+ldnlp 351
+wsub
+ldnlp 8
+ldlp 31
+rev
+ldl 0
+call P62
+ldl 0
+ldnl 984
+adc 1
+ldl 0
+stnl 984
+ldlp 3
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldc 12
+move
+ldlp 9
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldnlp 3
+ldc 12
+move
+ldlp 15
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 12
+move
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldnlp 9
+ajw -1
+stl 0
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldl 1
+call P130
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 0
+ajw -1
+call P129
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 14
+ldl 1
+ldnl 984
+adc 1
+ldl 1
+stnl 984
+ldlp 4
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldc 12
+move
+ldlp 16
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldc 12
+move
+ldlp 10
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 12
+move
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+stl 0
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldl 1
+call P130
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 0
+ajw -3
+stl 0
+ldlp 16
+ldnl 0
+stl 1
+ldc 0
+stl 2
+ldlp 9
+ldl 3
+call P127
+ldc 15
+ldl 3
+ldnl 984
+prod
+ldl 3
+ldnlp 8775
+wsub
+stl 2
+ldc 15
+ldl 3
+ldnl 984
+prod
+ldl 3
+ldnlp 8775
+wsub
+ldlp 9
+ldl 3
+ajw 2
+call P134
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 1
+call P129
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 14
+ldl 1
+ldnl 984
+adc 1
+ldl 1
+stnl 984
+ldlp 4
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldc 12
+move
+ldlp 16
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldc 12
+move
+ldlp 13
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 12
+move
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+stl 0
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldl 1
+call P130
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 0
+ajw -1
+call P129
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 14
+ldl 1
+ldnl 984
+adc 1
+ldl 1
+stnl 984
+ldlp 4
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldc 12
+move
+ldlp 13
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldc 12
+move
+ldlp 16
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 12
+move
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+stl 0
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldl 1
+call P130
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldlp 9
+ldnl 0
+ajw -3
+stl 0
+ldc 0
+stl 1
+ldc 0
+stl 2
+ldlp 9
+ldl 3
+call P127
+ldc 15
+ldl 3
+ldnl 984
+prod
+ldl 3
+ldnlp 8775
+wsub
+stl 2
+ldc 15
+ldl 3
+ldnl 984
+prod
+ldl 3
+ldnlp 8775
+wsub
+ldlp 9
+ldl 3
+ajw 2
+call P134
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 1
+call P129
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 14
+ldl 1
+ldnl 984
+adc 1
+ldl 1
+stnl 984
+ldlp 4
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldc 12
+move
+ldlp 13
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldc 12
+move
+ldlp 10
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 12
+move
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+stl 0
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldl 1
+call P130
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 0
+ajw -1
+call P129
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 14
+ldl 1
+ldnl 984
+adc 1
+ldl 1
+stnl 984
+ldlp 4
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldc 12
+move
+ldlp 10
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldc 12
+move
+ldlp 13
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 12
+move
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+stl 0
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldl 1
+call P130
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 0
+ajw -3
+stl 0
+ldc 0
+stl 1
+ldlp 20
+ldnl 0
+stl 2
+ldlp 9
+ldl 3
+call P127
+ldc 15
+ldl 3
+ldnl 984
+prod
+ldl 3
+ldnlp 8775
+wsub
+stl 2
+ldc 15
+ldl 3
+ldnl 984
+prod
+ldl 3
+ldnlp 8775
+wsub
+ldlp 9
+ldl 3
+ajw 2
+call P134
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 1
+call P129
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 14
+ajw 1
+j P265
+P263:
+db 67,65,74,65,32,32,32,32
+db 32,32
+P262:
+ldl 0
+ldnlp 127
+ldc P267-P268
+ldpi
+P268:
+ldc 10
+call IGUAL
+cj P266
+ldlp 3
+ldl 0
+call P21
+ldlp 9
+ldl 0
+call P21
+ldlp 12
+ldl 0
+call P21
+ldlp 2
+ldl 0
+call P30
+ldl 0
+ldnlp 133
+ldl 0
+call P42
+ldlp 30
+ldl 0
+ldnlp 133
+ldl 0
+call P58
+ldc 30
+ldl 30
+prod
+ldl 0
+ldnlp 351
+wsub
+ldnlp 8
+ldlp 31
+rev
+ldl 0
+call P62
+ldl 0
+ldnl 984
+adc 1
+ldl 0
+stnl 984
+ldlp 3
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldc 12
+move
+ldlp 12
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldnlp 3
+ldc 12
+move
+ldlp 9
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 12
+move
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldnlp 9
+ajw -1
+stl 0
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldl 1
+call P130
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldc 15
+ldl 0
+ldnl 984
+prod
+ldl 0
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 0
+ajw -1
+call P129
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 984
+prod
+ldl 1
+ldnlp 8775
+wsub
+stnl 14
+ldl 1
+ldnl 983
+adc 1
+ldl 1
+stnl 983
+ldlp 4
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldc 12
+move
+ldlp 10
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 3
+ldc 12
+move
+ldlp 10
+fpldnlsn
+fpudivby2
+ajw -2
+ldlp 0
+fpstnlsn
+ldlp 16
+fpldnlsn
+fpudivby2
+ldlp 1
+fpstnlsn
+ldl 5
+stl 2
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 6
+ldl 3
+call P127
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 9
+stl 2
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 6
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 3
+ldl 3
+ajw 2
+call P130
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 0
+ajw -1
+call P129
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 14
+ldl 1
+ldnl 983
+adc 1
+ldl 1
+stnl 983
+ldlp 4
+fpldnlsn
+ldlp 10
+fpldnladdsn
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+fpstnlsn
+ldlp 5
+fpldnlsn
+ldlp 14
+fpldnladdsn
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 1
+fpstnlsn
+ldlp 6
+ldnl 0
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 2
+ldl 1
+ldnl 0
+ldnl 6
+stl 0
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 3
+ldlp 10
+ldl 1
+call P137
+fpldzerosn
+ldlp 10
+fpldnlsn
+fpudivby2
+fpsub
+ajw -2
+ldlp 0
+fpstnlsn
+fpldzerosn
+ldlp 16
+fpldnlsn
+fpudivby2
+fpsub
+ldlp 1
+fpstnlsn
+ldl 5
+stl 2
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 6
+ldl 3
+call P127
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 9
+stl 2
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 6
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 3
+ldl 3
+ajw 2
+call P130
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 0
+ajw -1
+call P129
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 14
+ldl 1
+ldnl 983
+adc 1
+ldl 1
+stnl 983
+ldlp 4
+fpldnlsn
+ldlp 10
+fpldnladdsn
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+fpstnlsn
+ldlp 5
+fpldnlsn
+ldlp 14
+fpldnladdsn
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 1
+fpstnlsn
+ldlp 6
+ldnl 0
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 2
+fpldzerosn
+ldlp 10
+fpldnlsn
+fpudivby2
+fpsub
+ajw -2
+ldlp 0
+fpstnlsn
+fpldzerosn
+ldlp 16
+fpldnlsn
+fpudivby2
+fpsub
+ldlp 1
+fpstnlsn
+ldl 5
+stl 2
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 3
+ldl 3
+call P127
+ldl 3
+ldnl 0
+ldnl 6
+stl 2
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 6
+ldlp 15
+ldl 3
+ajw 2
+call P137
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+stl 0
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 6
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 3
+ldl 1
+call P130
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 0
+ajw -1
+call P129
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 14
+ldl 1
+ldnl 983
+adc 1
+ldl 1
+stnl 983
+ldlp 4
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldc 12
+move
+ldlp 10
+fpldnlsn
+fpudivby2
+ajw -2
+ldlp 0
+fpstnlsn
+ldlp 16
+fpldnlsn
+fpudivby2
+ldlp 1
+fpstnlsn
+ldl 5
+stl 2
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 3
+ldl 3
+call P127
+ldlp 15
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 6
+ldc 12
+move
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 9
+stl 2
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 6
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 3
+ldl 3
+ajw 2
+call P130
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 0
+ajw -1
+call P129
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 14
+ajw 1
+j P269
+P267:
+db 80,73,82,65,77,73,68,69
+db 32,32
+P266:
+ldl 0
+ldnlp 127
+ldc P271-P272
+ldpi
+P272:
+ldc 10
+call IGUAL
+cj P270
+ldlp 3
+ldl 0
+call P21
+ldlp 2
+ldl 0
+call P30
+ldlp 1
+ldl 0
+call P30
+ldl 0
+ldnlp 133
+ldl 0
+call P42
+ldlp 30
+ldl 0
+ldnlp 133
+ldl 0
+call P58
+ldc 30
+ldl 30
+prod
+ldl 0
+ldnlp 351
+wsub
+ldnlp 8
+ldlp 31
+rev
+ldl 0
+call P62
+ldlp 3
+ldnl 0
+ajw -3
+stl 0
+ldlp 7
+ldnl 0
+stl 1
+ldlp 8
+fpldnlsn
+ldlp 5
+fpldnladdsn
+ldlp 2
+fpstnlsn
+ldlp 21
+ldl 3
+call P127
+ldlp 6
+ldnl 0
+stl 0
+ldlp 7
+fpldnlsn
+ldlp 4
+fpldnladdsn
+ldlp 1
+fpstnlsn
+ldlp 8
+ldnl 0
+stl 2
+ldlp 24
+ldl 3
+call P127
+ldlp 4
+fpldnlsn
+ldl 3
+ldnl 0
+ldnlp 9
+fpldnlmulsn
+ldlp 6
+fpldnlsn
+fprev
+fpsub
+ldlp 0
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 3
+ldnl 0
+ldnlp 9
+fpldnlmulsn
+ldlp 7
+fpldnlsn
+fprev
+fpsub
+ldlp 1
+fpstnlsn
+ldlp 8
+ldnl 0
+stl 2
+ldlp 27
+ldl 3
+call P127
+ldlp 4
+fpldnlsn
+ldl 3
+ldnl 0
+ldnlp 9
+fpldnlmulsn
+ldlp 6
+fpldnladdsn
+ldlp 0
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 3
+ldnl 0
+ldnlp 9
+fpldnlmulsn
+ldlp 7
+fpldnlsn
+fprev
+fpsub
+ldlp 1
+fpstnlsn
+ldlp 8
+ldnl 0
+stl 2
+ldlp 30
+ldl 3
+call P127
+ldl 3
+ldnl 983
+adc 1
+ldl 3
+stnl 983
+ldlp 27
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldc 12
+move
+ldc 15
+ldl 3
+ldnl 983
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldnlp 3
+stl 2
+ldlp 27
+ldlp 21
+ldl 3
+ajw 2
+call P133
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 6
+stl 0
+ldlp 25
+ldlp 22
+ldl 1
+call P133
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+stl 0
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 6
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 3
+ldl 1
+call P130
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 0
+ajw -1
+call P129
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 14
+ldl 1
+ldnl 983
+adc 1
+ldl 1
+stnl 983
+ldlp 22
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldc 12
+move
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 3
+stl 0
+ldlp 22
+ldlp 19
+ldl 1
+call P133
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 6
+stl 0
+ldlp 22
+ldlp 28
+ldl 1
+call P133
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+stl 0
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 6
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 3
+ldl 1
+call P130
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 0
+ajw -1
+call P129
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 14
+ldl 1
+ldnl 983
+adc 1
+ldl 1
+stnl 983
+ldlp 28
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldc 12
+move
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 3
+stl 0
+ldlp 28
+ldlp 19
+ldl 1
+call P133
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 6
+stl 0
+ldlp 28
+ldlp 25
+ldl 1
+call P133
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+stl 0
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 6
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 3
+ldl 1
+call P130
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 0
+ajw -1
+call P129
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 14
+ldl 1
+ldnl 983
+adc 1
+ldl 1
+stnl 983
+ldlp 25
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldc 12
+move
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 3
+stl 0
+ldlp 25
+ldlp 22
+ldl 1
+call P133
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 6
+stl 0
+ldlp 25
+ldlp 28
+ldl 1
+call P133
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+stl 0
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 6
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 3
+ldl 1
+call P130
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 1
+ajw 1
+call P132
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldc 15
+ldl 0
+ldnl 983
+prod
+ldl 0
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 0
+ajw -1
+call P129
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 12
+fpstnlsn
+ldl 31
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 13
+ldl 32
+ldc 15
+ldl 1
+ldnl 983
+prod
+ldl 1
+ldnlp 1080
+wsub
+stnl 14
+ajw 1
+j P273
+P271:
+db 84,69,84,82,65,32,32,32
+db 32,32
+P270:
+ldl 0
+ldnlp 127
+ldc P275-P276
+ldpi
+P276:
+ldc 10
+call IGUAL
+cj P274
+ldl 0
+ldnlp 91
+ldl 0
+call P21
+ldl 0
+ldnlp 94
+ldl 0
+call P21
+ldl 0
+ldnlp 97
+ldl 0
+call P21
+ldl 0
+ldnlp 100
+ldl 0
+call P21
+ldc 1
+ldl 0
+stnl 105
+j P277
+P275:
+db 69,88,84,69,78,83,73,79
+db 78,84
+P274:
+ldl 0
+ldnlp 127
+ldc P279-P280
+ldpi
+P280:
+ldc 10
+call IGUAL
+cj P278
+ldc 1
+ldl 0
+stnl 103
+j P281
+P279:
+db 80,82,85,69,66,65,69,83
+db 70,69
+P278:
+ldl 0
+ldnlp 127
+ldc P283-P284
+ldpi
+P284:
+ldc 10
+call IGUAL
+cj P282
+ldc 1
+ldl 0
+stnl 104
+P282:
+P281:
+P277:
+P273:
+P269:
+P265:
+P261:
+P257:
+P253:
+P249:
+P245:
+P241:
+P237:
+P233:
+P229:
+P225:
+P206:
+P202:
+P198:
+P194:
+ldl 0
+ldnlp 127
+ldc P285-P286
+ldpi
+P286:
+ldc 10
+call IGUAL
+cj P190
+ajw 32
+ret
+P283:
+db 80,82,85,69,66,65,80,82
+db 73,83
+P285:
+db 70,73,78,67,85,65,68,82
+db 79,32
+P287:
+ldl 3
+ldl 2
+ldl 1
+ajw -3
+call P129
+fpumulby2
+fpldzerosn
+fprev
+fpsub
+ldlp 2
+fpstnlsn
+ldl 2
+ajw -1
+stl 0
+ldl 8
+stl 1
+ldl 6
+ldl 7
+ldl 5
+call P140
+ajw 4
+ret
+P288:
+fpldzerosn
+ldl 2
+fpldnlsn
+fpsub
+ldl 2
+fpstnlsn
+fpldzerosn
+ldl 2
+ldnlp 1
+fpldnlsn
+fpsub
+ldl 2
+ldnlp 1
+fpstnlsn
+fpldzerosn
+ldl 2
+ldnlp 2
+fpldnlsn
+fpsub
+ldl 2
+ldnlp 2
+fpstnlsn
+ret
+P289:
+ldl 1
+ldnl 0
+ldnl 5
+ajw -16
+stl 1
+ldl 18
+ldl 17
+call P288
+ldl 18
+ldl 19
+ldl 17
+ajw -1
+call P129
+ldlp 3
+fpstnlsn
+ldc 30
+ldl 21
+prod
+ldl 18
+ldnlp 351
+wsub
+ldnl 29
+stl 7
+ldlp 3
+fpldnlsn
+fpldzerosn
+fpgt
+ajw 1
+ldl 17
+stl 0
+cj P290
+ldlp 1
+fpldnlsn
+ldlp 6
+fpldnlsn
+fpdiv
+ldlp 3
+fpstnlsn
+j P291
+P290:
+ldl 6
+stl 3
+P291:
+ldl 2
+ajw -1
+stl 0
+ldlp 8
+ldl 20
+ldl 1
+call P137
+ldlp 14
+stl 0
+ldl 19
+ldlp 8
+ldl 1
+call P133
+ldl 4
+stl 0
+ldlp 11
+ldlp 14
+ldl 1
+call P137
+ldlp 11
+ldlp 11
+ldl 1
+call P129
+ldlp 5
+fpstnlsn
+ldl 1
+ldnl 0
+ldnlp 5
+fpldnlsn
+ldlp 5
+fpldnlsn
+fpgt
+eqc 0
+ajw 1
+cj P292
+ldl 21
+ldl 0
+call P156
+j P293
+P292:
+ldl 0
+ldnl 0
+ldnlp 5
+fpldnlsn
+ldlp 4
+fpldnlsn
+fpsub
+fpusqrtfirst
+fpusqrtstep
+fpusqrtstep
+fpusqrtlast
+ldlp 5
+fpstnlsn
+fpldzerosn
+ldlp 2
+fpldnlsn
+fpgt
+cj P294
+fpldzerosn
+ldlp 5
+fpldnlsn
+fpsub
+ldlp 5
+fpstnlsn
+P294:
+ldl 5
+ajw -1
+stl 0
+ldlp 14
+ldl 20
+ldl 1
+call P137
+ldl 22
+stl 0
+ldlp 14
+ldlp 11
+ldl 1
+call P133
+ajw 1
+P293:
+ajw 16
+ret
+P295:
+ldl 4
+ldnlp 15
+ldl 2
+ldl 1
+ajw -6
+call P129
+ldl 10
+ldnlp 4
+fpldnladdsn
+fpldzerosn
+fprev
+fpsub
+ldlp 2
+fpstnlsn
+ldl 2
+ajw -1
+stl 0
+ldlp 4
+stl 1
+ldl 9
+ldl 11
+ldnlp 15
+ldl 8
+call P140
+ldl 10
+stl 1
+ldl 11
+ldlp 4
+ldl 8
+ajw 1
+call P133
+ldl 9
+ldl 7
+ajw 1
+call P132
+fpldzerosn
+ldl 9
+ldnlp 19
+fpldnlsn
+fpsub
+ldlp 1
+fpstnlsn
+ldl 1
+ajw -2
+stl 0
+ldl 10
+stl 1
+ldl 10
+ldl 11
+ldnlp 15
+ldl 8
+call P140
+ldl 10
+ldl 8
+ajw 2
+call P132
+ldl 9
+ldnl 22
+ldl 6
+stl 0
+cj P296
+ldl 8
+ldl 0
+call P288
+P296:
+ajw 5
+ret
+P297:
+ldl 2
+ajw -2
+stl 0
+ldl 0
+eqc 0
+ldl 3
+stl 1
+cj P299
+ldc 0
+ajw -3
+stl 0
+ldc 0
+stl 1
+ldl 4
+ldnl 0
+ldnl 5
+stl 2
+ldl 10
+ldl 4
+call P127
+ajw 3
+j P298
+P299:
+ldl 0
+eqc 1
+cj P300
+ldl 7
+ajw -1
+stl 0
+ldc 8
+ldl 6
+prod
+ldl 2
+ldnlp 992
+wsub
+ldl 7
+ldl 2
+call P133
+ldl 8
+ldl 2
+ajw 1
+call P132
+j P298
+P300:
+ldl 0
+eqc 2
+cj P301
+ldc 15
+ldl 5
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 7
+ldc 12
+move
+j P298
+P301:
+ldl 0
+eqc 3
+cj P302
+ldc 15
+ldl 5
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 7
+ldc 12
+move
+j P298
+P302:
+ldl 0
+eqc 4
+cj P303
+ldc 16
+ldl 5
+prod
+ldl 1
+ldnlp 9540
+wsub
+ldnlp 9
+ldl 7
+ldc 12
+move
+j P298
+P303:
+ldl 0
+eqc 5
+cj P304
+ldc 17
+ldl 5
+prod
+ldl 1
+ldnlp 10356
+wsub
+ldnlp 9
+ldl 7
+ldc 12
+move
+j P298
+P304:
+ldl 0
+eqc 6
+cj P305
+ldl 7
+ajw -1
+stl 0
+ldc 7
+ldl 6
+prod
+ldl 2
+ldnlp 11223
+wsub
+ldl 7
+ldl 2
+call P133
+ldl 8
+ldl 2
+ajw 1
+call P132
+j P298
+P305:
+ldl 0
+eqc 7
+cj P306
+ldc 25
+ldl 5
+prod
+ldl 1
+ldnlp 13022
+wsub
+ajw -1
+stl 0
+ldl 8
+ldl 7
+ldl 2
+call P295
+ajw 1
+j P298
+P306:
+ldl 0
+eqc 8
+cj P307
+ldc 25
+ldl 5
+prod
+ldl 1
+ldnlp 14297
+wsub
+ajw -1
+stl 0
+ldl 8
+ldl 7
+ldl 2
+call P295
+ajw 1
+P307:
+P298:
+ajw 2
+ret
+P308:
+ldl 4
+ajw -3
+stl 0
+ldl 8
+stl 1
+ldl 5
+ldl 6
+ldl 4
+call P140
+ajw 3
+ret
+P309:
+ldc 0
+ajw -4
+stl 3
+ldc 0
+ajw -2
+stl 1
+ldl 8
+adc -1
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+ldl 7
+stl 2
+cj P311
+P310:
+ldl 1
+stl 3
+ldl 3
+adc 1
+ldl 8
+rem
+stl 4
+fpldzerosn
+ldl 4
+ldl 2
+ldnlp 146
+fpldnlsni
+fpgt
+fpldzerosn
+ldl 3
+ldl 2
+ldnlp 146
+fpldnlsni
+fpgt
+eqc 0
+and
+ajw -1
+stl 0
+fpldzerosn
+ldl 4
+ldl 3
+ldnlp 146
+fpldnlsni
+fpgt
+fpldzerosn
+ldl 5
+ldl 3
+ldnlp 146
+fpldnlsni
+fpgt
+eqc 0
+and
+ldl 0
+or
+ajw 1
+cj P312
+fpldzerosn
+ldl 3
+ldl 2
+ldnlp 142
+fpldnlsni
+fpgt
+eqc 0
+fpldzerosn
+ldl 4
+ldl 2
+ldnlp 142
+fpldnlsni
+fpgt
+eqc 0
+and
+cj P313
+ldl 5
+adc 1
+stl 5
+j P314
+P313:
+fpldzerosn
+ldl 3
+ldl 2
+ldnlp 142
+fpldnlsni
+fpgt
+eqc 0
+fpldzerosn
+ldl 4
+ldl 2
+ldnlp 142
+fpldnlsni
+fpgt
+eqc 0
+or
+cj P315
+ldl 4
+ldl 2
+ldnlp 142
+fpldnlsni
+ldl 3
+ldl 2
+ldnlp 142
+fpldnlsni
+fpsub
+ldl 3
+ldl 2
+ldnlp 146
+wsub
+fpldnlmulsn
+ldl 4
+ldl 2
+ldnlp 146
+fpldnlsni
+ldl 3
+ldl 2
+ldnlp 146
+fpldnlsni
+fpsub
+fpdiv
+ldl 3
+ldl 2
+ldnlp 142
+fpldnlsni
+fprev
+fpsub
+fpldzerosn
+fpgt
+cj P316
+ldl 5
+adc 1
+stl 5
+P316:
+P315:
+P314:
+P312:
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P310
+P311:
+ldl 5
+ldc 2
+rem
+eqc 0
+ajw 2
+cj P317
+ldc 1
+stl 8
+j P318
+P317:
+ldc 0
+stl 8
+P318:
+ajw 4
+ldl 4
+ret
+P319:
+fpldzerosn
+ldl 2
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 142
+fpstnlsn
+fpldzerosn
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 146
+fpstnlsn
+ldc 15
+ldl 4
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 3
+ldl 2
+rev
+fpldnlsni
+ldl 2
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 143
+fpstnlsn
+ldc 15
+ldl 4
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 3
+ldl 3
+rev
+fpldnlsni
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 147
+fpstnlsn
+ldc 15
+ldl 4
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 6
+ldl 2
+rev
+fpldnlsni
+ldl 2
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 144
+fpstnlsn
+ldc 15
+ldl 4
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 6
+ldl 3
+rev
+fpldnlsni
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 148
+fpstnlsn
+ret
+P320:
+fpldzerosn
+ldl 2
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 142
+fpstnlsn
+fpldzerosn
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 146
+fpstnlsn
+ldc 15
+ldl 4
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldl 2
+rev
+fpldnlsni
+ldl 2
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 143
+fpstnlsn
+ldc 15
+ldl 4
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldl 3
+rev
+fpldnlsni
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 147
+fpstnlsn
+ldc 15
+ldl 4
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldl 2
+rev
+fpldnlsni
+ldc 15
+ldl 4
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldl 2
+rev
+wsub
+fpldnladdsn
+ldl 2
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 144
+fpstnlsn
+ldc 15
+ldl 4
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldl 3
+rev
+fpldnlsni
+ldc 15
+ldl 4
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 3
+ldl 3
+rev
+wsub
+fpldnladdsn
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 148
+fpstnlsn
+ldc 15
+ldl 4
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldl 2
+rev
+fpldnlsni
+ldl 2
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 145
+fpstnlsn
+ldc 15
+ldl 4
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 6
+ldl 3
+rev
+fpldnlsni
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 149
+fpstnlsn
+ret
+P321:
+ldl 1
+ldnlp 153
+fpldnlsn
+ldl 1
+ldnlp 2
+fpldnlsn
+fpgt
+eqc 0
+ldl 1
+ldnlp 154
+fpldnlsn
+ldl 1
+ldnlp 2
+fpldnlsn
+fpgt
+eqc 0
+and
+ajw -1
+ldl 2
+stl 0
+cj P322
+ldl 0
+ldnl 0
+ldnl 6
+stl 5
+j P323
+P322:
+ldl 0
+ldnlp 153
+fpldnlsn
+ldl 0
+ldnlp 154
+fpldnlsn
+fpgt
+cj P324
+ldl 0
+ldnlp 154
+fpldnlsn
+ldl 0
+ldnlp 2
+fpldnlsn
+fpgt
+eqc 0
+cj P325
+ldl 0
+ldnl 153
+ldl 0
+stnl 154
+P325:
+j P326
+P324:
+ldl 0
+ldnlp 153
+fpldnlsn
+ldl 0
+ldnlp 2
+fpldnlsn
+fpgt
+cj P327
+ldl 0
+ldnl 153
+ldl 0
+stnl 154
+P327:
+P326:
+ldl 0
+ldnl 154
+stl 5
+P323:
+ajw 1
+ldlp 4
+fpldnlsn
+ret
+P328:
+ldl 1
+ldnlp 158
+ajw -9
+stl 0
+ldl 11
+ldl 12
+ldl 10
+call P133
+ldl 11
+ldnlp 9
+ldl 10
+ldnlp 158
+ldl 10
+call P129
+ldlp 2
+fpstnlsn
+ldl 11
+ldnlp 12
+ldl 10
+ldnlp 158
+ldl 10
+call P129
+ldlp 3
+fpstnlsn
+ldl 11
+ldnlp 15
+ldl 10
+ldnlp 158
+ldl 10
+call P129
+ldlp 4
+fpstnlsn
+ldl 11
+ldnlp 9
+ldl 13
+ldl 10
+call P129
+ldlp 5
+fpstnlsn
+ldl 11
+ldnlp 12
+ldl 13
+ldl 10
+call P129
+ldlp 6
+fpstnlsn
+ldl 11
+ldnlp 15
+ldl 13
+ldl 10
+call P129
+ldlp 7
+fpstnlsn
+ldl 11
+ldnlp 19
+fpldnlsn
+fpdup
+fpmul
+ldlp 8
+fpstnlsn
+ldlp 5
+fpldnlsn
+fpdup
+fpmul
+ldlp 6
+fpldnlsn
+fpdup
+fpmul
+fpadd
+ldlp 7
+fpldnlsn
+fpdup
+fpmul
+ldlp 8
+fpldnlmulsn
+fpsub
+ldl 10
+ldnlp 161
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldlp 8
+fpldnlmulsn
+ldl 11
+ldnlp 3
+fpldnlsn
+ldl 11
+ldnlp 19
+fpldnlmulsn
+fpsub
+ldlp 7
+fpldnlmulsn
+ldlp 0
+fpstnlsn
+ldlp 2
+fpldnlsn
+ldlp 5
+fpldnlmulsn
+ldlp 3
+fpldnlsn
+ldlp 6
+fpldnlmulsn
+fpadd
+ldlp 0
+fpldnlsn
+fpsub
+fpumulby2
+ldl 10
+ldnlp 162
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 11
+ldnlp 19
+fpldnlmulsn
+ldl 11
+ldnlp 3
+fpldnladdsn
+fpdup
+fpmul
+ldlp 0
+fpstnlsn
+ldlp 2
+fpldnlsn
+fpdup
+fpmul
+ldlp 3
+fpldnlsn
+fpdup
+fpmul
+fpadd
+ldlp 0
+fpldnlsn
+fpsub
+ldl 10
+ldnlp 163
+fpstnlsn
+ldl 10
+ldnlp 161
+fpldnlsn
+fpldzerosn
+fpeq
+ajw 1
+ldl 9
+stl 0
+cj P330
+ldl 0
+ldnlp 162
+fpldnlsn
+fpldzerosn
+fpeq
+cj P331
+ldl 0
+ldnl 0
+ldnl 6
+stl 13
+ldlp 0
+gajw
+j P329
+j P332
+P331:
+ldl 0
+ldnlp 163
+fpldnlsn
+ldl 0
+ldnlp 162
+fpldnlsn
+fpdiv
+fpldzerosn
+fprev
+fpsub
+ldl 0
+ldnlp 154
+fpstnlsn
+ldl 0
+ldnlp 2
+fpldnlsn
+ldl 0
+ldnlp 154
+fpldnlsn
+fpgt
+cj P333
+ldl 0
+ldnl 0
+ldnl 6
+stl 13
+ldlp 0
+gajw
+j P329
+j P334
+P333:
+ldl 0
+ldnl 0
+ldnl 6
+ldl 0
+stnl 153
+P334:
+P332:
+j P335
+P330:
+ldl 0
+ldnlp 162
+fpldnlsn
+fpdup
+fpmul
+ldl 0
+ldnlp 161
+fpldnlsn
+fpumulby2
+fpumulby2
+ldl 0
+ldnlp 163
+fpldnlmulsn
+fpsub
+ldl 0
+ldnlp 165
+fpstnlsn
+fpldzerosn
+ldl 0
+ldnlp 165
+fpldnlsn
+fpgt
+cj P336
+ldl 0
+ldnl 0
+ldnl 6
+stl 13
+ldlp 0
+gajw
+j P329
+j P337
+P336:
+ldl 0
+ldnlp 165
+fpldnlsn
+fpusqrtfirst
+fpusqrtstep
+fpusqrtstep
+fpusqrtlast
+ldl 0
+ldnlp 166
+fpstnlsn
+ldl 0
+ldnl 0
+ldnlp 5
+fpldnlsn
+ldl 0
+ldnlp 161
+fpldnlsn
+fpumulby2
+fpdiv
+ldl 0
+ldnlp 167
+fpstnlsn
+fpldzerosn
+ldl 0
+ldnlp 162
+fpldnlsn
+fpsub
+ldl 0
+ldnlp 166
+fpldnlsn
+fpsub
+ldl 0
+ldnlp 167
+fpldnlmulsn
+ldl 0
+ldnlp 153
+fpstnlsn
+fpldzerosn
+ldl 0
+ldnlp 162
+fpldnlsn
+fpsub
+ldl 0
+ldnlp 166
+fpldnladdsn
+ldl 0
+ldnlp 167
+fpldnlmulsn
+ldl 0
+ldnlp 154
+fpstnlsn
+fpldzerosn
+ldl 0
+ldnlp 153
+fpldnlsn
+fpgt
+fpldzerosn
+ldl 0
+ldnlp 154
+fpldnlsn
+fpgt
+and
+cj P338
+ldl 0
+ldnl 0
+ldnl 6
+stl 13
+ldlp 0
+gajw
+j P329
+j P339
+P338:
+ldl 0
+ldnlp 153
+fpldnlsn
+ldl 0
+ldnlp 154
+fpldnlsn
+fpgt
+cj P340
+ldl 0
+ldnl 153
+ldl 0
+stnl 167
+ldl 0
+ldnl 154
+ldl 0
+stnl 153
+ldl 0
+ldnl 167
+ldl 0
+stnl 154
+P340:
+P339:
+P337:
+P335:
+ldl 0
+ldnlp 153
+fpldnlsn
+ldl 0
+ldnlp 2
+fpldnlsn
+fpgt
+cj P341
+ldl 0
+ldnl 153
+ajw -2
+stl 0
+ldl 2
+ldnlp 155
+stl 1
+ldl 14
+ldl 13
+ldl 2
+call P308
+ldl 2
+ldnlp 155
+ldl 12
+ldnlp 15
+ldl 2
+ajw 1
+call P129
+ldl 1
+ldnlp 164
+fpstnlsn
+ldl 11
+ldnlp 20
+fpldnlsn
+ldl 1
+ldnlp 164
+fpldnlsn
+fpgt
+eqc 0
+ldl 1
+ldnlp 164
+fpldnlsn
+ldl 11
+ldnlp 21
+fpldnlsn
+fpgt
+eqc 0
+and
+ajw 1
+cj P342
+ldl 0
+ldnl 153
+stl 13
+ldlp 0
+gajw
+j P329
+P342:
+P341:
+ldl 0
+ldnlp 154
+fpldnlsn
+ldl 0
+ldnlp 2
+fpldnlsn
+fpgt
+cj P343
+ldl 0
+ldnl 154
+ajw -2
+stl 0
+ldl 2
+ldnlp 155
+stl 1
+ldl 14
+ldl 13
+ldl 2
+call P308
+ldl 2
+ldnlp 155
+ldl 12
+ldnlp 15
+ldl 2
+ajw 1
+call P129
+ldl 1
+ldnlp 164
+fpstnlsn
+ldl 11
+ldnlp 20
+fpldnlsn
+ldl 1
+ldnlp 164
+fpldnlsn
+fpgt
+eqc 0
+ldl 1
+ldnlp 164
+fpldnlsn
+ldl 11
+ldnlp 21
+fpldnlsn
+fpgt
+eqc 0
+and
+ajw 1
+cj P344
+ldl 0
+ldnl 154
+stl 13
+ldlp 0
+gajw
+j P329
+P344:
+P343:
+ldl 0
+ldnl 0
+ldnl 6
+stl 13
+P329:
+ajw 8
+ldlp 5
+fpldnlsn
+ret
+P345:
+ldl 4
+ajw -6
+stl 0
+ldl 0
+eqc 0
+ldl 7
+stl 1
+cj P347
+ldl 9
+ldnlp 2
+fpldnlsn
+fpldzerosn
+fpeq
+cj P348
+ldl 1
+ldnl 0
+ldnl 6
+stl 12
+j P349
+P348:
+ldl 8
+ldnlp 2
+fpldnlsn
+ldl 9
+ldnlp 2
+fpldnlsn
+fpdiv
+fpldzerosn
+fprev
+fpsub
+ldl 1
+ldnlp 167
+fpstnlsn
+ldl 1
+ldnlp 167
+fpldnlsn
+ldl 1
+ldnlp 2
+fpldnlsn
+fpgt
+cj P350
+ldl 1
+ldnl 167
+stl 12
+j P351
+P350:
+ldl 1
+ldnl 0
+ldnl 6
+stl 12
+P351:
+P349:
+j P346
+P347:
+ldl 0
+eqc 1
+cj P352
+ldl 1
+ldnlp 158
+ajw -1
+stl 0
+ldc 8
+ldl 12
+prod
+ldl 2
+ldnlp 992
+wsub
+ldl 9
+rev
+ldl 2
+call P133
+ldl 2
+ldnlp 158
+ldl 10
+ldl 2
+call P129
+ldl 2
+ldnl 0
+ldnlp 12
+fpldnlmulsn
+ldl 2
+ldnlp 162
+fpstnlsn
+ldl 2
+ldnlp 158
+ldl 2
+ldnlp 158
+ldl 2
+call P129
+ldc 8
+ldl 12
+prod
+ldl 2
+ldnlp 992
+wsub
+ldnlp 4
+fpldnlsn
+fpsub
+ldl 2
+ldnlp 163
+fpstnlsn
+ldl 2
+ldnlp 162
+fpldnlsn
+fpdup
+fpmul
+ldl 2
+ldnlp 163
+fpldnlsn
+fpumulby2
+fpumulby2
+fpsub
+ldl 2
+ldnlp 165
+fpstnlsn
+ldl 2
+ldnlp 165
+fpldnlsn
+fpldzerosn
+fpgt
+eqc 0
+ajw 1
+cj P353
+ldl 1
+ldnl 0
+ldnl 6
+stl 12
+j P354
+P353:
+ldl 1
+ldnlp 165
+fpldnlsn
+fpusqrtfirst
+fpusqrtstep
+fpusqrtstep
+fpusqrtlast
+ldl 1
+ldnlp 166
+fpstnlsn
+fpldzerosn
+ldl 1
+ldnlp 162
+fpldnlsn
+fpsub
+ldl 1
+ldnlp 166
+fpldnlsn
+fpsub
+fpudivby2
+ldl 1
+ldnlp 153
+fpstnlsn
+fpldzerosn
+ldl 1
+ldnlp 162
+fpldnlsn
+fpsub
+ldl 1
+ldnlp 166
+fpldnladdsn
+fpudivby2
+ldl 1
+ldnlp 154
+fpstnlsn
+ldl 1
+ajw -1
+call P321
+ajw 1
+ldlp 12
+fpstnlsn
+P354:
+j P346
+P352:
+ldl 0
+eqc 2
+cj P355
+ldc 15
+ldl 11
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 9
+rev
+ldl 1
+ajw -1
+call P129
+ldlp 4
+fpstnlsn
+ldl 2
+ldnlp 2
+fpldnlsn
+ldlp 4
+fpldnlsn
+fpuabs
+fpgt
+ajw 1
+cj P356
+ldl 1
+ldnl 0
+ldnl 6
+stl 12
+j P357
+P356:
+ldc 15
+ldl 11
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnl 12
+stl 4
+ldc 15
+ldl 11
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 9
+ldl 8
+rev
+ldl 1
+ajw -1
+call P129
+ldlp 6
+fpstnlsn
+ldlp 5
+fpldnlsn
+ldlp 6
+fpldnlsn
+fpsub
+ldlp 4
+fpldnlsn
+fpdiv
+ldl 2
+ldnlp 167
+fpstnlsn
+ldl 2
+ldnl 167
+ajw -1
+stl 0
+ldl 3
+ldnlp 155
+stl 1
+ldl 11
+ldl 10
+ldl 3
+call P308
+ldl 3
+ldnlp 150
+stl 1
+ldc 15
+ldl 13
+prod
+ldl 3
+ldnlp 1080
+wsub
+ldl 3
+ldnlp 155
+ldl 3
+ajw 1
+call P133
+ldc 15
+ldl 12
+prod
+ldl 2
+ldnlp 1080
+wsub
+ldnlp 9
+fpldnlsn
+fpuabs
+ldc 15
+ldl 12
+prod
+ldl 2
+ldnlp 1080
+wsub
+ldnlp 11
+fpldnlsn
+fpuabs
+fpgt
+stl 0
+ldc 15
+ldl 12
+prod
+ldl 2
+ldnlp 1080
+wsub
+ldnlp 9
+fpldnlsn
+fpuabs
+ldc 15
+ldl 12
+prod
+ldl 2
+ldnlp 1080
+wsub
+ldnlp 10
+fpldnlsn
+fpuabs
+fpgt
+ldl 0
+and
+ajw 1
+cj P358
+ldl 11
+ajw -1
+stl 0
+ldc 2
+ldc 1
+ldl 2
+call P319
+ajw 1
+j P359
+P358:
+ldc 15
+ldl 11
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 11
+fpldnlsn
+fpuabs
+ldc 15
+ldl 11
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnlp 10
+fpldnlsn
+fpuabs
+fpgt
+eqc 0
+cj P360
+ldl 11
+ajw -1
+stl 0
+ldc 2
+ldc 0
+ldl 2
+call P319
+ajw 1
+j P361
+P360:
+ldl 11
+ajw -1
+stl 0
+ldc 1
+ldc 0
+ldl 2
+call P319
+ajw 1
+P361:
+P359:
+ldc 3
+ldl 1
+ajw -1
+call P309
+ajw 1
+cj P362
+ldl 1
+ldnl 0
+ldnl 6
+stl 12
+j P363
+P362:
+ldl 1
+ldnl 167
+stl 12
+P363:
+P357:
+j P346
+P355:
+ldl 0
+eqc 3
+cj P364
+ldc 15
+ldl 11
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 9
+rev
+ldl 1
+ajw -1
+call P129
+ldlp 4
+fpstnlsn
+ldl 2
+ldnlp 2
+fpldnlsn
+ldlp 4
+fpldnlsn
+fpuabs
+fpgt
+ajw 1
+cj P365
+ldl 1
+ldnl 0
+ldnl 6
+stl 12
+j P366
+P365:
+ldc 15
+ldl 11
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnl 12
+stl 4
+ldc 15
+ldl 11
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 9
+ldl 8
+rev
+ldl 1
+ajw -1
+call P129
+ldlp 6
+fpstnlsn
+ldlp 5
+fpldnlsn
+ldlp 6
+fpldnlsn
+fpsub
+ldlp 4
+fpldnlsn
+fpdiv
+ldl 2
+ldnlp 167
+fpstnlsn
+ldl 2
+ldnl 167
+ajw -1
+stl 0
+ldl 3
+ldnlp 155
+stl 1
+ldl 11
+ldl 10
+ldl 3
+call P308
+ldl 3
+ldnlp 150
+stl 1
+ldc 15
+ldl 13
+prod
+ldl 3
+ldnlp 8775
+wsub
+ldl 3
+ldnlp 155
+ldl 3
+ajw 1
+call P133
+ldc 15
+ldl 12
+prod
+ldl 2
+ldnlp 8775
+wsub
+ldnlp 9
+fpldnlsn
+fpuabs
+ldc 15
+ldl 12
+prod
+ldl 2
+ldnlp 8775
+wsub
+ldnlp 11
+fpldnlsn
+fpuabs
+fpgt
+stl 0
+ldc 15
+ldl 12
+prod
+ldl 2
+ldnlp 8775
+wsub
+ldnlp 9
+fpldnlsn
+fpuabs
+ldc 15
+ldl 12
+prod
+ldl 2
+ldnlp 8775
+wsub
+ldnlp 10
+fpldnlsn
+fpuabs
+fpgt
+ldl 0
+and
+ajw 1
+cj P367
+ldl 11
+ajw -1
+stl 0
+ldc 2
+ldc 1
+ldl 2
+call P320
+ajw 1
+j P368
+P367:
+ldc 15
+ldl 11
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 11
+fpldnlsn
+fpuabs
+ldc 15
+ldl 11
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnlp 10
+fpldnlsn
+fpuabs
+fpgt
+eqc 0
+cj P369
+ldl 11
+ajw -1
+stl 0
+ldc 2
+ldc 0
+ldl 2
+call P320
+ajw 1
+j P370
+P369:
+ldl 11
+ajw -1
+stl 0
+ldc 1
+ldc 0
+ldl 2
+call P320
+ajw 1
+P370:
+P368:
+ldc 4
+ldl 1
+ajw -1
+call P309
+ajw 1
+cj P371
+ldl 1
+ldnl 0
+ldnl 6
+stl 12
+j P372
+P371:
+ldl 1
+ldnl 167
+stl 12
+P372:
+P366:
+j P346
+P364:
+ldl 0
+eqc 4
+cj P373
+ldc 16
+ldl 11
+prod
+ldl 1
+ldnlp 9540
+wsub
+ldnlp 9
+ldl 9
+rev
+ldl 1
+ajw -1
+call P129
+ldlp 4
+fpstnlsn
+ldl 2
+ldnlp 2
+fpldnlsn
+ldlp 4
+fpldnlsn
+fpuabs
+fpgt
+ajw 1
+cj P374
+ldl 1
+ldnl 0
+ldnl 6
+stl 12
+j P375
+P374:
+ldc 16
+ldl 11
+prod
+ldl 1
+ldnlp 9540
+wsub
+ldnl 12
+stl 4
+ldc 16
+ldl 11
+prod
+ldl 1
+ldnlp 9540
+wsub
+ldnlp 9
+ldl 8
+rev
+ldl 1
+ajw -1
+call P129
+ldlp 6
+fpstnlsn
+ldlp 5
+fpldnlsn
+ldlp 6
+fpldnlsn
+fpsub
+ldlp 4
+fpldnlsn
+fpdiv
+ldl 2
+ldnlp 167
+fpstnlsn
+ldl 2
+ldnl 167
+ajw -1
+stl 0
+ldl 3
+ldnlp 155
+stl 1
+ldl 11
+ldl 10
+ldl 3
+call P308
+ldl 3
+ldnlp 150
+stl 1
+ldc 16
+ldl 13
+prod
+ldl 3
+ldnlp 9540
+wsub
+ldl 3
+ldnlp 155
+ldl 3
+ajw 1
+call P133
+ldl 2
+ldnlp 150
+ldl 2
+ldnlp 150
+ldl 2
+call P129
+fpusqrtfirst
+fpusqrtstep
+fpusqrtstep
+fpusqrtlast
+ldlp 3
+fpstnlsn
+ldlp 3
+fpldnlsn
+ldc 16
+ldl 12
+prod
+ldl 2
+ldnlp 9540
+wsub
+ldnlp 13
+fpldnlsn
+fpgt
+ajw 1
+cj P376
+ldl 1
+ldnl 0
+ldnl 6
+stl 12
+j P377
+P376:
+ldl 1
+ldnl 167
+stl 12
+P377:
+P375:
+j P346
+P373:
+ldl 0
+eqc 5
+cj P378
+ldc 17
+ldl 11
+prod
+ldl 1
+ldnlp 10356
+wsub
+ldnlp 9
+ldl 9
+rev
+ldl 1
+ajw -1
+call P129
+ldlp 4
+fpstnlsn
+ldl 2
+ldnlp 2
+fpldnlsn
+ldlp 4
+fpldnlsn
+fpuabs
+fpgt
+ajw 1
+cj P379
+ldl 1
+ldnl 0
+ldnl 6
+stl 12
+j P380
+P379:
+ldc 17
+ldl 11
+prod
+ldl 1
+ldnlp 10356
+wsub
+ldnl 12
+stl 4
+ldc 17
+ldl 11
+prod
+ldl 1
+ldnlp 10356
+wsub
+ldnlp 9
+ldl 8
+rev
+ldl 1
+ajw -1
+call P129
+ldlp 6
+fpstnlsn
+ldlp 5
+fpldnlsn
+ldlp 6
+fpldnlsn
+fpsub
+ldlp 4
+fpldnlsn
+fpdiv
+ldl 2
+ldnlp 167
+fpstnlsn
+ldl 2
+ldnl 167
+ajw -1
+stl 0
+ldl 3
+ldnlp 155
+stl 1
+ldl 11
+ldl 10
+ldl 3
+call P308
+ldl 3
+ldnlp 150
+stl 1
+ldc 17
+ldl 13
+prod
+ldl 3
+ldnlp 10356
+wsub
+ldl 3
+ldnlp 155
+ldl 3
+ajw 1
+call P133
+ldl 2
+ldnlp 150
+ldl 2
+ldnlp 150
+ldl 2
+call P129
+fpusqrtfirst
+fpusqrtstep
+fpusqrtstep
+fpusqrtlast
+ldlp 3
+fpstnlsn
+ldc 17
+ldl 12
+prod
+ldl 2
+ldnlp 10356
+wsub
+ldnlp 13
+fpldnlsn
+ldlp 3
+fpldnlsn
+fpgt
+ldlp 3
+fpldnlsn
+ldc 17
+ldl 12
+prod
+ldl 2
+ldnlp 10356
+wsub
+ldnlp 14
+fpldnlsn
+fpgt
+or
+ajw 1
+cj P381
+ldl 1
+ldnl 0
+ldnl 6
+stl 12
+j P382
+P381:
+ldl 1
+ldnl 167
+stl 12
+P382:
+P380:
+j P346
+P378:
+ldl 0
+eqc 6
+cj P383
+ldl 1
+ldnlp 158
+ajw -1
+stl 0
+ldc 7
+ldl 12
+prod
+ldl 2
+ldnlp 11223
+wsub
+ldl 9
+rev
+ldl 2
+call P133
+ldl 2
+ldnlp 158
+ldl 10
+ldl 2
+call P129
+ldl 2
+ldnl 0
+ldnlp 12
+fpldnlmulsn
+ldl 2
+ldnlp 162
+fpstnlsn
+ldl 2
+ldnlp 158
+ldl 2
+ldnlp 158
+ldl 2
+call P129
+ldc 7
+ldl 12
+prod
+ldl 2
+ldnlp 11223
+wsub
+ldnlp 4
+fpldnlsn
+fpsub
+ldl 2
+ldnlp 163
+fpstnlsn
+ldl 2
+ldnlp 162
+fpldnlsn
+fpdup
+fpmul
+ldl 2
+ldnlp 163
+fpldnlsn
+fpumulby2
+fpumulby2
+fpsub
+ldl 2
+ldnlp 165
+fpstnlsn
+ldl 2
+ldnlp 165
+fpldnlsn
+fpldzerosn
+fpgt
+eqc 0
+ajw 1
+cj P384
+ldl 1
+ldnl 0
+ldnl 6
+stl 12
+j P385
+P384:
+ldl 1
+ldnlp 165
+fpldnlsn
+fpusqrtfirst
+fpusqrtstep
+fpusqrtstep
+fpusqrtlast
+ldl 1
+ldnlp 166
+fpstnlsn
+fpldzerosn
+ldl 1
+ldnlp 162
+fpldnlsn
+fpsub
+ldl 1
+ldnlp 166
+fpldnlsn
+fpsub
+fpudivby2
+ldl 1
+ldnlp 153
+fpstnlsn
+fpldzerosn
+ldl 1
+ldnlp 162
+fpldnlsn
+fpsub
+ldl 1
+ldnlp 166
+fpldnladdsn
+fpudivby2
+ldl 1
+ldnlp 154
+fpstnlsn
+ldl 1
+ajw -1
+call P321
+ajw 1
+ldlp 12
+fpstnlsn
+P385:
+j P346
+P383:
+ldl 0
+eqc 7
+cj P386
+ldl 9
+ajw -2
+stl 0
+ldc 25
+ldl 13
+prod
+ldl 3
+ldnlp 13022
+wsub
+ldl 10
+rev
+ldl 3
+call P328
+ajw 2
+ldlp 12
+fpstnlsn
+j P346
+P386:
+ldl 0
+eqc 8
+cj P387
+ldl 9
+ajw -2
+stl 0
+ldc 25
+ldl 13
+prod
+ldl 3
+ldnlp 14297
+wsub
+ldl 10
+rev
+ldl 3
+call P328
+ajw 2
+ldlp 12
+fpstnlsn
+P387:
+P346:
+ajw 6
+ldlp 6
+fpldnlsn
+ret
+P388:
+ldlp 4
+fpldnlsn
+ldl 1
+ldnlp 16
+fpi32tor32
+fpsub
+ldl 1
+ldnlp 12
+fpldnlmulsn
+ajw -6
+ldlp 1
+fpstnlsn
+ldl 7
+ldnlp 17
+fpi32tor32
+ldlp 11
+fpldnlsn
+fpsub
+ldl 7
+ldnlp 13
+fpldnlmulsn
+ldlp 2
+fpstnlsn
+ldl 1
+ajw -3
+stl 0
+ldl 5
+stl 1
+ldlp 6
+stl 2
+ldl 10
+ldnlp 61
+ldl 10
+ldnlp 58
+ldl 10
+call P136
+ldl 11
+stl 2
+ldlp 6
+ldl 10
+ldnlp 18
+ldl 10
+ajw 2
+call P134
+ldl 9
+ldl 8
+ajw 1
+call P132
+ajw 6
+ret
+P389:
+ajw -9
+ldlp 2
+stl 0
+ldl 11
+ldnlp 5
+ldl 11
+ldl 10
+call P142
+ldlp 5
+stl 0
+ldl 11
+ldnlp 5
+ldl 11
+ldl 10
+call P149
+ldl 11
+ldnl 3
+ajw -2
+stl 0
+ldl 13
+ldnl 8
+stl 1
+ldl 12
+call P120
+ldlp 10
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldlp 10
+fpldnlsn
+fpsub
+ldl 14
+fpstnlsn
+ldlp 5
+fpldnlsn
+ldlp 10
+fpldnlsn
+fpsub
+ldl 14
+ldnlp 1
+fpstnlsn
+ldlp 6
+fpldnlsn
+ldlp 10
+fpldnlsn
+fpsub
+ldl 14
+ldnlp 2
+fpstnlsn
+ldlp 7
+fpldnlsn
+ldlp 10
+fpldnladdsn
+ldl 15
+fpstnlsn
+ldlp 8
+fpldnlsn
+ldlp 10
+fpldnladdsn
+ldl 15
+ldnlp 1
+fpstnlsn
+ldlp 9
+fpldnlsn
+ldlp 10
+fpldnladdsn
+ldl 15
+ldnlp 2
+fpstnlsn
+ajw 11
+ret
+P390:
+ldl 2
+ajw -11
+stl 0
+ldl 0
+eqc 2
+ldl 12
+stl 1
+cj P392
+ldlp 2
+ajw -1
+stl 0
+ldc 15
+ldl 15
+prod
+ldl 2
+ldnlp 1080
+wsub
+ldnlp 3
+ldc 15
+ldl 15
+prod
+ldl 2
+ldnlp 1080
+wsub
+ldl 2
+call P134
+ldlp 6
+stl 0
+ldc 15
+ldl 15
+prod
+ldl 2
+ldnlp 1080
+wsub
+ldnlp 6
+ldc 15
+ldl 15
+prod
+ldl 2
+ldnlp 1080
+wsub
+ldl 2
+call P134
+ldc 15
+ldl 15
+prod
+ldl 2
+ldnlp 1080
+wsub
+ldnl 0
+ajw -3
+stl 0
+ldlp 6
+ldnl 0
+stl 1
+ldlp 9
+ldnl 0
+stl 2
+ldl 5
+call P123
+ldl 19
+fpstnlsn
+ldc 15
+ldl 18
+prod
+ldl 5
+ldnlp 1080
+wsub
+ldnl 1
+stl 0
+ldlp 7
+ldnl 0
+stl 1
+ldlp 10
+ldnl 0
+stl 2
+ldl 5
+call P123
+ldl 19
+ldnlp 1
+fpstnlsn
+ldc 15
+ldl 18
+prod
+ldl 5
+ldnlp 1080
+wsub
+ldnl 2
+stl 0
+ldlp 8
+ldnl 0
+stl 1
+ldlp 11
+ldnl 0
+stl 2
+ldl 5
+call P123
+ldl 19
+ldnlp 2
+fpstnlsn
+ldc 15
+ldl 18
+prod
+ldl 5
+ldnlp 1080
+wsub
+ldnl 0
+stl 0
+ldlp 6
+ldnl 0
+stl 1
+ldlp 9
+ldnl 0
+stl 2
+ldl 5
+call P124
+ldl 20
+fpstnlsn
+ldc 15
+ldl 18
+prod
+ldl 5
+ldnlp 1080
+wsub
+ldnl 1
+stl 0
+ldlp 7
+ldnl 0
+stl 1
+ldlp 10
+ldnl 0
+stl 2
+ldl 5
+call P124
+ldl 20
+ldnlp 1
+fpstnlsn
+ldc 15
+ldl 18
+prod
+ldl 5
+ldnlp 1080
+wsub
+ldnl 2
+stl 0
+ldlp 8
+ldnl 0
+stl 1
+ldlp 11
+ldnl 0
+stl 2
+ldl 5
+call P124
+ldl 20
+ldnlp 2
+fpstnlsn
+ajw 4
+j P391
+P392:
+ldl 0
+eqc 3
+cj P393
+ldlp 2
+ajw -1
+stl 0
+ldc 15
+ldl 15
+prod
+ldl 2
+ldnlp 8775
+wsub
+ldnlp 3
+ldc 15
+ldl 15
+prod
+ldl 2
+ldnlp 8775
+wsub
+ldl 2
+call P134
+ldlp 6
+stl 0
+ldc 15
+ldl 15
+prod
+ldl 2
+ldnlp 8775
+wsub
+ldnlp 6
+ldc 15
+ldl 15
+prod
+ldl 2
+ldnlp 8775
+wsub
+ldl 2
+call P134
+ldc 15
+ldl 15
+prod
+ldl 2
+ldnlp 8775
+wsub
+ldnlp 6
+ajw -1
+stl 0
+ldlp 10
+stl 1
+ldc 15
+ldl 16
+prod
+ldl 3
+ldnlp 8775
+wsub
+ldnlp 3
+ldc 15
+ldl 16
+prod
+ldl 3
+ldnlp 8775
+wsub
+ldl 3
+call P135
+ldc 15
+ldl 16
+prod
+ldl 3
+ldnlp 8775
+wsub
+ldnl 0
+ajw -3
+stl 0
+ldlp 7
+ldnl 0
+stl 1
+ldlp 10
+ldnl 0
+stl 2
+ldlp 13
+ldnl 0
+stl 3
+ldl 6
+call P125
+ldl 20
+fpstnlsn
+ldc 15
+ldl 19
+prod
+ldl 6
+ldnlp 8775
+wsub
+ldnl 1
+stl 0
+ldlp 8
+ldnl 0
+stl 1
+ldlp 11
+ldnl 0
+stl 2
+ldlp 14
+ldnl 0
+stl 3
+ldl 6
+call P125
+ldl 20
+ldnlp 1
+fpstnlsn
+ldc 15
+ldl 19
+prod
+ldl 6
+ldnlp 8775
+wsub
+ldnl 2
+stl 0
+ldlp 9
+ldnl 0
+stl 1
+ldlp 12
+ldnl 0
+stl 2
+ldlp 15
+ldnl 0
+stl 3
+ldl 6
+call P125
+ldl 20
+ldnlp 2
+fpstnlsn
+ldc 15
+ldl 19
+prod
+ldl 6
+ldnlp 8775
+wsub
+ldnl 0
+stl 0
+ldlp 7
+ldnl 0
+stl 1
+ldlp 10
+ldnl 0
+stl 2
+ldlp 13
+ldnl 0
+stl 3
+ldl 6
+call P126
+ldl 21
+fpstnlsn
+ldc 15
+ldl 19
+prod
+ldl 6
+ldnlp 8775
+wsub
+ldnl 1
+stl 0
+ldlp 8
+ldnl 0
+stl 1
+ldlp 11
+ldnl 0
+stl 2
+ldlp 14
+ldnl 0
+stl 3
+ldl 6
+call P126
+ldl 21
+ldnlp 1
+fpstnlsn
+ldc 15
+ldl 19
+prod
+ldl 6
+ldnlp 8775
+wsub
+ldnl 2
+stl 0
+ldlp 9
+ldnl 0
+stl 1
+ldlp 12
+ldnl 0
+stl 2
+ldlp 15
+ldnl 0
+stl 3
+ldl 6
+call P126
+ldl 21
+ldnlp 2
+fpstnlsn
+ajw 5
+j P391
+P393:
+ldl 0
+eqc 4
+cj P394
+fpldzerosn
+ldc 16
+ldl 14
+prod
+ldl 1
+ldnlp 9540
+wsub
+ldnlp 13
+fpldnlsn
+fpsub
+ajw -3
+ldlp 0
+fpstnlsn
+fpldzerosn
+ldc 16
+ldl 17
+prod
+ldl 4
+ldnlp 9540
+wsub
+ldnlp 13
+fpldnlsn
+fpsub
+ldlp 1
+fpstnlsn
+ldc 16
+ldl 17
+prod
+ldl 4
+ldnlp 9540
+wsub
+ldnl 13
+stl 2
+ldl 18
+ldl 4
+call P127
+ldc 16
+ldl 17
+prod
+ldl 4
+ldnlp 9540
+wsub
+ldnl 13
+stl 0
+ldc 16
+ldl 17
+prod
+ldl 4
+ldnlp 9540
+wsub
+ldnl 13
+stl 1
+ldc 16
+ldl 17
+prod
+ldl 4
+ldnlp 9540
+wsub
+ldnl 13
+stl 2
+ldl 19
+ldl 4
+call P127
+ldl 18
+stl 2
+ldc 16
+ldl 17
+prod
+ldl 4
+ldnlp 9540
+wsub
+ldl 18
+ldl 4
+ajw 2
+call P134
+ldl 17
+stl 0
+ldc 16
+ldl 15
+prod
+ldl 2
+ldnlp 9540
+wsub
+ldl 17
+ldl 2
+call P134
+ajw 1
+j P391
+P394:
+ldl 0
+eqc 5
+cj P395
+fpldzerosn
+ldc 17
+ldl 14
+prod
+ldl 1
+ldnlp 10356
+wsub
+ldnlp 14
+fpldnlsn
+fpsub
+ajw -3
+ldlp 0
+fpstnlsn
+fpldzerosn
+ldc 17
+ldl 17
+prod
+ldl 4
+ldnlp 10356
+wsub
+ldnlp 14
+fpldnlsn
+fpsub
+ldlp 1
+fpstnlsn
+fpldzerosn
+ldc 17
+ldl 17
+prod
+ldl 4
+ldnlp 10356
+wsub
+ldnlp 14
+fpldnlsn
+fpsub
+ldlp 2
+fpstnlsn
+ldl 18
+ldl 4
+call P127
+ldc 17
+ldl 17
+prod
+ldl 4
+ldnlp 10356
+wsub
+ldnl 14
+stl 0
+ldc 17
+ldl 17
+prod
+ldl 4
+ldnlp 10356
+wsub
+ldnl 14
+stl 1
+ldc 17
+ldl 17
+prod
+ldl 4
+ldnlp 10356
+wsub
+ldnl 14
+stl 2
+ldl 19
+ldl 4
+call P127
+ldl 18
+stl 2
+ldc 17
+ldl 17
+prod
+ldl 4
+ldnlp 10356
+wsub
+ldl 18
+ldl 4
+ajw 2
+call P134
+ldl 17
+stl 0
+ldc 17
+ldl 15
+prod
+ldl 2
+ldnlp 10356
+wsub
+ldl 17
+ldl 2
+call P134
+ajw 1
+j P391
+P395:
+ldl 0
+eqc 6
+cj P396
+fpldzerosn
+ldc 7
+ldl 14
+prod
+ldl 1
+ldnlp 11223
+wsub
+ldnlp 3
+fpldnlsn
+fpsub
+ajw -3
+ldlp 0
+fpstnlsn
+fpldzerosn
+ldc 7
+ldl 17
+prod
+ldl 4
+ldnlp 11223
+wsub
+ldnlp 3
+fpldnlsn
+fpsub
+ldlp 1
+fpstnlsn
+fpldzerosn
+ldc 7
+ldl 17
+prod
+ldl 4
+ldnlp 11223
+wsub
+ldnlp 3
+fpldnlsn
+fpsub
+ldlp 2
+fpstnlsn
+ldl 18
+ldl 4
+call P127
+ldc 7
+ldl 17
+prod
+ldl 4
+ldnlp 11223
+wsub
+ldnl 3
+stl 0
+ldc 7
+ldl 17
+prod
+ldl 4
+ldnlp 11223
+wsub
+ldnl 3
+stl 1
+ldc 7
+ldl 17
+prod
+ldl 4
+ldnlp 11223
+wsub
+ldnl 3
+stl 2
+ldl 19
+ldl 4
+call P127
+ldl 18
+stl 2
+ldc 7
+ldl 17
+prod
+ldl 4
+ldnlp 11223
+wsub
+ldl 18
+ldl 4
+ajw 2
+call P134
+ldl 17
+stl 0
+ldc 7
+ldl 15
+prod
+ldl 2
+ldnlp 11223
+wsub
+ldl 17
+ldl 2
+call P134
+ajw 1
+j P391
+P396:
+ldl 0
+eqc 7
+cj P397
+ldl 16
+ajw -1
+stl 0
+ldc 25
+ldl 15
+prod
+ldl 2
+ldnlp 13022
+wsub
+ldl 16
+rev
+ldl 2
+call P389
+ajw 1
+j P391
+P397:
+ldl 0
+eqc 8
+cj P398
+ldl 16
+ajw -1
+stl 0
+ldc 25
+ldl 15
+prod
+ldl 2
+ldnlp 14297
+wsub
+ldl 16
+rev
+ldl 2
+call P389
+ajw 1
+P398:
+P391:
+ajw 11
+ret
+P399:
+ajw -9
+ldlp 3
+ldl 10
+call P156
+ldlp 6
+ldl 10
+call P156
+ldl 11
+ldl 10
+call P156
+ldl 12
+ldl 10
+call P156
+ldc 2
+ajw -2
+stl 1
+ldc 8
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+ldl 12
+stl 2
+cj P401
+P400:
+ldl 1
+stl 3
+ldc 1
+ajw -2
+stl 1
+ldl 5
+ldl 4
+ldnlp 981
+wsub
+ldnl 0
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P403
+P402:
+ldl 1
+stl 6
+ldlp 7
+ajw -2
+stl 0
+ldlp 12
+stl 1
+ldl 8
+ldl 7
+ldl 6
+call P390
+ldl 7
+eqc 2
+ldl 8
+eqc 1
+and
+ajw 2
+cj P404
+ldlp 7
+ldl 15
+ldc 12
+move
+ldlp 10
+ldl 16
+ldc 12
+move
+j P405
+P404:
+ldl 15
+ajw -1
+stl 0
+ldl 16
+ldlp 8
+ldl 5
+call P142
+ldl 17
+stl 0
+ldl 17
+ldlp 11
+ldl 5
+call P149
+ajw 1
+P405:
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P402
+P403:
+ldl 3
+ldl 2
+diff
+eqc 0
+ldl 3
+adc 1
+stl 3
+ajw 2
+cj P400
+P401:
+ldl 13
+stl 1
+ldl 2
+ldnlp 46
+ldl 13
+ldl 2
+ajw 1
+call P133
+ldl 13
+stl 0
+ldl 1
+ldnlp 46
+ldl 13
+ldl 1
+call P134
+ajw 10
+ret
+P406:
+ajw -10
+ldlp 4
+ldlp 1
+ldl 11
+call P399
+ldlp 7
+ajw -1
+stl 0
+ldlp 2
+ldlp 5
+ldl 12
+call P133
+ldl 12
+ldnl 0
+ldnl 8
+stl 0
+ldlp 8
+ldlp 8
+ldl 12
+call P137
+ldl 13
+stl 0
+ldlp 8
+ldlp 2
+ldl 12
+call P134
+ldlp 8
+ldlp 8
+ldl 12
+call P129
+ldl 13
+ldnlp 3
+fpstnlsn
+ajw 11
+ret
+P407:
+ajw -51
+ldlp 13
+ldlp 10
+ldl 52
+call P399
+ldlp 16
+ldl 52
+call P156
+ldlp 19
+ldl 52
+call P156
+ldlp 22
+ldl 52
+call P156
+ldlp 25
+ajw -1
+stl 0
+ldlp 11
+ldlp 14
+ldl 53
+call P133
+ldlp 26
+ldnl 0
+ajw -2
+stl 0
+ldc 0
+stl 1
+ldc 0
+stl 2
+ldlp 19
+ldl 55
+call P127
+ldc 0
+stl 0
+ldlp 29
+ldnl 0
+stl 1
+ldc 0
+stl 2
+ldlp 22
+ldl 55
+call P127
+ldc 0
+stl 0
+ldc 0
+stl 1
+ldlp 30
+ldnl 0
+stl 2
+ldlp 25
+ldl 55
+call P127
+ldlp 13
+ldlp 31
+ldc 12
+move
+ldc 1
+stl 2
+ldc 6
+stl 1
+ldl 2
+ldl 1
+gt
+eqc 0
+ajw 1
+ldl 54
+stl 2
+cj P409
+P408:
+ldl 1
+stl 3
+ldc 13
+ldl 3
+prod
+ldl 55
+wsub
+ldl 2
+call P156
+ldc 13
+ldl 3
+prod
+ldl 55
+wsub
+ldnlp 3
+ldl 2
+call P156
+ldc 13
+ldl 3
+prod
+ldl 55
+wsub
+ldnlp 6
+ldl 2
+call P156
+ldc 13
+ldl 3
+prod
+ldl 55
+wsub
+ldnlp 9
+ldl 2
+call P156
+ldc 0
+ldc 13
+ldl 3
+prod
+ldl 55
+wsub
+stnl 12
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P408
+P409:
+ldlp 30
+ldl 55
+ldnlp 13
+ldc 12
+move
+ldlp 18
+ldl 55
+ldnlp 16
+ldc 12
+move
+ldlp 24
+ldl 55
+ldnlp 19
+ldc 12
+move
+ldl 55
+ldnlp 22
+stl 1
+ldl 55
+ldnlp 19
+ldl 55
+ldnlp 16
+ldl 2
+ajw 1
+call P130
+ldl 54
+ldnlp 22
+ldl 1
+ajw 1
+call P132
+ldl 53
+ldnlp 13
+ldl 53
+ldnlp 22
+ldl 0
+ajw -1
+call P129
+ldl 54
+ldnlp 25
+fpstnlsn
+ldlp 29
+ldl 54
+ldnlp 26
+ldc 12
+move
+ldlp 23
+ldl 54
+ldnlp 29
+ldc 12
+move
+ldlp 17
+ldl 54
+ldnlp 32
+ldc 12
+move
+ldl 54
+ldnlp 35
+stl 0
+ldl 54
+ldnlp 32
+ldl 54
+ldnlp 29
+ldl 1
+call P130
+ldl 54
+ldnlp 35
+ldl 1
+ajw 1
+call P132
+ldc 0
+ajw -3
+stl 0
+ldlp 23
+ldnl 0
+stl 1
+ldc 0
+stl 2
+ldlp 34
+ldl 3
+call P127
+ldl 56
+ldnlp 26
+stl 2
+ldl 56
+ldnlp 26
+ldlp 34
+ldl 3
+ajw 2
+call P134
+ldl 54
+ldnlp 26
+ldl 54
+ldnlp 35
+ldl 1
+call P129
+ldl 54
+ldnlp 38
+fpstnlsn
+ldlp 29
+ldl 54
+ldnlp 39
+ldc 12
+move
+ldlp 23
+ldl 54
+ldnlp 42
+ldc 12
+move
+ldlp 20
+ldl 54
+ldnlp 45
+ldc 12
+move
+ldl 54
+ldnlp 48
+stl 0
+ldl 54
+ldnlp 45
+ldl 54
+ldnlp 42
+ldl 1
+call P130
+ldl 54
+ldnlp 48
+ldl 1
+ajw 1
+call P132
+ldl 53
+ldnlp 39
+ldl 53
+ldnlp 48
+ldl 0
+ajw -1
+call P129
+ldl 54
+ldnlp 51
+fpstnlsn
+ldlp 29
+ldl 54
+ldnlp 52
+ldc 12
+move
+ldlp 20
+ldl 54
+ldnlp 55
+ldc 12
+move
+ldlp 23
+ldl 54
+ldnlp 58
+ldc 12
+move
+ldl 54
+ldnlp 61
+stl 0
+ldl 54
+ldnlp 58
+ldl 54
+ldnlp 55
+ldl 1
+call P130
+ldl 54
+ldnlp 61
+ldl 1
+ajw 1
+call P132
+ldlp 16
+ldnl 0
+ajw -3
+stl 0
+ldc 0
+stl 1
+ldc 0
+stl 2
+ldlp 34
+ldl 3
+call P127
+ldl 56
+ldnlp 52
+stl 2
+ldl 56
+ldnlp 52
+ldlp 34
+ldl 3
+ajw 2
+call P134
+ldl 54
+ldnlp 52
+ldl 54
+ldnlp 61
+ldl 1
+call P129
+ldl 54
+ldnlp 64
+fpstnlsn
+ldlp 29
+ldl 54
+ldnlp 65
+ldc 12
+move
+ldlp 20
+ldl 54
+ldnlp 68
+ldc 12
+move
+ldlp 17
+ldl 54
+ldnlp 71
+ldc 12
+move
+ldl 54
+ldnlp 74
+stl 0
+ldl 54
+ldnlp 71
+ldl 54
+ldnlp 68
+ldl 1
+call P130
+ldl 54
+ldnlp 74
+ldl 1
+ajw 1
+call P132
+ldl 53
+ldnlp 65
+ldl 53
+ldnlp 74
+ldl 0
+ajw -1
+call P129
+ldl 54
+ldnlp 77
+fpstnlsn
+ldlp 29
+ldl 54
+ldnlp 78
+ldc 12
+move
+ldlp 17
+ldl 54
+ldnlp 81
+ldc 12
+move
+ldlp 20
+ldl 54
+ldnlp 84
+ldc 12
+move
+ldl 54
+ldnlp 87
+stl 0
+ldl 54
+ldnlp 84
+ldl 54
+ldnlp 81
+ldl 1
+call P130
+ldl 54
+ldnlp 87
+ldl 1
+ajw 1
+call P132
+ldc 0
+ajw -3
+stl 0
+ldc 0
+stl 1
+ldlp 27
+ldnl 0
+stl 2
+ldlp 34
+ldl 3
+call P127
+ldl 56
+ldnlp 78
+stl 2
+ldl 56
+ldnlp 78
+ldlp 34
+ldl 3
+ajw 2
+call P134
+ldl 54
+ldnlp 78
+ldl 54
+ldnlp 87
+ldl 1
+call P129
+ldl 54
+ldnlp 90
+fpstnlsn
+ldl 1
+ldnlp 10
+fpi32tor32
+fpudivby2
+ajw -1
+ldlp 0
+fpstnlsn
+ldl 2
+ldnlp 11
+fpi32tor32
+fpudivby2
+ldlp 1
+fpstnlsn
+ldlp 36
+ldl 2
+call P388
+ldc 1
+stl 1
+ldc 6
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P411
+P410:
+ldl 1
+stl 3
+ldc 13
+ldl 3
+prod
+ldl 55
+wsub
+ldnlp 9
+ldlp 36
+ldl 2
+ajw -1
+call P129
+ldl 4
+ldlp 6
+wsub
+fpstnlsn
+ldl 2
+ldl 1
+diff
+eqc 0
+ldl 2
+adc 1
+stl 2
+ajw 1
+cj P410
+P411:
+ldc 1
+stl 1
+ldc 6
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P413
+P412:
+ldl 1
+stl 4
+ldc 1
+ajw -2
+stl 1
+ldc 5
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P415
+P414:
+ldl 1
+stl 5
+ldl 5
+ldlp 7
+fpldnlsni
+ldl 5
+adc 1
+ldlp 7
+fpldnlsni
+fpgt
+cj P416
+ldc 13
+ldl 5
+prod
+ldl 57
+wsub
+ldlp 41
+ldc 52
+move
+ldc 13
+ldl 5
+adc 1
+prod
+ldl 57
+wsub
+ldc 13
+ldl 5
+prod
+ldl 57
+wsub
+ldc 52
+move
+ldlp 41
+ldc 13
+ldl 5
+adc 1
+prod
+ldl 57
+wsub
+ldc 52
+move
+ldl 5
+ldlp 7
+wsub
+ldnl 0
+stl 54
+ldl 5
+adc 1
+ldlp 7
+wsub
+ldnl 0
+ldl 5
+ldlp 7
+wsub
+stnl 0
+ldl 54
+ldl 5
+adc 1
+ldlp 7
+wsub
+stnl 0
+P416:
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P414
+P415:
+ldl 3
+ldl 2
+diff
+eqc 0
+ldl 3
+adc 1
+stl 3
+ajw 2
+cj P412
+P413:
+ajw 53
+ret
+P417:
+ldl 1
+ldnl 0
+ldnl 13
+ajw -32
+stl 0
+ldl 33
+ldnlp 91
+ldl 33
+ldnlp 91
+ldl 33
+call P137
+ldl 33
+ldnl 0
+ldnl 13
+stl 0
+ldl 33
+ldnlp 94
+ldl 33
+ldnlp 94
+ldl 33
+call P137
+ldl 33
+ldnl 0
+ldnl 13
+stl 0
+ldl 33
+ldnlp 97
+ldl 33
+ldnlp 97
+ldl 33
+call P137
+ldl 33
+ldnl 0
+ldnl 13
+stl 0
+ldl 33
+ldnlp 100
+ldl 33
+ldnlp 100
+ldl 33
+call P137
+ldc 1
+stl 0
+ldc 4
+ajw -1
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+ldl 34
+stl 2
+cj P419
+P418:
+ldl 1
+stl 3
+ldc 13
+ldl 3
+prod
+ldl 35
+wsub
+ldl 2
+call P156
+ldc 13
+ldl 3
+prod
+ldl 35
+wsub
+ldnlp 3
+ldl 2
+call P156
+ldc 13
+ldl 3
+prod
+ldl 35
+wsub
+ldnlp 6
+ldl 2
+call P156
+ldc 13
+ldl 3
+prod
+ldl 35
+wsub
+ldnlp 9
+ldl 2
+call P156
+ldc 0
+ldc 13
+ldl 3
+prod
+ldl 35
+wsub
+stnl 12
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P418
+P419:
+ldl 2
+ldnlp 97
+stl 0
+ldlp 16
+stl 1
+ldl 2
+ldnlp 94
+ldl 2
+ldnlp 91
+ldl 2
+call P135
+ldl 2
+ldnl 0
+ldnlp 5
+fpldnlsn
+ldl 2
+ldnl 0
+ldnlp 14
+fpldnlsn
+fpdiv
+ldlp 1
+fpstnlsn
+ldlp 10
+ldlp 16
+ldl 2
+ajw 1
+call P137
+ldl 34
+ldnlp 13
+stl 0
+ldl 1
+ldnlp 91
+ldlp 9
+ldl 1
+call P134
+ldl 34
+ldnlp 16
+stl 0
+ldl 1
+ldnlp 91
+ldl 1
+ldnlp 94
+ldl 1
+call P133
+ldl 34
+ldnlp 19
+stl 0
+ldl 1
+ldnlp 91
+ldl 1
+ldnlp 100
+ldl 1
+call P133
+ldl 34
+ldnlp 22
+stl 0
+ldl 34
+ldnlp 19
+ldl 34
+ldnlp 16
+ldl 1
+call P130
+ldl 34
+ldnlp 22
+ldl 1
+ajw 1
+call P132
+ldl 33
+ldnlp 13
+ldl 33
+ldnlp 22
+ldl 0
+ajw -1
+call P129
+ldl 34
+ldnlp 25
+fpstnlsn
+ldl 34
+ldnlp 26
+stl 0
+ldl 1
+ldnlp 94
+ldlp 9
+ldl 1
+call P134
+ldl 34
+ldnlp 29
+stl 0
+ldl 1
+ldnlp 94
+ldl 1
+ldnlp 97
+ldl 1
+call P133
+ldl 34
+ldnlp 32
+stl 0
+ldl 1
+ldnlp 94
+ldl 1
+ldnlp 100
+ldl 1
+call P133
+ldl 34
+ldnlp 35
+stl 0
+ldl 34
+ldnlp 32
+ldl 34
+ldnlp 29
+ldl 1
+call P130
+ldl 34
+ldnlp 35
+ldl 1
+ajw 1
+call P132
+ldl 33
+ldnlp 26
+ldl 33
+ldnlp 35
+ldl 0
+ajw -1
+call P129
+ldl 34
+ldnlp 38
+fpstnlsn
+ldl 34
+ldnlp 39
+stl 0
+ldl 1
+ldnlp 97
+ldlp 9
+ldl 1
+call P134
+ldl 34
+ldnlp 42
+stl 0
+ldl 1
+ldnlp 97
+ldl 1
+ldnlp 91
+ldl 1
+call P133
+ldl 34
+ldnlp 45
+stl 0
+ldl 1
+ldnlp 97
+ldl 1
+ldnlp 100
+ldl 1
+call P133
+ldl 34
+ldnlp 48
+stl 0
+ldl 34
+ldnlp 45
+ldl 34
+ldnlp 42
+ldl 1
+call P130
+ldl 34
+ldnlp 48
+ldl 1
+ajw 1
+call P132
+ldl 33
+ldnlp 39
+ldl 33
+ldnlp 48
+ldl 0
+ajw -1
+call P129
+ldl 34
+ldnlp 51
+fpstnlsn
+ldl 34
+ldnlp 52
+stl 0
+ldl 1
+ldnlp 91
+ldlp 9
+ldl 1
+call P134
+ldl 34
+ldnlp 55
+stl 0
+ldl 1
+ldnlp 91
+ldl 1
+ldnlp 97
+ldl 1
+call P133
+ldl 34
+ldnlp 58
+stl 0
+ldl 1
+ldnlp 91
+ldl 1
+ldnlp 94
+ldl 1
+call P133
+ldl 34
+ldnlp 61
+stl 0
+ldl 34
+ldnlp 58
+ldl 34
+ldnlp 55
+ldl 1
+call P130
+ldl 34
+ldnlp 61
+ldl 1
+ajw 1
+call P132
+ldl 33
+ldnlp 52
+ldl 33
+ldnlp 61
+ldl 0
+ajw -1
+call P129
+ldl 34
+ldnlp 64
+fpstnlsn
+ldl 1
+ldnlp 10
+fpi32tor32
+fpudivby2
+ajw -1
+ldlp 0
+fpstnlsn
+ldl 2
+ldnlp 11
+fpi32tor32
+fpudivby2
+ldlp 1
+fpstnlsn
+ldlp 13
+ldl 2
+call P388
+ldc 1
+stl 1
+ldc 4
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P421
+P420:
+ldl 1
+stl 3
+ldc 13
+ldl 3
+prod
+ldl 35
+wsub
+ldnlp 9
+ldlp 13
+ldl 2
+ajw -1
+call P129
+ldl 4
+ldlp 6
+wsub
+fpstnlsn
+ldl 2
+ldl 1
+diff
+eqc 0
+ldl 2
+adc 1
+stl 2
+ajw 1
+cj P420
+P421:
+ldc 1
+stl 1
+ldc 4
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P423
+P422:
+ldl 1
+stl 4
+ldc 1
+ajw -2
+stl 1
+ldc 3
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P425
+P424:
+ldl 1
+stl 5
+ldl 5
+ldlp 7
+fpldnlsni
+ldl 5
+adc 1
+ldlp 7
+fpldnlsni
+fpgt
+cj P426
+ldc 13
+ldl 5
+prod
+ldl 37
+wsub
+ldlp 21
+ldc 52
+move
+ldc 13
+ldl 5
+adc 1
+prod
+ldl 37
+wsub
+ldc 13
+ldl 5
+prod
+ldl 37
+wsub
+ldc 52
+move
+ldlp 21
+ldc 13
+ldl 5
+adc 1
+prod
+ldl 37
+wsub
+ldc 52
+move
+ldl 5
+ldlp 7
+wsub
+ldnl 0
+stl 34
+ldl 5
+adc 1
+ldlp 7
+wsub
+ldnl 0
+ldl 5
+ldlp 7
+wsub
+stnl 0
+ldl 34
+ldl 5
+adc 1
+ldlp 7
+wsub
+stnl 0
+P426:
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P424
+P425:
+ldl 3
+ldl 2
+diff
+eqc 0
+ldl 3
+adc 1
+stl 3
+ajw 2
+cj P422
+P423:
+ajw 33
+ret
+P427:
+ldl 1
+ldnl 103
+ajw -1
+ldl 2
+stl 0
+cj P428
+ldl 0
+ldnlp 168
+ldl 0
+call P406
+P428:
+ldl 0
+ldnl 104
+cj P429
+ldl 0
+ldnlp 172
+ldl 0
+call P407
+P429:
+ldl 0
+ldnl 105
+cj P430
+ldl 0
+ldnlp 263
+ldl 0
+call P417
+P430:
+ajw 1
+ret
+P431:
+fpldzerosn
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 142
+fpstnlsn
+fpldzerosn
+ldl 4
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 146
+fpstnlsn
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 263
+wsub
+ldnlp 3
+ldl 3
+rev
+fpldnlsni
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 143
+fpstnlsn
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 263
+wsub
+ldnlp 3
+ldl 4
+rev
+fpldnlsni
+ldl 4
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 147
+fpstnlsn
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 263
+wsub
+ldnlp 6
+ldl 3
+rev
+fpldnlsni
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 144
+fpstnlsn
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 263
+wsub
+ldnlp 6
+ldl 4
+rev
+fpldnlsni
+ldl 4
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 148
+fpstnlsn
+ret
+P432:
+fpldzerosn
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 142
+fpstnlsn
+fpldzerosn
+ldl 4
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 146
+fpstnlsn
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 172
+wsub
+ldnlp 3
+ldl 3
+rev
+fpldnlsni
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 143
+fpstnlsn
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 172
+wsub
+ldnlp 3
+ldl 4
+rev
+fpldnlsni
+ldl 4
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 147
+fpstnlsn
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 172
+wsub
+ldnlp 6
+ldl 3
+rev
+fpldnlsni
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 172
+wsub
+ldnlp 3
+ldl 3
+rev
+wsub
+fpldnladdsn
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 144
+fpstnlsn
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 172
+wsub
+ldnlp 6
+ldl 4
+rev
+fpldnlsni
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 172
+wsub
+ldnlp 3
+ldl 4
+rev
+wsub
+fpldnladdsn
+ldl 4
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 148
+fpstnlsn
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 172
+wsub
+ldnlp 6
+ldl 3
+rev
+fpldnlsni
+ldl 3
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 145
+fpstnlsn
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 172
+wsub
+ldnlp 6
+ldl 4
+rev
+fpldnlsni
+ldl 4
+ldl 1
+ldnlp 150
+fpldnlsni
+fpsub
+ldl 1
+ldnlp 149
+fpstnlsn
+ret
+P433:
+ldl 1
+ldnlp 158
+ajw -2
+stl 0
+ldl 4
+ldl 3
+ldnlp 168
+ldl 3
+call P133
+ldl 3
+ldnlp 158
+ldl 5
+ldl 3
+call P129
+ldl 3
+ldnl 0
+ldnlp 12
+fpldnlmulsn
+ldl 3
+ldnlp 162
+fpstnlsn
+ldl 3
+ldnlp 158
+ldl 3
+ldnlp 158
+ldl 3
+call P129
+ldl 3
+ldnlp 171
+fpldnlsn
+fpsub
+ldl 3
+ldnlp 163
+fpstnlsn
+ldl 3
+ldnlp 162
+fpldnlsn
+fpdup
+fpmul
+ldl 3
+ldnlp 163
+fpldnlsn
+fpumulby2
+fpumulby2
+fpsub
+ldl 3
+ldnlp 165
+fpstnlsn
+ldl 3
+ldnlp 165
+fpldnlsn
+fpldzerosn
+fpgt
+eqc 0
+ajw 1
+ldl 2
+stl 0
+cj P434
+ldc 0
+ldl 0
+stnl 342
+j P435
+P434:
+ldl 0
+ldnlp 165
+fpldnlsn
+fpusqrtfirst
+fpusqrtstep
+fpusqrtstep
+fpusqrtlast
+ldl 0
+ldnlp 166
+fpstnlsn
+fpldzerosn
+ldl 0
+ldnlp 162
+fpldnlsn
+fpsub
+ldl 0
+ldnlp 166
+fpldnlsn
+fpsub
+fpudivby2
+ldl 0
+ldnlp 153
+fpstnlsn
+fpldzerosn
+ldl 0
+ldnlp 162
+fpldnlsn
+fpsub
+ldl 0
+ldnlp 166
+fpldnladdsn
+fpudivby2
+ldl 0
+ldnlp 154
+fpstnlsn
+ldl 0
+ldnlp 153
+fpldnlsn
+ldl 0
+ldnlp 2
+fpldnlsn
+fpgt
+eqc 0
+ldl 0
+ldnlp 154
+fpldnlsn
+ldl 0
+ldnlp 2
+fpldnlsn
+fpgt
+eqc 0
+and
+cj P436
+ldc 0
+ldl 0
+stnl 342
+j P437
+P436:
+ldc 1
+ldl 0
+stnl 342
+P437:
+P435:
+ajw 1
+ret
+P438:
+ldl 1
+ldnl 341
+ajw -3
+ldl 4
+stl 0
+cj P439
+ldc 0
+ldl 0
+stnl 341
+ldc 4
+stl 2
+j P440
+P439:
+ldc 7
+stl 2
+P440:
+ldc 1
+stl 1
+P441:
+ldc 13
+ldl 1
+prod
+ldl 0
+ldnlp 172
+wsub
+ldnlp 9
+ldl 6
+rev
+ldl 0
+ajw -1
+call P129
+ldl 1
+ldnlp 343
+fpstnlsn
+ldl 1
+ldnlp 2
+fpldnlsn
+ldl 1
+ldnlp 343
+fpldnlsn
+fpuabs
+fpgt
+ajw 1
+cj P442
+ldc 0
+ldl 0
+stnl 346
+j P443
+P442:
+ldc 13
+ldl 1
+prod
+ldl 0
+ldnlp 172
+wsub
+ldnl 12
+ldl 0
+stnl 344
+ldc 13
+ldl 1
+prod
+ldl 0
+ldnlp 172
+wsub
+ldnlp 9
+ldl 5
+rev
+ldl 0
+ajw -1
+call P129
+ldl 1
+ldnlp 345
+fpstnlsn
+ldl 1
+ldnlp 344
+fpldnlsn
+ldl 1
+ldnlp 345
+fpldnlsn
+fpsub
+ldl 1
+ldnlp 343
+fpldnlsn
+fpdiv
+ldl 1
+ldnlp 167
+fpstnlsn
+ldl 1
+ldnl 167
+ajw -1
+stl 0
+ldl 2
+ldnlp 155
+stl 1
+ldl 8
+ldl 7
+ldl 2
+call P308
+ldl 2
+ldnlp 150
+stl 1
+ldc 13
+ldl 3
+prod
+ldl 2
+ldnlp 172
+wsub
+ldl 2
+ldnlp 155
+ldl 2
+ajw 1
+call P133
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 172
+wsub
+ldnlp 9
+fpldnlsn
+fpuabs
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 172
+wsub
+ldnlp 11
+fpldnlsn
+fpuabs
+fpgt
+stl 0
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 172
+wsub
+ldnlp 9
+fpldnlsn
+fpuabs
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 172
+wsub
+ldnlp 10
+fpldnlsn
+fpuabs
+fpgt
+ldl 0
+and
+ajw 1
+cj P444
+ldc 2
+ajw -1
+stl 0
+ldc 1
+ldl 2
+ldl 1
+call P432
+ajw 1
+j P445
+P444:
+ldc 13
+ldl 1
+prod
+ldl 0
+ldnlp 172
+wsub
+ldnlp 11
+fpldnlsn
+fpuabs
+ldc 13
+ldl 1
+prod
+ldl 0
+ldnlp 172
+wsub
+ldnlp 10
+fpldnlsn
+fpuabs
+fpgt
+eqc 0
+cj P446
+ldc 2
+ajw -1
+stl 0
+ldc 0
+ldl 2
+ldl 1
+call P432
+ajw 1
+j P447
+P446:
+ldc 1
+ajw -1
+stl 0
+ldc 0
+ldl 2
+ldl 1
+call P432
+ajw 1
+P447:
+P445:
+ldc 4
+ldl 0
+ajw -1
+call P309
+ajw 1
+cj P448
+ldc 0
+ldl 0
+stnl 346
+j P449
+P448:
+ldc 1
+ldl 0
+stnl 346
+P449:
+P443:
+ldl 1
+adc 1
+stl 1
+ldl 1
+ldl 2
+diff
+eqc 0
+ldl 0
+ldnl 346
+eqc 1
+or
+cj P441
+ajw 3
+ret
+P450:
+ldl 1
+ldnl 341
+ajw -3
+ldl 4
+stl 0
+cj P451
+ldc 0
+ldl 0
+stnl 341
+ldc 4
+stl 2
+j P452
+P451:
+ldc 5
+stl 2
+P452:
+ldc 1
+stl 1
+P453:
+ldc 13
+ldl 1
+prod
+ldl 0
+ldnlp 263
+wsub
+ldnlp 9
+ldl 6
+rev
+ldl 0
+ajw -1
+call P129
+ldl 1
+ldnlp 343
+fpstnlsn
+ldl 1
+ldnlp 2
+fpldnlsn
+ldl 1
+ldnlp 343
+fpldnlsn
+fpuabs
+fpgt
+ajw 1
+cj P454
+ldc 0
+ldl 0
+stnl 347
+j P455
+P454:
+ldc 13
+ldl 1
+prod
+ldl 0
+ldnlp 263
+wsub
+ldnl 12
+ldl 0
+stnl 344
+ldc 13
+ldl 1
+prod
+ldl 0
+ldnlp 263
+wsub
+ldnlp 9
+ldl 5
+rev
+ldl 0
+ajw -1
+call P129
+ldl 1
+ldnlp 345
+fpstnlsn
+ldl 1
+ldnlp 344
+fpldnlsn
+ldl 1
+ldnlp 345
+fpldnlsn
+fpsub
+ldl 1
+ldnlp 343
+fpldnlsn
+fpdiv
+ldl 1
+ldnlp 167
+fpstnlsn
+ldl 1
+ldnl 167
+ajw -1
+stl 0
+ldl 2
+ldnlp 155
+stl 1
+ldl 8
+ldl 7
+ldl 2
+call P308
+ldl 2
+ldnlp 150
+stl 1
+ldc 13
+ldl 3
+prod
+ldl 2
+ldnlp 263
+wsub
+ldl 2
+ldnlp 155
+ldl 2
+ajw 1
+call P133
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 263
+wsub
+ldnlp 9
+fpldnlsn
+fpuabs
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 263
+wsub
+ldnlp 11
+fpldnlsn
+fpuabs
+fpgt
+stl 0
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 263
+wsub
+ldnlp 9
+fpldnlsn
+fpuabs
+ldc 13
+ldl 2
+prod
+ldl 1
+ldnlp 263
+wsub
+ldnlp 10
+fpldnlsn
+fpuabs
+fpgt
+ldl 0
+and
+ajw 1
+cj P456
+ldc 2
+ajw -1
+stl 0
+ldc 1
+ldl 2
+ldl 1
+call P431
+ajw 1
+j P457
+P456:
+ldc 13
+ldl 1
+prod
+ldl 0
+ldnlp 263
+wsub
+ldnlp 11
+fpldnlsn
+fpuabs
+ldc 13
+ldl 1
+prod
+ldl 0
+ldnlp 263
+wsub
+ldnlp 10
+fpldnlsn
+fpuabs
+fpgt
+eqc 0
+cj P458
+ldc 2
+ajw -1
+stl 0
+ldc 0
+ldl 2
+ldl 1
+call P431
+ajw 1
+j P459
+P458:
+ldc 1
+ajw -1
+stl 0
+ldc 0
+ldl 2
+ldl 1
+call P431
+ajw 1
+P459:
+P457:
+ldc 3
+ldl 0
+ajw -1
+call P309
+ajw 1
+cj P460
+ldc 0
+ldl 0
+stnl 347
+j P461
+P460:
+ldc 1
+ldl 0
+stnl 347
+P461:
+P455:
+ldl 1
+adc 1
+stl 1
+ldl 1
+ldl 2
+diff
+eqc 0
+ldl 0
+ldnl 347
+eqc 1
+or
+cj P453
+ajw 3
+ret
+P462:
+ldc 0
+ldl 7
+stnl 0
+ldc 0
+ajw -6
+stl 1
+ldc 8
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+ldl 7
+stl 2
+cj P464
+P463:
+ldl 1
+stl 3
+ldc 1
+ajw -2
+stl 1
+ldl 5
+ldl 4
+ldnlp 981
+wsub
+ldnl 0
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P466
+P465:
+ldl 1
+stl 6
+ldl 5
+ajw -3
+stl 0
+ldl 9
+stl 1
+ldl 14
+ldl 13
+ldl 7
+call P345
+ldlp 10
+fpstnlsn
+ldlp 10
+fpldnlsn
+ldl 7
+ldnlp 2
+fpldnlsn
+fpgt
+ajw 3
+cj P467
+ldl 14
+fpldnlsn
+ldl 4
+ldnl 0
+ldnlp 6
+fpldnlsn
+fpeq
+cj P468
+ldc 1
+ldl 15
+stnl 0
+ldl 7
+ldl 14
+stnl 0
+ldl 5
+ldl 12
+stnl 0
+ldl 6
+ldl 13
+stnl 0
+j P469
+P468:
+ldl 14
+fpldnlsn
+ldlp 7
+fpldnlsn
+fpgt
+cj P470
+ldl 7
+ldl 14
+stnl 0
+ldl 5
+ldl 12
+stnl 0
+ldl 6
+ldl 13
+stnl 0
+P470:
+P469:
+P467:
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P465
+P466:
+ldl 3
+ldl 2
+diff
+eqc 0
+ldl 3
+adc 1
+stl 3
+ajw 2
+cj P463
+P464:
+ajw 6
+ret
+P471:
+ldc 0
+ldl 7
+stnl 0
+ldc 0
+ajw -5
+stl 0
+ldc 1
+stl 1
+ldl 8
+ldl 7
+ldl 6
+call P345
+ldlp 4
+fpstnlsn
+ldlp 4
+fpldnlsn
+ldl 6
+ldnlp 2
+fpldnlsn
+fpgt
+ajw 3
+ldl 3
+stl 0
+cj P472
+ldc 1
+ldl 9
+stnl 0
+ldl 1
+ldl 8
+stnl 0
+ldc 0
+ldl 6
+stnl 0
+ldc 1
+ldl 7
+stnl 0
+P472:
+ajw 2
+ret
+P473:
+ldc -1
+ldl 4
+stnl 0
+ldc -1
+ldl 5
+stnl 0
+ldl 1
+ldnl 0
+ldnl 6
+ldl 6
+stnl 0
+ldc 0
+ldl 7
+stnl 0
+ldl 1
+ldnl 103
+ldl 1
+ldnl 104
+or
+ldl 1
+ldnl 105
+or
+eqc 0
+ajw -2
+ldl 3
+stl 0
+cj P474
+ldl 6
+ajw -4
+stl 0
+ldl 11
+stl 1
+ldl 12
+stl 2
+ldl 13
+stl 3
+ldl 9
+ldl 8
+ldl 4
+call P462
+ajw 4
+j P475
+P474:
+ldl 0
+ldnl 103
+cj P476
+ldl 5
+ldl 4
+ldl 0
+call P433
+ldl 0
+ldnl 342
+ldl 0
+ldnl 104
+and
+cj P477
+ldl 5
+ldl 4
+ldl 0
+call P438
+ldl 0
+ldnl 346
+cj P478
+ldl 6
+ajw -4
+stl 0
+ldl 11
+stl 1
+ldl 12
+stl 2
+ldl 13
+stl 3
+ldl 9
+ldl 8
+ldl 4
+call P462
+ajw 4
+j P479
+P478:
+ldl 0
+ldnl 90
+cj P480
+ldl 6
+ajw -4
+stl 0
+ldl 11
+stl 1
+ldl 12
+stl 2
+ldl 13
+stl 3
+ldl 9
+ldl 8
+ldl 4
+call P471
+ajw 4
+P480:
+P479:
+j P481
+P477:
+ldl 0
+ldnl 342
+ldl 0
+ldnl 105
+and
+cj P482
+ldl 5
+ldl 4
+ldl 0
+call P450
+ldl 0
+ldnl 347
+cj P483
+ldl 6
+ajw -4
+stl 0
+ldl 11
+stl 1
+ldl 12
+stl 2
+ldl 13
+stl 3
+ldl 9
+ldl 8
+ldl 4
+call P462
+ajw 4
+j P484
+P483:
+ldl 0
+ldnl 90
+cj P485
+ldl 6
+ajw -4
+stl 0
+ldl 11
+stl 1
+ldl 12
+stl 2
+ldl 13
+stl 3
+ldl 9
+ldl 8
+ldl 4
+call P471
+ajw 4
+P485:
+P484:
+j P486
+P482:
+ldl 0
+ldnl 342
+cj P487
+ldl 6
+ajw -4
+stl 0
+ldl 11
+stl 1
+ldl 12
+stl 2
+ldl 13
+stl 3
+ldl 9
+ldl 8
+ldl 4
+call P462
+ajw 4
+j P488
+P487:
+ldl 0
+ldnl 90
+cj P489
+ldl 6
+ajw -4
+stl 0
+ldl 11
+stl 1
+ldl 12
+stl 2
+ldl 13
+stl 3
+ldl 9
+ldl 8
+ldl 4
+call P471
+ajw 4
+P489:
+P488:
+P486:
+P481:
+j P490
+P476:
+ldl 0
+ldnl 104
+cj P491
+ldl 5
+ldl 4
+ldl 0
+call P438
+ldl 0
+ldnl 346
+cj P492
+ldl 6
+ajw -4
+stl 0
+ldl 11
+stl 1
+ldl 12
+stl 2
+ldl 13
+stl 3
+ldl 9
+ldl 8
+ldl 4
+call P462
+ajw 4
+j P493
+P492:
+ldl 0
+ldnl 90
+cj P494
+ldl 6
+ajw -4
+stl 0
+ldl 11
+stl 1
+ldl 12
+stl 2
+ldl 13
+stl 3
+ldl 9
+ldl 8
+ldl 4
+call P471
+ajw 4
+P494:
+P493:
+j P495
+P491:
+ldl 0
+ldnl 105
+cj P496
+ldl 5
+ldl 4
+ldl 0
+call P450
+ldl 0
+ldnl 347
+cj P497
+ldl 6
+ajw -4
+stl 0
+ldl 11
+stl 1
+ldl 12
+stl 2
+ldl 13
+stl 3
+ldl 9
+ldl 8
+ldl 4
+call P462
+ajw 4
+j P498
+P497:
+ldl 0
+ldnl 90
+cj P499
+ldl 6
+ajw -4
+stl 0
+ldl 11
+stl 1
+ldl 12
+stl 2
+ldl 13
+stl 3
+ldl 9
+ldl 8
+ldl 4
+call P471
+ajw 4
+P499:
+P498:
+P496:
+P495:
+P490:
+P475:
+ajw 2
+ret
+P500:
+ldl 4
+ldl 1
+stnl 9
+ret
+P501:
+ldlp 4
+fpldnlsn
+fpurz
+fpint
+ldlp 4
+fpldnlsn
+fprev
+fpsub
+ret
+P502:
+ldl 1
+ldnl 0
+ldnlp 15
+fpldnlsn
+ldl 1
+ldnlp 9
+fpldnlmulsn
+ajw -3
+ldlp 0
+fpstnlsn
+ldl 4
+call P501
+ldl 4
+ldnlp 9
+fpstnlsn
+ldl 4
+ldnlp 9
+fpldnlsn
+ldlp 5
+fpi32tor32
+fpmul
+ldlp 1
+fpstnli32
+ldl 1
+ajw 3
+ret
+P503:
+ldl 1
+ldnl 0
+ldnl 16
+ajw -8
+stl 0
+ldl 9
+call P500
+ldc 0
+stl 0
+ldc 15
+ajw -1
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+ldl 10
+stl 2
+cj P505
+P504:
+ldl 1
+stl 3
+ldc 0
+ajw -2
+stl 1
+ldc 15
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P507
+P506:
+ldl 1
+stl 6
+ldc 0
+ajw -2
+stl 1
+ldc 15
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P509
+P508:
+ldl 1
+stl 9
+ldc 256
+ldl 7
+prod
+ldc 16
+ldl 8
+prod
+bsub
+ldl 9
+bsub
+ldl 6
+ldnlp 15572
+wsub
+ajw -1
+stl 0
+ldc 12000
+ldl 7
+ajw -1
+call P502
+ldl 1
+stnl 0
+ldl 9
+eqc 15
+ajw 2
+cj P510
+ldc 0
+stl 10
+j P511
+P510:
+ldl 7
+stl 10
+P511:
+ldl 8
+eqc 15
+cj P512
+ldc 0
+stl 11
+j P513
+P512:
+ldl 8
+stl 11
+P513:
+ldl 9
+eqc 15
+cj P514
+ldc 0
+stl 12
+j P515
+P514:
+ldl 9
+stl 12
+P515:
+ldc 256
+ldl 7
+prod
+ldc 16
+ldl 8
+prod
+bsub
+ldl 9
+bsub
+ldl 6
+ldnlp 15572
+wsub
+ajw -1
+stl 0
+ldc 256
+ldl 11
+prod
+ldc 16
+ldl 12
+prod
+bsub
+ldl 13
+bsub
+ldl 7
+ldnlp 15572
+wsub
+ldnl 0
+ldl 0
+stnl 0
+ldl 2
+ldl 1
+diff
+eqc 0
+ldl 2
+adc 1
+stl 2
+ajw 1
+cj P508
+P509:
+ldl 3
+ldl 2
+diff
+eqc 0
+ldl 3
+adc 1
+stl 3
+ajw 2
+cj P506
+P507:
+ldl 3
+ldl 2
+diff
+eqc 0
+ldl 3
+adc 1
+stl 3
+ajw 2
+cj P504
+P505:
+ajw 9
+ret
+P516:
+ldlp 4
+fpldnlsn
+fpuabs
+ldlp 4
+fpstnlsn
+ldlp 5
+fpldnlsn
+fpuabs
+ldlp 5
+fpstnlsn
+ldlp 6
+fpldnlsn
+fpuabs
+ldlp 6
+fpstnlsn
+ldlp 4
+fpldnlsn
+ajw -29
+ldlp 0
+fpstnli32
+ldl 0
+ldc 15
+rem
+stl 5
+ldlp 34
+fpldnlsn
+ldlp 0
+fpstnli32
+ldl 0
+ldc 15
+rem
+stl 6
+ldlp 35
+fpldnlsn
+ldlp 0
+fpstnli32
+ldl 0
+ldc 15
+rem
+stl 7
+ldl 33
+ajw -1
+stl 0
+ldl 31
+call P501
+ldlp 3
+fpstnlsn
+ldl 35
+stl 0
+ldl 31
+call P501
+ldlp 4
+fpstnlsn
+ldl 36
+stl 0
+ldl 31
+call P501
+ldlp 5
+fpstnlsn
+ldc 256
+ldl 6
+prod
+ldc 16
+ldl 7
+prod
+bsub
+ldl 8
+bsub
+ldl 31
+ldnlp 15572
+wsub
+ldnl 0
+stl 9
+ldc 256
+ldl 6
+prod
+ldc 16
+ldl 7
+prod
+bsub
+ldl 8
+adc 1
+bsub
+ldl 31
+ldnlp 15572
+wsub
+ldnl 0
+stl 10
+ldc 256
+ldl 6
+prod
+ldc 16
+ldl 7
+adc 1
+prod
+bsub
+ldl 8
+bsub
+ldl 31
+ldnlp 15572
+wsub
+ldnl 0
+stl 11
+ldc 256
+ldl 6
+prod
+ldc 16
+ldl 7
+adc 1
+prod
+bsub
+ldl 8
+adc 1
+bsub
+ldl 31
+ldnlp 15572
+wsub
+ldnl 0
+stl 12
+ldc 256
+ldl 6
+adc 1
+prod
+ldc 16
+ldl 7
+prod
+bsub
+ldl 8
+bsub
+ldl 31
+ldnlp 15572
+wsub
+ldnl 0
+stl 13
+ldc 256
+ldl 6
+adc 1
+prod
+ldc 16
+ldl 7
+prod
+bsub
+ldl 8
+adc 1
+bsub
+ldl 31
+ldnlp 15572
+wsub
+ldnl 0
+stl 14
+ldc 256
+ldl 6
+adc 1
+prod
+ldc 16
+ldl 7
+adc 1
+prod
+bsub
+ldl 8
+bsub
+ldl 31
+ldnlp 15572
+wsub
+ldnl 0
+stl 15
+ldc 256
+ldl 6
+adc 1
+prod
+ldc 16
+ldl 7
+adc 1
+prod
+bsub
+ldl 8
+adc 1
+bsub
+ldl 31
+ldnlp 15572
+wsub
+ldnl 0
+stl 16
+ldl 13
+ldl 9
+diff
+stl 23
+ldl 14
+ldl 10
+diff
+stl 24
+ldl 15
+ldl 11
+diff
+stl 25
+ldl 16
+ldl 12
+diff
+stl 26
+ldlp 23
+fpi32tor32
+ldlp 3
+fpldnlmulsn
+ldlp 1
+fpstnli32
+ldl 1
+ldl 9
+bsub
+stl 17
+ldlp 24
+fpi32tor32
+ldlp 3
+fpldnlmulsn
+ldlp 1
+fpstnli32
+ldl 1
+ldl 10
+bsub
+stl 18
+ldlp 25
+fpi32tor32
+ldlp 3
+fpldnlmulsn
+ldlp 1
+fpstnli32
+ldl 1
+ldl 11
+bsub
+stl 19
+ldlp 26
+fpi32tor32
+ldlp 3
+fpldnlmulsn
+ldlp 1
+fpstnli32
+ldl 1
+ldl 12
+bsub
+stl 20
+ldl 19
+ldl 17
+diff
+stl 27
+ldl 20
+ldl 18
+diff
+stl 28
+ldlp 27
+fpi32tor32
+ldlp 4
+fpldnlmulsn
+ldlp 1
+fpstnli32
+ldl 1
+ldl 17
+bsub
+stl 21
+ldlp 28
+fpi32tor32
+ldlp 4
+fpldnlmulsn
+ldlp 1
+fpstnli32
+ldl 1
+ldl 18
+bsub
+stl 22
+ldl 22
+ldl 21
+diff
+stl 29
+ldlp 29
+fpi32tor32
+ldlp 5
+fpldnlmulsn
+ldlp 1
+fpstnli32
+ldl 1
+ldl 21
+bsub
+ajw 30
+ret
+P517:
+ajw -8
+ldlp 6
+stl 0
+ldlp 7
+stl 1
+ldlp 5
+ldl 10
+ldl 9
+call P128
+ldlp 5
+fpldnlsn
+ldl 9
+ldnl 0
+ldnlp 17
+fpldnlmulsn
+ldlp 5
+fpstnlsn
+ldl 5
+ajw -2
+stl 0
+ldlp 8
+fpldnlsn
+ldl 11
+ldnl 0
+ldnlp 19
+fpldnlmulsn
+ldlp 1
+fpstnlsn
+ldlp 9
+fpldnlsn
+ldl 11
+ldnl 0
+ldnlp 19
+fpldnlmulsn
+ldlp 2
+fpstnlsn
+ldl 11
+call P516
+stl 3
+ldlp 3
+fpi32tor32
+ldl 11
+ldnl 0
+ldnlp 18
+fpldnlmulsn
+ldlp 7
+fpldnladdsn
+ldlp 6
+fpstnlsn
+ldlp 6
+fpldnlsn
+ldlp 3
+fpstnli32
+ldl 3
+ldc 25
+rem
+stl 3
+ldlp 3
+fpi32tor32
+ldlp 6
+fpldnlmulsn
+ldlp 6
+fpstnlsn
+ldlp 6
+fpldnlsn
+ldl 11
+ldnl 0
+ldnlp 20
+fpldnlmulsn
+fpurz
+fpint
+ldl 11
+ldnl 0
+ldnlp 21
+fpldnlmulsn
+ldlp 6
+fpldnlsn
+ldl 11
+ldnl 0
+ldnlp 7
+fpldnlsn
+fpsub
+fprev
+fpsub
+fpuabs
+ldl 11
+ldnl 0
+ldnlp 20
+fpldnlmulsn
+ldl 11
+ldnl 0
+ldnlp 8
+fpldnladdsn
+ldlp 5
+fpstnlsn
+ldlp 5
+fpldnlsn
+ldl 11
+ldnl 0
+ldnlp 5
+fpldnlsn
+fpgt
+ajw 4
+ldl 7
+stl 0
+cj P518
+ldl 0
+ldnl 0
+ldnl 5
+stl 1
+P518:
+ldl 1
+ajw -3
+stl 0
+ldl 4
+stl 1
+ldl 4
+stl 2
+ldl 12
+ldl 3
+call P127
+ajw 9
+ret
+P519:
+ajw -8
+ldlp 6
+stl 0
+ldlp 7
+stl 1
+ldlp 5
+ldl 10
+ldl 9
+call P128
+ldlp 5
+fpldnlsn
+ldl 9
+ldnl 0
+ldnlp 17
+fpldnlmulsn
+ldlp 5
+fpstnlsn
+ldl 5
+ajw -2
+stl 0
+ldlp 8
+fpldnlsn
+ldl 11
+ldnl 0
+ldnlp 19
+fpldnlmulsn
+ldlp 1
+fpstnlsn
+ldlp 9
+fpldnlsn
+ldl 11
+ldnl 0
+ldnlp 19
+fpldnlmulsn
+ldlp 2
+fpstnlsn
+ldl 11
+call P516
+stl 3
+ldlp 3
+fpi32tor32
+ldl 11
+ldnl 0
+ldnlp 22
+fpldnlmulsn
+ldlp 7
+fpldnladdsn
+ldlp 6
+fpstnlsn
+ldlp 6
+fpldnlsn
+ldlp 3
+fpstnli32
+ldl 3
+ldc 25
+rem
+stl 3
+ldlp 3
+fpi32tor32
+ldlp 6
+fpldnlmulsn
+ldlp 6
+fpstnlsn
+ldlp 6
+fpldnlsn
+ldl 11
+ldnl 0
+ldnlp 20
+fpldnlmulsn
+fpurz
+fpint
+ldl 11
+ldnl 0
+ldnlp 21
+fpldnlmulsn
+ldlp 6
+fpldnlsn
+ldl 11
+ldnl 0
+ldnlp 7
+fpldnlsn
+fpsub
+fprev
+fpsub
+fpuabs
+ldl 11
+ldnl 0
+ldnlp 20
+fpldnlmulsn
+ldl 11
+ldnl 0
+ldnlp 23
+fpldnladdsn
+ldlp 5
+fpstnlsn
+ldlp 5
+fpldnlsn
+ldl 11
+ldnl 0
+ldnlp 5
+fpldnlsn
+fpgt
+ajw 4
+ldl 7
+stl 0
+cj P520
+ldl 0
+ldnl 0
+ldnl 5
+stl 1
+P520:
+ldl 1
+ajw -3
+stl 0
+ldl 4
+stl 1
+ldl 4
+stl 2
+ldl 12
+ldl 3
+call P127
+ajw 9
+ret
+P521:
+ldl 2
+ajw -2
+stl 0
+ldl 0
+eqc 0
+ldl 3
+stl 1
+cj P523
+ldl 1
+ldnl 991
+stl 6
+j P522
+P523:
+ldl 0
+eqc 2
+cj P524
+ldc 15
+ldl 5
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnl 14
+stl 6
+j P522
+P524:
+ldl 0
+eqc 3
+cj P525
+ldc 15
+ldl 5
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnl 14
+stl 6
+j P522
+P525:
+ldl 0
+eqc 4
+cj P526
+ldc 16
+ldl 5
+prod
+ldl 1
+ldnlp 9540
+wsub
+ldnl 15
+stl 6
+j P522
+P526:
+ldl 0
+eqc 5
+cj P527
+ldc 17
+ldl 5
+prod
+ldl 1
+ldnlp 10356
+wsub
+ldnl 16
+stl 6
+j P522
+P527:
+ldl 0
+eqc 6
+cj P528
+ldc 7
+ldl 5
+prod
+ldl 1
+ldnlp 11223
+wsub
+ldnl 6
+stl 6
+j P522
+P528:
+ldl 0
+eqc 7
+cj P529
+ldc 25
+ldl 5
+prod
+ldl 1
+ldnlp 13022
+wsub
+ldnl 24
+stl 6
+j P522
+P529:
+ldl 0
+eqc 8
+cj P530
+ldc 25
+ldl 5
+prod
+ldl 1
+ldnlp 14297
+wsub
+ldnl 24
+stl 6
+P530:
+P522:
+ajw 2
+ldl 4
+ret
+P531:
+ldl 2
+ajw -2
+stl 0
+ldl 0
+eqc 0
+ldl 3
+stl 1
+cj P533
+ldl 1
+ldnl 990
+stl 6
+j P532
+P533:
+ldl 0
+eqc 2
+cj P534
+ldc 15
+ldl 5
+prod
+ldl 1
+ldnlp 1080
+wsub
+ldnl 13
+stl 6
+j P532
+P534:
+ldl 0
+eqc 3
+cj P535
+ldc 15
+ldl 5
+prod
+ldl 1
+ldnlp 8775
+wsub
+ldnl 13
+stl 6
+j P532
+P535:
+ldl 0
+eqc 4
+cj P536
+ldc 16
+ldl 5
+prod
+ldl 1
+ldnlp 9540
+wsub
+ldnl 14
+stl 6
+j P532
+P536:
+ldl 0
+eqc 5
+cj P537
+ldc 17
+ldl 5
+prod
+ldl 1
+ldnlp 10356
+wsub
+ldnl 15
+stl 6
+j P532
+P537:
+ldl 0
+eqc 6
+cj P538
+ldc 7
+ldl 5
+prod
+ldl 1
+ldnlp 11223
+wsub
+ldnl 5
+stl 6
+j P532
+P538:
+ldl 0
+eqc 7
+cj P539
+ldc 25
+ldl 5
+prod
+ldl 1
+ldnlp 13022
+wsub
+ldnl 23
+stl 6
+j P532
+P539:
+ldl 0
+eqc 8
+cj P540
+ldc 25
+ldl 5
+prod
+ldl 1
+ldnlp 14297
+wsub
+ldnl 23
+stl 6
+P540:
+P532:
+ajw 2
+ldl 4
+ret
+P541:
+ldl 3
+ajw -9
+stl 0
+ldl 0
+eqc 2
+ldl 10
+stl 1
+cj P543
+ldl 11
+fpldnlsn
+fpuabs
+ldl 1
+ldnlp 78
+fpldnlmulsn
+fpint
+ajw -1
+ldlp 0
+fpstnli32
+ldl 0
+stl 3
+ldl 12
+ldnlp 1
+fpldnlsn
+fpuabs
+ldl 2
+ldnlp 78
+fpldnlmulsn
+fpint
+ldlp 0
+fpstnli32
+ldl 0
+stl 4
+ldl 12
+ldnlp 2
+fpldnlsn
+fpuabs
+ldl 2
+ldnlp 78
+fpldnlmulsn
+fpint
+ldlp 0
+fpstnli32
+ldl 0
+stl 5
+ldl 3
+ldl 4
+bsub
+ldl 5
+bsub
+ldc 2
+rem
+eqc 1
+ajw 1
+cj P544
+ldl 1
+ldnlp 72
+ldl 13
+ldc 12
+move
+j P545
+P544:
+ldl 1
+ldnlp 75
+ldl 13
+ldc 12
+move
+P545:
+j P542
+P543:
+ldl 0
+eqc 3
+cj P546
+ldc 32767
+ldl 1
+ajw -1
+call P502
+stl 6
+ldlp 6
+fpi32tor32
+ldl 2
+ldnl 0
+ldnlp 24
+fpldnlsn
+fpdiv
+ldlp 8
+fpstnlsn
+ldlp 8
+fpldnlsn
+ldl 2
+ldnl 0
+ldnlp 17
+fpldnlmulsn
+ldl 2
+ldnl 0
+ldnlp 25
+fpldnladdsn
+ldlp 7
+fpstnlsn
+ldl 7
+ajw -2
+stl 0
+ldl 9
+stl 1
+ldl 9
+stl 2
+ldl 16
+ldl 4
+call P127
+ajw 3
+j P542
+P546:
+ldl 0
+eqc 4
+cj P547
+ldl 13
+ldl 11
+ldl 1
+call P517
+j P542
+P547:
+ldl 0
+eqc 5
+cj P548
+ldl 13
+ldl 11
+ldl 1
+call P519
+j P542
+P548:
+ldl 0
+eqc 6
+cj P549
+ldc 32767
+ldl 1
+ajw -1
+call P502
+stl 6
+ldlp 6
+fpi32tor32
+ldl 2
+ldnl 0
+ldnlp 24
+fpldnlsn
+fpdiv
+ldlp 8
+fpstnlsn
+ldlp 8
+fpldnlsn
+ldl 2
+ldnl 0
+ldnlp 19
+fpldnlmulsn
+ldl 2
+ldnl 0
+ldnlp 26
+fpldnladdsn
+ldlp 7
+fpstnlsn
+ldl 7
+ajw -2
+stl 0
+ldl 9
+stl 1
+ldl 9
+stl 2
+ldl 16
+ldl 4
+call P127
+ajw 3
+j P542
+P549:
+ldl 0
+eqc 7
+cj P550
+ldc 32767
+ldl 1
+ajw -1
+call P502
+stl 6
+ldlp 6
+fpi32tor32
+ldl 2
+ldnl 0
+ldnlp 24
+fpldnlsn
+fpdiv
+ldlp 8
+fpstnlsn
+ldlp 8
+fpldnlsn
+ldl 2
+ldnl 0
+ldnlp 27
+fpldnlmulsn
+ldl 2
+ldnl 0
+ldnlp 28
+fpldnladdsn
+ldlp 7
+fpstnlsn
+ldl 7
+ajw -2
+stl 0
+ldl 9
+stl 1
+ldl 9
+stl 2
+ldl 16
+ldl 4
+call P127
+ajw 3
+j P542
+P550:
+ldl 0
+eqc 11
+cj P551
+ldl 11
+fpldnlsn
+fpint
+ajw -1
+ldlp 0
+fpstnli32
+ldl 0
+stl 3
+ldl 12
+ldnlp 1
+fpldnlsn
+fpint
+ldlp 0
+fpstnli32
+ldl 0
+stl 4
+ldc 27
+ldc 1
+call E1
+ldc P552-P553
+ldpi
+P553:
+ldc 2
+call E4
+ldl 3
+ldc 15
+and
+ldnlp 12
+ldc 1
+call E1
+ldl 3
+ldc 4
+shr
+ldc 15
+and
+ldnlp 12
+ldc 1
+call E1
+ldl 3
+ldc 8
+shr
+ldc 15
+and
+ldnlp 12
+ldc 1
+call E1
+ldl 3
+ldc 12
+shr
+ldc 15
+and
+ldnlp 12
+ldc 1
+call E1
+ldl 4
+ldc 15
+and
+ldnlp 12
+ldc 1
+call E1
+ldl 4
+ldc 4
+shr
+ldc 15
+and
+ldnlp 12
+ldc 1
+call E1
+ldl 4
+ldc 8
+shr
+ldc 15
+and
+ldnlp 12
+ldc 1
+call E1
+ldl 4
+ldc 12
+shr
+ldc 15
+and
+ldnlp 12
+ldc 1
+call E1
+ldlp 9
+stl 0
+ldl 2
+ldnl 0
+ldnlp -NUMCONSLIB
+call L1
+ldl 0
+stnl 0
+ldlp 9
+lb
+stl 0
+ldlp 0
+fpi32tor32
+ldl 2
+ldnl 0
+ldnlp 29
+fpldnlsn
+fpdiv
+ldl 14
+fpstnlsn
+ldlp 9
+stl 0
+ldl 2
+ldnl 0
+ldnlp -NUMCONSLIB
+call L1
+ldl 0
+stnl 0
+ldlp 9
+lb
+stl 0
+ldlp 0
+fpi32tor32
+ldl 2
+ldnl 0
+ldnlp 29
+fpldnlsn
+fpdiv
+ldl 14
+ldnlp 1
+fpstnlsn
+ldlp 9
+stl 0
+ldl 2
+ldnl 0
+ldnlp -NUMCONSLIB
+call L1
+ldl 0
+stnl 0
+ldlp 9
+lb
+stl 0
+ldlp 0
+fpi32tor32
+ldl 2
+ldnl 0
+ldnlp 29
+fpldnlsn
+fpdiv
+ldl 14
+ldnlp 2
+fpstnlsn
+ajw 1
+P551:
+P542:
+ajw 9
+ret
+P552:
+db 91,119
+P554:
+ldc 30
+ldl 2
+prod
+ldl 1
+ldnlp 351
+wsub
+ldnlp 26
+fpldnlsn
+fpldzerosn
+fpeq
+ldc 30
+ldl 2
+prod
+ldl 1
+ldnlp 351
+wsub
+ldnlp 27
+fpldnlsn
+fpldzerosn
+fpeq
+and
+ldc 30
+ldl 2
+prod
+ldl 1
+ldnlp 351
+wsub
+ldnlp 28
+fpldnlsn
+fpldzerosn
+fpeq
+and
+ajw -1
+ldl 2
+stl 0
+cj P555
+ldc 0
+stl 5
+j P556
+P555:
+ldc 1
+stl 5
+P556:
+ajw 1
+ldl 4
+ret
+P557:
+ldl 2
+eqc 1
+ajw -41
+ldl 42
+stl 0
+cj P558
+ldl 0
+ldnlp 42
+fpldnlsn
+fpldzerosn
+fpeq
+cj P559
+ldl 0
+ldnl 0
+ldnl 5
+stl 6
+j P560
+P559:
+ldlp 48
+fpldnlsn
+fpusqrtfirst
+fpusqrtstep
+fpusqrtstep
+fpusqrtlast
+ajw -1
+ldlp 0
+fpstnlsn
+ldl 46
+ldl 48
+ldl 1
+ajw -1
+call P129
+ldlp 1
+fpldnlsn
+fpdiv
+fpldzerosn
+fprev
+fpsub
+ldl 2
+ldnlp 42
+fpldnlmulsn
+ldl 2
+ldnl 0
+ldnlp 5
+fpldnlsn
+ldl 2
+ldnlp 42
+fpldnlsn
+fpsub
+fpadd
+ldlp 8
+fpstnlsn
+ajw 2
+P560:
+ldl 6
+ajw -1
+stl 0
+ldc 8
+ldl 45
+prod
+ldl 1
+ldnlp 992
+wsub
+ldnlp 5
+ldl 50
+rev
+ldl 1
+call P137
+ajw 1
+j P561
+P558:
+ldl 44
+ldl 43
+ldl 0
+ajw -1
+call P531
+stl 2
+ldc 30
+ldl 2
+prod
+ldl 1
+ldnlp 351
+wsub
+ldnlp 16
+ldlp 14
+ldc 12
+move
+ldc 1
+stl 0
+ldl 1
+ldnl 982
+ajw -1
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P563
+P562:
+ldl 1
+stl 5
+ldlp 9
+ajw -1
+stl 0
+ldc 8
+ldl 6
+prod
+ldl 3
+ldnlp 992
+wsub
+ldl 49
+rev
+ldl 3
+call P133
+ldlp 10
+ldl 3
+ajw 1
+call P132
+ldlp 30
+ajw -4
+stl 0
+ldlp 35
+stl 1
+ldlp 36
+stl 2
+ldlp 10
+stl 3
+ldlp 13
+ldl 52
+ldl 6
+call P473
+ldl 10
+ldl 34
+eqc 1
+and
+ldl 35
+ldl 9
+diff
+eqc 0
+and
+ajw 4
+cj P564
+ldc 1
+stl 7
+j P565
+P564:
+ldc 0
+stl 7
+P565:
+ldl 6
+eqc 0
+ldl 7
+or
+cj P566
+ldlp 9
+ldl 49
+ldl 2
+ajw -1
+call P129
+ldlp 19
+fpstnlsn
+ldlp 19
+fpldnlsn
+fpldzerosn
+fpgt
+eqc 0
+ajw 1
+cj P567
+ldlp 19
+ldl 2
+call P156
+ldlp 22
+ldl 2
+call P156
+j P568
+P567:
+ldl 18
+ajw -2
+stl 0
+ldlp 24
+stl 1
+ldc 8
+ldl 7
+prod
+ldl 4
+ldnlp 992
+wsub
+ldnlp 5
+ldc 30
+ldl 5
+prod
+ldl 4
+ldnlp 351
+wsub
+ldnlp 19
+ldl 4
+call P141
+ldlp 27
+stl 1
+ldl 49
+ldlp 11
+ldl 4
+ajw 1
+call P133
+ldlp 26
+ldl 3
+ajw 1
+call P132
+ldlp 25
+ldl 49
+ldl 2
+ajw -1
+call P129
+ldlp 29
+fpstnlsn
+ldlp 29
+fpldnlsn
+ldl 3
+ldnl 0
+ldnlp 8
+fpldnlsn
+fpgt
+ajw 1
+cj P569
+ldlp 28
+fpldnlsn
+ldl 2
+ldnl 0
+ldnlp -NUMCONSLIB
+call LN
+ldc 30
+ldl 3
+prod
+ldl 2
+ldnlp 351
+wsub
+ldnlp 25
+fpldnlmulsn
+ldl 2
+ldnl 0
+ldnlp -NUMCONSLIB
+call EXP
+ldlp 29
+fpstnlsn
+ldl 29
+ajw -2
+stl 0
+ldlp 21
+stl 1
+ldc 8
+ldl 7
+prod
+ldl 4
+ldnlp 992
+wsub
+ldnlp 5
+ldc 30
+ldl 5
+prod
+ldl 4
+ldnlp 351
+wsub
+ldnlp 22
+ldl 4
+call P141
+ajw 2
+j P570
+P569:
+ldlp 19
+ldl 2
+call P156
+P570:
+P568:
+ldlp 12
+ajw -1
+stl 0
+ldlp 20
+ldlp 23
+ldl 3
+call P134
+ldlp 16
+stl 0
+ldlp 13
+ldlp 16
+ldl 3
+call P134
+ajw 1
+j P571
+P566:
+ldl 30
+eqc 1
+eqc 0
+cj P572
+ldl 31
+ldl 30
+ldl 2
+ajw -1
+call P531
+stl 4
+ldl 4
+ldl 3
+call P554
+ajw 1
+cj P573
+ldl 32
+ajw -2
+stl 0
+ldlp 35
+stl 1
+ldlp 11
+ldl 50
+ldl 4
+call P308
+ldlp 35
+stl 0
+ldlp 38
+stl 1
+ldl 33
+ldl 32
+ldl 4
+call P297
+ldlp 38
+ldlp 11
+ldl 4
+ajw 1
+call P129
+fpuabs
+ldl 3
+ldnl 0
+ldnlp 23
+fpldnlmulsn
+ldl 3
+ldnl 0
+ldnlp 17
+fpldnladdsn
+ldlp 40
+fpstnlsn
+ldl 40
+ajw -1
+stl 0
+ldlp 14
+stl 1
+ldc 8
+ldl 7
+prod
+ldl 4
+ldnlp 992
+wsub
+ldnlp 5
+ldc 30
+ldl 5
+prod
+ldl 4
+ldnlp 351
+wsub
+ldnlp 26
+ldl 4
+call P141
+ldlp 17
+stl 1
+ldlp 14
+ldlp 17
+ldl 4
+ajw 1
+call P134
+ajw 1
+P573:
+ldl 46
+ldl 45
+ldl 2
+ajw -1
+call P531
+stl 4
+ajw 1
+P572:
+P571:
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P562
+P563:
+ldl 46
+ldl 45
+ldl 2
+ajw 1
+call P521
+stl 3
+ldl 3
+eqc 1
+ldl 3
+eqc 8
+or
+ldl 3
+eqc 9
+or
+ldl 3
+eqc 10
+or
+ajw 1
+cj P574
+ldlp 13
+ldl 49
+ldc 12
+move
+j P575
+P574:
+ldlp 38
+ajw -1
+stl 0
+ldl 3
+ldl 47
+ldl 1
+call P541
+ldl 1
+ldnl 0
+ldnl 5
+ajw -1
+stl 0
+ldl 51
+stl 1
+ldlp 40
+ldlp 15
+ldl 2
+call P141
+ajw 2
+P575:
+P561:
+ajw 41
+ret
+P576:
+ldl 1
+ldnl 0
+ldnl 30
+ajw -7
+stl 1
+ldl 9
+fpldnlsn
+fpdup
+fpmul
+ldlp 4
+fpstnlsn
+ldl 9
+ldnlp 1
+fpldnlsn
+fpdup
+fpmul
+ldlp 5
+fpstnlsn
+ldl 9
+ldnlp 2
+fpldnlsn
+fpdup
+fpmul
+ldlp 6
+fpstnlsn
+ldlp 6
+fpldnlsn
+fpldzerosn
+fpeq
+ldl 8
+stl 0
+cj P577
+ldl 1
+stl 6
+P577:
+ldlp 4
+fpldnlsn
+ldlp 5
+fpldnladdsn
+ldlp 6
+fpldnladdsn
+ldlp 6
+fpldnlsn
+fprev
+fpdiv
+ldlp 2
+fpstnlsn
+ldl 0
+ldnl 0
+ldnlp 5
+fpldnlsn
+ldlp 2
+fpldnlsn
+fpsub
+ldlp 3
+fpstnlsn
+ldl 3
+ajw -3
+stl 0
+ldl 5
+stl 1
+ldl 13
+stl 2
+ldl 3
+ldnlp 67
+ldl 3
+ldnlp 64
+ldl 3
+call P136
+ajw 10
+ret
+P578:
+ldl 1
+ldnl 0
+ldnl 30
+ajw -21
+stl 1
+ldlp 8
+ajw -2
+stl 0
+ldlp 11
+stl 1
+ldlp 9
+ldl 25
+ldl 24
+call P128
+ldl 25
+fpldnlsn
+fpdup
+fpmul
+ldlp 6
+fpstnlsn
+ldl 25
+ldnlp 1
+fpldnlsn
+fpdup
+fpmul
+ldlp 7
+fpstnlsn
+ldl 25
+ldnlp 2
+fpldnlsn
+fpdup
+fpmul
+ldlp 8
+fpstnlsn
+ldlp 8
+fpldnlsn
+fpldzerosn
+fpeq
+ajw 2
+ldl 22
+stl 0
+cj P579
+ldl 1
+stl 6
+P579:
+ldlp 4
+fpldnlsn
+ldlp 5
+fpldnladdsn
+ldlp 6
+fpldnladdsn
+ldlp 6
+fpldnlsn
+fprev
+fpdiv
+ldlp 2
+fpstnlsn
+ldl 0
+ldnl 0
+ldnlp 5
+fpldnlsn
+ldlp 2
+fpldnlsn
+fpsub
+ldlp 3
+fpstnlsn
+ldl 3
+ajw -3
+stl 0
+ldl 5
+stl 1
+ldlp 15
+stl 2
+ldl 3
+ldnlp 67
+ldl 3
+ldnlp 64
+ldl 3
+call P136
+ldlp 10
+fpldnlsn
+ldl 3
+ldnl 0
+ldnlp 7
+fpldnlmulsn
+ldlp 10
+fpstnlsn
+ldlp 11
+fpldnlsn
+ldl 3
+ldnl 0
+ldnlp 7
+fpldnlmulsn
+ldlp 11
+fpstnlsn
+ldlp 12
+fpldnlsn
+ldl 3
+ldnl 0
+ldnlp 31
+fpldnlmulsn
+ldlp 12
+fpstnlsn
+ldl 10
+ajw -1
+stl 0
+ldl 12
+stl 1
+ldl 13
+stl 2
+ldl 4
+call P516
+stl 3
+ldlp 3
+fpi32tor32
+ldl 4
+ldnl 0
+ldnlp 18
+fpldnlmulsn
+ldlp 13
+fpldnladdsn
+ldlp 14
+fpstnlsn
+ldlp 14
+fpldnlsn
+ldlp 3
+fpstnli32
+ldl 3
+ldc 25
+rem
+stl 3
+ldlp 3
+fpi32tor32
+ldlp 14
+fpldnlmulsn
+ldlp 14
+fpstnlsn
+ldlp 14
+fpldnlsn
+ldl 4
+ldnl 0
+ldnlp 20
+fpldnlmulsn
+fpurz
+fpint
+ldl 4
+ldnl 0
+ldnlp 21
+fpldnlmulsn
+ldlp 14
+fpldnlsn
+ldl 4
+ldnl 0
+ldnlp 7
+fpldnlsn
+fpsub
+fprev
+fpsub
+fpuabs
+ldl 4
+ldnl 0
+ldnlp 32
+fpldnladdsn
+ldlp 15
+fpstnlsn
+ldlp 15
+fpldnlsn
+ldl 4
+ldnl 0
+ldnlp 5
+fpldnlsn
+fpgt
+ajw 4
+cj P580
+ldl 0
+ldnl 0
+ldnl 5
+stl 11
+P580:
+ldlp 14
+ldnl 0
+ajw -3
+stl 0
+ldlp 17
+ldnl 0
+stl 1
+ldlp 17
+ldnl 0
+stl 2
+ldlp 18
+ldl 3
+call P127
+ldlp 15
+ldlp 21
+ldc 12
+move
+ldl 14
+stl 0
+ldl 3
+ldnl 0
+ldnlp 5
+fpldnlsn
+ldlp 14
+fpldnlsn
+fpsub
+ldlp 1
+fpstnlsn
+ldl 27
+stl 2
+ldlp 21
+ldlp 18
+ldl 3
+call P136
+ajw 24
+ret
+P581:
+ldl 1
+ldnl 0
+ldnl 5
+ajw -12
+stl 0
+ldlp 3
+stl 1
+ldl 15
+ldl 14
+ldl 13
+call P141
+ldl 13
+ldnl 0
+ldnl 5
+stl 0
+ldlp 6
+stl 1
+ldl 17
+ldl 16
+ldl 13
+call P141
+ldl 13
+ldnl 0
+ldnl 5
+stl 0
+ldlp 9
+stl 1
+ldl 19
+ldl 18
+ldl 13
+call P141
+ldlp 9
+stl 0
+ldl 20
+stl 1
+ldlp 6
+ldlp 3
+ldl 13
+call P135
+ajw 12
+ret
+P582:
+ldl 2
+fpldnlsn
+ldl 1
+ldnlp 31
+fpldnlsn
+fpgt
+eqc 0
+ldl 2
+ldnlp 1
+fpldnlsn
+ldl 1
+ldnlp 32
+fpldnlsn
+fpgt
+eqc 0
+and
+ldl 2
+ldnlp 2
+fpldnlsn
+ldl 1
+ldnlp 33
+fpldnlsn
+fpgt
+eqc 0
+and
+ajw -1
+ldl 2
+stl 0
+cj P583
+ldc 1
+stl 5
+j P584
+P583:
+ldc 0
+stl 5
+P584:
+ajw 1
+ldl 4
+ret
+P585:
+ldl 2
+eqc 1
+eqc 0
+ajw -1
+ldl 2
+stl 0
+cj P586
+ldc 30
+ldl 4
+prod
+ldl 0
+ldnlp 351
+wsub
+ldnlp 22
+fpldnlsn
+fpldzerosn
+fpeq
+ldc 30
+ldl 4
+prod
+ldl 0
+ldnlp 351
+wsub
+ldnlp 23
+fpldnlsn
+fpldzerosn
+fpeq
+and
+ldc 30
+ldl 4
+prod
+ldl 0
+ldnlp 351
+wsub
+ldnlp 24
+fpldnlsn
+fpldzerosn
+fpeq
+and
+cj P587
+ldc 0
+stl 5
+j P588
+P587:
+ldc 1
+stl 5
+P588:
+j P589
+P586:
+ldc 1
+stl 5
+P589:
+ajw 1
+ldl 4
+ret
+P590:
+ldl 2
+eqc 1
+eqc 0
+ajw -1
+ldl 2
+stl 0
+cj P591
+ldc 30
+ldl 4
+prod
+ldl 0
+ldnlp 351
+wsub
+ldnlp 26
+fpldnlsn
+fpldzerosn
+fpeq
+ldc 30
+ldl 4
+prod
+ldl 0
+ldnlp 351
+wsub
+ldnlp 27
+fpldnlsn
+fpldzerosn
+fpeq
+and
+ldc 30
+ldl 4
+prod
+ldl 0
+ldnlp 351
+wsub
+ldnlp 28
+fpldnlsn
+fpldzerosn
+fpeq
+and
+cj P592
+ldc 0
+stl 5
+j P593
+P592:
+ldc 1
+stl 5
+P593:
+j P594
+P591:
+ldc 0
+stl 5
+P594:
+ajw 1
+ldl 4
+ret
+P595:
+ajw -46
+ldlp 29
+stl 0
+ldlp 30
+stl 1
+ldlp 31
+stl 2
+ldlp 44
+stl 3
+ldl 49
+ldl 48
+ldl 47
+call P473
+ldl 44
+ajw 4
+ldl 43
+stl 0
+cj P596
+ldl 27
+ajw -2
+stl 0
+ldlp 21
+stl 1
+ldl 47
+ldl 46
+ldl 2
+call P308
+ldlp 21
+stl 0
+ldlp 24
+stl 1
+ldl 28
+ldl 27
+ldl 2
+call P297
+ldl 28
+ldl 27
+ldl 2
+ajw 1
+call P521
+stl 30
+ldl 30
+stl 0
+ldl 0
+eqc 8
+cj P598
+ldlp 20
+fpldnlsn
+ldlp 21
+fpldnladdsn
+ldl 1
+ldnlp 80
+fpldnladdsn
+ajw -2
+ldlp 0
+fpstnlsn
+ldl 3
+call P182
+ldl 3
+ldnl 0
+ldnlp -NUMCONSLIB
+call SIN
+ldlp 33
+fpstnlsn
+ldl 3
+ldnl 0
+ldnlp 33
+fpldnlsn
+ldlp 22
+fpldnlmulsn
+ldlp 23
+fpldnladdsn
+ldl 3
+ldnlp 80
+fpldnladdsn
+ldlp 0
+fpstnlsn
+ldl 3
+call P182
+ldl 3
+ldnl 0
+ldnlp -NUMCONSLIB
+call SIN
+ldlp 34
+fpstnlsn
+ldl 3
+ldnl 0
+ldnlp 34
+fpldnlsn
+ldlp 23
+fpldnlmulsn
+ldlp 22
+fpldnladdsn
+ldl 3
+ldnlp 80
+fpldnladdsn
+ldlp 0
+fpstnlsn
+ldl 3
+call P182
+ldl 3
+ldnl 0
+ldnlp -NUMCONSLIB
+call SIN
+ldlp 35
+fpstnlsn
+ldl 3
+ldnl 0
+ldnlp 35
+fpldnlsn
+ldlp 22
+fpldnlmulsn
+ldl 3
+ldnl 0
+ldnlp 36
+fpldnlsn
+ldlp 23
+fpldnlmulsn
+fpadd
+ldl 3
+ldnlp 80
+fpldnladdsn
+ldlp 0
+fpstnlsn
+ldl 3
+call P182
+ldl 3
+ldnl 0
+ldnlp -NUMCONSLIB
+call SIN
+ldlp 36
+fpstnlsn
+ldlp 33
+fpldnlsn
+ldlp 34
+fpldnladdsn
+ldlp 35
+fpldnladdsn
+ldlp 36
+fpldnladdsn
+ldl 3
+ldnlp 79
+fpldnlmulsn
+fpudivby2
+fpudivby2
+ldlp 37
+fpstnlsn
+ldlp 25
+fpldnlsn
+ldlp 37
+fpldnladdsn
+ldlp 25
+fpstnlsn
+ldlp 26
+fpldnlsn
+ldlp 37
+fpldnladdsn
+ldlp 26
+fpstnlsn
+ldlp 25
+ldl 3
+ajw 2
+call P132
+j P597
+P598:
+ldl 0
+eqc 9
+cj P599
+ldlp 21
+fpldnlsn
+ldl 1
+ldnlp 84
+fpldnlsn
+fpsub
+fpdup
+fpmul
+ajw -1
+ldlp 0
+fpstnlsn
+ldlp 21
+fpldnlsn
+ldl 2
+ldnlp 83
+fpldnlsn
+fpsub
+fpdup
+fpmul
+ldlp 0
+fpldnladdsn
+fpusqrtfirst
+fpusqrtstep
+fpusqrtstep
+fpusqrtlast
+ldlp 37
+fpstnlsn
+ldlp 37
+fpldnlsn
+ldl 2
+ldnl 0
+ldnlp 38
+fpldnlmulsn
+ldlp 38
+fpstnlsn
+ldl 2
+ldnl 0
+ldnlp 5
+fpldnlsn
+ldlp 38
+fpldnlsn
+fpgt
+ajw 1
+cj P600
+ldl 1
+ldnl 0
+ldnl 5
+stl 37
+P600:
+ldl 1
+ldnl 0
+ldnlp 33
+fpldnlsn
+ldlp 36
+fpldnlmulsn
+ldl 1
+ldnlp 82
+fpldnladdsn
+ajw -2
+ldlp 0
+fpstnlsn
+ldl 3
+call P182
+ldl 3
+ldnl 0
+ldnlp -NUMCONSLIB
+call SIN
+ldl 3
+ldnlp 81
+fpldnlmulsn
+ldlp 39
+fpldnlsn
+fpdiv
+ldlp 37
+fpstnlsn
+ldlp 25
+fpldnlsn
+ldlp 37
+fpldnladdsn
+ldlp 25
+fpstnlsn
+ldlp 26
+fpldnlsn
+ldlp 37
+fpldnladdsn
+ldlp 26
+fpstnlsn
+ldlp 25
+ldl 3
+ajw 2
+call P132
+j P597
+P599:
+ldl 0
+eqc 10
+cj P601
+ldlp 22
+fpldnlsn
+ldl 1
+ldnlp 89
+fpldnlsn
+fpsub
+fpdup
+fpmul
+ajw -1
+ldlp 0
+fpstnlsn
+ldlp 22
+fpldnlsn
+ldl 2
+ldnlp 88
+fpldnlsn
+fpsub
+fpdup
+fpmul
+ajw -1
+ldlp 0
+fpstnlsn
+ldlp 22
+fpldnlsn
+ldl 3
+ldnlp 87
+fpldnlsn
+fpsub
+fpdup
+fpmul
+ldlp 0
+fpldnladdsn
+ldlp 1
+fpldnladdsn
+fpusqrtfirst
+fpusqrtstep
+fpusqrtstep
+fpusqrtlast
+ldlp 38
+fpstnlsn
+ldlp 38
+fpldnlsn
+ldl 3
+ldnl 0
+ldnlp 38
+fpldnlmulsn
+ldlp 39
+fpstnlsn
+ldl 3
+ldnl 0
+ldnlp 5
+fpldnlsn
+ldlp 39
+fpldnlsn
+fpgt
+ajw 2
+cj P602
+ldl 1
+ldnl 0
+ldnl 5
+stl 37
+P602:
+ldl 1
+ldnl 0
+ldnlp 39
+fpldnlsn
+ldlp 36
+fpldnlmulsn
+ldl 1
+ldnlp 86
+fpldnladdsn
+ajw -2
+ldlp 0
+fpstnlsn
+ldl 3
+call P182
+ldl 3
+ldnl 0
+ldnlp -NUMCONSLIB
+call COS
+ldl 3
+ldnlp 85
+fpldnlmulsn
+ldlp 39
+fpldnlsn
+fpdiv
+ldlp 37
+fpstnlsn
+ldlp 25
+fpldnlsn
+ldlp 37
+fpldnladdsn
+ldlp 25
+fpstnlsn
+ldlp 26
+fpldnlsn
+ldlp 37
+fpldnladdsn
+ldlp 26
+fpstnlsn
+ldlp 27
+fpldnlsn
+ldlp 37
+fpldnladdsn
+ldlp 27
+fpstnlsn
+ldlp 25
+ldl 3
+ajw 2
+call P132
+P601:
+P597:
+ldl 26
+eqc 1
+ldl 1
+ldnl 38
+eqc 0
+and
+ajw 1
+cj P603
+ldl 45
+ajw -5
+stl 0
+ldlp 24
+stl 1
+ldlp 27
+stl 2
+ldl 32
+stl 3
+ldl 53
+stl 4
+ldl 31
+ldl 30
+ldl 5
+call P557
+ajw 5
+j P604
+P603:
+ldl 45
+ajw -5
+stl 0
+ldlp 24
+stl 1
+ldlp 27
+stl 2
+ldl 32
+stl 3
+ldlp 6
+stl 4
+ldl 31
+ldl 30
+ldl 5
+call P557
+ldl 51
+ldl 5
+ajw 4
+call P582
+ldl 48
+ldl 1
+ldnl 37
+diff
+eqc 0
+or
+ajw 1
+cj P605
+ldl 0
+ldnl 0
+ldnl 5
+ajw -2
+stl 0
+ldl 50
+stl 1
+ldl 2
+ldnlp 22
+ldlp 3
+ldl 2
+call P141
+ajw 2
+j P606
+P605:
+ldl 25
+eqc 1
+ldl 0
+ldnl 38
+and
+ldl 25
+eqc 1
+eqc 0
+or
+cj P607
+ldl 26
+ldl 25
+ldl 0
+ajw -1
+call P531
+stl 29
+ldl 29
+ldl 26
+ldl 1
+call P585
+ajw 1
+cj P608
+ldlp 10
+ajw -1
+stl 0
+ldlp 23
+ldl 46
+ldl 1
+call P287
+ldl 1
+ldnl 0
+ldnl 5
+ajw -1
+stl 0
+ldlp 18
+stl 1
+ldl 2
+ldnlp 25
+ldl 48
+ldl 2
+call P141
+ldlp 18
+ajw -1
+stl 0
+ldl 50
+adc 1
+stl 1
+ldlp 7
+stl 2
+ldlp 13
+ldlp 22
+ldl 3
+call P595
+ldl 28
+eqc 1
+eqc 0
+ajw 3
+cj P609
+ldlp 37
+ajw -1
+stl 0
+ldc 30
+ldl 29
+prod
+ldl 1
+ldnlp 351
+wsub
+ldnlp 26
+ldl 1
+ldnlp 43
+ldl 1
+call P133
+ldl 1
+ldnl 0
+ldnl 5
+ajw -1
+stl 0
+ldlp 6
+stl 1
+ldlp 39
+ldlp 6
+ldl 2
+call P141
+ajw 2
+P609:
+j P610
+P608:
+ldlp 4
+ldl 0
+call P156
+P610:
+ldl 28
+ldl 25
+ldl 0
+ajw -1
+call P590
+ajw 1
+cj P611
+ldl 28
+ajw -2
+stl 0
+ldlp 15
+stl 1
+ldlp 24
+ldl 47
+ldl 2
+call P289
+ldlp 27
+ajw -2
+stl 0
+ldlp 30
+stl 1
+ldlp 31
+stl 2
+ldlp 45
+stl 3
+ldlp 17
+ldlp 23
+ldl 4
+call P473
+ldl 31
+stl 2
+ldlp 23
+stl 3
+ldlp 17
+ldlp 23
+ldl 4
+ajw 2
+call P308
+ldlp 21
+stl 0
+ldlp 24
+stl 1
+ldl 28
+ldl 27
+ldl 2
+call P297
+ldl 30
+stl 0
+ldlp 15
+stl 1
+ldlp 24
+ldlp 15
+ldl 2
+call P289
+ldl 2
+ldnl 0
+ldnl 5
+stl 0
+ldlp 18
+stl 1
+ldl 2
+ldnlp 28
+ldl 48
+ldl 2
+call P141
+ldlp 18
+ajw -1
+stl 0
+ldl 50
+adc 1
+stl 1
+ldlp 10
+stl 2
+ldlp 16
+ldlp 22
+ldl 3
+call P595
+ldl 3
+ldnl 0
+ldnl 5
+stl 1
+ldlp 10
+stl 2
+ldc 30
+ldl 31
+prod
+ldl 3
+ldnlp 351
+wsub
+ldnlp 26
+ldlp 10
+ldl 3
+ajw 1
+call P141
+ajw 2
+j P612
+P611:
+ldlp 7
+ldl 0
+call P156
+P612:
+j P613
+P607:
+ldlp 4
+ldl 0
+call P156
+ldlp 7
+ldl 0
+call P156
+P613:
+ldl 25
+eqc 1
+ldl 0
+ldnl 38
+and
+cj P614
+ldlp 37
+ajw -1
+stl 0
+ldl 1
+ldnlp 39
+ldl 1
+ldnlp 43
+ldl 1
+call P133
+ldl 1
+ldnl 0
+ldnl 5
+ajw -1
+stl 0
+ldlp 3
+stl 1
+ldlp 3
+ldlp 39
+ldl 2
+call P141
+ldl 2
+ldnl 0
+ldnl 5
+stl 0
+ldlp 6
+stl 1
+ldlp 6
+ldl 2
+ldnlp 39
+ldl 2
+call P141
+ldl 50
+stl 1
+ldlp 6
+ldlp 3
+ldl 2
+ajw 1
+call P134
+ajw 1
+j P615
+P614:
+ldlp 4
+ajw -5
+stl 0
+ldl 5
+ldnlp 25
+stl 1
+ldlp 12
+stl 2
+ldl 5
+ldnlp 28
+stl 3
+ldl 53
+stl 4
+ldl 5
+ldnlp 22
+ldlp 6
+ldl 5
+call P581
+ajw 5
+P615:
+P606:
+P604:
+j P616
+P596:
+ldl 0
+ldnl 71
+cj P617
+ldl 0
+ldnl 70
+cj P618
+ldl 48
+ldl 45
+ldl 0
+call P578
+j P619
+P618:
+ldl 48
+ldl 45
+ldl 0
+call P576
+P619:
+j P620
+P617:
+ldl 48
+ldl 0
+call P156
+P620:
+P616:
+ajw 42
+ret
+P621:
+ldl 1
+ldnlp 1
+fpldnlsn
+ldl 1
+ldnlp 49
+fpldnlsn
+fpdiv
+ldl 1
+ldnlp 12
+fpstnlsn
+ldl 1
+ldnl 0
+ldnlp 5
+fpldnlsn
+ldl 1
+ldnlp 49
+fpldnlsn
+fpdiv
+ldl 1
+ldnlp 13
+fpstnlsn
+ldl 1
+ldnl 10
+ldc 2
+div
+ldl 1
+stnl 16
+ldl 1
+ldnl 11
+ldc 2
+div
+ldl 1
+stnl 17
+ldl 1
+ldnlp 16
+fpi32tor32
+ajw -2
+ldlp 1
+fpstnlsn
+ldl 1
+ajw -1
+stl 0
+ldl 4
+ldnlp 18
+ldl 4
+ldnlp 55
+ldl 4
+call P137
+ajw 3
+ret
+P622:
+ldc 27
+ldc 1
+call E1
+ldc P623-P624
+ldpi
+P624:
+ldc 2
+call E4
+ret
+P623:
+db 91,71
+P625:
+ldl 1
+ldnl 10
+ldl 1
+stnl 3
+ldl 1
+ldnl 11
+ldl 1
+stnl 4
+ldl 1
+ldnl 0
+ldnlp 11
+fpldnlsn
+ldl 1
+ldnl 0
+ldnlp 14
+fpldnlsn
+fpdiv
+ldl 1
+ldnlp 4
+fpi32tor32
+ldl 1
+ldnlp 3
+fpi32tor32
+fpdiv
+fpmul
+ldl 1
+ldnlp 1
+fpstnlsn
+ret
+P626:
+ldc 27
+ldc 1
+call E1
+ldc 91
+ldc 1
+call E1
+ldl 2
+ldc 0
+call E0
+ldc 59
+ldc 1
+call E1
+ldl 3
+ldc 0
+call E0
+ldc 59
+ldc 1
+call E1
+ldl 4
+ldc 0
+call E0
+ldc 59
+ldc 1
+call E1
+ldl 5
+ldc 0
+call E0
+ldc 59
+ldc 1
+call E1
+ldl 6
+ldc 0
+call E0
+ldc 80
+ldc 1
+call E1
+ret
+P627:
+ldl 1
+ajw -15
+call P621
+ldc 0
+ajw -2
+stl 1
+ldl 18
+ldnl 11
+adc -1
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+ldl 18
+stl 2
+cj P629
+P628:
+ldl 1
+stl 13
+ldc 0
+ajw -2
+stl 1
+ldl 4
+ldnl 10
+adc -1
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P631
+P630:
+ldl 1
+stl 14
+ldlp 14
+fpi32tor32
+ajw -2
+ldlp 0
+fpstnlsn
+ldlp 17
+fpi32tor32
+ldlp 1
+fpstnlsn
+ldlp 7
+ldl 6
+call P388
+ldc 1
+ldl 6
+stnl 341
+ldl 6
+ldnlp 34
+ajw -1
+stl 0
+ldc 1
+stl 1
+ldlp 11
+stl 2
+ldlp 8
+ldl 7
+ldnlp 50
+ldl 7
+call P595
+ldlp 11
+fpldnlsn
+ldl 7
+ldnl 0
+ldnlp 5
+fpldnlsn
+fpgt
+ajw 3
+cj P632
+ldl 4
+ldnl 0
+ldnl 5
+ldlp 8
+stnl 0
+P632:
+ldlp 9
+fpldnlsn
+ldl 4
+ldnl 0
+ldnlp 5
+fpldnlsn
+fpgt
+cj P633
+ldl 4
+ldnl 0
+ldnl 5
+ldlp 9
+stnl 0
+P633:
+ldlp 10
+fpldnlsn
+ldl 4
+ldnl 0
+ldnlp 5
+fpldnlsn
+fpgt
+cj P634
+ldl 4
+ldnl 0
+ldnl 5
+ldlp 10
+stnl 0
+P634:
+ldl 4
+ldnl 0
+ldnl 29
+ajw -1
+stl 0
+ldlp 12
+ldlp 9
+ldl 5
+call P139
+ldlp 12
+ldnl 0
+ajw -2
+stl 0
+ldlp 15
+ldnl 0
+stl 1
+ldlp 16
+ldnl 0
+stl 2
+ldl 18
+ldl 17
+ldl 7
+call P626
+ldl 4
+ldl 3
+diff
+eqc 0
+ldl 4
+adc 1
+stl 4
+ajw 3
+cj P630
+P631:
+ldl 3
+ldl 2
+diff
+eqc 0
+ldl 3
+adc 1
+stl 3
+ajw 2
+cj P628
+P629:
+ajw 17
+ret
+P635:
+ret
+P636:
+ldc 27
+ldc 1
+call E1
+ldc P637-P638
+ldpi
+P638:
+ldc 2
+call E4
+ret
+P637:
+db 91,84
+P1:
+ldc P639-P640
+ldpi
+P640:
+ldc 11
+call E4
+call E5
+call E5
+ldc P641-P642
+ldpi
+P642:
+ldc 23
+call E4
+call E5
+call E5
+ldl 1
+ldnl 19
+ajw -19668
+stl 2
+ldl 19669
+ldnl 5
+ldlp 46
+stnl 0
+ldl 19669
+ldnl 5
+ldlp 47
+stnl 0
+ldl 19669
+ldnl 5
+ldlp 48
+stnl 0
+ldl 19669
+ldnl 5
+ldlp 43
+stnl 0
+ldl 19669
+ldnl 5
+ldlp 44
+stnl 0
+ldl 19669
+ldnl 5
+ldlp 45
+stnl 0
+ldl 19669
+stl 0
+ldlp 0
+call P503
+ldlp 0
+call P635
+ldlp 0
+call P108
+ldlp 0
+call P625
+ldl 21
+stl 350
+ldc 1
+ajw -2
+stl 1
+ldl 352
+stl 0
+ldl 1
+ldl 0
+gt
+eqc 0
+cj P644
+P643:
+ldl 1
+stl 351
+ldlp 2
+call P622
+ldlp 2
+call P161
+ldlp 2
+call P189
+ldlp 2
+call P427
+ldlp 2
+call P627
+ldlp 2
+call P636
+ldl 1
+ldl 0
+diff
+eqc 0
+ldl 1
+adc 1
+stl 1
+cj P643
+P644:
+ajw 19670
+ret
+P639:
+db 82,97,121,32,116,114,97,99
+db 105,110,103
+P641:
+db 80,111,114,116,32,98,121,32
+db 79,115,99,97,114,32,84,111
+db 108,101,100,111,32,71,46
+INIC:
+ajw -(NUMCONS+NUMCONSLIB)
+ldc CONSLIB-CONS1
+ldpi
+CONS1:
+ldlp 0
+ldc NUMCONSLIB*4
+move
+ldc CONS-CONS2
+ldpi
+CONS2:
+ldlp NUMCONSLIB
+ldc NUMCONS*4
+move
+call DINAMICA
+ajw -5
+stl 1
+stl 2
+mint
+stl 3
+mint
+stl 4
+ldc 0x3F579834
+stl 0
+ldlp 5+NUMCONSLIB
+call P1
+ajw NUMCONS+NUMCONSLIB+5
+ret
+CONS:
+db 142,93,19,64
+db 217,91,222,62
+db 219,15,73,64
+db 54,250,142,60
+db 225,46,101,66
+db 0,0,128,63
+db 0,0,128,191
+db 0,0,32,65
+db 0,0,0,63
+db 244,253,52,63
+db 0,0,0,64
+db 0,0,128,64
+db 0,0,0,192
+db 205,204,140,63
+db 0,0,64,64
+db 42,153,211,67
+db 208,214,209,62
+db 205,204,76,62
+db 82,73,29,58
+db 205,204,204,61
+db 205,204,76,61
+db 0,0,160,65
+db 23,183,81,57
+db 51,51,51,63
+db 0,0,0,71
+db 205,204,76,63
+db 102,102,102,63
+db 154,153,25,62
+db 154,153,89,63
+db 0,0,127,67
+db 110,18,131,58
+db 0,0,200,67
+db 143,194,117,61
+db 0,0,32,64
+db 154,153,217,63
+db 0,0,192,63
+db 51,51,131,64
+db 0,0,128,62
+db 10,215,35,60
+db 0,0,112,66
+NUMCONS:
+equ 40
+FINPROG:

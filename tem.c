@@ -13,6 +13,7 @@
  */
 #define DEBUG       0
 #define DEBUG_DISK  0
+#define FPU_TEST    0
 
 /*
  ** The supported machine is a T805 homebrew board made by Oscar Toledo E. circa 1992
@@ -347,6 +348,26 @@ unsigned char ram_disk[524288] = {
 
 FILE *debug;
 
+void close_all(void)
+{
+    if (debug != NULL) {
+        fclose(debug);
+        debug = NULL;
+    }
+    if (disk != NULL) {
+        fclose(disk);
+        disk = NULL;
+    }
+    if (harddisk != NULL) {
+        fclose(harddisk);
+        harddisk = NULL;
+    }
+    if (cdrom != NULL) {
+        fclose(cdrom);
+        cdrom = NULL;
+    }
+}
+
 /*
  ** Main program
  */
@@ -457,6 +478,7 @@ int main(int argc, char *argv[])
     boot_image[63] |= (bytes_channel0 >>  4) & 0x0f;
     boot_image[64] |= (bytes_channel0      ) & 0x0f;
     memcpy(memory + 112, boot_image, sizeof(boot_image));
+    atexit(&close_all);
     start_emulation(0x80000070, 1 | 0x80000070 + ((sizeof(boot_image) + 3) & ~3));
     
     exit(0);
@@ -467,12 +489,27 @@ int main(int argc, char *argv[])
  */
 void debug_message(char *data)
 {
-    debug = fopen("debug.txt", "a");
+    if (debug == NULL)
+        debug = fopen("debug.txt", "a");
     if (debug != NULL) {
         fprintf(debug, "%s", data);
-        fclose(debug);
     }
 }
+
+void debug_memory(unsigned int Areg, unsigned int Breg, unsigned int Creg, unsigned int Iptr, unsigned int Wptr)
+{
+    FILE *a;
+    
+    a = fopen("memory.txt", "w");
+    fprintf(a, "Areg=%08x Breg=%08x Creg=%08x Iptr=%08x Wptr=%08x\n", Areg, Breg, Creg, Iptr, Wptr);
+    fclose(a);
+    a = fopen("memory.bin", "wb");
+    fwrite(memory, 1, sizeof(memory), a);
+    fclose(a);
+    exit(1);
+}
+
+#define debug_data() debug_memory(Areg, Breg, Creg, Iptr, Wptr);
 
 #define MEMORY_MASK  0x0003ffff
 
@@ -678,6 +715,14 @@ void process_output(int c)
                 memset(framebuffer, 0, sizeof(framebuffer));
             } else if (c == 'T') {
                 save_image();
+#if 0
+                {
+                    FILE *a;
+                    a = fopen("memory.bin", "wb");
+                    fwrite(memory, 1, sizeof(memory), a);
+                    fclose(a);
+                }
+#endif
             } else if (c == 'P') {
                 int x;
                 int y;
@@ -1168,6 +1213,14 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
             offset_channel0 = 0;
             bytes_channel0 = 1;
             output_pointer = output_buffer;
+#if 0
+            {
+                FILE *a;
+                a = fopen("memory.bin", "wb");
+                fwrite(memory, 1, sizeof(memory), a);
+                fclose(a);
+            }
+#endif
             return;
         }
         if (memcmp(output_buffer, "12", 2) == 0) {  /* Code 12: Draw pixel */
@@ -1754,6 +1807,7 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
         union {
             float f;
             double d;
+            unsigned char byte[8];
         } v;
     } fp[7];
     int byte;
@@ -1897,11 +1951,23 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
 #if DEBUG
         if ((byte & 0xf0) != 0x20 && (byte & 0xf0) != 0x60) {   /* Avoid prefixes */
             char buffer[256];
+            char fpstate[256];
+            int c;
             
+            fpstate[0] = '\0';
+#if 0   /* For debugging FPU state */
+            for (c = 0; c < 3; c++) {
+                if (fp[c].type == 0)
+                    sprintf(buffer, "F%c=%02x%02x%02x%02x ", c + 65, fp[c].v.byte[3], fp[c].v.byte[2], fp[c].v.byte[1], fp[c].v.byte[0]);
+                else
+                    sprintf(buffer, "F%c=%02x%02x%02x%02x%02x%02x%02x%02x ", c + 65, fp[c].v.byte[7], fp[c].v.byte[6], fp[c].v.byte[5], fp[c].v.byte[4], fp[c].v.byte[3], fp[c].v.byte[2], fp[c].v.byte[1], fp[c].v.byte[0]);
+                strcat(fpstate, buffer);
+            }
+#endif
             if ((byte & 0xf0) != 0xf0)
-                sprintf(buffer, "Iptr=%08x A=%08x B=%08x C=%08x Wptr=%08x %s %d\n", Iptr, Areg, Breg, Creg, Wptr, instruction_table[byte >> 4], Oreg | (byte & 0x0f));
+                sprintf(buffer, "Iptr=%08x A=%08x B=%08x C=%08x Wptr=%08x %s %s %d\n", Iptr, Areg, Breg, Creg, Wptr, fpstate, instruction_table[byte >> 4], Oreg | (byte & 0x0f));
             else
-                sprintf(buffer, "Iptr=%08x A=%08x B=%08x C=%08x Wptr=%08x %s\n", Iptr, Areg, Breg, Creg, Wptr, instruction_table[16 + (Oreg | (byte & 0x0f))]);
+                sprintf(buffer, "Iptr=%08x A=%08x B=%08x C=%08x Wptr=%08x %s %s\n", Iptr, Areg, Breg, Creg, Wptr, fpstate, instruction_table[16 + (Oreg | (byte & 0x0f))]);
             debug_message(buffer);
         }
 #endif
@@ -2268,6 +2334,9 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         break;
                     case 0x2c:  /* div */
                         if (Areg == 0 || Areg == -1 && Breg == 0x80000000) {
+#if 1
+                            debug_memory(Areg, Breg, Creg, Iptr, Wptr);
+#endif
                             transputer_error = 1;
                         } else {
                             /* Important: Operation is signed */
@@ -2511,6 +2580,11 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         RoundMode = ROUND_NEAREST;
                         break;
                     case 0x84:  /* fpstnldb */
+#if FPU_TEST
+                        if (fp[0].type != 1) {
+                            debug_data();
+                        }
+#endif
                         write_memory_fp64(Areg, fp[0].v.d);
                         fp[0] = fp[1];
                         fp[1] = fp[2];
@@ -2528,6 +2602,11 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         RoundMode = ROUND_NEAREST;
                         break;
                     case 0x87:  /* fpadd */
+#if FPU_TEST
+                        if (fp[0].type != fp[1].type) {
+                            debug_data();
+                        }
+#endif
                         if (fp[0].type == 0)
                             fp[0].v.f = fp[1].v.f + fp[0].v.f;
                         else
@@ -2536,6 +2615,11 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         RoundMode = ROUND_NEAREST;
                         break;
                     case 0x88:  /* fpstnlsn */
+#if FPU_TEST
+                        if (fp[0].type != 0) {
+                            debug_data();
+                        }
+#endif
                         write_memory_fp32(Areg, fp[0].v.f);
                         fp[0] = fp[1];
                         fp[1] = fp[2];
@@ -2544,6 +2628,11 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         RoundMode = ROUND_NEAREST;
                         break;
                     case 0x89:  /* fpsub */
+#if FPU_TEST
+                        if (fp[0].type != fp[1].type) {
+                            debug_data();
+                        }
+#endif
                         if (fp[0].type == 0)
                             fp[0].v.f = fp[1].v.f - fp[0].v.f;
                         else
@@ -2561,6 +2650,11 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         RoundMode = ROUND_NEAREST;
                         break;
                     case 0x8b:  /* fpmul */
+#if FPU_TEST
+                        if (fp[0].type != fp[1].type) {
+                            debug_data();
+                        }
+#endif
                         if (fp[0].type == 0)
                             fp[0].v.f = fp[1].v.f * fp[0].v.f;
                         else
@@ -2569,6 +2663,11 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         RoundMode = ROUND_NEAREST;
                         break;
                     case 0x8c:  /* fpdiv */
+#if FPU_TEST
+                        if (fp[0].type != fp[1].type) {
+                            debug_data();
+                        }
+#endif
                         if (fp[0].type == 0)
                             fp[0].v.f = fp[1].v.f / fp[0].v.f;
                         else
@@ -2760,7 +2859,6 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         RoundMode = ROUND_NEAREST;
                         break;
                     case 0xa6:  /* fpldnladddb */
-                        fp[3].type = 1;
                         read_memory_fp64(Areg, &fp[3].v.d);
                         fp[0].v.d += fp[3].v.d;
                         Areg = Breg;
@@ -2768,7 +2866,6 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         RoundMode = ROUND_NEAREST;
                         break;
                     case 0xa8:  /* fpldnlmuldb */
-                        fp[3].type = 1;
                         read_memory_fp64(Areg, &fp[3].v.d);
                         fp[0].v.d *= fp[3].v.d;
                         Areg = Breg;
@@ -2776,7 +2873,6 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         RoundMode = ROUND_NEAREST;
                         break;
                     case 0xaa:  /* fpldnladdsn */
-                        fp[3].type = 0;
                         read_memory_fp32(Areg, &fp[3].v.f);
                         fp[0].v.f += fp[3].v.f;
                         Areg = Breg;
@@ -2784,7 +2880,6 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         RoundMode = ROUND_NEAREST;
                         break;
                     case 0xac:  /* fpldnlmulsn */
-                        fp[3].type = 0;
                         read_memory_fp32(Areg, &fp[3].v.f);
                         fp[0].v.f *= fp[3].v.f;
                         Areg = Breg;
