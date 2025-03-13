@@ -1,0 +1,642 @@
+;
+; MAnejo de Entrada y Salida de TRansputer por Oscar toledo gutierrez.
+;
+; (MAESTRO)
+;
+; Se supone que esto comienza en 8000:0100.
+;
+; Creaci¢n: junio de 1995.
+; Revisi¢n: 10 de septiembre de 1995. Soporte para formateo de discos.
+; Revisi¢n: 10 de septiembre de 1995. Soporte para m s canales.
+; Revisi¢n: 10 de octubre de 1995. Soporte para el servicio 9.
+; Revisi¢n: 6 de mayo de 1996. Se agregan 3 semaforos y espacio para dos
+;                              canales.
+;
+
+ENTRADA:
+SSER: equ 64
+ESER: equ 65
+SBAJ: equ 66
+EBAJ: equ 67
+AVID: equ 68
+SEMA: equ 69
+SEMAS: equ 70
+SEMAB: equ 71
+SEXT: equ 72
+EEXT: equ 73
+BMEM: equ 74
+SEMAX: equ 75
+
+bsub ; Reserva para el punto de servicio. (uso con out)
+bsub
+bsub
+bsub
+
+bsub ; Respuesta del punto de servicio. (uso con in)
+bsub
+bsub
+bsub
+
+bsub ; Reserva para el acceso a bajo nivel. (uso con out)
+bsub
+bsub
+bsub
+
+bsub ; Respuesta del acceso a bajo nivel. (uso con in)
+bsub
+bsub
+bsub
+
+bsub ; Reserva para el apuntador de video.
+bsub
+bsub
+bsub
+
+bsub ; Semaforo. 0 = Nadie usa el canal.
+bsub ;           1 = Se esta refrescando la pantalla.
+bsub ;           2 = Lo esta usando el disco o el teclado.
+bsub
+
+bsub ; Semaforo. 0 = Nadie usa el canal.
+bsub ;           1 = Alguien lo esta usando.
+bsub ;
+bsub ;
+
+bsub ; Semaforo. 0 = Nadie usa el canal.
+bsub ;           1 = Alguien lo esta usando.
+bsub ;
+bsub ;
+
+bsub ; Canal a f£turo.
+bsub ;
+bsub ;
+bsub ;
+
+bsub ; Canal a f£turo.
+bsub ;
+bsub ;
+bsub ;
+
+bsub ; Direcci¢n bloque 512 bytes.
+bsub
+bsub
+bsub
+
+bsub ; Semaforo a f£turo.
+bsub ;
+bsub ;
+bsub ;
+
+mint
+mint
+stnl SSER
+mint
+mint
+stnl ESER
+mint
+mint
+stnl SBAJ
+mint
+mint
+stnl EBAJ
+mint
+mint
+stnl SEXT
+mint
+mint
+stnl EEXT
+ajw -1025 ; Bytes para el video.
+ldlp 0
+mint
+stnl AVID
+ajw -2 ; Limpia el video.
+ldlp 2
+stl 0
+ldc 1000
+stl 1
+BN1:
+ldc 0x07200720
+ldl 0
+stnl 0
+ldl 0
+adc 3
+stl 0
+ldlp 0
+ldc BN2-BN1
+lend
+BN2:
+ldlp 1002
+stl 0
+ldc 25
+stl 1
+BN3:
+ldc 0xffffffff
+ldl 0
+stnl 0
+ldl 0
+adc 3
+stl 0
+ldlp 0
+ldc BN4-BN3
+lend
+BN4:
+ajw 2
+ldc 0
+mint
+stnl SEMA
+ldc 0
+mint
+stnl SEMAS
+ldc 0
+mint
+stnl SEMAB
+ldc 0
+mint
+stnl SEMAX
+ldc REFRESCO-PROC1
+ldpi
+PROC1:
+ldlp -16
+stnl -1
+ldlp -16
+runp
+ldc ENTSAL-PROC2
+ldpi
+PROC2:
+ldlp -32
+stnl -1
+ldlp -32
+runp
+ajw -48
+j COMIENZO
+
+REFRESCO:
+ajw -8
+mint
+ldnl AVID
+stl 6
+mint
+ldnl AVID
+ldnlp 1000
+stl 1
+R4:
+ldc 125000
+ldtimer
+sum
+tin
+ldl 6
+stl 2
+ldl 1
+stl 3
+ldc 0
+stl 4
+R3:
+ldl 4
+ldc 25
+diff
+cj R4
+ldc -1
+stl 7
+ldc 0
+stl 5
+R1:
+ldl 5
+ldc 160
+diff
+cj R2
+ldc 0x137f248a
+ldl 7
+ldl 2
+ldnl 0
+crcword
+stl 7
+ldl 2
+ldnlp 1
+stl 2
+ldl 5
+ldnlp 1
+stl 5
+j R1
+R2:
+ldl 7
+ldl 3
+ldnl 0
+diff
+eqc 0
+cj REF
+ldl 3
+ldnlp 1
+stl 3
+ldl 4
+adc 1
+stl 4
+j R3
+
+REF:
+ldl 7
+ldl 3
+stnl 0
+mint
+ldnl SEMA
+cj REF1
+ldc 200
+ldtimer
+sum
+tin
+j REF
+REF1:
+ldc 1
+mint
+stnl SEMA
+mint
+ldnlp 0
+ldc 0x30
+outbyte
+mint
+ldnlp 0
+ldc 0x34
+outbyte
+mint
+ldnlp 0
+ldl 4
+outbyte
+ldl 2
+ldl 5
+diff
+ldc 160
+call ENVIO
+ldc 0
+mint
+stnl SEMA
+j R2
+
+ENTSAL:
+ajw -4
+E1:
+ldlp 0
+mint
+ldnlp SBAJ
+ldc 4
+in
+E2:
+mint
+ldnl SEMA
+cj E3
+ldc 275
+ldtimer
+sum
+tin
+j E2
+E3:
+ldc 1
+mint
+stnl SEMA
+ldl 0
+lb
+stl 1
+ldl 1
+ldc 1
+diff
+cj LEESEC
+ldl 1
+ldc 2
+diff
+cj ESCSEC
+ldl 1
+ldc 3
+diff
+cj FORPIS
+ldl 1
+ldc 5
+diff
+cj CHETEC
+ldl 1
+ldc 6
+diff
+cj OBTHOR
+ldl 1
+ldc 7
+diff
+cj POSCUR
+ldl 1
+ldc 8
+diff
+cj POSCUR
+ldl 1
+ldc 9
+diff
+cj IMPCAR
+ldl 1
+ldc 16
+diff
+cj MODGRA
+ldl 1
+ldc 17
+diff
+cj MODGRA
+ldl 1
+ldc 18
+diff
+cj PONPIX
+ldl 1
+ldc 19
+diff
+cj PONPIX2
+ldl 1
+ldc 24
+diff
+cj CHETEC
+ldl 1
+ldc 25
+diff
+cj IMPCAR
+ldl 1
+ldc 26
+diff
+cj LEECIN
+ldl 1
+ldc 27
+diff
+cj IMPCAR
+ldl 1
+ldc 28
+diff
+cj MODGRA
+j E6
+E4:
+ldl 0
+ldl 1
+call ENVIO
+ldl 2
+cj E6
+ldl 0
+mint
+ldnlp 4
+ldl 2
+in
+E6:
+mint
+ldnlp EBAJ
+ldc 0
+outbyte
+ldc 0
+mint
+stnl SEMA
+j E1
+
+MODGRA:
+ldc 1
+stl 1
+ldc 0
+stl 2
+j E4
+
+PONPIX:
+ldc 8
+stl 1
+ldc 0
+stl 2
+j E4
+
+PONPIX2:
+ldc 6
+stl 1
+ldc 0
+stl 2
+j E4
+
+LEESEC:
+ldc 6
+stl 1
+ldc 513
+stl 2
+j E4
+
+ESCSEC:
+ldc 518
+stl 1
+ldc 1
+stl 2
+j E4
+
+FORPIS:
+ldc 4
+stl 1
+ldc 1
+stl 2
+j E4
+
+CHETEC:
+ldc 1
+stl 1
+ldc 1
+stl 2
+j E4
+
+OBTHOR:
+ldc 1
+stl 1
+ldc 6
+stl 2
+j E4
+
+POSCUR:
+ldc 3
+stl 1
+ldc 0
+stl 2
+j E4
+
+IMPCAR:
+ldc 2
+stl 1
+ldc 0
+stl 2
+j E4
+
+LEECIN:
+ldc 1
+stl 1
+ldc 2
+stl 2
+j E4
+
+ENVIO:
+ajw -1
+ENVIO3:
+ldl 2
+cj ENVIO2
+mint
+ldnlp 0
+ldl 3
+lb
+ldc 4
+shr
+adc 0x30
+outbyte
+mint
+ldnlp 0
+ldl 3
+lb
+ldc 15
+and
+adc 0x30
+outbyte
+ldl 3
+adc 1
+stl 3
+ldl 2
+adc -1
+stl 2
+j ENVIO3
+ENVIO2:
+ajw 1
+ret
+
+;
+; Ejecuta una secuencia de boot.
+;
+; Carga la pista 0, lado 0, sector 1.
+;
+
+A_VIDEO: equ 68
+E_MAESTRO: equ 66
+S_MAESTRO: equ 67
+
+COMIENZO:
+ajw -144
+ARRANQUE2:
+ldc 0 ; Arranque.
+ldlp 16
+call LEESECTOR
+ldlp 16
+stl 0
+ldc FINPROG-F1
+ldpi
+F1:
+adc 15
+ldc -16
+and
+stl 1
+ldl 143
+ldc 16
+shr
+eqc 0x3412
+cj F4
+ldlp 16
+ldl 1
+ldc 512
+move
+ldl 1
+mint
+stnl BMEM
+ldl 1
+ajw 144
+gcall
+
+F4:
+mint
+ldnl A_VIDEO
+ldc ERROR1-F6
+ldpi
+F6:
+call PONE
+call ETECLA
+j ARRANQUE2
+
+PONE:
+ldl 1
+lb
+cj PONE1
+ldl 1
+lb
+ldl 2
+sb
+ldl 1
+adc 1
+stl 1
+ldl 2
+adc 2
+stl 2
+j PONE
+PONE1:
+ret
+
+ETECLA:
+ajw -2
+ETECLA1:
+ldc 5
+stl 0
+ldlp 0
+stl 1
+ldlp 1
+mint
+ldnlp E_MAESTRO
+ldc 4
+out
+ldlp 1
+mint
+ldnlp S_MAESTRO
+ldc 1
+in
+ldl 0
+cj ETECLA1
+ajw 2
+ret
+
+LEESECTOR:
+ldl 1
+adc -1
+stl 1
+ldc 0x01
+ldl 1
+sb
+ldc 0
+ldl 1
+adc 1
+sb
+ldl 2
+ldc 24
+shr
+ldl 1
+adc 2
+sb
+ldl 2
+ldc 16
+shr
+ldl 1
+adc 3
+sb
+ldl 2
+ldc 8
+shr
+ldl 1
+adc 4
+sb
+ldl 2
+ldl 1
+adc 5
+sb
+ldl 1
+stl 2
+ldlp 2
+mint
+ldnlp E_MAESTRO
+ldc 4
+out
+ldlp 2
+mint
+ldnlp S_MAESTRO
+ldc 1
+in
+ret
+
+ERROR1:
+db 'Inserte un disco '
+db 'con sistema '
+db 'operativo, '
+db 'y pulse una '
+db 'tecla...'
+db 0
+
+FINPROG:

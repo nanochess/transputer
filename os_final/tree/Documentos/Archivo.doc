@@ -1,0 +1,153 @@
+Estructura del sistema de archivo del Sistema Operativo Mexicano de 32 bits.
+
+El disco se divide en 3 zonas:
+
+      |-------------------------------|
+      |                               |
+      |      Sector 0 - Arranque      |
+      |                               |
+      |-------------------------------|
+      |                               |
+      |       Tabla de espacio        |
+      |                               |
+      |-------------------------------|
+      |                               |
+      |      Datos del usuario        |
+      |                               |
+      |-------------------------------|
+
+Los sectores tienen un tamaño de 512 bytes.
+
+El arranque esta estructurado de la siguiente forma:
+
+    2 bytes   24 0E                 Salta al comienzo del arranque.
+
+   10 bytes   53 4F 4D 33 32 20     Etiqueta del creador.
+              76 31 2E 30           "SOM32 v1.0"
+
+    4 bytes   00 00 00 00           Número de serie.
+
+    4 bytes   00 00 00 00           Tipo de medio.
+                                    00000000 = Disco flexible 1.44 mb.
+                                    00000001 = Disco flexible 2.88 mb.
+                                    00000002 = Disco duro o disco RAM.
+                                    Debo hacer notar que no existe soporte
+                                    para discos de 720 kb. para no hacerlos
+                                    perdurar por más tiempo.
+
+    4 bytes   40 0B 00 00           Sectores totales. (2880)
+
+    4 bytes   12 00 00 00           Sectores por bloque. (18)
+
+    4 bytes   A0 00 00 00           Bloques en total. (160)
+
+    4 bytes   01 00 00 00           Sector de inicio de la tabla de espacio.
+
+    4 bytes   01 00 00 00           Tamaño en sectores de la tabla de espacio.
+
+    4 bytes   01 00 00 00           Tamaño en bytes de cada entrada en la
+                                    tabla de espacio. (Sólo se acepta 1, 2 y
+                                    4 bytes)
+
+    4 bytes   01 00 00 00           Bloque del directorio raíz.
+
+   16 bytes   53 69 73 74 65 6D     Etiqueta del volumen.
+              61 5F 33 32 5F 62     (Terminada en 00)
+              69 74 73 00           "Sistema_32_bits"
+
+   16 bytes   00 00 00 00           Para fúturas ampliaciones.
+              00 00 00 00
+              00 00 00 00
+              00 00 00 00
+
+  430 bytes   ...                   Codigo del arrancador.
+
+    2 bytes   12 34                 Identificación de que es un arrancador
+                                    ejecutable.
+
+El disco se divide en bloques, el bloque 0 siempre contiene el arrancador, ya
+que comienza en el sector 0, la tabla de espacio también puede caer dentro
+de otros bloques, así que al inicializar la tabla de espacio, se debe poner
+un cuidado especial en indicar cómo ocupados los bloques correspondientes.
+
+Un archivo de tamaño 0 no ocupa ningún bloque, un archivo del tamaño del bloque
+sólo ocupa ese bloque y ninguno más.
+
+El directorio raíz debe comenzar siempre en el inicio de un bloque, al
+preparar un nuevo disco, hay que asegurarse que todo el bloque se rellena a
+00, cuando el directorio ocupa la última entrada disponible en el bloque,
+inmediatamente se busca un nuevo bloque para continuar el directorio, y se
+le rellena a 00.
+
+Las entradas en el directorio tienen un tamaño de 64 bytes, y tienen la
+siguiente estructura.
+
+   32 bytes   45 4A 45 4D 50 4C     Nombre del archivo, terminado con 00.
+              4F 00 00 00 00 00     "EJEMPLO"
+              00 00 00 00 00 00
+              00 00 00 00 00 00
+              00 00 00 00 00 00
+              00 00
+
+   16 bytes   00 00 00 00 00 00     Reservado.
+              00 00 00 00 00 00
+              00 00 00 00
+
+    4 bytes   00 00 00 00           Atributo.
+                                    00000001 = Archivo oculto.
+                                               (No se muestra cuando se lista
+                                                el directorio)
+                                    00000002 = Archivo del sistema.
+                                    00000004 = Archivo de sólo lectura.
+                                    00000008 = Subdirectorio.
+                                               (No combinable con los demás)
+
+    2 bytes   31 85                 Hora. (16:41:34)
+                                    Los bits 0-4 especifican los segundos,
+                                    multiplique por 2 para obtener el valor
+                                    correcto.
+                                    Los bits 5-10 especifican los minutos.
+                                    Los bits 11-15 especifican la hora.
+
+    2 bytes   FF 32                 Fecha. (31-jul-1995)
+                                    Los bits 0-4 especifican la fecha.
+                                    Los bits 5-8 especifican el mes.
+                                    Los bits 9-15 especifican el año, sume
+                                    1970 para obtener el año correcto.
+
+    4 bytes   02 00 00 00           Bloque de comienzo.
+
+    4 bytes   00 30 00 00           Tamaño en bytes.
+
+La tabla de espacio para este disco, con esta entrada en el directorio raíz y
+la tabla de arranque mostrada anteriormente, seria así (el sector 1):
+
+  160 bytes   FD FF 03 FF 00 00 00 00 00 00 00 00 00 00 00 00
+              00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+              00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+              00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+              00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+              00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+              00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+              00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+              00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+              00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+Cada entrada en la tabla de espacio, indica el número del siguiente bloque o
+FF si es el último.
+
+La entrada 0 contiene FD, debido a que contiene el sector de arranque y la
+tabla de espacio.
+
+La entrada 1 contiene FF, debido a que el directorio sólo ocupa un bloque.
+
+La entrada 2 contiene un apuntador a la entrada 3, debido a que el archivo
+ocupa más del tamaño de un bloque, y la entrada 3 contiene FF, que indica
+el final del enlace.
+
+Los siguientes números están reservados:
+
+  4 bytes  2 bytes 1 byte
+  FFFFFFFD   FFFD   FD     Bloque reservado para el sistema.
+  FFFFFFFE   FFFE   FE     Bloque inservible.
+  FFFFFFFF   FFFF   FF     Indicador de final de enlace.

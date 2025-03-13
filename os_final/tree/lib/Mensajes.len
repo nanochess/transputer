@@ -1,0 +1,154 @@
+;
+; Rutinas para mandar y recibir mensajes.
+;
+; Para uso por el Sistema Operativo Mexicano de 32 bits.
+;
+; ctrl_maestro(mensaje)
+;
+qctrl_maestro:
+ldl 2
+ajw -1
+stl 0
+EMENSAJ3:
+mint
+ldnl 71
+cj EMENSAJ4
+ldc 500
+ldtimer
+sum
+tin
+j EMENSAJ3
+EMENSAJ4:
+ldc 1
+mint
+stnl 71
+ldlp 0
+mint
+ldnlp 66
+ldc 4
+out
+ldlp 0
+mint
+ldnlp 67
+ldc 1
+in
+ldc 0
+mint
+stnl 71
+ajw 1
+ret
+
+;
+; mandar(canal, *mensaje, bytes)
+;
+qmandar:
+ldl 3
+ldl 2
+ldl 4
+out
+ret
+
+;
+; recibir(canal, *mensaje, bytes)
+;
+qrecibir:
+ldl 3
+ldl 2
+ldl 4
+in
+ret
+
+;
+; memcpy(destino, origen, bytes)
+;
+qmemcpy:
+ldl 3
+ldl 2
+ldl 4
+move
+ret
+
+;
+; memset(destino, byte, cuantos)
+;
+qmemset:
+ldl 4
+cj memset
+ldl 3
+ldl 2
+sb
+ldl 2
+adc 1
+stl 2
+ldl 4
+adc -1
+stl 4
+j qmemset
+memset:
+ret
+
+q_finprog:
+ldc FINPROG-P2
+ldpi
+P2:
+adc 15
+ldc -16
+and
+ret
+
+;
+; inicia_tarea(direccion, workspace)
+; La tarea siempre inicia en prioridad baja. (1)
+;
+qinicia_tarea:
+ldl 2
+ldl 3
+stnl 0
+ldc MITAREA-P1
+ldpi
+P1:
+ldl 3
+stnl -1
+ldl 3
+ldc -4
+and
+ldc 1
+or
+runp
+ret
+MITAREA:
+ldl 0
+ldc 2
+ldpi
+stl 0
+gcall
+ajw -2
+ldc 22
+ldlp 1
+adc 3
+sb
+MITAREA1:
+mint
+ldnl 70
+cj MITAREA2
+j MITAREA1
+MITAREA2:
+ldc 1
+mint
+stnl 70
+mint
+ldnlp 64
+ldlp 1
+adc 3
+outword
+ldlp 0
+mint
+ldnlp 65
+ldc 4
+in
+ldc 0
+mint
+stnl 70
+stopp
+
+FINPROG:

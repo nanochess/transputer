@@ -1,0 +1,291 @@
+Servicios del sistema operativo mexicano de 32 bits.
+
+Para accesar un servicio, se pasa una palabra al sistema operativo por el
+canal 0x80000100, con la dirección del pedido (en cualquier parte de la
+memoria), la estructura del pedido es como sigue:
+
+ Byte
+       |-----------------|
+     0 |  # de servicio  |
+       |-----------------|
+ 1...n | Info. requerida |
+       |-----------------|
+
+Después, el proceso debe esperar una palabra de 4 bytes por el canal
+0x80000104, esta es la respuesta del sistema operativo.
+
+Los siguientes servicios estan disponibles:
+
+Servicio 1: Abre un archivo.
+
+    01 x1 x1 x1 x1 x2 x2 x2 x2     x1 = Apuntador al nombre del archivo,
+                                        (terminado en 0x00)
+                                   x2 = Apuntador al modo. (terminado en 0x00)
+                                        El modo puede ser "r" o "w".
+
+    Retorna el número de manejador para el archivo, o 0x0000 si no pudo
+    abrirlo.
+
+Servicio 2: Cierra un archivo.
+
+    02 x1                          x1 = Número de manejador.
+
+    Retorna 0x0000 si todo ocurrio normalmente.
+
+Servicio 3: Lee un byte desde un archivo.
+
+    03 x1                          x1 = Número de manejador.
+
+    Retorna el byte leido, o 0xffff si encontro el final del archivo.
+
+Servicio 4: Escribe un byte en un archivo.
+
+    04 x1 x2                       x1 = Byte que se va a escribir.
+                                   x2 = Número de manejador.
+
+    Retorna el byte escrito, o 0xffff si el disco esta lleno.
+
+Servicio 5: Lee un byte del teclado.
+
+    05
+
+    Retorna la tecla almacenada en el buffer, o 0x00 si no hay ninguna
+    tecla.
+
+Servicio 6: Escribe un byte en la pantalla.
+
+    06 x1                          x1 = Caracter que se va a escribir.
+
+    Retorna el caracter escrito.
+
+    Escribe el caracter en la pantalla, soporta los siguientes controles:
+
+    0x0d              =   Vuelve al principio de la línea.
+    0x0a              =   Cambio de linea.
+    0x08              =   Retroceso destructivo.
+    0x0c              =   Limpia la pantalla con el color actual.
+    0x1b 0x01 color   =   Selecciona el color para los sigs. caracteres.
+    0x1b 0x02 columna =   Selecciona la columna del cursor.
+    0x1b 0x03 línea   =   Selecciona la línea del cursor.
+
+Servicio 7: Borra un archivo.
+
+    07 x1 x1 x1 x1                 x1 = Apuntador al nombre. (Terminado en
+                                        0x00).
+
+    Retorna 0x0000 si pudo borrar el archivo.
+
+Servicio 8: Renombra un archivo.
+
+    08 x1 x1 x1 x1 x2 x2 x2 x2     x1 = Apuntador al nombre original.
+                                        (Terminado en 0x00).
+                                   x2 = Apuntador al nombre nuevo.
+                                        (Terminado en 0x00).
+
+    Retorna 0x0000 si pudo renombrar el archivo.
+
+Servicio 9: Obtiene la hora actual.
+
+    09 x1 x1 x1 x1                 x1 = Apuntador a un buffer de 6 bytes.
+
+    Siempre retorna 0x0000.
+
+    El buffer es rellenado de la siguiente forma.
+
+    Byte     |--------|
+           0 |  Año   |    Sumar 1900 para obtener al año completo.
+             |--------|
+           1 |  Mes   |    Mes actual. (1-12)
+             |--------|
+           2 |  Día   |    Día actual. (1-31)
+             |--------|
+           3 |  Hora  |    Hora actual. (0-23)
+             |--------|
+           4 | Minuto |    Minutos actuales. (0-59)
+             |--------|
+           5 |Segundos|    Segundos actuales. (0-59)
+             |--------|
+
+Servicio 10: Abre un directorio para lectura.
+
+    0A x1 x1 x1 x1                 x1 = Apuntador al camino hasta el dir.
+                                        (terminado en 0x00)
+
+    Retorna el número de manejador para el archivo, o 0x0000 si no pudo
+    abrirlo.
+
+    El directorio se lee cómo cualquier archivo, esta distribuido en bloques
+    de 32 bytes, cada bloque tiene este formato:
+
+      Byte  |-------------|
+        0   |   Nombre    |
+            |-------------|
+        8   |  Extensión  |
+            |-------------|
+       11   |  Reservado  |
+            |-------------|    Bit.
+       16   |  Atributos  |    3= Directorio.    0= Oculto.
+            |             |    2= Sólo lectura.  1= Sistema.
+            |-------------|
+       20   |   Tiempo    |    15 - 11  10 - 5  4 - 0
+            |             |     Hora    Minutos Segundos (multiplicar por 2)
+            |-------------|
+       22   |    Fecha    |    15 - 9  8 - 5  4 - 0
+            |             |     Año     Mes   Fecha
+            |-------------| (Desde 1970)
+       24   |   Bloque    |
+            |-------------|
+       28   |   Tamaño    |
+            |-------------|
+
+Servicio 11: Obtiene el espacio disponible en una unidad.
+
+    0B x1 x1 x1 x1 x2 x2 x2 x2       x1 = Apuntador a cualquier camino
+                                          válido. (Terminado en 0x00)
+                                     x2 = Apuntador a una palabra de 32 bits.
+
+    Retorna 0x0000 si la unidad existe.
+
+    En la dirección de la palabra de 32 bits se guarda el número de bytes
+    disponible.
+
+Servicio 12: Obtiene el nombre de volumen de una unidad.
+
+    0C x1 x1 x1 x1 x2 x2 x2 x2       x1 = Apuntador a cualquier camino
+                                          válido. (Terminado en 0x00)
+                                     x2 = Apuntador a un buffer de 16 bytes.
+
+    Retorna 0x0000 si la unidad existe.
+
+    En el buffer de 16 bytes se almacena el nombre terminado en 0x00.
+
+Servicio 13: Crea un directorio.
+
+    0D x1 x1 x1 x1                   x1 = Camino del directorio.
+                                          (terminado en 0x00)
+                                          (P. Ej. C:\MIO\NUEVODIR)
+
+    Retorna 0x0000 si pudo crearlo.
+
+Servicio 14: Borra un directorio.
+
+    0E x1 x1 x1 x1                   x1 = Camino del directorio.
+                                          (terminado en 0x00)
+                                          (P. Ej. C:\MIO\NUEVODIR)
+
+    Retorna 0x0000 si pudo borrarlo.
+
+Servicio 15: Cambia el atributo y la hora de un archivo.
+
+    0F x1 x1 x1 x1 x2 x2 x2 x2       x1 = Apuntador al nombre del archivo.
+       x3 x3 x3 x3                   x2 = Nuevo atributo.
+                                     x3 = Hora y tiempo en formato de
+                                          directorio.
+
+    Retorna 0x0000 si pudo cambiar el atributo.
+
+Servicio 16: Busca una posición en un archivo.
+
+    10 x1 x1 x1 x1                   x1 = Número de manejador.
+       x2 x2 x2 x2                   x2 = Desplazamiento.
+       x3 x3 x3 x3                   x3 = 0 = desde el origen.
+                                          1 = desde la posición actual.
+                                          2 = desde el final.
+
+    Retorna 0x0000 si pudo encontrar la posición.
+
+Servicio 17: Obtiene la posición en un archivo.
+
+    11 x1 x1 x1 x1                   x1 = Número de manejador.
+
+Servicio 18: Imprime un caracter en la impresora.
+
+    12 x1                            x1 = Caracter.
+
+    Retorna 0x0000 si no ocurrio ningún error.
+
+Servicio 19: Lee un bloque de bytes.
+
+    13 x1 x1 x1 x1                   x1 = Número de manejador.
+       x2 x2 x2 x2                   x2 = Apuntador a un buffer.
+       x3 x3 x3 x3                   x3 = Número de bytes para leer.
+
+    Retorna un valor de 4 bytes que indica el número de bytes leidos.
+
+    Rellena *x2 con los datos leidos.
+
+Servicio 20: Escribe un bloque de bytes.
+
+    14 x1 x1 x1 x1                   x1 = Número de manejador.
+       x2 x2 x2 x2                   x2 = Apuntador a un buffer.
+       x3 x3 x3 x3                   x3 = Número de bytes para escribir.
+
+    Retorna un valor de 4 bytes que indica el número de bytes escritos.
+
+    Toma de *x2 los bytes para escribir.
+
+Servicio 21: Pide memoria.
+
+    15 x1 x1 x1 x1                   x1 = Número de bytes.
+
+    Retorna un valor de 4 bytes que indica la posición del bloque de memoria.
+    (00000000 para indicar que no pudo encontrar memoria).
+
+    No inicializa el bloque de memoria.
+
+Servicio 22: Libera memoria.
+
+    16 x1 x1 x1 x1                   x1 = Posición de la memoria.
+
+Servicio 23: Ejecuta una nueva tarea.
+
+    17 x1 x1 x1 x1                   x1 = Nombre del archivo.
+       x2 x2 x2 x2                   x2 = Número de argumentos.
+       x3 x3 x3 x3                   x3 = Apuntador a la lista de argumentos.
+
+    Retorna un valor de 4 bytes. 00000000 indica que no pudo ejecutar la tarea.
+    Cualquier otro valor indica el inicio de la tarea.
+
+Servicio 24: Prepara un programa para ejecutar.
+
+    18 x1 x1 x1 x1                   x1 = Nombre del archivo.
+       x2 x2 x2 x2                   x2 = Número de argumentos.
+       x3 x3 x3 x3                   x3 = Apuntador a la lista de argumentos.
+
+    Retorna un valor de 4 bytes. 00000000 indica que no pudo preparar el prog.
+    Cualquier otro valor indica el inicio de la pila.
+    La palabra 1 y 4 contiene el inicio del programa.
+    La palabra 2 contiene argc.
+    La palabra 3 contiene argv.
+
+    La función execp(pila) de la libreria ext.len ejecuta el programa.
+
+Servicio 25: Obtiene la memoria disponible.
+
+    19
+
+    Retorna un valor de 4 bytes.
+
+Codigos de error:
+
+  E_NORMAL  0x0000 (  0) = Sin novedad.
+  E_MANINV  0xffff ( -1) = Número de manejador inválido.
+  E_SOLLEC  0xfffe ( -2) = El archivo es de sólo lectura.
+  E_ARCSIS  0xfffd ( -3) = El archivo es del sistema.
+  E_ARCDIR  0xfffc ( -4) = Es un directorio.
+  E_ARCNEX  0xfffb ( -5) = El archivo no existe.
+  E_NOMEXI  0xfffa ( -6) = Este nombre ya existe.
+  E_ARCUSO  0xfff9 ( -7) = El archivo esta en uso.
+  E_NOMARC  0xfff8 ( -8) = El nombre es de un archivo.
+  E_CAMINV  0xfff7 ( -9) = El camino es inválido.
+  E_ATRINV  0xfff6 (-10) = El atributo es inválido.
+  E_DIROCU  0xfff5 (-11) = El directorio no esta vacio.
+  E_UNINEX  0xfff4 (-12) = La unidad no existe.
+  E_FALUNI  0xfff3 (-13) = Falla de la unidad o del medio.
+  E_DIREXI  0xfff2 (-14) = El directorio ya existia.
+  E_NOMINV  0xfff1 (-15) = El nombre es inválido.
+  E_UNILLE  0xfff0 (-16) = La unidad esta llena.
+  E_ARCINV  0xffef (-17) = La operación es inválida con este archivo.
+  E_POSINV  0xffee (-18) = La posición es inválida.
+  E_UNIPRO  0xffed (-19) = Unidad de sólo lectura.
+  E_DISMIS  0xffec (-20) = Disco de formato misterioso introducido.

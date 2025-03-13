@@ -1,0 +1,75 @@
+Interfaz de MAESTRO con el servidor.
+
+Cuando el sistema operativo de 32 bits necesita un acceso al servidor (disco,
+teclado, etc.), envia una petición a MAESTRO (4 bytes con la dirección de la
+petición), y MAESTRO redirige la petición al servidor.
+
+Esta capa intermedia que hace MAESTRO, hace que no haya conflictos con
+el refresco del video, que también hace uso del canal.
+
+MAESTRO también lleva a cabo una pequeña corrección de errores.
+
+Existen 8 tipos de peticiones de MAESTRO al servidor (todas por el canal 0):
+
+Petición de lectura de sector.
+
+  01 x1 x2 x2 x2 x2     x1 = Unidad.  x2 = Sector.
+
+  El servidor retorna 512 bytes y un byte extra para indicar errores.
+
+Petición de escritura de sector.
+
+  02 x1 x2 x2 x2 x2 (512 bytes)    x1 = Unidad.  x2 = Sector.
+
+  El servidor retorna un byte extra para indicar errores.
+
+Petición de formateo de pistas en un disco flexible de 1.44 MB.
+
+  03 x1 x2                         x1 = Pista (0-79). x2 = Lado (0-1).
+
+  El servidor retorna un byte extra para indicar errores.
+
+Petición de acceso directo al buffer de video. (Esto no lo pide SOM32, lo
+invoca la tarea de refresco de video).
+
+  04 x1 (160 bytes)                x1 = Linea (0-24).
+
+  El servidor actualiza la pantalla, no responde.
+
+Petición de lectura del teclado.
+
+  05
+
+  El servidor retorna un byte, el byte es 0x00 si no hay ninguna tecla
+  almacenada.
+
+Petición de la hora.
+
+  06
+
+  El servidor retorna 6 bytes.
+
+  1. Segundos.
+  2. Minutos.
+  3. Hora.
+  4. Fecha.
+  5. Mes.
+  6. Año.
+
+Petición de modificación de la posición del cursor.
+
+  07 x1 x1        x1 = Posición en caracteres desde el comienzo del video.
+                       (0 - Primera línea, primera columna).
+                       (1999 - Ultima línea, ultima columna).
+
+  El servidor relocaliza el cursor en la posición, el valor esta en
+  caracteres desde el comienzo de la pantalla. (P. Ej. 80 para la segunda
+  línea).
+
+Petición de modificación de la forma del cursor.
+
+  08 x1 x2        x1 = Línea de inicio. (0-16)
+                  x2 = Línea final. (0-16)
+
+  El servidor cambia la forma del cursor, esto permite simular un cursor
+  tipo PC, o el cursor de bloque del SOM32.

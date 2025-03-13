@@ -1,0 +1,266 @@
+                       E n s a m b l a d o r   G 1 0
+
+Este documento es para uso con la revisión 24-ago-95 o posterior del archivo
+Ens.e
+
+El ensamblador G10 ensambla uno o más archivos en un sólo archivo binario.
+
+Un ejemplo de su uso es:
+
+  A>ENS
+
+  Ensamblador G10  (c) Copyright 1995 Oscar Toledo G.
+
+  Archivo de entrada > b:cc.len
+  Archivo de entrada > a:/lib/stdio.len
+  Archivo de entrada >
+
+  Archivo de salida > b:cc.cmg
+
+  2129 etiquetas definidas.
+  72 KB. ocupados.
+
+  A>_
+
+El ensamblador usa dos archivos temporales en la unidad B:, B:/__TEMP__.001 y
+B:/__TEMP__.002, estos archivos son eliminados al salir.
+
+Cada linea de los archivos de entrada, puede tener esta sintaxis:
+
+    ETIQUETA: adc 5  ; ejemplo.
+
+Las etiquetas son opcinales, y están terminadas por un caracter ':' (dos
+puntos), pueden ser mínusculas o máyusculas, el ensamblador no toma igual
+las letras mínusculas que las máyusculas. (etiqueta y ETIQUETA no es lo mismo)
+
+A continuación, opcionalmente, se encuentra la instrucción, se aceptan todas
+las instrucciones del Inmos T805, y algunas seudo-instrucciones, las
+instrucciones que tienen un operando, pueden usar expresiones, las expresiones
+tienen esta sintaxis:
+
+     expresion ->  expresion + expresion1
+                   expresion - expresion1
+                   expresion1
+
+    expresion1 ->  +expresion2
+                   -expresion2
+
+    expresion2 ->  expresion2 * expresion3
+                   expresion2 / expresion3
+                   expresion2 % expresion3
+
+    expresion3 ->  (expresion)
+                   etiqueta
+                   número decimal (0 -> 2147483647)
+                   número hexadecimal (0x0 -> 0xffffffff)
+
+Las seudo-instrucciones soportadas son:
+
+  db   expresión[,expresión]     Define bytes.
+
+  dw   expresión[,expresión]     Define palabras.
+
+  ds   expresión                 Define espacio (en bytes, la expresión no debe
+                                 contener etiquetas aún sin definir).
+
+  etiqueta: equ expresión        Hace que la etiqueta contenga el valor de la
+                                 expresión, la expresión no debe contener
+                                 etiquetas aún sin definir.
+
+Listado de instrucciones:
+
+  0x                             j x
+  1x                             ldlp x
+  2x                             pfix x (No es necesaria, el ensamblador se
+                                         encarga de generarla)
+  3x                             ldnl x
+  4x                             ldc x
+  5x                             ldnlp x
+  6x                             nfix x (No es necesaria, el ensamblador se
+                                         encarga de generarla)
+  7x                             ldl x
+  8x                             adc x
+  9x                             call x
+  Ax                             cj x
+  Bx                             ajw x
+  Cx                             eqc x
+  Dx                             stl x
+  Ex                             stnl x
+  Fx                             opr x
+
+  F0                             rev
+  F1                             lb
+  F2                             bsub
+  F3                             endp
+  F4                             diff
+  F5                             add
+  F6                             gcall
+  F7                             in
+  F8                             prod
+  F9                             gt
+  FA                             wsub
+  FB                             out
+  FC                             sub
+  FD                             startp
+  FE                             outbyte
+  FF                             outword
+
+  21 F0                          seterr
+  21 F2                          resetch
+  21 F3                          csub0
+  21 F5                          stopp
+  21 F6                          ladd
+  21 F7                          stlb
+  21 F8                          sthf
+  21 F9                          norm
+  21 FA                          ldiv
+  21 FB                          ldpi
+  21 FC                          stlf
+  21 FD                          xdble
+  21 FE                          ldpri
+  21 FF                          rem
+
+  22 F0                          ret
+  22 F1                          lend
+  22 F2                          ldtimer
+  22 F9                          testerr
+  22 FA                          testpranal
+  22 FB                          tin
+  22 FC                          div
+  22 FE                          dist
+  22 FF                          disc
+
+  23 F0                          diss
+  23 F1                          lmul
+  23 F2                          not
+  23 F3                          xor
+  23 F4                          bcnt
+  23 F5                          lshr
+  23 F6                          lshl
+  23 F7                          lsum
+  23 F8                          lsub
+  23 F9                          runp
+  23 FA                          xword
+  23 FB                          sb
+  23 FC                          gajw
+  23 FD                          savel
+  23 FE                          saveh
+  23 FF                          wcnt
+
+  24 F0                          shr
+  24 F1                          shl
+  24 F2                          mint
+  24 F3                          alt
+  24 F4                          altwt
+  24 F5                          altend
+  24 F6                          and
+  24 F7                          enbt
+  24 F8                          enbc
+  24 F9                          enbs
+  24 FA                          move
+  24 FB                          or
+  24 FC                          csngl
+  24 FD                          ccnt1
+  24 FE                          talt
+  24 FF                          ldiff
+
+  25 F0                          sthb
+  25 F1                          taltwt
+  25 F2                          sum
+  25 F3                          mul
+  25 F4                          sttimer
+  25 F5                          stoperr
+  25 F6                          cword
+  25 F7                          clrhalterr
+  25 F8                          sethalterr
+  25 F9                          testhalterr
+  25 FA                          dup
+  25 FB                          move2dinit
+  25 FC                          move2dall
+  25 FD                          move2dnonzero
+  25 FE                          move2dzero
+
+  26 F3                          unpacksn
+  26 FC                          postnormsn
+  26 FD                          roundsn
+
+  27 F1                          ldinf
+  27 F2                          fmul
+  27 F3                          cflerr
+  27 F4                          crcword
+  27 F5                          crcbyte
+  27 F6                          bitcnt
+  27 F7                          bitrevword
+  27 F8                          bitrevnbits
+  27 F9                          pop
+  27 FA                          timerdisableh
+  27 FB                          timerdisablel
+  27 FC                          timerenableh
+  27 FD                          timerenablel
+  27 FE                          ldmemstartval
+
+  28 F1                          wsubdb
+  28 F2                          fpldnldbi
+  28 F3                          fpchkerr
+  28 F4                          fpstnldb
+  28 F6                          fpldnlsni
+  28 F7                          fpadd
+  28 F8                          fpstnlsn
+  28 F9                          fpsub
+  28 FA                          fpldnldb
+  28 FB                          fpmul
+  28 FC                          fpdiv
+  28 FE                          fpldnlsn
+  28 FF                          fpremfirst
+
+  29 F0                          fpremstep
+  29 F1                          fpnan
+  29 F2                          fpordered
+  29 F3                          fpnotfinite
+  29 F4                          fpgt
+  29 F5                          fpeq
+  29 F6                          fpi32tor32
+  29 F8                          fpi32tor64
+  29 FA                          fpb32tor64
+  29 FC                          fptesterr
+  29 FD                          fprtoi32
+  29 FE                          fpstnli32
+  29 FF                          fpldzerosn
+
+  2A F0                          fpldzerodb
+  2A F1                          fpint
+  2A F3                          fpdup
+  2A F4                          fprev
+  2A F6                          fpldnladddb
+  2A F8                          fpldnlmuldb
+  2A FA                          fpldnladdsn
+  2A FB                          fpentry
+  2A FC                          fpldnlmulsn
+
+  2B F1                          break
+  2B F2                          clrj0break
+  2B F3                          setj0break
+  2B F4                          testj0break
+
+  41 2A FB                       fpusqrtfirst
+  42 2A FB                       fpusqrtstep
+  43 2A FB                       fpusqrtlast
+  44 2A FB                       fpurp
+  45 2A FB                       fpurm
+  46 2A FB                       fpurz
+  47 2A FB                       fpur32tor64
+  48 2A FB                       fpur64tor32
+  49 2A FB                       fpuexpdec32
+  4A 2A FB                       fpuexpinc32
+  4B 2A FB                       fpuabs
+  4D 2A FB                       fpunoround
+  4E 2A FB                       fpuchki32
+  4F 2A FB                       fpuchki64
+
+  21 41 2A FB                    fpudivby2
+  21 42 2A FB                    fpumulby2
+
+  22 42 2A FB                    fpurn
+  22 43 2A FB                    fpuseterr
+
+  29 4C 2A FB                    fpuclearerr

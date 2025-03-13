@@ -1,0 +1,617 @@
+; Rutinas matemáticas para el compilador de C.
+;
+; por Oscar Toledo Gutiérrez.
+;
+; (c) Familia Toledo 1995.
+;
+; Creación: 24 de noviembre de 1995.
+; Revisión: 15 de marzo de 1996. Soporte para argc y argv.
+;
+
+ajw -NUMCONSLIB
+ldc CONSLIB-M1
+ldpi
+M1:
+ldlp 0
+ldc NUMCONSLIB*4
+move
+ldlp 0
+mint
+stnl 62
+ldl NUMCONSLIB+3
+ldl NUMCONSLIB+2
+ldl NUMCONSLIB+1
+call FINLIB
+ajw NUMCONSLIB
+ret
+
+qabs:
+ldlp 4
+fpldnldb
+fpuabs
+ret
+
+qround:
+ldlp 4
+fpldnldb
+fpint
+ldlp 1
+fpstnli32
+ldl 1
+ret
+
+qtrunc:
+ldlp 4
+fpldnldb
+ldlp 1
+fpstnli32
+ldl 1
+ret
+
+qsqrt:
+ldlp 4
+fpldnldb
+fpusqrtfirst
+fpusqrtstep
+fpusqrtstep
+fpusqrtstep
+fpusqrtstep
+fpusqrtstep
+fpusqrtlast
+ret
+
+qsqr:
+ldlp 4
+fpldnldb
+fpdup
+fpmul
+ret
+
+; FA=sin(FA)
+;
+qsin:
+mint
+ldnl 62
+stl 1
+ldlp 4
+fpldnldb
+ajw -2
+fpur64tor32
+ldlp 0
+fpstnlsn
+ldlp 0
+fpldnlsn
+ldl 3
+ldnlp 6
+fpldnlmulsn
+fpdup
+ldl 3
+ldnlp 7
+fpldnladdsn
+fpudivby2
+fpudivby2
+fpurm
+fpint
+fpumulby2
+fpumulby2
+fpsub
+fpdup
+ldl 3
+ldnlp 7
+fpldnlsn
+fpgt
+cj COSSIN3
+ldl 3
+ldnlp 8
+fpldnlsn
+fprev
+fpsub
+COSSIN3:
+fpdup
+ldlp 0
+fpstnlsn
+fpdup
+fpmul
+fpumulby2
+ldl 3
+ldnlp 7
+fpldnlsn
+fpsub
+ldlp 1
+fpstnlsn
+ldlp 1
+fpldnlsn
+ldl 3
+ldnlp 5
+fpldnlmulsn
+ldl 3
+ldnlp 4
+fpldnladdsn
+ldlp 1
+fpldnlmulsn
+ldl 3
+ldnlp 3
+fpldnladdsn
+ldlp 1
+fpldnlmulsn
+ldl 3
+ldnlp 2
+fpldnladdsn
+ldlp 1
+fpldnlmulsn
+ldl 3
+ldnlp 1
+fpldnladdsn
+ldlp 1
+fpldnlmulsn
+ldl 3
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+fpur32tor64
+ajw 2
+ret
+
+; FA=cos(FA)
+;
+; Usa la rutina de SIN
+; para sacar el COS.
+;
+; FA=sin(FA+(pi/2))
+;
+qcos:
+ldlp 4
+fpldnldb
+fpur64tor32
+mint
+ldnl 62
+ldnlp 9
+fpldnladdsn
+fpur32tor64
+ajw -2
+ldlp 0
+fpstnldb
+ldl 3
+call qsin
+ajw 2
+ret
+
+; Saca el arco tangente
+;
+; FA = arctan(FA)
+;
+qarctan:
+mint
+ldnl 62
+stl 1
+ldlp 4
+fpldnldb
+ajw -4
+fpur64tor32
+ldlp 0
+fpstnlsn
+ldc 0
+stl 1
+fpldzerosn
+ldlp 0
+fpldnlsn
+fpgt
+cj ARCTAN5
+ldc 1
+stl 1
+ARCTAN5:
+ldc 0
+stl 2
+ldlp 0
+fpldnlsn
+fpuabs
+fpdup
+ldlp 0
+fpstnlsn
+ldl 5
+ldnlp 24
+fpldnlsn
+fpgt
+cj ARCTAN6
+ldc 1
+stl 2
+ldl 5
+ldnlp 24
+fpldnlsn
+ldlp 0
+fpldnlsn
+fpdiv
+ldlp 0
+fpstnlsn
+ARCTAN6:
+ldlp 0
+fpldnlsn
+fpdup
+fpmul
+ldlp 3
+fpstnlsn
+ldl 5
+ldnlp 10
+fpldnlsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 11
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 12
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 13
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 14
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 15
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 16
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 17
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 18
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 19
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 20
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 21
+fpldnladdsn
+ldlp 3
+fpldnlmulsn
+ldl 5
+ldnlp 22
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldlp 0
+fpstnlsn
+ldl 2
+cj ARCTAN7
+ldl 5
+ldnlp 23
+fpldnlsn
+ldlp 0
+fpldnlsn
+fpsub
+ldlp 0
+fpstnlsn
+ARCTAN7:
+ldl 1
+cj ARCTAN8
+fpldzerosn
+ldlp 0
+fpldnlsn
+fpsub
+fpur32tor64
+ajw 4
+ret
+ARCTAN8:
+ldlp 0
+fpldnlsn
+fpur32tor64
+ajw 4
+ret
+
+; Saca el logaritmo natural.
+;
+; FA=ln(FA)
+;
+qln:
+mint
+ldnl 62
+stl 1
+ldlp 4
+fpldnldb
+ajw -3
+fpur64tor32
+ldlp 0
+fpstnlsn
+fpldzerosn
+ldlp 0
+fpldnlsn
+fpgt
+cj LN2
+fpldzerodb
+ajw 3
+ret
+LN2:
+; Extrae la caracteristica
+ldl 0
+ldc 23
+shr
+ldc 255
+and
+adc -126
+stl 1
+ldl 0
+; Reduce el exponente
+ldc 0x807fffff
+and
+ldc 0x3f000000
+or
+stl 0
+ldlp 0
+fpldnlsn
+ldl 4
+ldnlp 25
+fpldnlsn
+fpsub
+ldlp 0
+fpldnlsn
+ldl 4
+ldnlp 25
+fpldnladdsn
+fpdiv
+fpdup
+ldlp 0
+fpstnlsn
+fpdup
+fpmul
+ldlp 2
+fpstnlsn
+ldl 4
+ldnlp 27
+fpldnlsn
+ldlp 2
+fpldnlmulsn
+ldl 4
+ldnlp 28
+fpldnladdsn
+ldlp 2
+fpldnlmulsn
+ldl 4
+ldnlp 29
+fpldnladdsn
+ldlp 2
+fpldnlmulsn
+ldl 4
+ldnlp 30
+fpldnladdsn
+ldlp 2
+fpldnlmulsn
+ldl 4
+ldnlp 31
+fpldnladdsn
+ldlp 2
+fpldnlmulsn
+ldl 4
+ldnlp 32
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 4
+ldnlp 33
+fpldnladdsn
+; Suma la caracteristica.
+ldlp 1
+fpi32tor32
+fpadd
+ldl 4
+ldnlp 34
+fpldnlmulsn
+fpur32tor64
+ajw 3
+ret
+
+; Exponente.
+;
+; FA=exp(FA)
+;
+qexp:
+mint
+ldnl 62
+stl 1
+ldlp 4
+fpldnldb
+ajw -2
+fpur64tor32
+ldl 3
+ldnlp 35
+fpldnlmulsn
+fpdup
+ldlp 0
+fpstnlsn
+ldlp 1
+fpstnli32
+ldlp 0
+fpldnlsn
+ldlp 1
+fpi32tor32
+fpsub
+ldlp 0
+fpstnlsn
+ldl 3
+ldnlp 36
+fpldnlsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 37
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 38
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 39
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 40
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 41
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 42
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 43
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 44
+fpldnladdsn
+ldlp 0
+fpldnlmulsn
+ldl 3
+ldnlp 45
+fpldnladdsn
+ldlp 0
+fpstnlsn
+ldl 0
+ldc 23
+shr
+ldc 255
+and
+ldl 1
+add
+ldc 23
+shl
+ldl 0
+; Pone la caracteristica.
+ldc 0x807fffff
+and
+or
+stl 0
+ldlp 0
+fpldnlsn
+fpur32tor64
+ajw 2
+ret
+
+qrandomize:
+ldtimer
+ldc 0x007FFFFF
+and
+ldc 0x3f000000
+or
+mint
+stnl 61
+ret
+
+qrandom:
+; Un valor cualquiera
+ldc 0x42a2e7c8
+stl 2
+mint
+ldnlp 61
+fpldnlsn
+ldlp 2
+; Multiplica.
+fpldnlmulsn
+; Saca la fracción.
+fpdup
+fpurz
+fpint
+fpsub
+fpdup
+ldl 1
+ldnlp 61
+fpstnlsn
+fpur32tor64
+ret
+
+CONSLIB:
+TABLASIN:
+db 0x5E,0x32,0xA2,0x3F
+db 0x1A,0xD8,0x91,0xBE
+db 0xDA,0x4F,0x95,0x3C
+db 0xEF,0x2F,0x0F,0xBA
+db 0XFB,0x0A,0x1F,0x37
+db 0x62,0x4E,0xE6,0xB3
+db 0x8C,0xF9,0x22,0x3F
+db 0x00,0x00,0x80,0x3F
+db 0x00,0x00,0x00,0x40
+
+TABLACOS:
+db 0xCF,0x0F,0xC9,0x3F
+
+ARCTAN3:
+db 0xba,0xfe,0xe2,0x39
+db 0xce,0xd8,0x56,0xbb
+db 0x7d,0xd1,0x3e,0x3c
+db 0x23,0xc4,0xd7,0xbc
+db 0x0a,0x17,0x34,0x3d
+db 0xa3,0x81,0x77,0xbd
+db 0x61,0xae,0x99,0x3d
+db 0x8f,0x60,0xb9,0xbd
+db 0x12,0x72,0xe3,0x3d
+db 0xfb,0x47,0x12,0xbe
+db 0xbf,0xcc,0x4c,0x3e
+db 0xaa,0xaa,0xaa,0xbe
+db 0xff,0xff,0x7f,0x3f
+db 0xda,0x0f,0xc9,0x3f
+db 0x00,0x00,0x80,0x3f
+
+LN3:
+db 0xf3,0x04,0x35,0x3f
+db 0x00,0x00,0x80,0x3f
+db 0xac,0xc3,0x91,0x3e
+db 0x9e,0xb7,0xa3,0x3e
+db 0xa6,0x0d,0xd3,0x3e
+db 0x60,0xbb,0x13,0x3f
+db 0x4e,0x38,0x76,0x3f
+db 0x3b,0xaa,0x38,0x40
+db 0x00,0x00,0x00,0xbf
+db 0x17,0x72,0x31,0x3f
+
+EXP3:
+db 0x3b,0xaa,0xb8,0x3f
+db 0x45,0x56,0x15,0x34
+db 0xa0,0x92,0xa7,0x35
+db 0xee,0x93,0x80,0x37
+db 0xa7,0x78,0x21,0x39
+db 0x82,0xc4,0xae,0x3a
+db 0x58,0x95,0x1d,0x3c
+db 0x46,0x58,0x63,0x3d
+db 0xef,0xfd,0x75,0x3e
+db 0x17,0x72,0x31,0x3f
+db 0x00,0x00,0x80,0x3f
+
+NUMCONSLIB: equ 46
+
+FINLIB:

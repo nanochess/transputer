@@ -1,0 +1,499 @@
+;
+; Libreria de soporte para los programas escritos en C.
+;
+
+qexecp:
+ldlp 0
+ldl 2
+stnl 4
+ldc 7
+ldpi
+ldl 2
+stnl 0
+ldl 2
+gajw
+ldl 1
+gcall
+ldl 0
+gajw
+ret
+
+qcheca_tecla:
+ldc 0x05
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qcheca_int:
+call qcheca_tecla
+stl 2
+ldl 2
+eqc 3
+cj checa_int
+ldc 1
+ldl 1
+call qexit
+checa_int:
+ldl 2
+ret
+
+qclock:
+ldtimer
+ret
+
+qrand:
+ldtimer
+mint
+ldc 1
+diff
+and
+ret
+
+qespera_tiempo:
+ldl 2
+ldtimer
+sum
+tin
+ret
+
+qfread:
+ldc 0x13
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qmalloc:
+ldc 0x15
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qfree:
+ldc 0x16
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qexec:
+ldc 0x18
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qexecm:
+ldc 0x17
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qmemoria_disponib:
+ldc 0x19
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qfwrite:
+ldc 0x14
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+q_llamada:
+ldl 2
+ajw -4
+ldc 2
+ldpi
+stl 0
+gcall
+ajw -3
+stl 0
+stl 1
+stl 2
+ldl 0
+ldl 6
+stnl 0
+ldl 1
+ldl 7
+stnl 0
+ldl 2
+ldl 8
+stnl 0
+ldlp 0
+ldl 9
+stnl 0
+ajw 3
+ret
+
+qexit:
+ldl 1
+ldnlp -4
+gajw
+ret
+
+qgetchar:
+call qcheca_tecla
+stl 1
+ldl 1
+cj qgetchar
+ldl 1
+ret
+
+qftell:
+ldc 17
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qputs:
+ldl 2
+lb
+cj puts
+ldl 2
+lb
+ldl 1
+call qputchar
+ldl 2
+adc 1
+stl 2
+j qputs
+puts:
+ret
+
+qgets:
+ldl 2
+stl 1
+ldl 1
+stl 2
+P2:
+call qgetchar
+stl 3
+ldl 3
+eqc 8
+cj P1
+ldl 2
+ldl 1
+diff
+cj P2
+ldc 8
+ldc 0
+call qputchar
+ldl 2
+adc -1
+stl 2
+j P2
+P1:
+ldl 3
+eqc 13
+cj P3
+ldc 0
+ldl 2
+sb
+ldc 13
+ldc 0
+call qputchar
+ldc 10
+ldc 0
+call qputchar
+ret
+P3:
+ldl 3
+ldc 0
+call qputchar
+ldl 3
+ldl 2
+sb
+ldl 2
+adc 1
+stl 2
+j P2
+
+qputchar:
+testerr
+ldc 6
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qfseek:
+ldc 16
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qimprime:
+ldc 18
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qcrea_dir:
+ldc 13
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qborra_dir:
+ldc 14
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qatributo:
+ldc 15
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qvolumen:
+ldc 12
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qespacio_libre:
+ldc 11
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qabre_dir:
+ldc 10
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qremove:
+ldc 7
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qrename:
+ldc 8
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qhora:
+ldc 9
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qfclose:
+ldc 2
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qfgetc:
+ldc 3
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qfputc:
+ldc 4
+ldlp 1
+adc 3
+sb
+j EMENSAJE
+
+qfopen:
+ldc 1
+ldlp 1
+adc 3
+sb
+
+EMENSAJE:
+ajw -1
+EMENSAJ1:
+mint
+ldnl 70
+cj EMENSAJ2
+j EMENSAJ1
+EMENSAJ2:
+ldc 1
+mint
+stnl 70
+mint
+ldnlp 64
+ldlp 2
+adc 3
+outword
+ldlp 2
+mint
+ldnlp 65
+ldc 4
+in
+ldc 0
+mint
+stnl 70
+ldl 2
+ajw 1
+ret
+
+;
+; Rutinas para mandar y recibir mensajes.
+;
+; ctrl_maestro(mensaje)
+;
+qctrl_maestro:
+ldl 2
+ajw -1
+stl 0
+EMENSAJ3:
+mint
+ldnl 71
+cj EMENSAJ4
+j EMENSAJ3
+EMENSAJ4:
+ldc 1
+mint
+stnl 71
+ldlp 0
+mint
+ldnlp 66
+ldc 4
+out
+ldlp 0
+mint
+ldnlp 67
+ldc 1
+in
+ldc 0
+mint
+stnl 71
+ajw 1
+ret
+
+;
+; mandar(canal, *mensaje, bytes)
+;
+qmandar:
+ldl 3
+ldl 2
+ldl 4
+out
+ret
+
+;
+; recibir(canal, *mensaje, bytes)
+;
+qrecibir:
+ldl 3
+ldl 2
+ldl 4
+in
+ret
+
+;
+; memcpy(destino, origen, bytes)
+;
+qmemcpy:
+ldl 3
+ldl 2
+ldl 4
+move
+ret
+
+;
+; memset(destino, byte, cuantos)
+;
+qmemset:
+ldl 4
+cj memset
+ldl 3
+ldl 2
+sb
+ldl 2
+adc 1
+stl 2
+ldl 4
+adc -1
+stl 4
+j qmemset
+memset:
+ret
+
+;
+; memzero(destino, cuantos)
+;
+qmemzero:
+ldl 3
+cj memset
+ldc 0
+ldl 2
+sb
+ldl 2
+adc 1
+stl 2
+ldl 3
+adc -1
+stl 3
+j qmemzero
+
+q_finprog:
+ldc FINPROG-P4
+ldpi
+P4:
+adc 15
+ldc -16
+and
+ret
+
+;
+; inicia_tarea(direccion, workspace, argc, argv)
+;
+qinicia_tarea:
+ldl 2
+ldl 3
+stnl 0
+ldl 4
+ldl 3
+stnl 1
+ldl 5
+ldl 3
+stnl 2
+ldc MITAREA-P5
+ldl 3
+startp
+P5:
+ret
+MITAREA:
+ajw -4
+ldc 7
+ldpi
+stl 0
+ldl 5
+stl 2
+ldl 6
+stl 3
+ldl 4
+gcall
+stopp
+
+FINPROG:

@@ -1,0 +1,301 @@
+Descripción de los archivos en lenguaje C contenidos en el directorio C:/C
+
+Incluye una descripción de que hay que hacer para compilarlo, y que hace.
+________________________________________________________________________________
+
+PROGRAMA:
+Sistema operativo mexicano de 32 bits.
+
+ARCHIVOS:
+SOM32.C
+
+PROCESO:
+Compilar C:C/SOM32.C -> B:SOM32.LEN
+Ensamblar B:SOM32.LEN con C:/LIB/MENSAJES.LEN -> C:SOM32.BIN
+
+OPCIONAL:
+Copiar SOM32.BIN en el disco que empieza el sistema operativo.
+________________________________________________________________________________
+
+PROGRAMA:
+Interfaz de texto.
+
+ARCHIVOS:
+INTERFAZ.C
+
+PROCESO:
+Compilar C:C/INTERFAZ.C -> B:INTERFAZ.LEN
+Ensamblar B:INTERFAZ.LEN con C:/LIB/STDIO.LEN -> C:INTERFAZ.CMG
+
+OPCIONAL:
+Copiar INTERFAZ.CMG en el directorio buscado por SOM32.BIN.
+________________________________________________________________________________
+
+PROGRAMA:
+Muestra la fecha y hora actuales.
+
+ARCHIVOS:
+HORA.C
+
+PROCESO:
+Compilar C:C/HORA.C -> B:HORA.LEN
+Ensamblar B:HORA.LEN con C:/LIB/STDIO.LEN -> C:HORA.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Muestra recordatorios y efemerides.
+
+ARCHIVOS:
+EFEM.C
+
+PROCESO:
+Compilar C:C/EFEM.C -> B:EFEM.LEN
+Ensamblar B:EFEM.LEN con C:/LIB/STDIO.LEN -> C:EFEM.CMG
+
+NOTA:
+El archivo EFEM.DAT debe estar en C:/
+________________________________________________________________________________
+
+PROGRAMA:
+Monitor de lenguaje máquina.
+
+ARCHIVOS:
+MONITOR.C
+
+PROCESO:
+Compilar C:C/MONITOR.C -> B:MONITOR.LEN
+Ensamblar B:MONITOR.LEN con C:/LIB/STDIO.LEN -> C:MONITOR.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Editor de texto.
+
+ARCHIVOS:
+EDITOR.C
+
+PROCESO:
+Compilar C:C/EDITOR.C -> B:EDITOR.LEN
+Ensamblar B:EDITOR.LEN con C:/LIB/STDIO.LEN -> C:EDITOR.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Compilador de lenguaje C.
+
+ARCHIVOS:
+CC.C  CCVARS.C  CCINTER.C  CCANASIN.C  CCVARIOS.C  CCEXPR.C  CCGENCOD.C
+
+PROCESO:
+Compilar C:C/CC.C -> B:CC.LEN
+Ensamblar B:CC.LEN con C:/LIB/STDIO.LEN -> C:CC.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Ensamblador/enlazador.
+
+ARCHIVOS:
+ENS.C
+
+PROCESO:
+Compilar C:C/ENS.C -> B:ENS.LEN
+Ensamblar B:ENS.LEN con C:/LIB/STDIO.LEN -> C:ENS.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Checa la velocidad del procesador.
+
+ARCHIVOS:
+BogoMips.C
+
+PROCESO:
+Compilar C:C/BogoMips.C -> B:BogoMips.LEN
+Ensamblar B:BogoMips.LEN con C:/LIB/STDIO.LEN -> C:MARCA.CMG
+
+NOTA:
+La medida de tiempo consiste en ejecutar una instrucción shl (tarda un ciclo
+para efectuar un corrimiento de un bit, y puede darsele un corrimiento de
+hasta 4,000,000,000 veces). El valor resultante es dos veces la velocidad
+en megahertzios del procesador.
+________________________________________________________________________________
+
+PROGRAMA:
+Prepara un disco flexible de 1.44 MB. para ser usado.
+
+ARCHIVOS:
+PREPARA.C
+
+PROCESO:
+Compilar C:C/PREPARA.C -> B:PREPARA.LEN
+Ensamblar B:PREPARA.LEN con C:/LIB/STDIO.LEN -> C:PREPARA.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Compara dos archivos de texto.
+
+ARCHIVOS:
+COMPARA.C
+
+PROCESO:
+Compilar C:C/COMPARA.C -> B:COMPARA.LEN
+Ensamblar B:COMPARA.LEN con C:/LIB/STDIO.LEN -> C:COMPARA.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Crea, extrae y lista archivos TAR.
+
+ARCHIVOS:
+TAR.C
+
+PROCESO:
+Compilar C:C/TAR.C -> B:TAR.LEN
+Ensamblar B:TAR.LEN con C:/LIB/EXT.LEN y C:LIB/STDIO.LEN -> C:TAR.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Copiador de discos flexibles de 1.44 MB.
+
+ARCHIVOS:
+COPIADOR.C
+
+PROCESO:
+Compilar C:C/COPIADOR.C -> B:COPIADOR.LEN
+Ensamblar B:COPIADOR.LEN con C:LIB/STDIO.LEN -> C:COPIADOR.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Muestra el conjunto de caracteres total.
+
+ARCHIVOS:
+CONJUNTO.C
+
+PROCESO:
+Compilar C:C/CONJUNTO.C -> B:CONJUNTO.LEN
+Ensamblar B:CONJUNTO.LEN con C:LIB/STDIO.LEN -> C:CONJUNTO.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Filtro convertidor de caracteres PC a caracteres ISO-8859.
+
+ARCHIVOS:
+FILTRO.C
+
+PROCESO:
+Compilar C:C/FILTRO.C -> B:FILTRO.LEN
+Ensamblar B:FILTRO.LEN con C:/LIB/STDIO.LEN -> C:FILTRO.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Lee archivos de un disco PC de 1.44 MB.
+
+ARCHIVOS:
+CPC.C
+
+PROCESO:
+Compilar C:C/CPC.C -> B:CPC.LEN
+Ensamblar B:CPC.LEN con C:/LIB/STDIO.LEN -> C:CPC.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Arregla archivos de texto en formato libro en una HP LaserJet IIP.
+
+ARCHIVOS:
+LIBRO.C
+
+PROCESO:
+Compilar C:C/LIBRO.C -> B:LIBRO.LEN
+Ensamblar B:LIBRO.LEN con C:/LIB/STDIO.LEN -> C:LIBRO.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Modelado en 3 dimensiones con Ray-Tracing.
+
+ARCHIVOS:
+M3D.C
+
+PROCESO:
+Compilar C:C/M3D.C -> B:M3D.LEN
+Ensamblar C:/LIB/MAT.LEN - B:M3D.LEN - C:/LIB/GRAF.LEN - C:/LIB/STDIO.LEN en
+C:M3D.CMG
+
+NOTA:
+Hay algunos archivos de muestra en C:/Dibujo_3D.
+No introduzca la extensión del archivo cuando teclee el nombre.
+________________________________________________________________________________
+
+PROGRAMA:
+Ilustrador de archivos AVI en formato Cinepak de 192x144.
+
+ARCHIVOS:
+AVI.C
+
+PROCESO:
+Compilar C:C/AVI.C -> B:AVI.LEN
+Ensamblar B:AVI.LEN - C:/LIB/AVI.LEN - C:/LIB/GRAF.LEN - C:/LIB/STDIO.LEN en
+C:AVI.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Ilustrador de archivos en hexadecimal.
+
+ARCHIVOS:
+VACIADO.C
+
+PROCESO:
+Compilar C:C/VACIADO.C -> B:VACIADO.LEN
+Ensamblar B:VACIADO.LEN - C:/LIB/EXT.LEN - C:/LIB/STDIO.LEN en C:VACIADO.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Descompactador de archivos ZIP.
+
+ARCHIVOS:
+DZIP.C  INFLATE.C  EXPLODE.C  UNREDUCE.C  UNSHRINK.C
+
+PROCESO:
+Compilar C:C/DZIP.C -> B:DZIP.LEN
+Ensamblar B:DZIP.LEN - C:/LIB/EXT.LEN - C:/LIB/STDIO.LEN en C:DZIP.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Descompactador de archivos ARC.
+
+ARCHIVOS:
+DARC.C
+
+PROCESO:
+Compilar C:C/DARC.C -> B:DARC.LEN
+Ensamblar B:DARC.LEN - C:/LIB/EXT.LEN - C:/LIB/STDIO.LEN en C:DARC.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Concatenador de archivos.
+
+ARCHIVOS:
+CONCAT.C
+
+PROCESO:
+Compilar C:C/CONCAT.C -> B:CONCAT.LEN
+Ensamblar B:CONCAT.LEN - C:/LIB/EXT.LEN - C:/LIB/STDIO.LEN en C:CONCAT.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Descompactador de archivos GZIP.
+
+ARCHIVOS:
+GZIP.C  INFLATE.C
+
+PROCESO:
+Compilar C:C/GZIP.C -> B:GZIP.LEN
+Ensamblar B:GZIP.LEN - C:/LIB/EXT.LEN - C:/LIB/STDIO.LEN en C:GZIP.CMG
+________________________________________________________________________________
+
+PROGRAMA:
+Emulador del microprocesador Z80 y CP/M.
+
+ARCHIVOS:
+EMULADOR.C EMU_Z80.LEN EMU_BAS.LEN EMU_CB.LEN EMU_ED.LEN EMU_DD.LEN EMU_FD.LEN
+EMU_DDCB.LEN EMU_TERM.LEN
+
+PROCESO:
+Vea el texto en C:/Documentos/EmuladorCPM.doc
+________________________________________________________________________________
+

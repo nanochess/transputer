@@ -1,0 +1,208 @@
+qmodo_texto:
+ldc 0x11
+ldlp 2
+sb
+ajw -1
+call disponible
+mint
+ldnlp 66
+ldlp 3
+outword
+ldlp 2
+mint
+ldnlp 67
+ldc 1
+in
+ldc 0
+mint
+stnl 71
+ajw 1
+qforza_actualizacion:
+mint
+ldnl 68
+ldnlp 1000
+dup
+stl 1
+ldnlp 25
+stl 2
+q:
+ldc -1
+ldl 1
+stnl 0
+ldl 1
+ldnlp 1
+stl 1
+ldl 1
+ldl 2
+diff
+eqc 0
+cj q
+ret
+
+qmodo_grafico:
+ldc 0x10
+ldlp 2
+sb
+ajw -1
+call disponible
+mint
+ldnlp 66
+ldlp 3
+outword
+ldlp 2
+mint
+ldnlp 67
+ldc 1
+in
+ldc 0
+mint
+stnl 71
+ajw 1
+j qforza_actualizacion
+
+qdibuja_pixel:
+ajw -3
+ldc 0x12
+ldlp 1
+sb
+ldl 5
+ldlp 1
+adc 1
+sb
+ldl 5
+ldc 8
+shr
+ldlp 1
+adc 2
+sb
+ldl 6
+ldlp 1
+adc 3
+sb
+ldl 6
+ldc 8
+shr
+ldlp 2
+sb
+ldl 7
+ldlp 2
+adc 1
+sb
+ldl 8
+ldlp 2
+adc 2
+sb
+ldl 9
+ldlp 2
+adc 3
+sb
+call disponible
+mint
+ldnlp 66
+ldlp 1
+outword
+ldlp 1
+mint
+ldnlp 67
+ldc 1
+in
+ldc 0
+mint
+stnl 71
+ajw 3
+ret
+
+qdibuja_pixel_256:
+ajw -3
+ldc 0x13
+ldlp 1
+sb
+ldl 5
+ldlp 1
+adc 1
+sb
+ldl 5
+ldc 8
+shr
+ldlp 1
+adc 2
+sb
+ldl 6
+ldlp 1
+adc 3
+sb
+ldl 6
+ldc 8
+shr
+ldlp 2
+sb
+ldl 7
+ldlp 2
+adc 1
+sb
+call disponible
+mint
+ldnlp 66
+ldlp 1
+outword
+ldlp 1
+mint
+ldnlp 67
+ldc 1
+in
+ldc 0
+mint
+stnl 71
+ajw 3
+ret
+
+qvacia_bloque_256:
+ajw -1
+vacia_bloque_256:
+mint
+ldnl 69
+cj vacia_bloque
+j vacia_bloque_256
+vacia_bloque:
+ldc 1
+mint
+stnl 69
+mint
+ldc 0x00003431
+outword
+mint
+ldl 3
+outword
+mint
+ldl 4
+outword
+mint
+ldl 5
+outword
+mint 
+ldl 6
+outword
+ldl 5
+ldl 6
+prod
+ldl 7
+rev
+mint
+rev
+out
+ldc 0
+mint
+stnl 69
+ajw 1
+ret
+
+disponible:
+mint
+ldnl 71
+cj disponible1
+j disponible
+disponible1:
+ldc 1
+mint
+stnl 71
+ret

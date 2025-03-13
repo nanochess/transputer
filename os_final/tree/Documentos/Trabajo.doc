@@ -1,0 +1,69 @@
+Que debo hacer:
+
+* Hacer ampliamente portatiles todos los programas. (lo que se puede)
+
+* Mejorar el funcionamiento de SOM32.CMG:
+  * Soporte para discos flexibles y duros de PC.
+  * Soporte para discos de la 9a. (720 KB.)
+  * Soporte para expandir con llamadas extras.
+    (Un programa de usuario que se "conecte" para recibir mensajes, por
+    ejemplo un sistema de ventanas)
+  * Corregir defecto de competencia por canales.
+    (Llega a ocasionar "paros" totales del sistema, al escribir en la
+     información del programa que deseaba enviar datos)
+  * Hacer una estructura info_extra, donde se almacene la información
+    sobre arch_abiertos, removible, info_cargada, tabla_sector, tabla_modif,
+    y la información sobre primer bloque disponible, espacio total.
+    (Esto mejorara el acceso a no removibles)
+  * Agregarle soporte para red. (TCP/IP)
+
+* Completar el funcionamiento de INTERFAZ.CMG:
+  * Que conserve la fecha del archivo origen en COPIA.
+  * Orden para cambiar de subdirectorio. (SD / SUBDIR)
+  * Que pase el directorio actual al programa que va a ejecutar.
+  * Que pase los argumentos y el ambiente al programa que va a ejecutar.
+  * Soporte para archivos por lotes con parametros.
+
+* Completar el funcionamiento de CC.CMG:
+  * Soporte parametros de macros dispersos en varias líneas.
+  * Soporte extern, inicialización estáticas, etc.
+  * Soporte ANSI C con advertencias sobre construcciones no ANSI.
+  * No soporta #if x || y
+
+* Completar el funcionamiento de ENS.CMG:
+  * Agregar las directivas extras para soporte módulos enlazables.
+  * Crear el enlazador. ENLACE.CMG
+  * Actualizar con las nuevas rutinas fread y fwrite.
+
+* Completar el funcionamiento de EDITOR.CMG:
+  * Soporte para archivos de más de 64 kilobytes.
+
+* Mejorar el funcionamiento de CPC.CMG:
+  * Soporte para subdirectorios.
+
+* Hacer un impresor estético de lenguaje C, con soporte para referencias
+  cruzadas de cada identificador.
+
+* Hacer un analizador de lenguaje C, que detecte errores que podrían pasar
+  insospechados.
+
+* Hacer un compilador de Pascal.
+
+* Hacer un intérprete de Prolog.
+
+* Hacer un intérprete de Lisp.
+
+* Hacer un intérprete de Logo.
+
+* Hacer un intérprete de BASIC.
+
+* Hacer un documento sobre como funciona el transputer, indicar todo lo
+  necesario. (Seria bueno para hacer un emulador del transputer)
+
+* Las rutinas cos, sin, atan, etc. están hechas para precisión de 32 bits,
+  y erran muchos dígitos en 64 bits. Además, exp deberia retornar 1E+30 para
+  números muy grandes.
+
+* Hacer un sistema de ventanas.
+
+Todo lo de atrás va a requerir como mínimo unos 512 KB. de RAM.

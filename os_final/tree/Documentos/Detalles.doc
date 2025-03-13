@@ -1,0 +1,12 @@
+Detalles no estandares del compilador de C:
+
+Las funciones fread y fwrite no son estandar, en mi libreria están definidas
+de la siguiente manera:
+
+         fread(archivo, direccion, bytes)   ->  bytes
+
+         fwrite(archivo, direccion, bytes)  ->  bytes
+
+También la función puts no es estandar, envia la cadena sin modificaciones.
+(En ANSI se especifica que debe agregarse un "\n", y que se use fputs si no
+se requiere este comportamiento)

@@ -1,5 +1,5 @@
 ## Transputer T805 emulator
-### (also including assembler, Pascal compiler, Small-C compiler and OS)
+### (also including assembler, Pascal compiler, Small-C compiler and mini-OS, K&R C compiler and full OS)
 #### by Oscar Toledo G. https://nanochess.org/
 
 Once upon a time when I was a teen (1993), I wrote an almost full Pascal compiler for a transputer processor (the FILE type wasn't never completed)
@@ -11,6 +11,8 @@ It was a time when the INMOS transputer promised parallel computing for everyone
 In case you want to read the complete article: [https://nanochess.org/pascal.html](https://nanochess.org/pascal.html)
 
 I've added also my early operating system complete with simple command-line interface, text editor, C compiler, and assembler: [https://nanochess.org/bootstrapping_c_os_transputer.html](https://nanochess.org/bootstrapping_c_os_transputer.html)
+
+Lately I've added my full operating system complete with subdirectories, multiple drives, and with almost full K&R C compiler along syntax coloring for the editor: [https://nanochess.org/transputer_operating_system.html](https://nanochess.org/transputer_operating_system.html)
 
 ### What we have here
 
@@ -103,7 +105,7 @@ The first two questions can be answered N (stop on errors and show C language so
 
 The resulting assembly file can be passed through tasm, and added STDIO2.LEN for executing it using the emulator, or STDIO3.LEN for executing it inside the operating system (see below).
 
-## Operating system
+## Early operating system
 
 This is my early version of my first operating system (Jun/1995). It is composed of several files:
 
@@ -135,9 +137,60 @@ Each compiled C file generates a LEN file. There are so many LEN files, that I'v
 
 It requires the host system to provide an ANSI escape terminal, because it refreshes it like a text framebuffer. It works just fine in macOS (including mapping the function and arrows keys for the visual text editor), I haven't tested Windows nor Linux.
 
-This environment is pretty powerful, as I evolved the operating system starting from this. I'll talk later more about this.
+This environment is pretty powerful, as I evolved the operating system starting from this. 
 
 ![image](README2.png)
+
+
+## Full operating system
+
+This is my full-blown operating system (Spring 1996), it includes a lot of features like multiple drives (A: is floppy, B: is RAM disk, C: is hard drive, D: is a CD-ROM in ISO-9660 format)
+
+The C compiler supports the full K&R syntax (except for static and extern, because there's no linker).
+
+To run the operating system (using the prebuilt disk image):
+
+    ./tem -os2 os_final/maestro.cmg os_final/floppy.img os_final/harddisk.img
+    
+You can add optionally an extra argument with an ISO file for getting CD-ROM access.
+
+I suggest to set your terminal in ANSI/VT100 mode, 80 columns by 25 rows, and using ISO Latin 1 or ISO-8859-1 character set. My personal terminal added block shapes in the characters $80-$9f, but these will appear as blank (at least in macOS).
+
+Some commands you can test inside the operating system:
+
+    DIR A:
+    DIR C:
+    AYUDA
+    MEM
+    C:EDITOR
+
+In macOS you can use Fn+F1 to access the help box of the visual text editor, and type Fn+F4 to open the directory browsing for reading text files.
+
+Use C:CC to invoke the C compiler, C:ENS to invoke the assembler, C:EJECUTABLE to build assembler output into a working executable. There are instructions for compiling programs in the C:/Documentos/Programas.doc file.
+
+This is an example compilation of a program:
+
+    C:CC
+    N
+    N
+    C:/C/Hora.c
+    B:Hora.len
+    
+    C:ENS
+    B:Hora.len
+    C:/Lib/stdio.len
+    [empty line]
+    B:Hora.e
+
+    C:EJECUTABLE
+    B:Hora.e
+    512
+    0
+    C:Hora.p
+    
+The disk images are built with build_f1.sh, build_f2.sh, and build_hd.sh and require some time for you to copy the files into the drives (from the emulated floppy disk to the emulate hard disk drive).
+
+After you do some developing inside the hard disk drive image, you need a way to extract back the data, so I've developed the extractimage.c utility, in order to dump a complete hard disk drive image as a tree of files.
 
 
 ## Further notes

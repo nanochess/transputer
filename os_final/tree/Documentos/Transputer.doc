@@ -1,0 +1,79 @@
+Como funciona el Transputer Inmos T805
+
+  El transputer T805 es un procesador de tipo RISC de 32 bits, con capacidad
+para acceder hasta 4 gigabytes de memoria, tiene cuatro canales serie de alta
+velocidad para entrada y salida, y un canal extra solo de entrada. (Event)
+
+                   |-----------------|
+                   |                 |
+                   |                 |
+                   |   Transputer    |
+  Canales de  ><---|                 |----> Líneas para direccionamiento de
+entrada y salida   |      T805       |      memoria y datos.
+                   |                 |
+                   |                 |
+                   |-----------------|
+                            |
+                            ^
+                      Entrada de reloj (5 mhz),
+                      pines para configurar
+                      la frecuencia (20-25-30 mhz.),
+                      y pines para configurar
+                      la memoria.
+
+  Los canales pueden conectarse directamente a otros transputers o conectarse a
+una computadora a traves del Inmos C011 (Adaptador de enlace), que transforma
+los datos serializados en datos paralelos (8 bits).
+
+  Usa únicamente una entrada de reloj de 5 mhz., tiene patas que permiten
+configurar la frecuencia de trabajo (generada internamente por un PLL). También
+tiene patas para configurar el tipo de memoria que se va a accesar, desde
+RAM estática a 3 ciclos, hasta RAM dinámica a 7 ciclos, no necesita mucha
+circuiteria de apoyo para controlar la RAM dinámica.
+
+  Aparte de la RAM externa, el transputer T805 tiene 4 kilobytes de memoria
+interna de alta velocidad, que se acceden en un sólo ciclo. Un T805 de 30 mhz.
+puede ejecutar hasta 24 millones de instrucciones de un byte usando unicamente
+su memoria interna, en la práctica son alrededor de 5 a 10 millones de
+instrucciones por segundo.
+
+  El T805 contiene una unidad de punto flotante que trabaja al mismo tiempo
+que la unidad aritmética de 32 bits, por lo que se pueden cálcular las
+siguientes direcciones de acceso al mismo tiempo que se efectua una operación
+de punto flotante.
+
+CARACTERISTICAS DE PROGRAMACIÓN.
+
+  Los registros del T805 están organizados de una manera muy peculiar:
+
+          Registro A            Registro de 32 bits.
+          Registro B            Registro de 32 bits.
+          Registro C            Registro de 32 bits.
+
+          Registro I            Apuntador de instrucción
+          Registro W            Apuntador de Workspace, espacio de trabajo
+          Registro O            Operando
+
+          Registro FrontPtr1    Apuntador al siguiente proceso de prioridad 1
+                                (prioridad baja), listo para ejecutarse.
+          Registro BackPtr1     Apuntador al último proceso de prioridad 1
+                                en la lista de disponibles.
+
+          Registro FrontPtr0    Apuntador al siguiente proceso de prioridad 0
+                                (prioridad alta), listo para ejecutarse.
+          Registro BackPtr0     Apuntador al último proceso de prioridad 0
+                                en la lista de disponibles.
+
+  Los registros se usan en forma de pila, por ejemplo:
+
+      45        ldc 5       Carga 5   (C=x B=x A=5)
+      42        ldc 2       Carga 2   (C=x B=5 A=2)
+      81        adc 1       Suma 1    (C=x B=5 A=3)
+      F5        add         Suma los dos registros en el tope de la pila.
+                                      (C=? B=x A=8)
+
+  El transputer es un procesador de tipo RISC, tiene 16 instrucciones básicas:
+
+      0x        j x         Salto incondicional a desplazamiento x
+      1x        ldlp x      Obtiene un apuntador relativo a W
+      2x        pfix x      Prefijo
