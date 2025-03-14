@@ -192,6 +192,8 @@ The disk images are built with build_f1.sh, build_f2.sh, and build_hd.sh and req
 
 After you do some developing inside the hard disk drive image, you need a way to extract back the data, so I've developed the extractimage.c utility, in order to dump a complete hard disk drive image as a tree of files.
 
+![image](README3.png)
+
 
 ## Further notes
 
