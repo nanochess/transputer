@@ -2217,7 +2217,7 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                     case 0x05:  /* add */
                         temp = Breg + Areg;
                         /* If operands are same sign but result is different sign */
-                        if (((Areg ^ Oreg) & 0x80000000) == 0 && ((Areg ^ temp) & 0x80000000) != 0)
+                        if (((Breg ^ Areg) & 0x80000000) == 0 && ((Breg ^ temp) & 0x80000000) != 0)
                             transputer_error = 1;
                         Areg = temp;
                         Breg = Creg;
@@ -2249,7 +2249,7 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                     case 0x0c:  /* sub */
                         temp = Breg - Areg;
                         /* If operands are different sign but result is different sign than first operand */
-                        if (((Areg ^ Oreg) & 0x80000000) != 0 && ((Areg ^ temp) & 0x80000000) != 0)
+                        if (((Breg ^ Areg) & 0x80000000) != 0 && ((Breg ^ temp) & 0x80000000) != 0)
                             transputer_error = 1;
                         Areg = temp;
                         Breg = Creg;
@@ -2260,21 +2260,44 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         Areg = temp;
                         break;
                     case 0x10:  /* seterr */
+                        transputer_error = 1;
+                        break;
                     case 0x13:  /* csub0 */
-                        not_handled();
+                        if (Breg >= Areg)
+                            transputer_error = 1;
+                        Areg = Breg;
+                        Breg = Creg;
                         break;
                     case 0x16:  /* ladd */
-                        not_handled();
+                        temp = Breg + Areg + (Creg & 1);
+                        /* If operands are same sign but result is different sign */
+                        if (((Breg ^ Areg) & 0x80000000) == 0 && ((Breg ^ temp) & 0x80000000) != 0)
+                            transputer_error = 1;
+                        Areg = temp;
                         break;
                     case 0x19:  /* norm */
-                        not_handled();
+                        Creg = 0;
+                        while (Creg < 64 && (Breg & 0x80000000) == 0) {
+                            Breg = (Breg << 1) | (Areg >> 31);
+                            Areg = (Areg << 1);
+                            Creg++;
+                        }
                         break;
                     case 0x1b:  /* ldpi */
                         Areg += Iptr;
                         break;
                     case 0x1a:  /* ldiv */
+                        if (Creg >= Areg) {
+                            transputer_error = 1;
+                        } else {
+                            temp = (((unsigned long long) Creg << 32) | Breg) / Areg;
+                            Breg = (((unsigned long long) Creg << 32) | Breg) % Areg;
+                            Areg = temp;
+                        }
+                        break;
                     case 0x1d:  /* xdble */
-                        not_handled();
+                        Creg = Breg;
+                        Breg = (Areg & 0x80000000) ? ~0 : 0;
                         break;
                     case 0x1e:  /* ldpri */
                         Creg = Breg;
@@ -2364,12 +2387,59 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         Breg = Creg;
                         break;
                     case 0x31:  /* lmul */
+                    {
+                        unsigned long long temp2;
+                        
+                        temp2 = Breg * Areg + Creg;
+                        Areg = temp2;
+                        Breg = temp2 >> 32;
+                    }
+                        break;
                     case 0x34:  /* bcnt */
+                        Areg = Areg << 2;
+                        break;
                     case 0x35:  /* lshr */
+                        if (Areg < 64) {
+                            unsigned long long temp2;
+                            
+                            temp2 = (((unsigned long long) Creg << 32) | Breg) >> Areg;
+                            Areg = temp2;
+                            Breg = temp2 >> 32;
+                        } else {
+                            Areg = 0;
+                            Breg = 0;
+                        }
+                        break;
                     case 0x36:  /* lshl */
+                        if (Areg < 64) {
+                            unsigned long long temp2;
+                            
+                            temp2 = (((unsigned long long) Creg << 32) | Breg) << Areg;
+                            Areg = temp2;
+                            Breg = temp2 >> 32;
+                        } else {
+                            Areg = 0;
+                            Breg = 0;
+                        }
+                        break;
                     case 0x37:  /* lsum */
+                    {
+                        unsigned long long temp2;
+                        
+                        temp2 = (unsigned long long) Breg + Areg + (Creg & 1);
+                        if (temp2 >= 0xffffffff)
+                            Breg = 1;
+                        else
+                            Breg = 0;
+                        Areg = temp2;
+                    }
+                        break;
                     case 0x38:  /* lsub */
-                        not_handled();
+                        temp = Breg - Areg - (Creg & 1);
+                        /* If operands are different sign but result is different sign than first operand */
+                        if (((Breg ^ Areg) & 0x80000000) != 0 && ((Breg ^ temp) & 0x80000000) != 0)
+                            transputer_error = 1;
+                        Areg = temp;
                         break;
                     case 0x3a:  /* xword */
                         if (Breg < Areg) {
@@ -2441,12 +2511,32 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         Breg = Creg;
                         break;
                     case 0x4c:  /* csngl */
+                        if ((Areg & 0x80000000) != 0) {
+                            if (Breg != 0xffffffff)
+                                transputer_error = 1;
+                        } else {
+                            if (Breg != 0x00000000)
+                                transputer_error = 1;
+                        }
+                        Breg = Creg;
+                        break;
                     case 0x4d:  /* ccnt1 */
+                        if (Breg == 0 || Breg > Areg)
+                            transputer_error = 1;
+                        Areg = Breg;
+                        Breg = Creg;
+                        break;
                     case 0x4e:  /* talt */
                         not_handled();
                         break;
                     case 0x4f:  /* ldiff */
-                        not_handled();
+                    {
+                        unsigned long long temp2;
+                        
+                        temp2 = (unsigned long long) Breg - Areg - (Creg & 1);
+                        Breg = (temp2 >> 32) & 1;
+                        Areg = temp2;
+                    }
                         break;
                     case 0x51:  /* taltwt */
                         not_handled();
@@ -2460,11 +2550,14 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         Breg = Creg;
                         break;
                     case 0x54:  /* sttimer */
-                        /* !!! Do something (^^)! */
+                        /* !!! This instruction should start timers */
+                        transputer_ClockReg0 = Areg;
+                        transputer_ClockReg1 = Areg;
                         Areg = Breg;
                         Breg = Creg;
                         break;
                     case 0x55:  /* stoperr */
+                        /* !!! if transputer_error then stop current process */
                         not_handled();
                         break;
                     case 0x56:  /* cword */
@@ -2479,6 +2572,28 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         Breg = Areg;
                         Areg = transputer_halterr;
                         break;
+                    case 0x63:  /* unpacksn (only T414) */
+                        not_handled();
+                        break;
+                    case 0x6c:  /* postnormsn (only T414) */
+                        not_handled();
+                        break;
+                    case 0x6d:  /* roundsn (only T414) */
+                        not_handled();
+                        break;
+                    case 0x71:  /* ldinf (only T414) */
+                        not_handled();
+                        break;
+                    case 0x72:  /* fmul */
+                        not_handled();
+                        break;
+                    case 0x73:  /* cflerr (only T414) */
+                        not_handled();
+                        break;
+                        
+                        /*
+                         ** Start of T800 instructions
+                         */
                     case 0x5a:  /* dup */
                         Creg = Breg;
                         Breg = Areg;
@@ -2493,24 +2608,6 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         not_handled();
                         break;
                     case 0x5e:  /* move2dzero */
-                        not_handled();
-                        break;
-                    case 0x63:  /* unpacksn */
-                        not_handled();
-                        break;
-                    case 0x6c:  /* postnormsn */
-                        not_handled();
-                        break;
-                    case 0x6d:  /* roundsn */
-                        not_handled();
-                        break;
-                    case 0x71:  /* ldinf */
-                        not_handled();
-                        break;
-                    case 0x72:  /* fmul */
-                        not_handled();
-                        break;
-                    case 0x73:  /* cflerr */
                         not_handled();
                         break;
                     case 0x74:  /* crcword */
@@ -2561,9 +2658,6 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         break;
                     case 0x7d:  /* timerenablel */
                         /* !!! Do something (^^)! */
-                        break;
-                    case 0x7e:  /* ldmemstartval */
-                        not_handled();
                         break;
                     case 0x81:  /* wsubdb */
                         Areg = Areg + Breg * 8;
@@ -2973,7 +3067,17 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                                 return;
                         }
                         break;
+
+                        /*
+                         ** Start of T805-only instructions.
+                         */
+                    case 0x7e:  /* ldmemstartval */
+                        Creg = Breg;
+                        Breg = Areg;
+                        Areg = 0x80000070;
+                        break;
                     case 0xb1:  /* break */
+                        /* !!! Should be same as j 0 when j0_break flag is enabled */
                         not_handled();
                         break;
                     case 0xb2:  /* clrj0break */
@@ -2988,6 +3092,10 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                     case 0x17c: /* lddevid */
                         not_handled();
                         break;
+                        
+                        /*
+                         ** Others.
+                         */
                     case 0xff:  /* Exit emulator :) */
                         return;
                     default:
