@@ -24,12 +24,20 @@ The emulator supports _only_ the instructions used by my bootstrap code, my Pasc
 
 The assembler on the other side is based on more modern code used for my later C compiler for transputer (I'll write also something about this compiler), and supports the full instruction set for an Inmos T805 transputer.
 
-Compilation instructions:
+Compilation instructions (macOS):
 
     cc tem.c -o tem
     
     cc tasm.c -o tasm
 
+Compilation instructions (Windows Visual Studio 2022):
+
+    cl tem.c -o tem
+
+    cl tasm.c -o tasm
+
+For Windows replace the slash / with the backslash \
+    
 ### Pascal compiler
 
 The Pascal compiler follows the Niklaus Wirth's 1971 specification, and it is composed of the following files:
@@ -127,7 +135,7 @@ To run the operating system (using the prebuilt disk image):
 
     ./tem -os os/maestro.cmg os/disk.img
     
-I suggest to set your terminal in ANSI/VT100 mode, 80 columns by 25 rows, and using PC-8 or Latin/USA DOS character set.
+For macOS, I suggest to set your terminal in ANSI/VT100 mode, 80 columns by 25 rows, and using PC-8 or Latin/USA DOS character set. For recent Windows 10, the emulator will enable automatically the ANSI emulation.
 
 The disk image is built with os/build_disk.sh
 
@@ -135,7 +143,7 @@ The disk image is built with os/build_disk.sh
 
 Each compiled C file generates a LEN file. There are so many LEN files, that I've provided os/assemble_os.sh for assembling all in one pass.
 
-It requires the host system to provide an ANSI escape terminal, because it refreshes it like a text framebuffer. It works just fine in macOS (including mapping the function and arrows keys for the visual text editor), I haven't tested Windows nor Linux.
+It requires the host system to provide an ANSI escape terminal, because it refreshes it like a text framebuffer. It works just fine in macOS and Windows (including mapping the function and arrows keys for the visual text editor), I haven't tested Linux.
 
 This environment is pretty powerful, as I evolved the operating system starting from this. 
 
@@ -154,7 +162,7 @@ To run the operating system (using the prebuilt disk image):
     
 You can add optionally an extra argument with an ISO file for getting CD-ROM access.
 
-I suggest to set your terminal in ANSI/VT100 mode, 80 columns by 25 rows, and using ISO Latin 1 or ISO-8859-1 character set. My personal terminal added block shapes in the characters $80-$9f, but these will appear as blank (at least in macOS).
+I suggest to set your macOS terminal to ANSI/VT100 mode, 80 columns by 25 rows, and using ISO Latin 1 or ISO-8859-1 character set (this is automatically done in a recent build of Windows 10). My personal terminal added block shapes in the characters $80-$9f, but these will appear as blank in macOS, or weird symbols in Windows.
 
 Some commands you can test inside the operating system:
 
@@ -165,6 +173,8 @@ Some commands you can test inside the operating system:
     C:EDITOR
 
 In macOS you can use Fn+F1 to access the help box of the visual text editor, and type Fn+F4 to open the directory browsing for reading text files.
+
+In Windows you can use F1 to access the help box of the visual text editor, and type F4 to open the directory browsing for reading text files.
 
 Use C:CC to invoke the C compiler, C:ENS to invoke the assembler, C:EJECUTABLE to build assembler output into a working executable. There are instructions for compiling programs in the C:/Documentos/Programas.doc file.
 

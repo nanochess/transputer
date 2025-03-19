@@ -8,6 +8,10 @@
  ** Revision date: Feb/17/2025. Added support code for the raytracer and Julia sets.
  */
 
+#ifdef _WIN32
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 /*
  ** For getting detailed execution trace.
  */
@@ -37,20 +41,43 @@
 #include <ctype.h>
 #include <time.h>
 
-#ifdef WIN32
+int emulator_mode;
+
+#ifdef _WIN32
+#include <windows.h>
+
 void ttyinit(int fd)
 {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    DWORD consoleMode;
+    int page;
+
+    GetConsoleMode(hConsole, &consoleMode);
+    consoleMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+
+    if (!SetConsoleMode(hConsole, consoleMode)) {
+        fprintf(stderr, "Warning: You need at least Windows 10 version 1511 (build 10586) for enabling ANSI terminal\n");
+    }
+
+    hConsole = GetStdHandle(STD_INPUT_HANDLE);
+    GetConsoleMode(hConsole, &consoleMode);
+    consoleMode |= ENABLE_VIRTUAL_TERMINAL_INPUT;
+
+    if (!SetConsoleMode(hConsole, consoleMode)) {
+        fprintf(stderr, "Warning: Couldn't set terminal input mode to read special keys\n");
+    }
+    if (emulator_mode == 4) {
+        page = 1252;  /* Windows 1252 */
+    } else {
+        page = 437;  /* OEM United States */
+    }
+    if (!SetConsoleOutputCP(page)) {
+        fprintf(stderr, "Warning: Couldn't set code page %d\n", page);
+    }
 }
 
 void ttyrestore(int fd)
 {
-}
-
-int getkey(int fd)
-{
-    if (!_kbhit())
-        return 0;
-    return _getch();
 }
 #else
 /*
@@ -81,104 +108,164 @@ void ttyrestore(int fd)
     tcsetattr(fd,TCSAFLUSH,&tio_save);
 }
 
+int key_available;
+unsigned char key_buf[1];
+
+int _kbhit(void)
+{
+    int len;
+
+    if (key_available)
+        return 1;
+    len = read(0, key_buf, 1);
+    if (len)
+        key_available = 1;
+    return len != 0;
+}
+
+int _getch(void)
+{
+    if (key_available == 0)
+        return 0;
+    key_available = 0;
+    return key_buf[0];
+}
+#endif
+
 /*
- ** Special keys decoded for macOS
+ ** Special keys decoded for macOS and Windows
  */
 int getkey(int fd)
 {
-    unsigned char buf[1];
     int len;
     
-    len = read(fd,buf,1);
-    
-    if (len > 0) {
-        len = buf[0];
-        if (len == 127) {   /* Backspace */
+    len = 0;
+    if (_kbhit()) {
+        len = _getch();
+        if (len == 0x7f) {   /* Backspace */
             len = 8;
-        } else if (len == 27) { /* Esc */
-            len = read(fd,buf,1);
+        } else if (len == 0x1b) { /* Esc */
+            len = _kbhit();
             if (len > 0) {
-                if (buf[0] == 91) {
-                    len = read(fd, buf, 1);
+                len = _getch();
+                if (len == 0x5b) {
+                    len = _kbhit();
                     if (len > 0) {
-                        if (buf[0] == 65) {
+                        len = _getch();
+                        if (len == 0x41) {
                             len = 0x18; /* Up */
-                        } else if (buf[0] == 66) {
+                        } else if (len == 0x42) {
                             len = 0x12; /* Down */
-                        } else if (buf[0] == 67) {
+                        } else if (len == 0x43) {
                             len = 0x16; /* Right */
-                        } else if (buf[0] == 68) {
+                        } else if (len == 0x44) {
                             len = 0x14; /* Left */
-                        } else if (buf[0] == 49) {
-                            len = read(fd, buf, 1);
+                        } else if (len == 0x45) {
+                            len = 0x15; /* Keypad 5 */
+                        } else if (len == 0x48) {
+                            len = 0x17; /* Home */
+                        } else if (len == 0x46) {
+                            len = 0x11; /* End */
+                        } else if (len == 0x31) {
+                            len = _kbhit();
                             if (len > 0) {
-                                if (buf[0] == 53) {
-                                    len = read(fd, buf, 1);
+                                len = _getch();
+                                if (len == 53) {
+                                    len = _kbhit();
                                     if (len > 0) {
-                                        if (buf[0] == 126)
+                                        if (_getch() == 126)
                                             len = 5;    /* F5 */
                                     }
-                                } else if (buf[0] == 55) {
-                                    len = read(fd, buf, 1);
+                                } else if (len == 55) {
+                                    len = _kbhit();
                                     if (len > 0) {
-                                        if (buf[0] == 126)
+                                        if (_getch() == 126)
                                             len = 6;    /* F6 */
                                     }
-                                } else if (buf[0] == 56) {
-                                    len = read(fd, buf, 1);
+                                } else if (len == 56) {
+                                    len = _kbhit();
                                     if (len > 0) {
-                                        if (buf[0] == 126)
+                                        if (_getch() == 126)
                                             len = 7;    /* F7 */
                                     }
-                                } else if (buf[0] == 57) {
-                                    len = read(fd, buf, 1);
+                                } else if (len == 57) {
+                                    len = _kbhit();
                                     if (len > 0) {
-                                        if (buf[0] == 126)
+                                        if (_getch() == 126)
                                             len = 8;    /* F8 */
                                     }
                                 }
                             }
-                        } else if (buf[0] == 50) {
-                            len = read(fd, buf, 1);
+                        } else if (len == 0x32) {
+                            len = _kbhit();
                             if (len > 0) {
-                                if (buf[0] == 48) {
-                                    len = read(fd, buf, 1);
+                                len = _getch();
+                                if (len == 48) {
+                                    len = _kbhit();
                                     if (len > 0) {
-                                        if (buf[0] == 126)
+                                        if (_getch() == 126)
                                             len = 9;    /* F9 */
                                     }
-                                } else if (buf[0] == 49) {
-                                    len = read(fd, buf, 1);
+                                } else if (len == 49) {
+                                    len = _kbhit();
                                     if (len > 0) {
-                                        if (buf[0] == 126)
+                                        if (_getch() == 126)
                                             len = 10;   /* F10 */
                                     }
-                                } else if (buf[0] == 51) {
-                                    len = read(fd, buf, 1);
+                                } else if (len == 51) {
+                                    len = _kbhit();
                                     if (len > 0) {
-                                        if (buf[0] == 126)
+                                        if (_getch() == 126)
                                             len = 11;   /* F11 */
                                     }
-                                } else if (buf[0] == 52) {
-                                    len = read(fd, buf, 1);
+                                } else if (len == 52) {
+                                    len = _kbhit();
                                     if (len > 0) {
-                                        if (buf[0] == 126)
+                                        if (_getch() == 126)
                                             len = 12;   /* F12 */
                                     }
+                                } else if (len == 126) {
+                                    len = 0x10; /* 0 = Ins */
+                                }
+                            }
+                        } else if (len == 0x33) {
+                            len = _kbhit();
+                            if (len > 0) {
+                                len = _getch();
+                                if (len == 126) {
+                                    len = 0x0e;    /* Keypad . */
+                                }
+                            }
+                        } else if (len == 0x35) {
+                            len = _kbhit();
+                            if (len > 0) {
+                                len = _getch();
+                                if (len == 126) {
+                                    len = 0x19;    /* PgUp */
+                                }
+                            }
+                        } else if (len == 0x36) {
+                            len = _kbhit();
+                            if (len > 0) {
+                                len = _getch();
+                                if (len == 126) {
+                                    len = 0x13;    /* PgDn */
                                 }
                             }
                         }
                     }
-                } else if (buf[0] == 79) {
-                    len = read(fd, buf, 1);
+                }
+                else if (len == 79) {
+                    len = _kbhit();
                     if (len > 0) {
-                        if (buf[0] == 80) {
+                        len = _getch();
+                        if (len == 80) {
                             len = 0x01; /* F1 */
-                        } else if (buf[0] == 81) {
+                        } else if (len == 81) {
                             len = 0x02; /* F2 */
-                        } else if (buf[0] == 82) {
+                        } else if (len == 82) {
                             len = 0x03; /* F3 */
-                        } else if (buf[0] == 83) {
+                        } else if (len == 83) {
                             len = 0x04; /* F4 */
                         }
                     }
@@ -191,7 +278,6 @@ int getkey(int fd)
     
     return len;
 }
-#endif
 
 unsigned char memory[0x40000];
 
@@ -266,7 +352,6 @@ unsigned int framebuffer[X_WIDTH * Y_HEIGHT];
  */
 void start_emulation(unsigned int, unsigned int);
 
-int emulator_mode;
 int copy_argc;
 char **copy_argv;
 int next_file;
@@ -463,7 +548,7 @@ int main(int argc, char *argv[])
     offset_channel0 = 0;
     bytes_channel0 = ftell(input);
     if (bytes_channel0 > sizeof(channel0)) {
-        fprintf(stderr, "Boot image bigger than %ld bytes\n", sizeof(channel0));
+        fprintf(stderr, "Boot image bigger than %d bytes\n", (int) sizeof(channel0));
         exit(1);
     }
     output_channel0 = bytes_channel0;
@@ -1118,8 +1203,6 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
             return;
         }
         if (memcmp(output_buffer, "05", 2) == 0) {  /* Code 05: Pressed key */
-            int c;
-            
             if (output_pointer - output_buffer < 2)
                 return;
             channel0[0] = getkey(0);
@@ -1324,8 +1407,6 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
         fprintf(stderr, "Code %02x%02x detected\n", output_buffer[0], output_buffer[1]);
         exit(1);
     } else if (emulator_mode == 3) {    /* C compiler */
-        int v;
-        int v2;
         static FILE *list[10];
         int c;
         
@@ -1814,7 +1895,6 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
         } v;
     } fp[7];
     int byte;
-    unsigned char word_buffer[4];
     int c;
     int completed;
     
@@ -2313,7 +2393,7 @@ void start_emulation(unsigned int Iptr, unsigned int WptrDesc)
                         }
                         /* Sign is the same as dividend. In C this isn't portable */
                         if ((Breg ^ Areg) & 0x80000000)
-                            Areg = -Areg;
+                            Areg = -(int) Areg;
                         Breg = Creg;
                         break;
                     case 0x20:  /* ret */
