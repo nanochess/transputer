@@ -1,4 +1,4 @@
-## Transputer T805 emulator
+|1<## Transputer T805 emulator
 ### (also including assembler, Pascal compiler, Small-C compiler and mini-OS, K&R C compiler and full OS)
 #### by Oscar Toledo G. https://nanochess.org/
 
@@ -8,11 +8,11 @@ It was the convergence of several things I had been learning that year: Pascal (
 
 It was a time when the INMOS transputer promised parallel computing for everyone, but it was too expensive. They did a few good things, like a very fast 32-bit T805 transputer with 64-bit floating-point before the Intel 486DX2 was a thing.
 
-In case you want to read the complete article: [https://nanochess.org/pascal.html](https://nanochess.org/pascal.html)
+In case you want to read the complete article (first in the series): [https://nanochess.org/pascal.html](https://nanochess.org/pascal.html)
 
-I've added also my early operating system complete with simple command-line interface, text editor, C compiler, and assembler: [https://nanochess.org/bootstrapping_c_os_transputer.html](https://nanochess.org/bootstrapping_c_os_transputer.html)
+I've added also my early operating system complete with simple command-line interface, text editor, C compiler, and assembler (second in the series): [https://nanochess.org/bootstrapping_c_os_transputer.html](https://nanochess.org/bootstrapping_c_os_transputer.html)
 
-Lately I've added my full operating system complete with subdirectories, multiple drives, and with almost full K&R C compiler along syntax coloring for the editor: [https://nanochess.org/transputer_operating_system.html](https://nanochess.org/transputer_operating_system.html)
+Lately I've added my full operating system complete with subdirectories, multiple drives, and with almost full K&R C compiler along syntax coloring for the editor (last in the series): [https://nanochess.org/transputer_operating_system.html](https://nanochess.org/transputer_operating_system.html)
 
 ### What we have here
 
@@ -20,9 +20,17 @@ In order for you to experience my Pascal compiler, I needed to write two tools i
 
 And nope, it wasn't a standard INMOS board, it was a board specifically designed for the Z280 computer.
 
-The emulator supports _only_ the instructions used by my bootstrap code, my Pascal compiler, and a Ray Tracer program I ported from C to Pascal. Anyway this is a fairly big set of instructions, as floating-point is supported, but there's no support to compile the emulator on big-endian architectures.
+The emulator at the start supported _only_ the instructions used by my bootstrap code, my Pascal compiler, and a Ray Tracer program I ported from C to Pascal. Later, I added a few more instructions as well.
 
-The assembler on the other side is based on more modern code used for my later C compiler for transputer (I'll write also something about this compiler), and supports the full instruction set for an Inmos T805 transputer.
+Currently the core unhandled instructions are: _alt_, _talt_, _altwt_, _taltwt_, _altend_, _dist_, _disc_, _diss_, _enbt_, _enbc_, _enbs_, _fmul_, and _stoperr_.
+
+The T414 unhandled instructions are _unpacksn_, _postnormsn_, _roundsn_, _ldinf_, and _cflerr_.
+
+The T800 unhandled instructions are _move2dinit_, _move2dall_, _move2dnonzero_, _move2dzero_, _bitcnt_, _bitrevword_, _bitrevnbits_, _fpremfirst_, _fpremstep_, _fpnan_, _fpordered_, and _fpnotfinite_.
+
+Finally, the T805 unhandled instructions are _break_, _clrj0break_, _setj0break_, _testj0break_, and _lddevid_, along with support for _j 0_ to be taken as a breakpoint.
+
+The assembler on the other side is based on more modern code used for my later C compiler for transputer (described in the 2nd and 3rd articles), and supports the full instruction set for an Inmos T805 transputer.
 
 Compilation instructions (macOS):
 
