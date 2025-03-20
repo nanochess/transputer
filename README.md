@@ -27,13 +27,16 @@ The assembler on the other side is based on more modern code used for my later C
 Compilation instructions (macOS):
 
     cc tem.c -o tem
-    
     cc tasm.c -o tasm
 
+Compilation instructions (Linux):
+
+    cc tem.c -o tem -lm
+    cc tasm.c -o tasm
+    
 Compilation instructions (Windows Visual Studio 2022):
 
     cl tem.c -o tem
-
     cl tasm.c -o tasm
 
 For Windows replace the slash / with the backslash \
@@ -42,14 +45,14 @@ For Windows replace the slash / with the backslash \
 
 The Pascal compiler follows the Niklaus Wirth's 1971 specification, and it is composed of the following files:
 
-    pascal/variable.pas
-    pascal/errores.pas
-    pascal/analexic.pas
-    pascal/gencodig.pas
-    pascal/expresio.pas
-    pascal/sentenci.pas
-    pascal/declarac.pas
-    pascal/principa.pas
+    pascal/VARIABLE.PAS
+    pascal/ERRORES.PAS
+    pascal/ANALEXIC.PAS
+    pascal/GENCODIG.PAS
+    pascal/EXPRESIO.PAS
+    pascal/SENTENCI.PAS
+    pascal/DECLARAC.PAS
+    pascal/PRINCIPA.PAS
     
 A transputer executable is provided so you can compile programs immediately:
 
@@ -62,11 +65,11 @@ An older version of the executable is provided for historical purposes (it has a
 Two example programs are provided:
 
     pascal/Hanoi.pas       Hanoi tower solver (based on a book, but I forgot which one)
-    pascal/animales.pas    The animals question game.
+    pascal/Animales.pas    The animals question game.
 
 To compile a Pascal program use this (also in *compile.sh*):
 
-    ./tem pascal/pascal.cmg animales.pas >animales.len
+    ./tem pascal/pascal.cmg Animales.pas >animales.len
     ./tasm animales.len animales.cmg library.len
     
 To execute the compiled result:
@@ -86,7 +89,7 @@ Once my Pascal compiler was working, I ported the Ray Tracer from the book "Prog
 
 You can compile it doing this:
 
-    ./tem pascal/pascal.cmg pascal/m3d.pas >m3d.len
+    ./tem pascal/pascal.cmg pascal/M3D.PAS >m3d.len
     ./tasm m3d.len m3d.cmg library.len
     
 To execute it:
@@ -107,7 +110,7 @@ The Small-C compiler is based on the Ron Cain's public domain Small-C compiler. 
 
 To execute it:
 
-    ./tem -cc os/tc2.cmg
+    ./tem -cc os/TC2.CMG
     
 The first two questions can be answered N (stop on errors and show C language source code). It will then ask for the input file name, and the output file name.
 
@@ -117,23 +120,23 @@ The resulting assembly file can be passed through tasm, and added STDIO2.LEN for
 
 This is my early version of my first operating system (Jun/1995). It is composed of several files:
 
-    os/arranque.len    Boot sector.
-    os/editor.c        Visual text editor for running it inside the OS.
-    os/ensg10.c        The transputer assembler for running it inside the OS.
-    os/interfaz.c      The command-line interpreter for the OS.
-    os/monitor.c       Debugging monitor.
-    os/som32.c         The operating system (SOM32 stands for Sistema Operativo Mexicano 32 bits)
-    os/tc.c            The Small-C compiler.
-    os/tc2.c           The Small-C compiler with optimized code generator.
-    os/mensajes.len    Library for assembling som32.c
-    os/stdio.len       Library for the tc.c compiler (running in host)
-    os/stdio2.len      Library for the tc2.c compiler (running in host)
-    os/stdio3.len      Library for the tc2.c compiler (running inside the OS)
+    os/ARRANQUE.LEN   Boot sector.
+    os/EDITOR.C        Visual text editor for running it inside the OS.
+    os/ENSG10.C        The transputer assembler for running it inside the OS.
+    os/INTERFAZ.C      The command-line interpreter for the OS.
+    os/MONITOR.C       Debugging monitor.
+    os/SOM32.C         The operating system (SOM32 stands for Sistema Operativo Mexicano 32 bits)
+    os/TC.C            The Small-C compiler.
+    os/TC2.C           The Small-C compiler with optimized code generator.
+    os/MENSAJES.LEN    Library for assembling som32.c
+    os/STDIO.LEN       Library for the tc.c compiler (running in host)
+    os/STDIO2.LEN      Library for the tc2.c compiler (running in host)
+    os/STDIO3.LEN      Library for the tc2.c compiler (running inside the OS)
     os/buildboot.c     Program to build a 1.44 mb disk image file.
 
 To run the operating system (using the prebuilt disk image):
 
-    ./tem -os os/maestro.cmg os/disk.img
+    ./tem -os os/MAESTRO.CMG os/disk.img
     
 For macOS, I suggest to set your terminal in ANSI/VT100 mode, 80 columns by 25 rows, and using PC-8 or Latin/USA DOS character set. For recent Windows 10, the emulator will enable automatically the ANSI emulation.
 
@@ -143,7 +146,7 @@ The disk image is built with os/build_disk.sh
 
 Each compiled C file generates a LEN file. There are so many LEN files, that I've provided os/assemble_os.sh for assembling all in one pass.
 
-It requires the host system to provide an ANSI escape terminal, because it refreshes it like a text framebuffer. It works just fine in macOS and Windows (including mapping the function and arrows keys for the visual text editor), I haven't tested Linux.
+It requires the host system to provide an ANSI escape terminal, because it refreshes it like a text framebuffer. It works just fine in macOS, Windows, and Linux, including mapping the function and arrows keys for the visual text editor.
 
 This environment is pretty powerful, as I evolved the operating system starting from this. 
 
@@ -158,11 +161,11 @@ The C compiler supports the full K&R syntax (except for static and extern, becau
 
 To run the operating system (using the prebuilt disk image):
 
-    ./tem -os2 os_final/maestro.cmg os_final/floppy.img os_final/harddisk.img
+    ./tem -os2 os_final/MAESTRO.CMG os_final/floppy.img os_final/harddisk.img
     
 You can add optionally an extra argument with an ISO file for getting CD-ROM access.
 
-I suggest to set your macOS terminal to ANSI/VT100 mode, 80 columns by 25 rows, and using ISO Latin 1 or ISO-8859-1 character set (this is automatically done in a recent build of Windows 10). My personal terminal added block shapes in the characters $80-$9f, but these will appear as blank in macOS, or weird symbols in Windows.
+I suggest to set your macOS terminal to ANSI/VT100 mode, 80 columns by 25 rows, and using ISO Latin 1 or ISO-8859-1 character set (this is automatically done in a recent build of Windows 10). My personal terminal added block shapes in the characters $80-$9f, but these will appear as blank in macOS, or weird symbols in Windows and Linux.
 
 Some commands you can test inside the operating system:
 
@@ -174,7 +177,7 @@ Some commands you can test inside the operating system:
 
 In macOS you can use Fn+F1 to access the help box of the visual text editor, and type Fn+F4 to open the directory browsing for reading text files.
 
-In Windows you can use F1 to access the help box of the visual text editor, and type F4 to open the directory browsing for reading text files.
+In Windows and Linux you can use F1 to access the help box of the visual text editor, and type F4 to open the directory browsing for reading text files.
 
 Use C:CC to invoke the C compiler, C:ENS to invoke the assembler, C:EJECUTABLE to build assembler output into a working executable. There are instructions for compiling programs in the C:/Documentos/Programas.doc file.
 

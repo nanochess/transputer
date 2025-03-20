@@ -1,1 +1,1 @@
-./buildboot disk.img arranque.cmg som32.bin interfaz.cmg cc.cmg interfaz.c editor.c tc2.c ensg10.c editor.cmg ensg10.cmg monitor.cmg stdio3.len
+./buildboot disk.img ARRANQUE.CMG som32.bin interfaz.cmg cc.cmg INTERFAZ.C EDITOR.C TC2.C ENSG10.C editor.cmg ensg10.cmg monitor.cmg STDIO3.LEN

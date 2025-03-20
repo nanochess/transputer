@@ -133,7 +133,7 @@ int _getch(void)
 #endif
 
 /*
- ** Special keys decoded for macOS and Windows
+ ** Special keys decoded for macOS, Windows, and Linux.
  */
 int getkey(int fd)
 {

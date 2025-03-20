@@ -1,9 +1,9 @@
-../tasm maestro.len maestro.cmg
-../tasm arranque.len arranque.cmg
-../tasm som32.len som32.bin mensajes.len
-../tasm interfaz.len interfaz.cmg stdio3.len
-../tasm ensg10.len ensg10.cmg stdio3.len
-../tasm editor.len editor.cmg stdio3.len
-../tasm cc.len cc.cmg stdio3.len
-../tasm monitor.len monitor.cmg stdio3.len
+../tasm MAESTRO.LEN MAESTRO.CMG
+../tasm ARRANQUE.LEN ARRANQUE.CMG
+../tasm som32.len som32.bin MENSAJES.LEN
+../tasm interfaz.len interfaz.cmg STDIO3.LEN
+../tasm ensg10.len ensg10.cmg STDIO3.LEN
+../tasm editor.len editor.cmg STDIO3.LEN
+../tasm cc.len cc.cmg STDIO3.LEN
+../tasm monitor.len monitor.cmg STDIO3.LEN
 
