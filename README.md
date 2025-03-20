@@ -1,4 +1,4 @@
-|1<## Transputer T805 emulator
+## Transputer T805 emulator
 ### (also including assembler, Pascal compiler, Small-C compiler and mini-OS, K&R C compiler and full OS)
 #### by Oscar Toledo G. https://nanochess.org/
 
@@ -114,7 +114,7 @@ You can also find a Julia demo as pascal/julia.pas ported from the same book.
 
 ## Small-C compiler
 
-The Small-C compiler is based on the Ron Cain's public domain Small-C compiler. I've ported it to transputer, and made a very much enhanced version that generates pretty small code using my tree generator evaluator (the compiler sizes up at 16 kb of code).
+The Small-C compiler is based on the Ron Cain's public domain Small-C compiler published in Dr. Dobb's Journal issue 45. I've ported it to transputer, and made a very much enhanced version that generates pretty small code using my tree generator evaluator (the compiler sizes up at 16 kb of code).
 
 To execute it:
 
@@ -128,7 +128,7 @@ The resulting assembly file can be passed through tasm, and added STDIO2.LEN for
 
 This is my early version of my first operating system (Jun/1995). It is composed of several files:
 
-    os/ARRANQUE.LEN   Boot sector.
+    os/ARRANQUE.LEN    Boot sector.
     os/EDITOR.C        Visual text editor for running it inside the OS.
     os/ENSG10.C        The transputer assembler for running it inside the OS.
     os/INTERFAZ.C      The command-line interpreter for the OS.
@@ -152,9 +152,9 @@ The disk image is built with os/build_disk.sh
 
 ![image](README1.png)
 
-Each compiled C file generates a LEN file. There are so many LEN files, that I've provided os/assemble_os.sh for assembling all in one pass.
+Each compiled C file generates a LEN file. There are many LEN files, so I've provided os/assemble_os.sh for assembling all in one pass.
 
-It requires the host system to provide an ANSI escape terminal, because it refreshes it like a text framebuffer. It works just fine in macOS, Windows, and Linux, including mapping the function and arrows keys for the visual text editor.
+It requires the host system to provide an ANSI escape terminal, because it refreshes the terminal like a text framebuffer. It works just fine in macOS, Windows, and Linux, including mapping the function and arrows keys for the visual text editor.
 
 This environment is pretty powerful, as I evolved the operating system starting from this. 
 
@@ -222,4 +222,5 @@ The original programs are under pascal/original because I translated Animales.pa
 
 The tasm (transputer assembler) program is still in Spanish. It should be translated to English.
 
-I'm afraid the whole of the Pascal files are commented in Spanish and even the variable names are Spanish. But given it is a ton of code, I preferred to leave it as such.
+I'm afraid the whole of the Pascal files are commented in Spanish and even the variable names are Spanish. Also the complete operating system, K&R C compiler, and assorted utilities. But given it is a ton of code, I preferred to leave it as such.
+
