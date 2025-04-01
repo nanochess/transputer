@@ -1193,6 +1193,8 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
                     
                     c = v2;
                 }
+                if (v == 0)
+                    v = 32;
                 fputc(v, stdout);
                 p += 4;
             }
@@ -1360,7 +1362,7 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
         if (memcmp(output_buffer, "18", 2) == 0) {  /* Code 18: Read serial port */
             if (output_pointer - output_buffer < 2)
                 return;
-            channel0[0] = 0; /* All good */
+            channel0[0] = 0; /* Byte from serial port */
             offset_channel0 = 0;
             bytes_channel0 = 1;
             output_pointer = output_buffer;
@@ -1369,7 +1371,7 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
         if (memcmp(output_buffer, "19", 2) == 0) {  /* Code 19: Write serial port */
             if (output_pointer - output_buffer < 4)
                 return;
-            /* Code / Byte for printer */
+            /* Byte for serial port */
             channel0[0] = 0; /* All good */
             offset_channel0 = 0;
             bytes_channel0 = 1;
@@ -1379,7 +1381,7 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
         if (memcmp(output_buffer, "1:", 2) == 0) {  /* Code 1a: Read tape */
             if (output_pointer - output_buffer < 2)
                 return;
-            channel0[0] = 0; /* All good */
+            channel0[0] = 0; /* Byte from tape */
             offset_channel0 = 0;
             bytes_channel0 = 1;
             output_pointer = output_buffer;
@@ -1388,7 +1390,7 @@ void handle_output(unsigned int addr, unsigned int channel, unsigned int bytes)
         if (memcmp(output_buffer, "1;", 2) == 0) {  /* Code 1b: Write tape */
             if (output_pointer - output_buffer < 4)
                 return;
-            /* Code / Byte for printer */
+            /* Byte for tape */
             channel0[0] = 0; /* All good */
             offset_channel0 = 0;
             bytes_channel0 = 1;
