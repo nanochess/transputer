@@ -354,7 +354,7 @@ function handle_output(addr, channel, bytes)
             r = (output_buffer[10] & 0x0f) * 16 + (output_buffer[11] & 0x0f);
             g = (output_buffer[12] & 0x0f) * 16 + (output_buffer[13] & 0x0f);
             b = (output_buffer[14] & 0x0f) * 16 + (output_buffer[15] & 0x0f);
-            
+//            console.log(x + "," + y + "," + r + "," + g + "," + b);
             if (x >= 0 && x < 640 && y >= 0 && y < 480) {
                 canvas = document.getElementById("canvas");
                 ctx = canvas.getContext("2d");
@@ -374,6 +374,7 @@ function handle_output(addr, channel, bytes)
             r = (output_buffer[10] & 0x0f) * 16 + (output_buffer[11] & 0x0f);
             g = r;
             b = r;
+//            console.log(x + "," + y + "," + r + "," + g + "," + b);
             if (x >= 0 && x < 640 && y >= 0 && y < 480) {
                 canvas = document.getElementById("canvas");
                 ctx = canvas.getContext("2d");
@@ -426,6 +427,22 @@ function handle_output(addr, channel, bytes)
     }
 }
 
+/*
+ ** Memory access
+ */
+const float32 = new Float32Array(4);
+const float64 = new Float64Array(4);
+const shared32 = new Uint32Array(float32.buffer);
+const shared64 = new Uint32Array(float64.buffer);
+
+float32[0] = 5.0;
+console.log(float32[0]);
+console.log(shared32[0].toString(16));
+float64[0] = 5.0;
+console.log(float64[0]);
+console.log(shared64[0].toString(16) + "," + shared64[1].toString(16));
+
+
 function read_memory(addr)
 {
     return memory[addr & MEMORY_MASK];
@@ -449,6 +466,52 @@ function write_memory_32(addr, word)
     memory[(addr + 1)] = word >> 8;
     memory[(addr + 2)] = word >> 16;
     memory[(addr + 3)] = word >> 24;
+}
+
+function read_memory_fp32(addr)
+{
+    addr &= MEMORY_MASK;
+    shared32[3] = (memory[addr] | (memory[(addr + 1)] << 8) | (memory[(addr + 2)] << 16) | (memory[(addr + 3)] << 24)) >>> 0;
+    return float32[3];
+}
+
+function read_memory_fp64(addr)
+{
+    addr &= MEMORY_MASK;
+    shared64[6] = (memory[addr] | (memory[(addr + 1)] << 8) | (memory[(addr + 2)] << 16) | (memory[(addr + 3)] << 24)) >>> 0;
+    shared64[7] = (memory[addr + 4] | (memory[(addr + 5)] << 8) | (memory[(addr + 6)] << 16) | (memory[(addr + 7)] << 24)) >>> 0;
+    return float64[3];
+}
+
+function write_memory_fp32(addr, value)
+{
+    var word;
+    
+    float32[3] = value;
+    word = shared32[3];
+    addr &= MEMORY_MASK;
+    memory[addr] = word;
+    memory[(addr + 1)] = word >> 8;
+    memory[(addr + 2)] = word >> 16;
+    memory[(addr + 3)] = word >> 24;
+}
+
+function write_memory_fp64(addr, value)
+{
+    var word;
+    
+    float64[3] = value;
+    addr &= MEMORY_MASK;
+    word = shared64[6];
+    memory[addr] = word;
+    memory[(addr + 1)] = word >> 8;
+    memory[(addr + 2)] = word >> 16;
+    memory[(addr + 3)] = word >> 24;
+    word = shared64[7];
+    memory[addr + 4] = word;
+    memory[(addr + 5)] = word >> 8;
+    memory[(addr + 6)] = word >> 16;
+    memory[(addr + 7)] = word >> 24;
 }
 
 /*
@@ -695,7 +758,7 @@ var floppy = new Uint8Array(80 * 18432);
 floppy_image = window.atob(floppy_image);
 
 for (c = 0; c < floppy_image.length; c++)
-    floppy[c] = floppy_image.charCodeAt(c);;
+    floppy[c] = floppy_image.charCodeAt(c);
 for (; c < 80 * 18432; c++)
     floppy[c] = 0xfc;
 
@@ -741,6 +804,8 @@ var Creg = 0;
 var Oreg = 0;
 var Iptr = 0;
 var Wptr = 0;
+var fp = [0,0,0,0];
+var fp_save = [0,0,0,0];
 var completed = 0;
 var local_count = 0;
 var transputer_error = 0;
@@ -759,12 +824,32 @@ var transputer_ClockReg0 = 0;
 var transputer_ClockReg1 = 0;
 var roundMode = ROUND_NEAREST;
 
+function memory_dump(addr) {
+    var c;
+    var str;
+    var d;
+    
+    addr &= 0xffffff00;
+    for (c = 0; c < 16; c++) {
+        str = (addr >>> 0).toString(16) + " ";
+        for (d = 0; d < 16; d++) {
+            str += ("0" + read_memory(addr).toString(16)).substr(-2) + " ";
+            addr++;
+        }
+        str += "\n";
+        console.log(str);
+    }
+}
+
 function transputer() {
     Areg = 0;
     Breg = 0;
     Creg = 0;
     Oreg = 0;
     Iptr = 0;
+    fp[0] = 0;
+    fp[1] = 0;
+    fp[2] = 0;
     transputer_error = 0;
     transputer_halterr = 0;
     transputer_fperr = 0;
@@ -821,7 +906,9 @@ transputer.prototype.SaveRegisters = function () {
         write_memory_32(0x80000038, Breg);
         write_memory_32(0x8000003c, Creg);
         write_memory_32(0x80000040, transputer_StatusReg);
-        // !!! Save floating-point registers.
+        fp_save[0] = fp[0];
+        fp_save[1] = fp[1];
+        fp_save[2] = fp[2];
     }
 };
 
@@ -834,7 +921,9 @@ transputer.prototype.RestoreRegisters = function () {
         Breg = read_memory_32(0x80000038);
         Creg = read_memory_32(0x8000003c);
         transputer_StatusReg = read_memory_32(0x80000040);
-        // !!! Restore floating-point registers.
+        fp[0] = fp_save[0];
+        fp[1] = fp_save[1];
+        fp[2] = fp_save[2];
     }
 };
 
@@ -905,13 +994,7 @@ transputer.prototype.start_emulation = function () {
 
 //    console.log(Iptr.toString(16));
 //    console.log(Wptr.toString(16));
-    /*
-     fp[0] = 0;
-     fp32[0] = 0.0;
-     fp[1] = 0;
-     fp32[1] = 0.0;
-     fp[2] = 0;
-     fp32[2] = 0.0;*/
+//    console.log(Oreg.toString(16));
     loop = 0;
     do {
         local_count += 30; /* 30 ns per byte */
@@ -1654,7 +1737,173 @@ transputer.prototype.start_emulation = function () {
                         Areg = (Areg + Breg * 8) >>> 0;
                         Breg = Creg;
                         break;
-                        
+                    case 0x82:  /* fpldnldbi */
+                        fp[2] = fp[1];
+                        fp[1] = fp[0];
+                        fp[0] = read_memory_fp64(Areg + Breg * 8);
+                        Areg = Creg;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x83:  /* fpchkerr */
+                        transputer_error |= transputer_fperr;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x84:  /* fpstnldb */
+                        write_memory_fp64(Areg, fp[0]);
+                        fp[0] = fp[1];
+                        fp[1] = fp[2];
+                        Areg = Breg;
+                        Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x86:  /* fpldnlsni */
+                        fp[2] = fp[1];
+                        fp[1] = fp[0];
+                        fp[0] = read_memory_fp32(Areg + Breg * 4);
+                        Areg = Creg;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x87:  /* fpadd */
+                        fp[0] = fp[1] + fp[0];
+                        fp[1] = fp[2];
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x88:  /* fpstnlsn */
+                        write_memory_fp32(Areg, fp[0]);
+                        fp[0] = fp[1];
+                        fp[1] = fp[2];
+                        Areg = Breg;
+                        Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x89:  /* fpsub */
+                        fp[0] = fp[1] - fp[0];
+                        fp[1] = fp[2];
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x8a:  /* fpldnldb */
+                        fp[2] = fp[1];
+                        fp[1] = fp[0];
+                        fp[0] = read_memory_fp64(Areg);
+                        Areg = Breg;
+                        Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x8b:  /* fpmul */
+                        fp[0] = fp[1] * fp[0];
+                        fp[1] = fp[2];
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x8c:  /* fpdiv */
+                        fp[0] = fp[1] / fp[0];
+                        fp[1] = fp[2];
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x8e:  /* fpldnlsn */
+                        fp[2] = fp[1];
+                        fp[1] = fp[0];
+                        fp[0] = read_memory_fp32(Areg);
+                        Areg = Breg;
+                        Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x8f:  /* fpremfirst */
+                        not_handled();
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x90:  /* fpremstep */
+                        not_handled();
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x91:  /* fpnan */
+                        not_handled();
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x92:  /* fpordered */
+                        not_handled();
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x93:  /* fpnotfinite */
+                        not_handled();
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x94:  /* fpgt */
+                        /* !!! Set transputer_fperr if operands are NaN or Inf */
+                        Creg = Breg;
+                        Breg = Areg;
+                        Areg = (fp[1] > fp[0]) ? 1 : 0;
+                        fp[0] = fp[2];
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x95:  /* fpeq */
+                        /* !!! Set transputer_fperr if operands are NaN or Inf */
+                        Creg = Breg;
+                        Breg = Areg;
+                        Areg = (fp[1] == fp[0]) ? 1 : 0;
+                        fp[0] = fp[2];
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x96:  /* fpi32tor32 */
+                        temp = read_memory_32(Areg);
+                        Areg = Breg;
+                        Breg = Creg;
+                        fp[2] = fp[1];
+                        fp[1] = fp[0];
+                        fp[0] = temp | 0;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x98:  /* fpi32tor64 */
+                        temp = read_memory_32(Areg);
+                        Areg = Breg;
+                        Breg = Creg;
+                        fp[2] = fp[1];
+                        fp[1] = fp[0];
+                        fp[0] = temp | 0;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x9a:  /* fpb32tor64 */
+                        temp = read_memory_32(Areg);
+                        Areg = Breg;
+                        Breg = Creg;
+                        fp[2] = fp[1];
+                        fp[1] = fp[0];
+                        fp[0] = temp;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x9c:  /* fptesterr */
+                        Creg = Breg;
+                        Breg = Areg;
+                        Areg = transputer_fperr;
+                        transputer_fperr = 0;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x9d:  /* fprtoi32 */
+                        /* Does nothing, does process in high-precision */
+                        /* !!! Validate or set transputer_fperr */
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x9e:  /* fpstnli32 */
+                        temp = fp[0] | 0;
+                        write_memory_32(Areg, temp);
+                        fp[0] = fp[1];
+                        fp[1] = fp[2];
+                        Areg = Breg;
+                        Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0x9f:  /* fpldzerosn */
+                        fp[2] = fp[1];
+                        fp[1] = fp[0];
+                        fp[0] = 0;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0xa0:  /* fpldzerodb */
+                        fp[2] = fp[1];
+                        fp[1] = fp[0];
+                        fp[0] = 0;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+
                         /*
                          ** Start of T805-only instructions.
                          */
@@ -1669,6 +1918,138 @@ transputer.prototype.start_emulation = function () {
                         Areg = transputer_fperr;
                         transputer_fperr = 0;
                         RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0xa1:  /* fpint */
+                        switch (RoundMode) {
+                            case ROUND_MINUS:
+                                fp[0] = Math.floor(fp[0]);
+                                break;
+                            case ROUND_POSITIVE:
+                                fp[0] = Math.ceil(fp[0]);
+                                break;
+                            case ROUND_ZERO:
+                                if (fp[0] < 0) {
+                                    fp[0] = -Math.floor(-fp[0]);
+                                } else {
+                                    fp[0] = Math.floor(fp[0]);
+                                }
+                                break;
+                            case ROUND_NEAREST:
+                                if (fp[0] < 0) {
+                                    fp[0] = Math.ceil(fp[0] - 0.5);
+                                } else {
+                                    fp[0] = Math.floor(fp[0] + 0.5);
+                                }
+                                break;
+                        }
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0xa3:  /* fpdup */
+                        fp[2] = fp[1];
+                        fp[1] = fp[0];
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0xa4:  /* fprev */
+                        fp[3] = fp[0];
+                        fp[0] = fp[1];
+                        fp[1] = fp[3];
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0xa6:  /* fpldnladddb */
+                        fp[0] += read_memory_fp64(Areg);
+                        Areg = Breg;
+                        Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0xa8:  /* fpldnlmuldb */
+                        fp[0] *= read_memory_fp64(Areg);
+                        Areg = Breg;
+                        Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0xaa:  /* fpldnladdsn */
+                        fp[0] += read_memory_fp32(Areg);
+                        Areg = Breg;
+                        Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0xac:  /* fpldnlmulsn */
+                        fp[0] *= read_memory_fp32(Areg);
+                        Areg = Breg;
+                        Breg = Creg;
+                        RoundMode = ROUND_NEAREST;
+                        break;
+                    case 0xab:  /* fpentry */
+                        temp = Areg;
+                        Areg = Breg;
+                        Breg = Creg;
+                        switch (temp) {
+                            case 0x01:  /* fpusqrtfirst */
+                                /* Ignored */
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x02:  /* fpusqrtstep */
+                                /* Ignored */
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x03:  /* fpusqrtlast */
+                                fp[0] = Math.sqrt(fp[0]);
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x06:  /* fpurz */
+                                RoundMode = ROUND_ZERO;
+                                break;
+                            case 0x22:  /* fpurn */
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x04:  /* fpurp */
+                                RoundMode = ROUND_POSITIVE;
+                                break;
+                            case 0x05:  /* fpurm */
+                                RoundMode = ROUND_MINUS;
+                                break;
+                            case 0x11:  /* fpudivby2 */
+                                fp[0] /= 2.0;
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x12:  /* fpumulby2 */
+                                fp[0] *= 2.0;
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x0b:  /* fpuabs */
+                                fp[0] = Math.abs(fp[0]);
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x23:  /* fpuseterr */
+                                transputer_fperr = 1;
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x9c:  /* fpuclearerr */
+                                transputer_fperr = 0;
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x07:  /* fpur32tor64 */
+                                /* Nothing to do, all process in high-precision */
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x08:  /* fpur64tor32 */
+                                /* Nothing to do, all process in high-precision */
+                                RoundMode = ROUND_NEAREST;
+                                break;
+                            case 0x0e:  /* fpuchki32 */
+                            case 0x0f:  /* fpuchki64 */
+                            case 0x0d:  /* fpunoround */
+                            case 0x0a:  /* fpuexpinc32 */
+                            case 0x09:  /* fpuexpdec32 */
+                                memory_dump(Iptr);
+                                throw "Unhandled fpu instruction " + temp.toString(16) + " at " + Iptr.toString(16);
+                                RoundMode = ROUND_NEAREST;
+                                return;
+                            default:
+                                memory_dump(Iptr);
+                                throw "Undocumented fpu instruction " + temp.toString(16) + " at " + Iptr.toString(16);
+                                return;
+                        }
                         break;
                     case 0xb1:  /* break */
                         /* !!! Should be same as j 0 when j0_break flag is enabled */
@@ -1692,8 +2073,10 @@ transputer.prototype.start_emulation = function () {
                          */
                     case 0xff:  /* Exit emulator :) */
                         return;
+                        
                     default:
-                        window.alert("Instruction 0x" + Oreg.toString(16) + " undocumented");
+                        memory_dump(Iptr);
+                        window.alert("Instruction 0x" + Oreg.toString(16) + " undocumented at " + Iptr.toString(16) + " (loop " + loop + ")");
                         return;
                 }
                 Oreg = 0;
