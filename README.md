@@ -14,6 +14,8 @@ I've added also my early operating system complete with simple command-line inte
 
 Lately I've added my full operating system complete with subdirectories, multiple drives, and with almost full K&R C compiler along syntax coloring for the editor (last in the series): [https://nanochess.org/transputer_operating_system.html](https://nanochess.org/transputer_operating_system.html)
 
+Most recently I've added a Javascript version of the transputer emulator that can run immediately in your web browser: [https://nanochess.org/transputer_emulator.html](https://nanochess.org/transputer_emulator.html)
+
 ### What we have here
 
 In order for you to experience my Pascal compiler, I needed to write two tools in modern C. Namely, the emulator for the transputer from the ground up, and port the assembler that ran on my Z280 host machine (the transputer was a board for the Z280 computer)
@@ -214,6 +216,17 @@ The disk images are built with build_f1.sh, build_f2.sh, and build_hd.sh and req
 After you do some developing inside the hard disk drive image, you need a way to extract back the data, so I've developed the extractimage.c utility, in order to dump a complete hard disk drive image as a tree of files.
 
 ![image](README3.png)
+
+
+## Javascript emulator
+
+Someone asked me about an online version of the emulator, and I thought it was a good idea, because installing the Visual Studio C compiler in Windows can take around one hour an half.
+
+It wasn't so easy because Javascript always works with floating-point, and the bitwise operations convert anything into signed 32-bit integers.
+
+I've used the excellent jsTerm package (MIT license) to provide the output, and also I was able to integrate my video font (an improved VGA font along box graphics).
+
+You can find it in the JS directory.
 
 
 ## Further notes

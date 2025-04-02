@@ -1,0 +1,179 @@
+<html>
+    <head>
+        <title>Transputer emulator by nanochess (2025)</title>
+    </head>
+    <body>
+        <div id="terminal"><canvas id="canvas" width="640" height="400"></canvas> </div>
+        <script src='jsTerm.js'></script>
+        <script>
+            /**
+             ** jsTerm is used for displaying the emulator output,
+             ** and it is written by Peter Nitsch under MIT license.
+             ** https://github.com/pnitsch/jsTerm
+             ** Additional code by Oscar Toledo G. (nanochess)
+             */
+            
+            var viewer;
+            var commands;
+            
+            TERM.Session = function (fontMapURL){
+                
+                function initKeyboard() {
+                    document.addEventListener("keydown", function(e) {
+                        var key = e.key;
+                        
+                        switch (key) {
+                            case "ArrowLeft":
+                            key_buffer[key_write] = 0x14;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "ArrowRight":
+                            key_buffer[key_write] = 0x16;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "ArrowUp":
+                            key_buffer[key_write] = 0x18;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "ArrowDown":
+                            key_buffer[key_write] = 0x12;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "PageUp":
+                            key_buffer[key_write] = 0x19;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "PageDown":
+                            key_buffer[key_write] = 0x13;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "Home":
+                            key_buffer[key_write] = 0x17;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "End":    // End
+                            key_buffer[key_write] = 0x11;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "Insert":    // Ins
+                            key_buffer[key_write] = 0x10;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "Del":
+                            case "Delete":    // Del
+                            key_buffer[key_write] = 0x0e;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "Esc":
+                            case "Escape":
+                            key_buffer[key_write] = 0x1b;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case 101:   // Numpad 5
+                            key_buffer[key_write] = 0x15;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "F1":   // F1
+                            key_buffer[key_write] = 0x01;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "F2":   // F2
+                            key_buffer[key_write] = 0x02;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "F3":   // F3
+                            key_buffer[key_write] = 0x03;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "F4":   // F4
+                            key_buffer[key_write] = 0x04;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "F5":   // F5
+                            key_buffer[key_write] = 0x05;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "F6":   // F6
+                            key_buffer[key_write] = 0x06;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "F7":   // F7
+                            key_buffer[key_write] = 0x07;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "F8":   // F8
+                            key_buffer[key_write] = 0x08;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "F9":   // F9
+                            key_buffer[key_write] = 0x09;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "F10":   // F10
+                            key_buffer[key_write] = 0x0a;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "F11":   // F11
+                            key_buffer[key_write] = 0x0b;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "F12":   // F12
+                            key_buffer[key_write] = 0x0c;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "Backspace":
+                            key_buffer[key_write] = 0x08;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "Spacebar":
+                            key_buffer[key_write] = 0x20;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "Tab":
+                            key_buffer[key_write] = 0x09;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            case "Enter":
+                            key_buffer[key_write] = 0x0d;
+                            key_write = (key_write + 1) % key_buffer.length;
+                            break;
+                            default:
+                            if (key.length == 1) {
+                                key_buffer[key_write] = e.key.charCodeAt(0);
+                                key_write = (key_write + 1) % key_buffer.length;
+                            }
+                            break;
+                        }
+                        
+                    }, false);
+                };
+                
+                var fontmap = new Image();
+                fontmap.onload = function (){
+                    viewer = new TERM.AnsiViewer(this);
+                    
+                    initKeyboard();
+                    viewer.displayCleared();
+                    viewer.reposition(0, 0);
+                    viewer.readBytes("\x1b[0mStarting the transputer emulator...\r\n");
+                    viewer.readBytes("(if your JIT is good, it should be less than one second)")
+                    processor = new transputer();
+                    Iptr = 0x80000070;
+                    processor.UpdateWdescReg(0x80000071 + ((boot_image.length + 3) & ~3));
+                    window.setInterval("processor.start_emulation()", 1);
+                };
+                fontmap.src = fontMapURL;
+                
+            }</script>
+        
+        <script src="floppy.js"></script>
+        <script src="harddisk.js"></script>
+        <script src="transputer_emulator.js"></script>
+        <script>
+            var session;
+            
+            session = new TERM.Session("nanochess_font_ecma94_1_8x16.png");
+        </script>
+    </body>
+</html>
+
