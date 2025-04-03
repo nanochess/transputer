@@ -435,13 +435,12 @@ const float64 = new Float64Array(4);
 const shared32 = new Uint32Array(float32.buffer);
 const shared64 = new Uint32Array(float64.buffer);
 
-float32[0] = 5.0;
-console.log(float32[0]);
-console.log(shared32[0].toString(16));
-float64[0] = 5.0;
-console.log(float64[0]);
-console.log(shared64[0].toString(16) + "," + shared64[1].toString(16));
-
+// float32[0] = 5.0;
+// console.log(float32[0]);
+// console.log(shared32[0].toString(16));
+// float64[0] = 5.0;
+// console.log(float64[0]);
+// console.log(shared64[0].toString(16) + "," + shared64[1].toString(16));
 
 function read_memory(addr)
 {
@@ -456,30 +455,30 @@ function write_memory(addr, byte)
 function read_memory_32(addr)
 {
     addr &= MEMORY_MASK;
-    return (memory[addr] | (memory[(addr + 1)] << 8) | (memory[(addr + 2)] << 16) | (memory[(addr + 3)] << 24)) >>> 0;
+    return (memory[addr] | (memory[addr + 1] << 8) | (memory[addr + 2] << 16) | (memory[addr + 3] << 24)) >>> 0;
 }
 
 function write_memory_32(addr, word)
 {
     addr &= MEMORY_MASK;
     memory[addr] = word;
-    memory[(addr + 1)] = word >> 8;
-    memory[(addr + 2)] = word >> 16;
-    memory[(addr + 3)] = word >> 24;
+    memory[addr + 1] = word >> 8;
+    memory[addr + 2] = word >> 16;
+    memory[addr + 3] = word >> 24;
 }
 
 function read_memory_fp32(addr)
 {
     addr &= MEMORY_MASK;
-    shared32[3] = (memory[addr] | (memory[(addr + 1)] << 8) | (memory[(addr + 2)] << 16) | (memory[(addr + 3)] << 24)) >>> 0;
+    shared32[3] = (memory[addr] | (memory[addr + 1] << 8) | (memory[addr + 2] << 16) | (memory[addr + 3] << 24)) >>> 0;
     return float32[3];
 }
 
 function read_memory_fp64(addr)
 {
     addr &= MEMORY_MASK;
-    shared64[6] = (memory[addr] | (memory[(addr + 1)] << 8) | (memory[(addr + 2)] << 16) | (memory[(addr + 3)] << 24)) >>> 0;
-    shared64[7] = (memory[addr + 4] | (memory[(addr + 5)] << 8) | (memory[(addr + 6)] << 16) | (memory[(addr + 7)] << 24)) >>> 0;
+    shared64[6] = (memory[addr] | (memory[addr + 1] << 8) | (memory[addr + 2] << 16) | (memory[addr + 3] << 24)) >>> 0;
+    shared64[7] = (memory[addr + 4] | (memory[addr + 5] << 8) | (memory[addr + 6] << 16) | (memory[addr + 7] << 24)) >>> 0;
     return float64[3];
 }
 
@@ -491,9 +490,9 @@ function write_memory_fp32(addr, value)
     word = shared32[3];
     addr &= MEMORY_MASK;
     memory[addr] = word;
-    memory[(addr + 1)] = word >> 8;
-    memory[(addr + 2)] = word >> 16;
-    memory[(addr + 3)] = word >> 24;
+    memory[addr + 1] = word >> 8;
+    memory[addr + 2] = word >> 16;
+    memory[addr + 3] = word >> 24;
 }
 
 function write_memory_fp64(addr, value)
@@ -504,14 +503,14 @@ function write_memory_fp64(addr, value)
     addr &= MEMORY_MASK;
     word = shared64[6];
     memory[addr] = word;
-    memory[(addr + 1)] = word >> 8;
-    memory[(addr + 2)] = word >> 16;
-    memory[(addr + 3)] = word >> 24;
+    memory[addr + 1] = word >> 8;
+    memory[addr + 2] = word >> 16;
+    memory[addr + 3] = word >> 24;
     word = shared64[7];
     memory[addr + 4] = word;
-    memory[(addr + 5)] = word >> 8;
-    memory[(addr + 6)] = word >> 16;
-    memory[(addr + 7)] = word >> 24;
+    memory[addr + 5] = word >> 8;
+    memory[addr + 6] = word >> 16;
+    memory[addr + 7] = word >> 24;
 }
 
 /*
@@ -884,12 +883,6 @@ transputer.prototype.UpdateWdescReg = function (NewWdescReg) {
     transputer_priority = transputer_WdescReg & 1;
 };
 
-transputer.prototype.int32 = function (value) {
-    if (value >>> 31)
-        return (value & 0x7fffffff) - 0x80000000;
-    return value & 0x7fffffff;
-};
-
 transputer.prototype.int32_subtract = function (value) {
     if (value >>> 31)
         return -1;
@@ -900,7 +893,7 @@ transputer.prototype.int32_subtract = function (value) {
 
 transputer.prototype.SaveRegisters = function () {
     write_memory_32(0x8000002c, transputer_WdescReg);
-    if (transputer_WdescReg != (NotProcess_p | 1)) {
+    if (transputer_WdescReg != (NotProcess_p + 1)) {
         write_memory_32(0x80000030, Iptr);
         write_memory_32(0x80000034, Areg);
         write_memory_32(0x80000038, Breg);
@@ -915,7 +908,7 @@ transputer.prototype.SaveRegisters = function () {
 transputer.prototype.RestoreRegisters = function () {
     var temp = read_memory_32(0x8000002c);
     this.UpdateWdescReg(temp);
-    if (transputer_WdescReg != (NotProcess_p | 1)) {
+    if (transputer_WdescReg != (NotProcess_p + 1)) {
         Iptr = read_memory_32(0x80000030);
         Areg = read_memory_32(0x80000034);
         Breg = read_memory_32(0x80000038);
@@ -952,18 +945,18 @@ transputer.prototype.Run = function (ProcDesc) {
     if (transputer_priority == 0) {
         if (ProcDesc & 1) {
             if (transputer_FPtrReg1 == NotProcess_p) {
-                transputer_FPtrReg1 = ProcDesc & ~3;
+                transputer_FPtrReg1 = (ProcDesc & ~3) >>> 0;
             } else {
                 write_memory_32(transputer_BPtrReg1 - 8, ProcDesc & ~3);
             }
-            transputer_BPtrReg1 = ProcDesc & ~3;
+            transputer_BPtrReg1 = (ProcDesc & ~3) >>> 0;
         } else {
             if (transputer_FPtrReg0 == NotProcess_p) {
-                transputer_FPtrReg0 = ProcDesc & ~3;
+                transputer_FPtrReg0 = (ProcDesc & ~3) >>> 0;
             } else {
                 write_memory_32(transputer_BPtrReg0 - 8, ProcDesc & ~3);
             }
-            transputer_BPtrReg0 = ProcDesc & ~3;
+            transputer_BPtrReg0 = (ProcDesc & ~3) >>> 0;
         }
     } else {
         if ((ProcDesc & 1) == 0) {
@@ -976,11 +969,11 @@ transputer.prototype.Run = function (ProcDesc) {
             this.ActivateProcess();
         } else {
             if (transputer_FPtrReg1 == NotProcess_p) {
-                transputer_FPtrReg1 = ProcDesc & ~3;
+                transputer_FPtrReg1 = (ProcDesc & ~3) >>> 0;
             } else {
                 write_memory_32(transputer_BPtrReg1 - 8, ProcDesc & ~3);
             }
-            transputer_BPtrReg1 = ProcDesc & ~3;
+            transputer_BPtrReg1 = (ProcDesc & ~3) >>> 0;
         }
     }
 };
@@ -1012,7 +1005,7 @@ transputer.prototype.start_emulation = function () {
                         this.ActivateProcess();
                     } else {
                         this.RestoreRegisters();
-                        if (Wptr == (NotProcess_p | 0) && transputer_FPtrReg1 != NotProcess_p) {
+                        if (Wptr == (NotProcess_p + 0) && transputer_FPtrReg1 != NotProcess_p) {
                             this.Dequeue1();
                             this.ActivateProcess();
                         } else {
