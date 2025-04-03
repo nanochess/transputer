@@ -55,16 +55,23 @@ const HaltOnErrorBit = 0x80;
 
 const NotProcess_p = 0x80000000;
 
+const OUTPUT_BUFFER_LENGTH = 65536;
+
 var channel0 = new Uint8Array(65536);
 var offset_channel0 = 0;
 var bytes_channel0 = 0;
 
-var output_buffer = new Uint8Array(65536);
+var output_buffer = new Uint8Array(OUTPUT_BUFFER_LENGTH);
 var output_pointer = 0;
 
 var key_buffer = new Uint8Array(256);
 var key_read = 0;
 var key_write = 0;
+
+var canvas = document.getElementById("canvas");
+
+var cursor_row;
+var cursor_column;
 
 function handle_input(addr, channel, bytes)
 {
@@ -81,8 +88,7 @@ function handle_input(addr, channel, bytes)
     }
 }
 
-var cursor_row;
-var cursor_column;
+var term_color = [BLACK_NORMAL, BLUE_NORMAL, GREEN_NORMAL, CYAN_NORMAL, RED_NORMAL, MAGENTA_NORMAL, YELLOW_NORMAL, WHITE_NORMAL, BLACK_BOLD, BLUE_BOLD, GREEN_BOLD, CYAN_BOLD, RED_BOLD, MAGENTA_BOLD, YELLOW_BOLD, WHITE_BOLD];
 
 function handle_output(addr, channel, bytes)
 {
@@ -98,18 +104,15 @@ function handle_output(addr, channel, bytes)
     var r;
     var g;
     var b;
-    var canvas;
     var ctx;
-    var color = [0, 4, 2, 6, 1, 5, 3, 7];
 
-    while (bytes) {
-        if (output_pointer >= output_buffer.length) {
-            window.alert("Error: Too much data unprocessed\n");
-            throw "Oops!";
-        }
-        output_buffer[output_pointer++] = read_memory(addr++);
-        bytes--;
+    
+    if (output_pointer + bytes > OUTPUT_BUFFER_LENGTH) {
+        window.alert("Error: Too much data unprocessed\n");
+        throw "Oops!";
     }
+    while (bytes--)
+        output_buffer[output_pointer++] = read_memory(addr++);
     if (output_pointer < 2)
         return;
     c = (output_buffer[0] & 0x0f) * 16 + (output_buffer[1] & 0x0f);
@@ -226,56 +229,19 @@ function handle_output(addr, channel, bytes)
             if (output_pointer < 323)
                 return;
             viewer.readBytes("\x1b[" + (output_buffer[2] + 1) + ";1f");
-            str = "";
             c = -1;
             p = 3;
             while (p < 323) {
                 v = (output_buffer[p] & 0x0f) * 16 + (output_buffer[p + 1] & 0x0f);
-                p += 2;
-                v2 = (output_buffer[p] & 0x0f) * 16 + (output_buffer[p + 1] & 0x0f);
-                p += 2;
+                v2 = (output_buffer[p + 2] & 0x0f) * 16 + (output_buffer[p + 3] & 0x0f);
+                p += 4;
                 if (v2 != c) {
-                    var something = 0;
-                    
-                    str += "\x1b[";
-                    if ((c & 0x88) != (v2 & 0x88)) {
-                        str += "0";
-                        something = 1;
-                        c = ~v2;
-                    }
-                    if (v2 & 8) {
-                        if (something != 0)
-                            str += ";";
-                        str += "1";
-                        something = 1;
-                    }
-                    if (v2 & 0x80) {
-                        if (something != 0)
-                            str += ";";
-                        str += "5";
-                        something = 1;
-                    }
-                    if ((c & 7) != (v2 & 7)) {
-                        if (something != 0)
-                            str += ";";
-                        str += 30 + color[v2 & 7];
-                        something = 1;
-                    }
-                    if ((c & 0x70) != (v2 & 0x70)) {
-                        if (something != 0)
-                            str += ";";
-                        str += 40 + color[(v2 & 0x70) / 16];
-                        something = 1;
-                    }
-                    str += "m";
-                    
+                    viewer.foregroundColorChanged(term_color[v2 & 0x0f]);
+                    viewer.backgroundColorChanged(term_color[(v2 >> 4) & 0x0f]);
                     c = v2;
                 }
-                if (v == 0)
-                    v = 32;
-                str += String.fromCharCode(v);
+                viewer.drawCharacter(v);
             }
-            viewer.readBytes(str);
             viewer.readBytes("\x1b[" + cursor_row + ";" + cursor_column + "H");
             output_pointer = 0;
             return;
@@ -355,12 +321,9 @@ function handle_output(addr, channel, bytes)
             g = (output_buffer[12] & 0x0f) * 16 + (output_buffer[13] & 0x0f);
             b = (output_buffer[14] & 0x0f) * 16 + (output_buffer[15] & 0x0f);
 //            console.log(x + "," + y + "," + r + "," + g + "," + b);
-            if (x >= 0 && x < 640 && y >= 0 && y < 480) {
-                canvas = document.getElementById("canvas");
-                ctx = canvas.getContext("2d");
-                ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
-                ctx.fillRect(x, y, 1, 1);
-            }
+            ctx = canvas.getContext("2d");
+            ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+            ctx.fillRect(x, y, 1, 1);
             channel0[0] = 0;    /* All good */
             offset_channel0 = 0;
             bytes_channel0 = 1;
@@ -375,12 +338,9 @@ function handle_output(addr, channel, bytes)
             g = r;
             b = r;
 //            console.log(x + "," + y + "," + r + "," + g + "," + b);
-            if (x >= 0 && x < 640 && y >= 0 && y < 480) {
-                canvas = document.getElementById("canvas");
-                ctx = canvas.getContext("2d");
-                ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
-                ctx.fillRect(x, y, 1, 1);
-            }
+            ctx = canvas.getContext("2d");
+            ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+            ctx.fillRect(x, y, 1, 1);
             channel0[0] = 0;    /* All good */
             offset_channel0 = 0;
             bytes_channel0 = 1;
@@ -1063,8 +1023,7 @@ transputer.prototype.start_emulation = function () {
             }
         }
         
-        byte = memory[Iptr & MEMORY_MASK];
-        Iptr++;
+        byte = memory[Iptr++ & MEMORY_MASK];
         
         Oreg += byte & 0x0f;
         completed = 1;
