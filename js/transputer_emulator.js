@@ -28,7 +28,9 @@
 // Creation date: Mar/17/2025.
 // Revision date: Mar/31/2025. Runs far enough to read the disk.
 // Revision date: Apr/01/2025. Functional (missing floating point unit, so the
-//                             ray tracer and modeler cannot be run).
+//                             ray tracer and modeler cannot be run). Added
+//                             the floating-point unit emulation in the late night.
+// Revision date: Apr/03/2025. Adjusted speed.
 //
 
 //
@@ -948,7 +950,12 @@ transputer.prototype.start_emulation = function () {
 //    console.log(Iptr.toString(16));
 //    console.log(Wptr.toString(16));
 //    console.log(Oreg.toString(16));
-    loop = 0;
+    /* Testing self-compilation of the C compiler (not including assembly) */
+    /* Macbook Air M1, 100000 cycles. Finishes in 38 seconds */
+    /* Macbook Air M1, 200000 cycles. Finishes in 20 seconds */
+    /* Macbook Air i5 1.1ghz, 200000 cycles. Finishes in 37 seconds */
+    /* PC i5-10300H 2.5ghz, 200000 cycles. Finishes in 38 seconds */
+    loop = 100000;
     do {
         local_count += 30; /* 30 ns per byte */
         if (local_count >= 1000) {   /* 1 microsecond */
@@ -2034,5 +2041,5 @@ transputer.prototype.start_emulation = function () {
                 Oreg = 0;
                 break;
         }
-    } while (++loop < 100000) ;
+    } while (--loop) ;
 };
