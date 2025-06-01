@@ -229,6 +229,15 @@ I've used the excellent jsTerm package (MIT license) to provide the output, and 
 You can find it in the JS directory.
 
 
+## ISA board
+
+Recently I made an ISA board compatible with the Inmos B004, because some people was asking about the possibility of running my software on real hardware.
+
+The _tram_ directory contains the _comm.asm_ program for MS-DOS that replicates the input/output function of my transputer emulator. 
+
+Currently you can run the Pascal compiler, the Ray Tracer, and any compiled Pascal program. I still need to port my transputer assembler to DOS.
+
+
 ## Further notes
 
 The original programs are under pascal/original because I translated Animales.pas to English. I intend to translate also the compiler error messages, but in the meanwhile it isn't urgent.
