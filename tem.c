@@ -504,7 +504,7 @@ int main(int argc, char *argv[])
         fflush(stdout);
     } else if (strcmp(argv[1], "-os2") == 0 || strcmp(argv[1], "-OS2") == 0) {   /* Operating system mode */
         if (argc < 5) {
-            fprintf(stderr, "Not enough argumentos for -os2 mode\n");
+            fprintf(stderr, "Not enough arguments for -os2 mode\n");
             exit(1);
         }
         disk_name = argv[3];

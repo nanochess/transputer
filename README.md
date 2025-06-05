@@ -231,11 +231,13 @@ You can find it in the JS directory.
 
 ## ISA board
 
-Recently I made an ISA board compatible with the Inmos B004, because some people was asking about the possibility of running my software on real hardware.
+Recently I made an ISA board compatible with the Inmos B004, because some people was asking about the possibility of running my software on real hardware. So I made programs to run with this real hardware.
 
 The _tram_ directory contains the _comm.asm_ program for MS-DOS that replicates the input/output function of my transputer emulator. 
 
 Currently you can run the Pascal compiler, the Ray Tracer, and any compiled Pascal program. I still need to port my transputer assembler to DOS.
+
+The _comm2.asm_ program for MS-DOS allows you to run my small operating system from a real 1.44mb floppy disk.
 
 
 ## Further notes
