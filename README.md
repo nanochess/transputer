@@ -239,6 +239,8 @@ Currently you can run the Pascal compiler, the Ray Tracer, and any compiled Pasc
 
 The _comm2.asm_ program for MS-DOS allows you to run my small operating system from a real 1.44mb floppy disk.
 
+The _pcb_ directory contains the schematics for my board, along the PCB files to order it from PCBway. I've been careful of not using surface mount components to ease building.
+
 
 ## Further notes
 
