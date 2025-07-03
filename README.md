@@ -239,7 +239,9 @@ Currently you can run the Pascal compiler, the Ray Tracer, and any compiled Pasc
 
 The _comm2.asm_ program for MS-DOS allows you to run my small operating system from a real 1.44mb floppy disk.
 
-The _pcb_ directory contains the schematics for my board, along the PCB files to order it from PCBway. I've been careful of not using surface mount components to ease building.
+The _pcb_ directory contains the schematics for my board, along the PCB files to order it from PCBway. I've been careful of not using surface mount components to ease building. You can select the link speed between 10 mbits and 20 mbits, and the port 0150H or 0170H.
+
+Please notice that the port 0170h is only for a software I want to write in the future, and it isn't compatible with the Inmos software, because the Error bit is still located at 0160h (not used by my software).
 
 
 ## Further notes
