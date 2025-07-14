@@ -209,6 +209,34 @@ main_loop:
 	jne .16
 	mov ax,$0013    ; Graphics mode
 	int $10
+	mov al,0x00
+	mov dx,0x03c8
+	out dx,al
+	inc dx
+	mov bh,0x00
+	mov bl,0x00
+	mov ch,0x00
+	mov cl,0x00
+.27:    mov al,bh
+	or al,0x07
+	out dx,al
+	mov al,bl
+	or al,0x07
+	out dx,al
+	mov al,ch
+	or al,0x0f
+	out dx,al
+	add ch,0x10
+	cmp ch,0x40
+	jb .27
+	mov ch,0x00
+	add bl,0x08
+	cmp bl,0x40
+	jb .27
+	mov bl,0x00
+	add bh,0x08
+	cmp bh,0x40
+	jb .27
 	jmp .17
 .16:
 	cmp al,0x54     ; T
@@ -250,8 +278,7 @@ main_loop:
 	jne $+3
 	inc si
 	call atoi
-	mov cx,30
-	mul cx
+	and al,0xe0
 	push ax
 
 	mov al,[si]
@@ -259,8 +286,10 @@ main_loop:
 	jne $+3
 	inc si
 	call atoi
-	mov cx,59
-	mul cx
+	and al,0xe0
+	shr al,1
+	shr al,1
+	shr al,1
 	push ax
 
 	mov al,[si]
@@ -268,16 +297,13 @@ main_loop:
 	jne $+3
 	inc si
 	call atoi
-	mov cx,11
-	mul cx
+	and al,0xc0
+	mov cl,6
+	shr al,cl
 	pop bx
-	add ax,bx
+	add al,bl
 	pop bx
-	add ax,bx
-	xor dx,dx
-	mov cx,1600
-	div cx
-	add al,$10
+	add al,bl
 	pop bx
 
 	push ds
