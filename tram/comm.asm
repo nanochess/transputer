@@ -22,6 +22,8 @@
 	; developed my software)
 	;
 
+USE_DITHER:     equ 1
+
 	call bootstrap
 
 	mov al,[arguments]
@@ -258,48 +260,67 @@ main_loop:
 	call atoi
 	cmp ax,320
 	jnb .23
+    %if USE_DITHER        
+	mov ch,al
+	and ch,1
+    %endif
 	push ax
-	mov al,[si]
-	cmp al,';'
-	jne $+3
-	inc si
-
-	call atoi
+	call atoi_semi
 	pop bx
 	cmp ax,200
 	jnb .23
-	mov cx,320
-	mul cx
+    %if USE_DITHER
+	mov cl,al
+	and cl,1
+	add ch,cl
+	add ch,cl
+    %endif
+	mov dx,320
+	mul dx
 	add ax,bx
 	push ax
 
-	mov al,[si]
-	cmp al,';'
-	jne $+3
-	inc si
-	call atoi
+	call atoi_semi
+    %if USE_DITHER    
+	mov cl,3
+	shl ax,cl
+	call dither
+	cmp ah,8
+	jne $+4
+	mov ah,7
+	mov cl,3
+	shr ax,cl
+    %endif
 	and al,0xe0
 	push ax
 
-	mov al,[si]
-	cmp al,';'
-	jne $+3
-	inc si
-	call atoi
-	and al,0xe0
-	shr al,1
-	shr al,1
-	shr al,1
+	call atoi_semi
+	mov cl,3
+    %if USE_DITHER    
+	shl ax,cl
+	call dither
+	cmp ah,8
+	jne $+4
+	mov ah,7
+	mov cl,6
+    %endif
+	shr ax,cl
+	and al,0x1c
 	push ax
 
-	mov al,[si]
-	cmp al,';'
-	jne $+3
-	inc si
-	call atoi
-	and al,0xc0
+	call atoi_semi
+    %if USE_DITHER
+	mov cl,2
+	shl ax,cl
+	call dither
+	cmp ah,4
+	jne $+4
+	mov ah,3
+	mov al,ah
+    %else
 	mov cl,6
 	shr al,cl
+    %endif
 	pop bx
 	add al,bl
 	pop bx
@@ -326,7 +347,26 @@ main_loop:
 	mov word [output],buffer
 	jmp main_loop   
 
+dither:
+	mov bx,.1
+	add bl,ch
+	jnb .2
+	inc bh
+.2:     cmp al,[bx]
+	jb .3
+	inc ah
+.3:
+	ret
+
+.1:     db 0x33,0x99,0xcc,0x66
+
+atoi_semi:
+	mov al,[si]
+	cmp al,';'
+	jne $+3
+	inc si
 atoi:
+	push cx
 	xor ax,ax
 .1:
 	mov bl,[si]
@@ -342,6 +382,7 @@ atoi:
 	inc si
 	jmp .1
 .2:
+	pop cx
 	ret
 
 message_1_start:
