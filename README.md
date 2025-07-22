@@ -228,6 +228,8 @@ I've used the excellent jsTerm package (MIT license) to provide the output, and 
 
 You can find it in the JS directory.
 
+It is also hosted here: [https://nanochess.org/transputer_emulator.html](https://nanochess.org/transputer_emulator.html)
+
 
 ## ISA board
 
@@ -239,16 +241,19 @@ Currently you can run the Pascal compiler, the Ray Tracer, and any compiled Pasc
 
 The _comm2.asm_ program for MS-DOS allows you to run my small operating system from a real 1.44mb floppy disk.
 
+I've tested also the Inmos Occam compiler and it works just fine.
+
 The _pcb_ directory contains the schematics for my board, along the PCB files to order it from PCBway. I've been careful of not using surface mount components to ease building. You can select the link speed between 10 mbits and 20 mbits, and the port 0150H or 0170H.
 
 Please notice that the port 0170h is only for a software I want to write in the future, and it isn't compatible with the Inmos software, because the Error bit is still located at 0160h (not used by my software).
 
+![image](README4.jpg)
+
 
 ## Further notes
 
-The original programs are under pascal/original because I translated Animales.pas to English. I intend to translate also the compiler error messages, but in the meanwhile it isn't urgent.
+The original programs are under _pascal/original_ because I translated _Animales.pas_ to English. I intend to translate also the compiler error messages, but in the meanwhile it isn't urgent.
 
-The tasm (transputer assembler) program is still in Spanish. It should be translated to English.
+The _tasm_ (transputer assembler) program is still in Spanish. It should be translated to English.
 
 I'm afraid the whole of the Pascal files are commented in Spanish and even the variable names are Spanish. Also the complete operating system, K&R C compiler, and assorted utilities. But given it is a ton of code, I preferred to leave it as such.
-
