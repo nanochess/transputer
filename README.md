@@ -237,7 +237,7 @@ Recently I made an ISA board compatible with the Inmos B004, because some people
 
 The _tram_ directory contains the _comm.asm_ program for MS-DOS that replicates the input/output function of my transputer emulator. 
 
-Currently you can run the Pascal compiler, the Ray Tracer, and any compiled Pascal program. I still need to port my transputer assembler to DOS.
+Currently you can run the Pascal compiler, the Ray Tracer, and any compiled Pascal program. I've ported my transputer assembler _tasm_ to Turbo C++ 3.0, so you have the complete toolchain to rebuild the Pascal compiler.
 
 The _comm2.asm_ program for MS-DOS allows you to run my small operating system from a real 1.44mb floppy disk.
 
