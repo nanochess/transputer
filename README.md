@@ -239,6 +239,8 @@ The _tram_ directory contains the _comm.asm_ program for MS-DOS that replicates 
 
 Currently you can run the Pascal compiler, the Ray Tracer, and any compiled Pascal program. I've ported my transputer assembler _tasm_ to Turbo C++ 3.0, so you have the complete toolchain to rebuild the Pascal compiler.
 
+In case you want to rebuild the assembler with Turbo C++ 3.0, you just need to set the Compact model (compiler options), load the _tram/tasm.c_ file, and do _Build all_
+
 The _comm2.asm_ program for MS-DOS allows you to run my small operating system from a real 1.44mb floppy disk.
 
 I've tested also the Inmos Occam compiler and it works just fine.
