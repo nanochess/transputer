@@ -1,0 +1,1 @@
+../os/buildboot -fd -v2 floppy.img . tree/SOM.32.bin tree/Halt.p tree/Documentos/Emulador.CP-M.doc tree/Em_Z80/BASIC.HEX tree/Em_Z80/BIOS.CPM tree/c/Emulador.c tree/c/Emu_Z80.len tree/c/Emu_bas.len tree/c/Emu_CB.len tree/c/Emu_ED.len tree/c/Emu_DD.len tree/c/Emu_FD.len tree/c/Emu_DDCB.len tree/c/Emu_term.len

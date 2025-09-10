@@ -1,0 +1,107 @@
+Funcionamiento del emulador Z80 CP/M
+
+por Oscar Toledo Gutiérrez.
+
+(c) Copyright Oscar Toledo Gutiérrez 1996.
+
+  El emulador Z80 CP/M es uno de los proyectos más díficiles que he realizado
+en el G10, principalmente a la hora de simular correctamente las banderas.
+
+  El emulador emula todo el conjunto de instrucciones del Z80, más las
+instrucciones no documentadas para manejar IX y IY en pedazos de 8 bits. No
+he emulado la instrucción CB 30-37 puesto que no es estandard entre el Z80 y
+el Z280.
+
+INTERFAZ CON EL MUNDO EXTERIOR.
+
+  El emulador se comunica con el sistema operativo del G10 haciendo uso de
+una instrucción especial ED ED xx que permite acceder al video, teclado, así
+como el disco duro.
+
+  Las puertas no se han emulado, si se intenta hacer un IN en una puerta se
+obtiene FF, los OUT no tienen ningún efecto, además no hay modo de efectuar
+interrupciones (por el momento no es necesario, el CP/M no las requiere)
+y las instrucciones IM 0, IM 1, IM 2, DI, EI no hacen nada, las instrucciones
+RETN y RETI efectuan la misma operación que RET.
+
+EMULACIÓN DEL MICROPROCESADOR Z80
+
+  La emulación del microprocesador Z-80 es hecha con el 100% de fidelidad
+(aunque puede que se me haya pasado un detalle), los bits de banderas que
+no se usan están siempre a 0 (con excepción de cuando se hace un POP AF).
+
+  He hecho el mejor esfuerzo para que sea veloz.
+
+ARCHIVOS EXTERNOS.
+
+  El emulador requiere los siguientes archivos externos para funcionar:
+
+   C:/EM_Z80/BIOS.CPM         1536 bytes    Contiene un BIOS para CP/M que se
+                                            carga en FA00-FFFF.
+
+   C:/EM_Z80/Z80DOS.SYS       8704 bytes    Contiene el CCP y el BDOS. El
+                                            emulador ignora los primeros 2176
+                                            bytes, los siguientes 2048 deben
+                                            contener el CCP, y los siguientes
+                                            3584 deben contener el BDOS.
+
+   C:/EM_Z80/Unidad_A.DAT  hasta 8 mbytes   Contiene el disco duro para el
+                                            emulador CP/M. Este archivo es
+                                            creado automáticamente si no
+                                            existe, y crece dinámicamente, pero
+                                            nunca se reduce.
+
+   C:/EM_Z80/Unidad_B.DAT  hasta 8 mbytes   Contiene el disco duro para el
+                                            emulador CP/M. Este archivo es
+                                            creado automáticamente si no
+                                            existe, y crece dinámicamente, pero
+                                            nunca se reduce.
+
+
+ENSAMBLAJE.
+
+  Para ensamblar el emulador CP/M.
+
+  A>C:ENS
+
+  Ensamblador G10.  (c) Copyright 1995 Oscar Toledo G.
+
+  Archivo de entrada > B:EMULADOR.LEN
+  Archivo de entrada > C:EM_Z80/EMU_Z80.LEN
+  Archivo de entrada > C:EM_Z80/EMU_BAS.LEN
+  Archivo de entrada > C:EM_Z80/EMU_CB.LEN
+  Archivo de entrada > C:EM_Z80/EMU_ED.LEN
+  Archivo de entrada > C:EM_Z80/EMU_DD.LEN
+  Archivo de entrada > C:EM_Z80/EMU_FD.LEN
+  Archivo de entrada > C:EM_Z80/EMU_DDCB.LEN
+  Archivo de entrada > C:EM_Z80/EMU_TERM.LEN
+  Archivo de entrada > C:LIB/STDIO.LEN
+  Archivo de entrada >
+
+  Archivo de salida > C:Em_Z80.e
+
+  Observe que el orden de ensamblaje de los archivos es importante.
+
+VELOCIDAD
+
+  La velocidad del emulador es más o menos la de un Z80 a 2 Mhz.
+
+  He hecho dos pruebas, intente esta prueba con ZMON:
+
+   a 100
+
+   ld b,20
+   ld hl,0000
+   inc hl
+   ld a,h
+   or l
+   jp nz,0105
+   djnz 0102
+   rst 30
+
+   g 100
+
+  La prueba dura 21 segundos, la siguiente prueba dura 47 segundos:
+
+  A0>USER 1
+  A1>CC TEST

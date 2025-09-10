@@ -1,0 +1,281 @@
+;
+; Emulador Z80 para G10.
+;
+; Emula incluso las instrucciones no
+; documentadas por Zilog.
+;
+; por Oscar Toledo Gutiérrez.
+;
+; (c) Copyright Oscar Toledo Gutiérrez 1996.
+;
+; Creación: 16 de enero de 1996.
+; Revisión: 23 de enero de 1996. Ahora usa 512 bytes de memoria interna del
+;                                microprocesador G10.
+; Revisión: 20 de junio de 1996. Se formatea mejor el listado.
+;
+; ldc PC_INICIAL
+; ldc MEM_71K
+; ldc NO_IMPORTA
+; call qemulador
+;
+; o
+;
+; emulador(MEM[71K], PC_INICIAL)
+;
+; La instrucción HALT del Z80
+; hace volver de la llamada.
+;
+
+                ;
+                ; Registros del Z80
+                ;
+AF:             equ 0
+BC:             equ 1
+DE:             equ 2
+HL:             equ 3
+IX:             equ 4
+IY:             equ 5
+SP:             equ 6
+PC:             equ 7
+AFA:            equ 8
+BCA:            equ 9
+DEA:            equ 10
+HLA:            equ 11
+I:              equ 12
+
+DIR_RETORNO:    equ 13
+VARIOS:         equ 14
+ARCHIVO_DD:     equ 15
+PISTA:          equ 16
+SECTOR:         equ 17
+DMA:            equ 18
+UNIDAD:         equ 19
+ARCHIVO:        equ 20
+TECLA:          equ 21
+TECLA2:         equ 22
+ARCHIVO_DD2:    equ 23
+
+                ;
+                ; Tablas de saltos a distintas instrucciones.
+                ;
+TABLA_SALTOS1:  equ 34
+TABLA_SALTOS2:  equ 35
+TABLA_SALTOS3:  equ 36
+TABLA_SALTOS4:  equ 37
+TABLA_SALTOS5:  equ 38
+TABLA_SALTOS6:  equ 39
+
+                ;
+                ; Apuntador a 512 bytes de memoria interna
+                ; del G10. (proporcionado por el Sistema Operativo)
+                ;
+MEM_INTERNA:    equ 74
+
+qemulador:
+        ;
+        ; Detecta saltos más allá
+        ; de 64 KB.
+        ;
+        ajw -1
+        ldc 128
+        stl 0
+        ldc 0xed
+        ldl 3
+        ldnlp 1664
+        ldl 2
+        call qmemset
+        ldc 128
+        stl 0
+        ldc 0xed
+        ldl 3
+        ldnlp 18080
+        ldl 2
+        call qmemset
+        ;
+        ; Inicia el área de trabajo.
+        ;
+        ldc 6656
+        stl 0
+        ldc 0x00
+        ldl 3
+        ldl 2
+        call qmemset
+        ajw 1
+        ;
+        ; Situa el PC inicial
+        ;
+        ldl 3
+        ldl 2
+        stnl PC
+        ldlp 0
+        ldl 2
+        stnl DIR_RETORNO
+        ;
+        ; Obtiene la posición de las
+        ; instrucciones para emulación.
+        ;
+        ajw -3
+        ldc RASTREO-Q1
+        ldpi
+Q1:     stl 0
+        ldl 5
+        ldnlp 128
+        stl 1
+        ldl 5
+        ldnlp 1664
+        stl 2
+RASTREO:
+        ldl 0
+        lb
+        eqc 0xfe
+        eqc 0
+        cj CONTINUA2
+        ldl 0
+        lb
+        eqc 0xff
+        cj CONTINUA
+CONTINUA3:
+        ldl 0
+        adc 1
+        ldl 1
+        stnl 0
+        ldl 1
+        ldnlp 1
+        stl 1
+        ldl 1
+        ldl 2
+        diff
+        cj FIN
+        j CONTINUA
+CONTINUA2:
+        ldc E-ZZZX2
+        ldpi
+ZZZX2:  ldl 1
+        stnl 0
+        ldl 1
+        ldnlp 1
+        stl 1
+        ldl 1
+        ldl 2
+        diff
+        cj FIN
+CONTINUA:
+        ldl 0
+        adc 1
+        stl 0
+        j RASTREO
+
+FIN:    ajw 3
+        ;
+        ; Abre el disco duro
+        ;
+        ldc F4-F1
+        ldpi
+F1:     call prepara
+        ldl 2
+        stnl ARCHIVO_DD
+        ldc F3-F2
+        ldpi
+F2:     call prepara
+        ldl 2
+        stnl ARCHIVO_DD2
+        ;
+        ; Empieza la emulación
+        ;
+        ldl 2
+        ldnlp 1696
+        stl 3
+        ldl 2
+        ldnl PC
+        ldl 3
+        bsub
+        ldl 2
+        stnl PC
+        ldlp 0
+        mint
+        ldnl MEM_INTERNA
+        ldnlp 60
+        ldc 16
+        move
+        ldl 2
+        mint
+        ldnl MEM_INTERNA
+        ldnlp 64
+        ldc 256
+        move
+        mint
+        ldnl MEM_INTERNA
+        ldnlp 60
+        gajw
+        ldlp 4
+        stl 2
+        ldl 3
+        ldnlp -288
+        stl TABLA_SALTOS1+4
+        ldl 3
+        ldnlp -544
+        stl TABLA_SALTOS2+4
+        ldl 3
+        ldnlp -800
+        stl TABLA_SALTOS3+4
+        ldl 3
+        ldnlp -1056
+        stl TABLA_SALTOS4+4
+        ldl 3
+        ldnlp -1312
+        stl TABLA_SALTOS5+4
+        ldl 3
+        ldnlp -1568
+        stl TABLA_SALTOS6+4
+        j E
+
+prepara:
+        ldc F5-F7
+        ldpi
+F7:     ldl 1
+        ldc 0
+        call qfopen
+        stl 2
+        ldl 2
+        eqc 0
+        cj prepara2
+        ldc F6-F8
+        ldpi
+F8:     ldl 1
+        ldc 0
+        call qfopen
+        stl 2
+        ldc 0
+        stl 3
+prepara3:
+        ldl 2
+        ldc 0xe5
+        ldc 0
+        call qfputc
+        ldl 3
+        adc 1
+        stl 3
+        ldl 3
+        eqc 32768
+        cj prepara3
+prepara2:
+        ldl 2
+        ret
+
+F4:     db "C:Em_Z80/Unidad_A.DAT\0"
+
+F3:     db "C:Em_Z80/Unidad_B.DAT\0"
+
+F5:     db "r+\0"
+
+F6:     db "w+\0"
+
+E:      ldl PC+4
+        dup
+        adc 1
+        stl PC+4
+        lb
+        ldl TABLA_SALTOS6+4
+        wsub
+        ldnl 0
+        gcall

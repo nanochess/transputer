@@ -1,0 +1,3501 @@
+;
+; Este archivo es parte del emulador Z80:
+;
+; Emulación de las instrucciones FD del Z80.
+;
+; Incluso emula las instrucciones no
+; documentadas con HY y LY.
+;
+; por Oscar Toledo Gutiérrez.
+;
+; (c) Copyright Oscar Toledo Gutiérrez 1996.
+;
+; Creación: 24 de enero de 1996.
+;
+
+;
+; Codigo 00.
+;
+db 0xfe
+;
+
+;
+; Codigo 01.
+;
+db 0xfe
+;
+
+;
+; Codigo 02.
+;
+db 0xfe
+;
+
+;
+; Codigo 03.
+;
+db 0xfe
+;
+
+;
+; Codigo 04.
+;
+db 0xfe
+;
+
+;
+; Codigo 05.
+;
+db 0xfe
+;
+
+;
+; Codigo 06.
+;
+db 0xfe
+;
+
+;
+; Codigo 07.
+;
+db 0xfe
+;
+
+;
+; Codigo 08.
+;
+db 0xfe
+;
+
+;
+; Codigo 09.
+;
+db 0xff
+ldl IY+4
+ldc 4095
+and
+ldl BC+4
+ldc 4095
+and
+bsub
+ldc 4096
+and
+ldc 8
+shr
+stl 1
+ldl IY+4
+ldl BC+4
+bsub
+dup
+ldc 65535
+and
+stl IY+4
+ldc 16
+shr
+ldl AF+4
+ldc 0xec
+and
+or
+ldl 1
+or
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo 0A.
+;
+db 0xfe
+;
+
+;
+; Codigo 0B.
+;
+db 0xfe
+;
+
+;
+; Codigo 0C.
+;
+db 0xfe
+;
+
+;
+; Codigo 0D.
+;
+db 0xfe
+;
+
+;
+; Codigo 0E.
+;
+db 0xfe
+;
+
+;
+; Codigo 0F.
+;
+db 0xfe
+;
+
+;
+; Codigo 10.
+;
+db 0xfe
+;
+
+;
+; Codigo 11.
+;
+db 0xfe
+;
+
+;
+; Codigo 12.
+;
+db 0xfe
+;
+
+;
+; Codigo 13.
+;
+db 0xfe
+;
+
+;
+; Codigo 14.
+;
+db 0xfe
+;
+
+;
+; Codigo 15.
+;
+db 0xfe
+;
+
+;
+; Codigo 16.
+;
+db 0xfe
+;
+
+;
+; Codigo 17.
+;
+db 0xfe
+;
+
+;
+; Codigo 18.
+;
+db 0xfe
+;
+
+;
+; Codigo 19.
+;
+db 0xff
+ldl IY+4
+ldc 4095
+and
+ldl DE+4
+ldc 4095
+and
+bsub
+ldc 4096
+and
+ldc 8
+shr
+stl 1
+ldl IY+4
+ldl DE+4
+bsub
+dup
+ldc 65535
+and
+stl IY+4
+ldc 16
+shr
+ldl AF+4
+ldc 0xec
+and
+or
+ldl 1
+or
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo 1A.
+;
+db 0xfe
+;
+
+;
+; Codigo 1B.
+;
+db 0xfe
+;
+
+;
+; Codigo 1C.
+;
+db 0xfe
+;
+
+;
+; Codigo 1D.
+;
+db 0xfe
+;
+
+;
+; Codigo 1E.
+;
+db 0xfe
+;
+
+;
+; Codigo 1F.
+;
+db 0xfe
+;
+
+;
+; Codigo 20.
+;
+db 0xfe
+;
+
+;
+; Codigo 21.
+;
+db 0xff
+ldl PC+4
+dup
+adc 2
+stl PC+4
+dup
+lb
+rev
+adc 1
+lb
+ldc 8
+shl
+or
+stl IY+4
+j E
+
+;
+; Codigo 22.
+;
+db 0xff
+ldl PC+4
+dup
+adc 2
+stl PC+4
+dup
+lb
+rev
+adc 1
+lb
+ldc 8
+shl
+or
+ldl 3
+bsub
+dup
+ldl IY+4
+rev
+sb
+ldl IY+4
+ldc 8
+shr
+rev
+adc 1
+sb
+j E
+
+;
+; Codigo 23.
+;
+db 0xff
+ldl IY+4
+adc 1
+ldc 65535
+and
+stl IY+4
+j E
+
+;
+; Codigo 24.
+;
+db 0xff
+ldlp IY+4
+adc 1
+lb
+adc 1
+dup
+ldlp IY+4
+adc 1
+sb
+ldc TABLA_INC-R1
+ldpi
+R1:
+bsub
+lb
+ldl AF+4
+ldc 1
+and
+or
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo 25.
+;
+db 0xff
+ldlp IY+4
+adc 1
+lb
+adc -1
+dup
+ldlp IY+4
+adc 1
+sb
+ldc TABLA_DEC-R2
+ldpi
+R2:
+bsub
+lb
+ldl AF+4
+ldc 1
+and
+or
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo 26.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldlp IY+4
+adc 1
+sb
+j E
+
+;
+; Codigo 27.
+;
+db 0xfe
+;
+
+;
+; Codigo 28.
+;
+db 0xfe
+;
+
+;
+; Codigo 29.
+;
+db 0xff
+ldl IY+4
+ldc 4095
+and
+dup
+bsub
+ldc 4096
+and
+ldc 8
+shr
+stl 1
+ldl IY+4
+dup
+bsub
+dup
+ldc 65535
+and
+stl IY+4
+ldc 16
+shr
+ldl AF+4
+ldc 0xec
+and
+or
+ldl 1
+or
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo 2A.
+;
+db 0xff
+ldl PC+4
+dup
+adc 2
+stl PC+4
+dup
+lb
+rev
+adc 1
+lb
+ldc 8
+shl
+or
+ldl 3
+bsub
+dup
+lb
+rev
+adc 1
+lb
+ldc 8
+shl
+or
+stl IY+4
+j E
+
+;
+; Codigo 2B.
+;
+db 0xff
+ldl IY+4
+adc -1
+ldc 65535
+and
+stl IY+4
+j E
+
+;
+; Codigo 2C.
+;
+db 0xff
+ldlp IY+4
+lb
+adc 1
+dup
+ldlp IY+4
+sb
+ldc TABLA_INC-R3
+ldpi
+R3:
+bsub
+lb
+ldl AF+4
+ldc 1
+and
+or
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo 2D.
+;
+db 0xff
+ldlp IY+4
+lb
+adc -1
+dup
+ldlp IY+4
+sb
+ldc TABLA_DEC-R4
+ldpi
+R4:
+bsub
+lb
+ldl AF+4
+ldc 1
+and
+or
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo 2E.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldlp IY+4
+sb
+j E
+
+;
+; Codigo 2F.
+;
+db 0xfe
+;
+
+;
+; Codigo 30.
+;
+db 0xfe
+;
+
+;
+; Codigo 31.
+;
+db 0xfe
+;
+
+;
+; Codigo 32.
+;
+db 0xfe
+;
+
+;
+; Codigo 33.
+;
+db 0xfe
+;
+
+;
+; Codigo 34.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+dup
+lb
+adc 1
+dup
+pop
+rev
+sb
+ldc TABLA_INC-R5
+ldpi
+R5:
+bsub
+lb
+ldl AF+4
+ldc 1
+and
+or
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo 35.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+dup
+lb
+adc -1
+dup
+pop
+rev
+sb
+ldc TABLA_DEC-R6
+ldpi
+R6:
+bsub
+lb
+ldl AF+4
+ldc 1
+and
+or
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo 36.
+;
+db 0xff
+ldl PC+4
+dup
+adc 2
+stl PC+4
+dup
+adc 1
+lb
+rev
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+sb
+j E
+
+;
+; Codigo 37.
+;
+db 0xfe
+;
+
+;
+; Codigo 38.
+;
+db 0xfe
+;
+
+;
+; Codigo 39.
+;
+db 0xff
+ldl IY+4
+ldc 4095
+and
+ldl SP+4
+ldc 4095
+and
+bsub
+ldc 4096
+and
+ldc 8
+shr
+stl 1
+ldl IY+4
+ldl SP+4
+bsub
+dup
+ldc 65535
+and
+stl IY+4
+ldc 16
+shr
+ldl AF+4
+ldc 0xec
+and
+or
+ldl 1
+or
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo 3A.
+;
+db 0xfe
+;
+
+;
+; Codigo 3B.
+;
+db 0xfe
+;
+
+;
+; Codigo 3C.
+;
+db 0xfe
+;
+
+;
+; Codigo 3D.
+;
+db 0xfe
+;
+
+;
+; Codigo 3E.
+;
+db 0xfe
+;
+
+;
+; Codigo 3F.
+;
+db 0xfe
+;
+
+;
+; Codigo 40.
+;
+db 0xfe
+;
+
+;
+; Codigo 41.
+;
+db 0xfe
+;
+
+;
+; Codigo 42.
+;
+db 0xfe
+;
+
+;
+; Codigo 43.
+;
+db 0xfe
+;
+
+;
+; Codigo 44.
+;
+db 0xff
+ldlp IY+4
+adc 1
+lb
+ldlp BC+4
+adc 1
+sb
+j E
+
+;
+; Codigo 45.
+;
+db 0xff
+ldl IY+4
+ldlp BC+4
+adc 1
+sb
+j E
+
+;
+; Codigo 46.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ldlp BC+4
+adc 1
+sb
+j E
+
+;
+; Codigo 47.
+;
+db 0xfe
+;
+
+;
+; Codigo 48.
+;
+db 0xfe
+;
+
+;
+; Codigo 49.
+;
+db 0xfe
+;
+
+;
+; Codigo 4A.
+;
+db 0xfe
+;
+
+;
+; Codigo 4B.
+;
+db 0xfe
+;
+
+;
+; Codigo 4C.
+;
+db 0xff
+ldlp IY+4
+adc 1
+lb
+ldlp BC+4
+sb
+j E
+
+;
+; Codigo 4D.
+;
+db 0xff
+ldl IY+4
+ldlp BC+4
+sb
+j E
+
+;
+; Codigo 4E.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ldlp BC+4
+sb
+j E
+
+;
+; Codigo 4F.
+;
+db 0xfe
+;
+
+;
+; Codigo 50.
+;
+db 0xfe
+;
+
+;
+; Codigo 51.
+;
+db 0xfe
+;
+
+;
+; Codigo 52.
+;
+db 0xfe
+;
+
+;
+; Codigo 53.
+;
+db 0xfe
+;
+
+;
+; Codigo 54.
+;
+db 0xff
+ldlp IY+4
+adc 1
+lb
+ldlp DE+4
+adc 1
+sb
+j E
+
+;
+; Codigo 55.
+;
+db 0xff
+ldl IY+4
+ldlp DE+4
+adc 1
+sb
+j E
+
+;
+; Codigo 56.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ldlp DE+4
+adc 1
+sb
+j E
+
+;
+; Codigo 57.
+;
+db 0xfe
+;
+
+;
+; Codigo 58.
+;
+db 0xfe
+;
+
+;
+; Codigo 59.
+;
+db 0xfe
+;
+
+;
+; Codigo 5A.
+;
+db 0xfe
+;
+
+;
+; Codigo 5B.
+;
+db 0xfe
+;
+
+;
+; Codigo 5C.
+;
+db 0xff
+ldlp IY+4
+adc 1
+lb
+ldlp DE+4
+sb
+j E
+
+;
+; Codigo 5D.
+;
+db 0xff
+ldl IY+4
+ldlp DE+4
+sb
+j E
+
+;
+; Codigo 5E.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ldlp DE+4
+sb
+j E
+
+;
+; Codigo 5F.
+;
+db 0xfe
+;
+
+;
+; Codigo 60.
+;
+db 0xff
+ldlp BC+4
+adc 1
+lb
+ldlp IY+4
+adc 1
+sb
+j E
+
+;
+; Codigo 61.
+;
+db 0xff
+ldl BC+4
+ldlp IY+4
+adc 1
+sb
+j E
+
+;
+; Codigo 62.
+;
+db 0xff
+ldlp DE+4
+adc 1
+lb
+ldlp IY+4
+adc 1
+sb
+j E
+
+;
+; Codigo 63.
+;
+db 0xff
+ldl DE+4
+ldlp IY+4
+adc 1
+sb
+j E
+
+;
+; Codigo 64.
+;
+db 0xfe
+
+;
+; Codigo 65.
+;
+db 0xff
+ldl IY+4
+ldlp IY+4
+adc 1
+sb
+j E
+
+;
+; Codigo 66.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ldlp HL+4
+adc 1
+sb
+j E
+
+;
+; Codigo 67.
+;
+db 0xff
+ldlp AF+4
+adc 1
+lb
+ldlp IY+4
+adc 1
+sb
+j E
+
+;
+; Codigo 68.
+;
+db 0xff
+ldlp BC+4
+adc 1
+lb
+ldlp IY+4
+sb
+j E
+
+;
+; Codigo 69.
+;
+db 0xff
+ldl BC+4
+ldlp IY+4
+sb
+j E
+
+;
+; Codigo 6A.
+;
+db 0xff
+ldlp DE+4
+adc 1
+lb
+ldlp IY+4
+sb
+j E
+
+;
+; Codigo 6B.
+;
+db 0xff
+ldl DE+4
+ldlp IY+4
+sb
+j E
+
+;
+; Codigo 6C.
+;
+db 0xff
+ldlp IY+4
+adc 1
+lb
+ldlp IY+4
+sb
+j E
+
+;
+; Codigo 6D.
+;
+db 0xfe
+
+;
+; Codigo 6E.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ldlp HL+4
+sb
+j E
+
+;
+; Codigo 6F.
+;
+db 0xff
+ldlp AF+4
+adc 1
+lb
+ldlp IY+4
+sb
+j E
+
+;
+; Codigo 70.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+ldlp BC+4
+adc 1
+lb
+rev
+sb
+j E
+
+;
+; Codigo 71.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+ldl BC+4
+rev
+sb
+j E
+
+;
+; Codigo 72.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+ldlp DE+4
+adc 1
+lb
+rev
+sb
+j E
+
+;
+; Codigo 73.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+ldl DE+4
+rev
+sb
+j E
+
+;
+; Codigo 74.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+ldlp HL+4
+adc 1
+lb
+rev
+sb
+j E
+
+;
+; Codigo 75.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+ldl HL+4
+rev
+sb
+j E
+
+;
+; Codigo 76.
+;
+db 0xfe
+
+;
+; Codigo 77.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+ldlp AF+4
+adc 1
+lb
+rev
+sb
+j E
+
+;
+; Codigo 78.
+;
+db 0xfe
+;
+
+;
+; Codigo 79.
+;
+db 0xfe
+;
+
+;
+; Codigo 7A.
+;
+db 0xfe
+;
+
+;
+; Codigo 7B.
+;
+db 0xfe
+;
+
+;
+; Codigo 7C.
+;
+db 0xff
+ldlp IY+4
+adc 1
+lb
+ldlp AF+4
+adc 1
+sb
+j E
+
+;
+; Codigo 7D.
+;
+db 0xff
+ldl IY+4
+ldlp AF+4
+adc 1
+sb
+j E
+
+;
+; Codigo 7E.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ldlp AF+4
+adc 1
+sb
+j E
+
+;
+; Codigo 7F.
+;
+db 0xfe
+;
+
+;
+; Codigo 80.
+;
+db 0xfe
+;
+
+;
+; Codigo 81.
+;
+db 0xfe
+;
+
+;
+; Codigo 82.
+;
+db 0xfe
+;
+
+;
+; Codigo 83.
+;
+db 0xfe
+;
+
+;
+; Codigo 84.
+;
+db 0xff
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+ldlp IY+6
+adc 1
+lb
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+bsub
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+bsub
+dup
+ldlp AF+6
+adc 1
+sb
+ldc 8
+shr
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+eqc 0
+cj R7
+ldl 0
+ldlp AF+6
+adc 1
+lb
+xor
+ldc 5
+shr
+ldc 4
+and
+ldl 3
+or
+stl 3
+R7:
+ldlp AF+6
+adc 1
+lb
+ldc TABLA_BASICA-R8
+ldpi
+R8:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo 85.
+;
+db 0xff
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+ldlp IY+6
+lb
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+bsub
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+bsub
+dup
+ldlp AF+6
+adc 1
+sb
+ldc 8
+shr
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+eqc 0
+cj R9
+ldl 0
+ldlp AF+6
+adc 1
+lb
+xor
+ldc 5
+shr
+ldc 4
+and
+ldl 3
+or
+stl 3
+R9:
+ldlp AF+6
+adc 1
+lb
+ldc TABLA_BASICA-R10
+ldpi
+R10:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo 86.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ajw -2
+stl 1
+ldlp AF+6
+adc 1
+lb
+stl 0
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+bsub
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+bsub
+dup
+ldlp AF+6
+adc 1
+sb
+ldc 8
+shr
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+eqc 0
+cj R11
+ldl 0
+ldlp AF+6
+adc 1
+lb
+xor
+ldc 5
+shr
+ldc 4
+and
+ldl 3
+or
+stl 3
+R11:
+ldlp AF+6
+adc 1
+lb
+ldc TABLA_BASICA-R12
+ldpi
+R12:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo 87.
+;
+db 0xfe
+;
+
+;
+; Codigo 88.
+;
+db 0xfe
+;
+
+;
+; Codigo 89.
+;
+db 0xfe
+;
+
+;
+; Codigo 8A.
+;
+db 0xfe
+;
+
+;
+; Codigo 8B.
+;
+db 0xfe
+;
+
+;
+; Codigo 8C.
+;
+db 0xff
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+ldl AF+6
+ldc 1
+and
+ldlp IY+6
+adc 1
+lb
+bsub
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+bsub
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+bsub
+dup
+ldlp AF+6
+adc 1
+sb
+ldc 8
+shr
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+eqc 0
+cj R13
+ldl 0
+ldlp AF+6
+adc 1
+lb
+xor
+ldc 5
+shr
+ldc 4
+and
+ldl 3
+or
+stl 3
+R13:
+ldlp AF+6
+adc 1
+lb
+ldc TABLA_BASICA-R14
+ldpi
+R14:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo 8D.
+;
+db 0xff
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+ldl AF+6
+ldc 1
+and
+ldlp IY+6
+lb
+bsub
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+bsub
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+bsub
+dup
+ldlp AF+6
+adc 1
+sb
+ldc 8
+shr
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+eqc 0
+cj R15
+ldl 0
+ldlp AF+6
+adc 1
+lb
+xor
+ldc 5
+shr
+ldc 4
+and
+ldl 3
+or
+stl 3
+R15:
+ldlp AF+6
+adc 1
+lb
+ldc TABLA_BASICA-R16
+ldpi
+R16:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo 8E.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+ldl AF+6
+ldc 1
+and
+bsub
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+bsub
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+bsub
+dup
+ldlp AF+6
+adc 1
+sb
+ldc 8
+shr
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+eqc 0
+cj R17
+ldl 0
+ldlp AF+6
+adc 1
+lb
+xor
+ldc 5
+shr
+ldc 4
+and
+ldl 3
+or
+stl 3
+R17:
+ldlp AF+6
+adc 1
+lb
+ldc TABLA_BASICA-R18
+ldpi
+R18:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo 8F.
+;
+db 0xfe
+;
+
+;
+; Codigo 90.
+;
+db 0xfe
+;
+
+;
+; Codigo 91.
+;
+db 0xfe
+;
+
+;
+; Codigo 92.
+;
+db 0xfe
+;
+
+;
+; Codigo 93.
+;
+db 0xfe
+;
+
+;
+; Codigo 94.
+;
+db 0xff
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+ldlp IY+6
+adc 1
+lb
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+diff
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+diff
+dup
+ldlp AF+6
+adc 1
+sb
+ldc 8
+shr
+ldc 1
+and
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+cj R19
+ldl 1
+ldlp AF+6
+adc 1
+lb
+xor
+ldc 5
+shr
+not
+ldc 4
+and
+ldl 3
+or
+stl 3
+R19:
+ldlp AF+6
+adc 1
+lb
+ldc TABLA_BASICA2-R20
+ldpi
+R20:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo 95.
+;
+db 0xff
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+ldlp IY+6
+lb
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+diff
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+diff
+dup
+ldlp AF+6
+adc 1
+sb
+ldc 8
+shr
+ldc 1
+and
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+cj R21
+ldl 1
+ldlp AF+6
+adc 1
+lb
+xor
+ldc 5
+shr
+not
+ldc 4
+and
+ldl 3
+or
+stl 3
+R21:
+ldlp AF+6
+adc 1
+lb
+ldc TABLA_BASICA2-R22
+ldpi
+R22:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo 96.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+diff
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+diff
+dup
+ldlp AF+6
+adc 1
+sb
+ldc 8
+shr
+ldc 1
+and
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+cj R23
+ldl 1
+ldlp AF+6
+adc 1
+lb
+xor
+ldc 5
+shr
+not
+ldc 4
+and
+ldl 3
+or
+stl 3
+R23:
+ldlp AF+6
+adc 1
+lb
+ldc TABLA_BASICA2-R24
+ldpi
+R24:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo 97.
+;
+db 0xfe
+;
+
+;
+; Codigo 98.
+;
+db 0xfe
+;
+
+;
+; Codigo 99.
+;
+db 0xfe
+;
+
+;
+; Codigo 9A.
+;
+db 0xfe
+;
+
+;
+; Codigo 9B.
+;
+db 0xfe
+;
+
+;
+; Codigo 9C.
+;
+db 0xff
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+ldl AF+6
+ldc 1
+and
+ldlp IY+6
+adc 1
+lb
+bsub
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+diff
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+diff
+dup
+ldlp AF+6
+adc 1
+sb
+ldc 8
+shr
+ldc 1
+and
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+cj R25
+ldl 1
+ldlp AF+6
+adc 1
+lb
+xor
+ldc 5
+shr
+not
+ldc 4
+and
+ldl 3
+or
+stl 3
+R25:
+ldlp AF+6
+adc 1
+lb
+ldc TABLA_BASICA2-R26
+ldpi
+R26:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo 9D.
+;
+db 0xff
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+ldl AF+6
+ldc 1
+and
+ldlp IY+6
+lb
+bsub
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+diff
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+diff
+dup
+ldlp AF+6
+adc 1
+sb
+ldc 8
+shr
+ldc 1
+and
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+cj R27
+ldl 1
+ldlp AF+6
+adc 1
+lb
+xor
+ldc 5
+shr
+not
+ldc 4
+and
+ldl 3
+or
+stl 3
+R27:
+ldlp AF+6
+adc 1
+lb
+ldc TABLA_BASICA2-R28
+ldpi
+R28:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo 9E.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+ldl AF+6
+ldc 1
+and
+bsub
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+diff
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+diff
+dup
+ldlp AF+6
+adc 1
+sb
+ldc 8
+shr
+ldc 1
+and
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+cj R29
+ldl 1
+ldlp AF+6
+adc 1
+lb
+xor
+ldc 5
+shr
+not
+ldc 4
+and
+ldl 3
+or
+stl 3
+R29:
+ldlp AF+6
+adc 1
+lb
+ldc TABLA_BASICA2-R30
+ldpi
+R30:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo 9F.
+;
+db 0xfe
+;
+
+;
+; Codigo A0.
+;
+db 0xfe
+;
+
+;
+; Codigo A1
+;
+db 0xfe
+;
+
+;
+; Codigo A2.
+;
+db 0xfe
+;
+
+;
+; Codigo A3.
+;
+db 0xfe
+;
+
+;
+; Codigo A4.
+;
+db 0xff
+ldlp AF+4
+adc 1
+lb
+ldlp IY+4
+adc 1
+lb
+and
+dup
+ldlp AF+4
+adc 1
+sb
+ldc TABLA_PARIDAD2-R31
+ldpi
+R31:
+bsub
+lb
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo A5.
+;
+db 0xff
+ldlp AF+4
+lb
+ldl IY+4
+and
+dup
+ldlp AF+4
+adc 1
+sb
+ldc TABLA_PARIDAD2-R32
+ldpi
+R32:
+bsub
+lb
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo A6.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ldlp AF+4
+adc 1
+lb
+and
+dup
+ldlp AF+4
+adc 1
+sb
+ldc TABLA_PARIDAD2-R33
+ldpi
+R33:
+bsub
+lb
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo A7.
+;
+db 0xfe
+;
+
+;
+; Codigo A8.
+;
+db 0xfe
+;
+
+;
+; Codigo A9.
+;
+db 0xfe
+;
+
+;
+; Codigo AA.
+;
+db 0xfe
+;
+
+;
+; Codigo AB.
+;
+db 0xfe
+;
+
+;
+; Codigo AC.
+;
+db 0xff
+ldlp AF+4
+adc 1
+lb
+ldlp IY+4
+adc 1
+lb
+xor
+dup
+ldlp AF+4
+adc 1
+sb
+ldc TABLA_PARIDAD-R34
+ldpi
+R34:
+bsub
+lb
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo AD.
+;
+db 0xff
+ldlp AF+4
+adc 1
+lb
+ldlp IY+4
+lb
+xor
+dup
+ldlp AF+4
+adc 1
+sb
+ldc TABLA_PARIDAD-R45
+ldpi
+R45:
+bsub
+lb
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo AE.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ldlp AF+4
+adc 1
+lb
+xor
+dup
+ldlp AF+4
+adc 1
+sb
+ldc TABLA_PARIDAD-R35
+ldpi
+R35:
+bsub
+lb
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo AF.
+;
+db 0xfe
+;
+
+;
+; Codigo B0.
+;
+db 0xfe
+;
+
+;
+; Codigo B1.
+;
+db 0xfe
+;
+
+;
+; Codigo B2.
+;
+db 0xfe
+;
+
+;
+; Codigo B3.
+;
+db 0xfe
+;
+
+;
+; Codigo B4.
+;
+db 0xff
+ldlp AF+4
+adc 1
+lb
+ldlp IY+4
+adc 1
+lb
+or
+dup
+ldlp AF+4
+adc 1
+sb
+ldc TABLA_PARIDAD-R36
+ldpi
+R36:
+bsub
+lb
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo B5.
+;
+db 0xff
+ldlp AF+4
+adc 1
+lb
+ldlp IY+4
+lb
+or
+dup
+ldlp AF+4
+adc 1
+sb
+ldc TABLA_PARIDAD-R37
+ldpi
+R37:
+bsub
+lb
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo B6.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ldlp AF+4
+adc 1
+lb
+or
+dup
+ldlp AF+4
+adc 1
+sb
+ldc TABLA_PARIDAD-R38
+ldpi
+R38:
+bsub
+lb
+ldlp AF+4
+sb
+j E
+
+;
+; Codigo B7.
+;
+db 0xfe
+;
+
+;
+; Codigo B8.
+;
+db 0xfe
+;
+
+;
+; Codigo B9.
+;
+db 0xfe
+;
+
+;
+; Codigo BA.
+;
+db 0xfe
+;
+
+;
+; Codigo BB.
+;
+db 0xfe
+;
+
+;
+; Codigo BC.
+;
+db 0xff
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+ldlp IY+6
+adc 1
+lb
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+diff
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+diff
+dup
+ldlp VARIOS+6
+sb
+ldc 8
+shr
+ldc 1
+and
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+cj R39
+ldl 1
+ldlp VARIOS+6
+lb
+xor
+ldc 5
+shr
+not
+ldc 4
+and
+ldl 3
+or
+stl 3
+R39:
+ldlp VARIOS+6
+lb
+ldc TABLA_BASICA2-R40
+ldpi
+R40:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo BD.
+;
+db 0xff
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+ldlp IY+6
+lb
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+diff
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+diff
+dup
+ldlp VARIOS+6
+sb
+ldc 8
+shr
+ldc 1
+and
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+cj R41
+ldl 1
+ldlp VARIOS+6
+lb
+xor
+ldc 5
+shr
+not
+ldc 4
+and
+ldl 3
+or
+stl 3
+R41:
+ldlp VARIOS+6
+lb
+ldc TABLA_BASICA2-R42
+ldpi
+R42:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo BE.
+;
+db 0xff
+ldl PC+4
+dup
+adc 1
+stl PC+4
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+lb
+ajw -2
+ldlp AF+6
+adc 1
+lb
+stl 0
+stl 1
+ldl 0
+ldc 15
+and
+ldl 1
+ldc 15
+and
+diff
+ldc 16
+and
+stl 3
+ldl 0
+ldl 1
+diff
+dup
+ldlp VARIOS+6
+sb
+ldc 8
+shr
+ldc 1
+and
+ldl 3
+or
+stl 3
+ldl 0
+ldl 1
+xor
+ldc 0x80
+and
+cj R43
+ldl 1
+ldlp VARIOS+6
+lb
+xor
+ldc 5
+shr
+not
+ldc 4
+and
+ldl 3
+or
+stl 3
+R43:
+ldlp VARIOS+6
+lb
+ldc TABLA_BASICA2-R44
+ldpi
+R44:
+bsub
+lb
+ldl 3
+or
+ldlp AF+6
+sb
+ajw 2
+j E
+
+;
+; Codigo BF.
+;
+db 0xfe
+;
+
+;
+; Codigo C0.
+;
+db 0xfe
+;
+
+;
+; Codigo C1.
+;
+db 0xfe
+;
+
+;
+; Codigo C2.
+;
+db 0xfe
+;
+
+;
+; Codigo C3.
+;
+db 0xfe
+;
+
+;
+; Codigo C4.
+;
+db 0xfe
+;
+
+;
+; Codigo C5.
+;
+db 0xfe
+;
+
+;
+; Codigo C6.
+;
+db 0xfe
+;
+
+;
+; Codigo C7.
+;
+db 0xfe
+;
+
+;
+; Codigo C8.
+;
+db 0xfe
+;
+
+;
+; Codigo C9.
+;
+db 0xfe
+;
+
+;
+; Codigo CA.
+;
+db 0xfe
+;
+
+;
+; Codigo CB.
+;
+db 0xff
+ldl PC+4
+dup
+adc 2
+stl PC+4
+dup
+lb
+ldc 0x80
+xword
+ldl IY+4
+bsub
+ldl 3
+bsub
+stl 1
+adc 1
+lb
+ldl TABLA_SALTOS1+4
+wsub
+ldnl 0
+gcall
+
+;
+; Codigo CC.
+;
+db 0xfe
+;
+
+;
+; Codigo CD.
+;
+db 0xfe
+;
+
+;
+; Codigo CE.
+;
+db 0xfe
+;
+
+;
+; Codigo CF.
+;
+db 0xfe
+;
+
+;
+; Codigo D0.
+;
+db 0xfe
+;
+
+;
+; Codigo D1.
+;
+db 0xfe
+;
+
+;
+; Codigo D2.
+;
+db 0xfe
+;
+
+;
+; Codigo D3.
+;
+db 0xfe
+;
+
+;
+; Codigo D4.
+;
+db 0xfe
+;
+
+;
+; Codigo D5.
+;
+db 0xfe
+;
+
+;
+; Codigo D6.
+;
+db 0xfe
+;
+
+;
+; Codigo D7.
+;
+db 0xfe
+;
+
+;
+; Codigo D8.
+;
+db 0xfe
+;
+
+;
+; Codigo D9.
+;
+db 0xfe
+;
+
+;
+; Codigo DA.
+;
+db 0xfe
+;
+
+;
+; Codigo DB.
+;
+db 0xfe
+;
+
+;
+; Codigo DC.
+;
+db 0xfe
+;
+
+;
+; Codigo DD.
+;
+db 0xfe
+;
+
+;
+; Codigo DE.
+;
+db 0xfe
+;
+
+;
+; Codigo DF.
+;
+db 0xfe
+;
+
+;
+; Codigo E0.
+;
+db 0xfe
+;
+
+;
+; Codigo E1.
+;
+db 0xff
+ldl SP+4
+dup
+adc 2
+ldc 65535
+and
+stl SP+4
+ldl 3
+bsub
+dup
+lb
+rev
+adc 1
+lb
+ldc 8
+shl
+or
+stl IY+4
+j E
+
+;
+; Codigo E2.
+;
+db 0xfe
+;
+
+;
+; Codigo E3.
+;
+db 0xff
+ldl SP+4
+ldl 3
+bsub
+dup
+stl 1
+lb
+ldl 1
+adc 1
+lb
+ldc 8
+shl
+or
+ldl IY+4
+rev
+stl IY+4
+dup
+ldl 1
+sb
+ldc 8
+shr
+ldl 1
+adc 1
+sb
+j E
+
+;
+; Codigo E4.
+;
+db 0xfe
+;
+
+;
+; Codigo E5.
+;
+db 0xff
+ldl SP+4
+adc -2
+ldc 65535
+and
+dup
+stl SP+4
+ldl 3
+bsub
+dup
+ldl IY+4
+rev
+sb
+ldl IY+4
+ldc 8
+shr
+rev
+adc 1
+sb
+j E
+
+;
+; Codigo E6.
+;
+db 0xfe
+;
+
+;
+; Codigo E7.
+;
+db 0xfe
+;
+
+;
+; Codigo E8.
+;
+db 0xfe
+;
+
+;
+; Codigo E9.
+;
+db 0xff
+ldl IY+4
+ldl 3
+bsub
+stl PC+4
+j E
+
+;
+; Codigo EA.
+;
+db 0xfe
+;
+
+;
+; Codigo EB.
+;
+db 0xfe
+;
+
+;
+; Codigo EC.
+;
+db 0xfe
+;
+
+;
+; Codigo ED.
+;
+db 0xfe
+;
+
+;
+; Codigo EE.
+;
+db 0xfe
+;
+
+;
+; Codigo EF.
+;
+db 0xfe
+;
+
+;
+; Codigo F0.
+;
+db 0xfe
+;
+
+;
+; Codigo F1.
+;
+db 0xfe
+;
+
+;
+; Codigo F2.
+;
+db 0xfe
+;
+
+;
+; Codigo F3.
+;
+db 0xfe
+;
+
+;
+; Codigo F4.
+;
+db 0xfe
+;
+
+;
+; Codigo F5.
+;
+db 0xfe
+;
+
+;
+; Codigo F6.
+;
+db 0xfe
+;
+
+;
+; Codigo F7.
+;
+db 0xfe
+;
+
+;
+; Codigo F8.
+;
+db 0xfe
+;
+
+;
+; Codigo F9.
+;
+db 0xff
+ldl IY+4
+stl SP+4
+j E
+
+;
+; Codigo FA.
+;
+db 0xfe
+;
+
+;
+; Codigo FB.
+;
+db 0xfe
+;
+
+;
+; Codigo FC.
+;
+db 0xfe
+;
+
+;
+; Codigo FD.
+;
+db 0xfe
+;
+
+;
+; Codigo FE.
+;
+db 0xfe
+;
+
+;
+; Codigo FF.
+;
+db 0xfe
+;

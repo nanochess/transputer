@@ -1,0 +1,949 @@
+;
+; Emulador de terminal CP/M Plus y Amstrad CPC.
+;
+; por Oscar Toledo Gutiérrez.
+;
+; (c) Copyright Oscar Toledo Gutiérrez 1996
+;
+; Creación: 20 de enero de 1996.
+; Revisión: 6 de abril de 1996. Lo hago resistente a errores.
+;
+
+pos_x: equ 24
+pos_y: equ 25
+pos_x2: equ 26
+pos_y2: equ 27
+atributo: equ 28
+conjunto: equ 29
+estatus: equ 30
+video: equ 31
+
+ESCRIBE:
+ldl 2
+ldnl estatus
+eqc 0
+cj Y1
+mint
+ldnl 0x44
+ldl 2
+stnl video
+ldc 1
+ldl 2
+stnl estatus
+ldc 0
+ldl 2
+stnl pos_x
+ldc 0
+ldl 2
+stnl pos_y
+ldc 0
+ldl 2
+stnl pos_x2
+ldc 0
+ldl 2
+stnl pos_y2
+ldc 0x02
+ldl 2
+stnl atributo
+ldc 0
+ldl 2
+stnl conjunto
+call E_ENCIENDE_CURSOR
+ldl 2
+ldl 1
+call E_BPAN_DESDE
+Y1:
+ldl 2
+ldnl estatus
+eqc 0x01
+cj E_ESC
+ldl 1
+ldc 31
+gt
+cj E_CONTROL
+ldl 2
+ldnl pos_x
+ldc 2
+prod
+ldl 2
+ldnl pos_y
+ldc 160
+prod
+bsub
+ldl 2
+ldnl video
+bsub
+dup
+ldl 1
+rev
+sb
+ldl 2
+ldnl atributo
+rev
+adc 1
+sb
+ldl 2
+ldnl pos_x
+adc 1
+dup
+ldl 2
+stnl pos_x
+eqc 80
+cj Y2
+ldc 0
+ldl 2
+stnl pos_x
+ldl 2
+ldnl pos_y
+adc 1
+dup
+ldl 2
+stnl pos_y
+eqc 25
+cj Y2
+ldc 24
+ldl 2
+stnl pos_y
+j E_ROLA_VIDEO
+Y2:
+ldl 2
+ldnl pos_x
+ldl 2
+ldnl pos_y
+ldc 80
+prod
+bsub
+call E_SITUA_CURSOR
+ret
+
+E_CONTROL:
+ldl 1
+eqc 0x02
+eqc 0
+cj E_APAGA_CURSOR
+ldl 1
+eqc 0x03
+eqc 0
+cj E_ENCIENDE_CURSOR
+ldl 1
+eqc 0x08
+eqc 0
+cj E_CURSOR_IZQ
+ldl 1
+eqc 0x09
+eqc 0
+cj E_CURSOR_DER
+ldl 1
+eqc 0x0a
+eqc 0
+cj E_CURSOR_ABAJO
+ldl 1
+eqc 0x0b
+eqc 0
+cj E_CURSOR_ARRIBA
+ldl 1
+eqc 0x0c
+eqc 0
+cj E_LIMPIA_VIDEO
+ldl 1
+eqc 0x0d
+eqc 0
+cj E_PRIMERA_COLUMNA
+ldl 1
+eqc 0x10
+eqc 0
+cj E_BORRA_CARACTER_DEBAJO
+ldl 1
+eqc 0x11
+eqc 0
+cj E_BLIN_HASTA
+ldl 1
+eqc 0x12
+eqc 0
+cj E_BLIN_DESDE
+ldl 1
+eqc 0x13
+eqc 0
+cj E_BPAN_HASTA
+ldl 1
+eqc 0x14
+eqc 0
+cj E_BPAN_DESDE
+ldl 1
+eqc 0x18
+eqc 0
+cj E_INVIERTE_BRILLO
+ldl 1
+eqc 0x1e
+eqc 0
+cj E_CURSOR_0
+ldl 1
+eqc 0x1f
+eqc 0
+cj E_POS_CURSOR
+ldl 1
+eqc 0x1b
+eqc 0
+cj E_ACTIVA_ESC
+ret
+
+E_POS_CURSOR:
+ldc 3
+ldl 2
+stnl estatus
+ret
+
+E_POS_CURSOR2:
+ldc 5
+ldl 2
+stnl estatus
+ret
+
+E_CONJUNTO:
+ldc 7
+ldl 2
+stnl estatus
+ret
+
+E_ACTIVA_ESC:
+ldc 2
+ldl 2
+stnl estatus
+ret
+
+E_ESC:
+ldl 2
+ldnl estatus
+eqc 3
+eqc 0
+cj E_BYTE1
+ldl 2
+ldnl estatus
+eqc 4
+eqc 0
+cj E_BYTE2
+ldl 2
+ldnl estatus
+eqc 5
+eqc 0
+cj E_BYTE3
+ldl 2
+ldnl estatus
+eqc 6
+eqc 0
+cj E_BYTE4
+ldl 2
+ldnl estatus
+eqc 7
+eqc 0
+cj E_BYTE5
+ldc 1
+ldl 2
+stnl estatus
+ldl 1
+eqc 0x66
+eqc 0
+cj E_APAGA_CURSOR
+ldl 1
+eqc 0x65
+eqc 0
+cj E_ENCIENDE_CURSOR
+ldl 1
+eqc 0x44
+eqc 0
+cj E_CURSOR_IZQ
+ldl 1
+eqc 0x43
+eqc 0
+cj E_CURSOR_DER
+ldl 1
+eqc 0x42
+eqc 0
+cj E_CURSOR_ABAJO
+ldl 1
+eqc 0x41
+eqc 0
+cj E_CURSOR_ARRIBA
+ldl 1
+eqc 0x49
+eqc 0
+cj E_CURSOR_ARRIBA
+ldl 1
+eqc 0x40
+eqc 0
+cj E_LIMPIA_VIDEO
+ldl 1
+eqc 0x4E
+eqc 0
+cj E_BORRA_CARACTER_DEBAJO
+ldl 1
+eqc 0x64
+eqc 0
+cj E_BLIN_HASTA
+ldl 1
+eqc 0x4B
+eqc 0
+cj E_BLIN_DESDE
+ldl 1
+eqc 0x6F
+eqc 0
+cj E_BPAN_HASTA
+ldl 1
+eqc 0x4A
+eqc 0
+cj E_BPAN_DESDE
+ldl 1
+eqc 0x48
+eqc 0
+cj E_CURSOR_0
+ldl 1
+eqc 0x59
+eqc 0
+cj E_POS_CURSOR2
+ldl 1
+eqc 0x6a
+eqc 0
+cj E_SALVA_POS
+ldl 1
+eqc 0x6b
+eqc 0
+cj E_RECUPERA_POS
+ldl 1
+eqc 0x4c
+eqc 0
+cj E_INSERTA_LINEA
+ldl 1
+eqc 0x4d
+eqc 0
+cj E_BORRA_LINEA
+ldl 1
+eqc 0x45
+eqc 0
+cj E_BORRA_PANTALLA
+ldl 1
+eqc 0x70
+eqc 0
+cj E_ACTIVA_BRILLO
+ldl 1
+eqc 0x71
+eqc 0
+cj E_APAGA_BRILLO
+ldl 1
+eqc 0x72
+eqc 0
+cj E_ACTIVA_SUB
+ldl 1
+eqc 0x73
+eqc 0
+cj E_ACTIVA_PAR
+ldl 1
+eqc 0x74
+eqc 0
+cj E_APAGA_PAR
+ldl 1
+eqc 0x75
+eqc 0
+cj E_APAGA_SUB
+ret
+
+E_ACTIVA_BRILLO:
+ldl 2
+ldnl atributo
+ldc 0xf0
+and
+ldc 0x0a
+or
+ldl 2
+stnl atributo
+ret
+
+E_APAGA_BRILLO:
+ldl 2
+ldnl atributo
+ldc 0xf0
+and
+ldc 0x02
+or
+ldl 2
+stnl atributo
+ret
+
+E_ACTIVA_SUB:
+ldl 2
+ldnl atributo
+ldc 0x40
+or
+ldl 2
+stnl atributo
+ret
+
+E_APAGA_SUB:
+ldl 2
+ldnl atributo
+ldc 0xbf
+and
+ldl 2
+stnl atributo
+ret
+
+E_ACTIVA_PAR:
+ldl 2
+ldnl atributo
+ldc 0x20
+or
+ldl 2
+stnl atributo
+ret
+
+E_APAGA_PAR:
+ldl 2
+ldnl atributo
+ldc 0xdf
+and
+ldl 2
+stnl atributo
+ret
+
+E_SALVA_POS:
+ldl 2
+ldnl pos_x
+ldl 2
+stnl pos_x2
+ldl 2
+ldnl pos_y
+ldl 2
+stnl pos_y2
+ret
+
+E_RECUPERA_POS:
+ldl 2
+ldnl pos_x2
+ldl 2
+stnl pos_x
+ldl 2
+ldnl pos_y2
+ldl 2
+stnl pos_y
+j Y2
+
+E_BYTE1:
+ldl 1
+adc -1
+stl 1
+ldc 80
+ldl 1
+gt
+cj E_BYTE1_1
+ldl 1
+ldl 2
+stnl pos_x
+E_BYTE1_1:
+ldc 4
+ldl 2
+stnl estatus
+ret
+
+E_BYTE2:
+ldl 1
+adc -1
+stl 1
+ldc 25
+ldl 1
+gt
+cj E_BYTE2_1
+ldl 1
+ldl 2
+stnl pos_y
+E_BYTE2_1:
+ldc 1
+ldl 2
+stnl estatus
+j Y2
+
+E_BYTE3:
+ldl 1
+adc -32
+stl 1
+ldc 25
+ldl 1
+gt
+cj E_BYTE3_1
+ldl 1
+ldl 2
+stnl pos_y
+E_BYTE3_1:
+ldc 6
+ldl 2
+stnl estatus
+ret
+
+E_BYTE4:
+ldl 1
+adc -32
+stl 1
+ldc 80
+ldl 1
+gt
+cj E_BYTE4_1
+ldl 1
+ldl 2
+stnl pos_x
+E_BYTE4_1:
+ldc 1
+ldl 2
+stnl estatus
+j Y2
+
+E_BYTE5:
+ldl 1
+ldl 2
+stnl conjunto
+ldc 1
+ldl 2
+stnl estatus
+j Y2
+
+E_BLIN_HASTA:
+ajw -2
+ldl 4
+ldnl pos_y
+ldc 160
+prod
+ldl 4
+ldnl video
+bsub
+dup
+stl 0
+ldl 4
+ldnl pos_x
+ldc 2
+prod
+bsub
+adc 2
+stl 1
+Y3:
+ldc 0x20
+ldl 0
+sb
+ldc 0x02
+ldl 0
+adc 1
+sb
+ldl 0
+adc 2
+stl 0
+ldl 0
+ldl 1
+diff
+eqc 0
+cj Y3
+ajw 2
+ret
+
+E_BLIN_DESDE:
+ajw -2
+ldl 4
+ldnl pos_y
+ldc 160
+prod
+ldl 4
+ldnl video
+bsub
+dup
+ldnlp 40
+stl 0
+ldl 4
+ldnl pos_x
+ldc 2
+prod
+bsub
+stl 1
+Y4:
+ldc 0x20
+ldl 1
+sb
+ldc 0x02
+ldl 1
+adc 1
+sb
+ldl 1
+adc 2
+stl 1
+ldl 0
+ldl 1
+diff
+eqc 0
+cj Y4
+ajw 2
+ret
+
+E_BPAN_HASTA:
+ajw -2
+ldl 4
+ldnl video
+stl 0
+ldl 4
+ldnl pos_y
+ldc 160
+prod
+ldl 4
+ldnl video
+bsub
+ldl 4
+ldnl pos_x
+ldc 2
+prod
+bsub
+adc 2
+stl 1
+Y5:
+ldc 0x20
+ldl 0
+sb
+ldc 0x02
+ldl 0
+adc 1
+sb
+ldl 0
+adc 2
+stl 0
+ldl 0
+ldl 1
+diff
+eqc 0
+cj Y5
+ajw 2
+ret
+
+E_BPAN_DESDE:
+ajw -2
+ldl 4
+ldnl video
+ldnlp 1000
+stl 0
+ldl 4
+ldnl pos_y
+ldc 160
+prod
+ldl 4
+ldnl video
+bsub
+ldl 4
+ldnl pos_x
+ldc 2
+prod
+bsub
+stl 1
+Y6:
+ldc 0x20
+ldl 1
+sb
+ldc 0x02
+ldl 1
+adc 1
+sb
+ldl 1
+adc 2
+stl 1
+ldl 0
+ldl 1
+diff
+eqc 0
+cj Y6
+ajw 2
+ret
+
+E_INVIERTE_BRILLO:
+ldl 2
+ldnl atributo
+ldc 8
+xor
+ldl 2
+stnl atributo
+ret
+
+E_BORRA_CARACTER_DEBAJO:
+ldl 2
+ldnl pos_x
+ldc 2
+prod
+ldl 2
+ldnl pos_y
+ldc 160
+prod
+bsub
+ldl 2
+ldnl video
+bsub
+dup
+ldc 32
+rev
+sb
+ldc 2
+rev
+adc 1
+sb
+ret
+
+E_PRIMERA_COLUMNA:
+ldc 0
+ldl 2
+stnl pos_x
+j Y2
+
+E_LIMPIA_VIDEO:
+ldl 2
+ldl 1
+call E_CURSOR_0
+ldl 2
+ldl 1
+call E_BPAN_DESDE
+ldc 2
+ldl 2
+stnl atributo
+call E_ENCIENDE_CURSOR
+ret
+
+E_BORRA_PANTALLA:
+ajw -2
+ldl 2
+ldnl pos_x
+stl 0
+ldl 2
+ldnl pos_y
+stl 1
+ldl 4
+ldl 3
+call E_CURSOR_0
+ldl 4
+ldl 3
+call E_BPAN_DESDE
+ldl 0
+ldl 2
+stnl pos_x
+ldl 1
+ldl 2
+stnl pos_y
+ajw 2
+ret
+
+E_CURSOR_0:
+ldc 0
+ldl 2
+stnl pos_x
+ldc 0
+ldl 2
+stnl pos_y
+j Y2
+
+E_CURSOR_IZQ:
+ldl 2
+ldnl pos_x
+cj Y2
+ldl 2
+ldnl pos_x
+adc -1
+ldl 2
+stnl pos_x
+j Y2
+
+E_CURSOR_DER:
+ldl 2
+ldnl pos_x
+eqc 79
+eqc 0
+cj Y2
+ldl 2
+ldnl pos_x
+adc 1
+ldl 2
+stnl pos_x
+j Y2
+
+E_CURSOR_ARRIBA:
+ldl 2
+ldnl pos_y
+cj E_INSERTA_LINEA
+ldl 2
+ldnl pos_y
+adc -1
+ldl 2
+stnl pos_y
+j Y2
+
+E_CURSOR_ABAJO:
+ldl 2
+ldnl pos_y
+eqc 24
+eqc 0
+cj E_ROLA_VIDEO
+ldl 2
+ldnl pos_y
+adc 1
+ldl 2
+stnl pos_y
+j Y2
+
+E_ROLA_VIDEO:
+ldc 0
+ldl 2
+stnl pos_y
+ldl 2
+ldl 1
+call E_BORRA_LINEA
+ldc 24
+ldl 2
+stnl pos_y
+j Y2
+
+E_INSERTA_LINEA:
+ajw -3
+ldl 5
+ldnl pos_y
+ldc 160
+prod
+ldl 5
+ldnl video
+bsub
+dup
+stl 2
+ldl 5
+ldnl video
+ldnlp 999
+stl 1
+ldl 5
+ldnl video
+ldnlp 959
+stl 0
+Y9:
+ldl 0
+ldnlp 1
+ldl 2
+diff
+cj Y10
+ldl 0
+ldnl 0
+ldl 1
+stnl 0
+ldl 0
+ldnlp -1
+stl 0
+ldl 1
+ldnlp -1
+stl 1
+j Y9
+Y10:
+ldl 2
+ldnlp 40
+stl 1
+Y11:
+ldc 0x0e200e20
+ldl 2
+stnl 0
+ldl 2
+ldnlp 1
+stl 2
+ldl 2
+ldl 1
+diff
+eqc 0
+cj Y11
+ajw 3
+ret
+
+E_BORRA_LINEA:
+ajw -3
+ldl 5
+ldnl pos_y
+ldc 160
+prod
+ldl 5
+ldnl video
+bsub
+dup
+stl 1
+adc 160
+stl 0
+ldl 5
+ldnl video
+ldnlp 1000
+stl 2
+Y7:
+ldl 0
+ldnl 0
+ldl 1
+stnl 0
+ldl 0
+ldnlp 1
+stl 0
+ldl 1
+ldnlp 1
+stl 1
+ldl 0
+ldl 2
+diff
+eqc 0
+cj Y7
+Y8:
+ldc 0x02200220
+ldl 1
+stnl 0
+ldl 1
+ldnlp 1
+stl 1
+ldl 1
+ldl 2
+diff
+eqc 0
+cj Y8
+ajw 3
+ret
+
+E_ENCIENDE_CURSOR:
+ldc 0x0f00
+call E_FORMA_CURSOR
+ret
+
+E_APAGA_CURSOR:
+ldc 0x000f
+call E_FORMA_CURSOR
+ret
+
+E_SITUA_CURSOR:
+ldc 7
+ldlp 1
+adc -1
+sb
+ajw -1
+mint
+ldnlp 0x42
+ldlp 2
+adc -1
+outword
+ldlp 2
+mint
+ldnlp 0x43
+ldc 1
+in
+ajw 1
+ret
+
+E_FORMA_CURSOR:
+ldc 8
+ldlp 1
+adc -1
+sb
+ajw -1
+mint
+ldnlp 0x42
+ldlp 2
+adc -1
+outword
+ldlp 2
+mint
+ldnlp 0x43
+ldc 1
+in
+ajw 1
+ret
+
