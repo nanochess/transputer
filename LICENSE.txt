@@ -1,4 +1,4 @@
-Transputer emulator, transputer assembler, and transputer Pascal compiler
+Transputer emulator, assembler, Pascal compiler, basic operating system, and full operating system.
 Copyright (c) 1993-2025 Oscar Toledo G. http://nanochess.org/
 All rights reserved.
 

@@ -16,13 +16,15 @@ Lately I've added my full operating system complete with subdirectories, multipl
 
 Most recently I've added a Javascript version of the transputer emulator that can run immediately in your web browser: [https://nanochess.org/transputer_emulator.html](https://nanochess.org/transputer_emulator.html)
 
+Some lost files were added later, composing my CP/M Z80 emulator. Because CP/M still has licensing issues, I only have provided a copy of the public domain Li-chen Wang's Tiny BASIC for testing it. You can add the CP/M files manually if you want to test it.
+
 ### What we have here
 
 In order for you to experience my Pascal compiler, I needed to write two tools in modern C. Namely, the emulator for the transputer from the ground up, and port the assembler that ran on my Z280 host machine (the transputer was a board for the Z280 computer)
 
 And nope, it wasn't a standard INMOS board, it was a board specifically designed for the Z280 computer.
 
-The emulator at the start supported _only_ the instructions used by my bootstrap code, my Pascal compiler, and a Ray Tracer program I ported from C to Pascal. Later, I added a few more instructions as well.
+The initial emulator supported _only_ the instructions used by my bootstrap code, my Pascal compiler, and a Ray Tracer program I ported from C to Pascal. Later, I added a few more instructions as well.
 
 Currently the core unhandled instructions are: _alt_, _talt_, _altwt_, _taltwt_, _altend_, _dist_, _disc_, _diss_, _enbt_, _enbc_, _enbs_, _fmul_, and _stoperr_.
 
@@ -49,7 +51,7 @@ Compilation instructions (Windows Visual Studio 2022):
     cl tem.c -o tem
     cl tasm.c -o tasm
 
-For Windows replace the slash / with the backslash \
+For Windows please replace the slash / with the backslash \
     
 ### Pascal compiler
 
@@ -90,7 +92,7 @@ Also there is longer command-line for compiling the Pascal compiler. Because it 
 
 The file *library.len* contains the support library for the Pascal compiler.
 
-The len extension means Listado ENsamblador (Assembler listing), while the CMG extension means (Codigo Maquina G10, or G10 machine code, where G10 was the name given to the transputer board)
+The *len* extension means Listado ENsamblador (Assembler listing), while the CMG extension means (Codigo Maquina G10, or G10 machine code, where G10 was the name given to the transputer board)
  
  
 ## Ray tracer
@@ -128,7 +130,7 @@ The resulting assembly file can be passed through tasm, and added STDIO2.LEN for
 
 ## Early operating system
 
-This is my early version of my first operating system (Jun/1995). It is composed of several files:
+This is an early version of my first operating system (Jun/1995). It is composed of several files:
 
     os/ARRANQUE.LEN    Boot sector.
     os/EDITOR.C        Visual text editor for running it inside the OS.
@@ -189,7 +191,7 @@ In macOS you can use Fn+F1 to access the help box of the visual text editor, and
 
 In Windows and Linux you can use F1 to access the help box of the visual text editor, and type F4 to open the directory browsing for reading text files.
 
-Use C:CC to invoke the C compiler, C:ENS to invoke the assembler, C:EJECUTABLE to build assembler output into a working executable. There are instructions for compiling programs in the C:/Documentos/Programas.doc file.
+Use *C:CC* to invoke the C compiler, *C:ENS* to invoke the assembler, *C:EJECUTABLE* to build assembler output into a working executable. There are instructions for compiling programs in the *C:/Documentos/Programas.doc* file.
 
 This is an example compilation of a program:
 
@@ -211,7 +213,7 @@ This is an example compilation of a program:
     0
     C:Hora.p
     
-The disk images are built with build_f1.sh, build_f2.sh, and build_hd.sh and require some time for you to copy the files into the drives (from the emulated floppy disk to the emulate hard disk drive).
+The disk images are built with *build_f1.sh*, *build_f2.sh*, and *build_hd.sh* and require some time for you to copy the files into the drives (from the emulated floppy disk to the emulate hard disk drive).
 
 After you do some developing inside the hard disk drive image, you need a way to extract back the data, so I've developed the extractimage.c utility, in order to dump a complete hard disk drive image as a tree of files.
 
@@ -233,7 +235,7 @@ It is also hosted here: [https://nanochess.org/transputer_emulator.html](https:/
 
 ## ISA board
 
-Recently I made an ISA board compatible with the Inmos B004, because some people was asking about the possibility of running my software on real hardware. So I made programs to run with this real hardware.
+Recently, I made an ISA board compatible with the Inmos B004, because some people was asking about the possibility of running my software on real hardware. So I made programs to run with this real hardware.
 
 The _tram_ directory contains the _comm.asm_ program for MS-DOS that replicates the input/output function of my transputer emulator. 
 
