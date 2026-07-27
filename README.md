@@ -18,6 +18,9 @@ Most recently I've added a Javascript version of the transputer emulator that ca
 
 Some lost files were added later, composing my CP/M Z80 emulator. Because CP/M still has licensing issues, I only have provided a copy of the public domain Li-chen Wang's Tiny BASIC for testing it. You can add the CP/M files manually if you want to test it.
 
+Matt Gumbley is in the process of adapting my Small-C port to the Parachute IServer system, a modern transputer emulation project [https://github.com/devzendo/transputer-k-r-c-compiler](https://github.com/devzendo/transputer-k-r-c-compiler)
+
+
 ### What we have here
 
 In order for you to experience my Pascal compiler, I needed to write two tools in modern C. Namely, the emulator for the transputer from the ground up, and port the assembler that ran on my Z280 host machine (the transputer was a board for the Z280 computer)
