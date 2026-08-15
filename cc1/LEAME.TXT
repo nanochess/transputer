@@ -1,0 +1,5 @@
+Este directorio contiene un compilador de C para G10 mejorado.
+
+Las mejoras son:
+* Todos los árboles de expresiones son asignados dinámicamente.
+

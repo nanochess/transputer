@@ -1,0 +1,66 @@
+;Compilador de C para G10  (c) Oscar Toledo G.1996
+;
+COMIENZO:
+j INICIO
+qmain:
+ldc 5
+stl 2
+ldc 6
+stl 3
+ldl 2
+ldl 3
+bsub
+stl 2
+ret
+
+; >>>>> Fin de compilación <<<<<
+INICIO:
+ajw -3
+ldl 6
+ldl 5
+ldlp 0
+call qmain
+ajw 3
+ret
+LIB_CSHORT:
+ldl 1
+lb
+ldl 1
+adc 1
+lb
+ldc 8
+shl
+or
+ldc 0x8000
+xword
+stl 1
+ldl 3
+ldl 2
+ldl 1
+ret
+LIB_CUSHORT:
+ldl 1
+lb
+ldl 1
+adc 1
+lb
+ldc 8
+shl
+or
+stl 1
+ldl 3
+ldl 2
+ldl 1
+ret
+LIB_GSHORT:
+ldl 2
+ldl 1
+sb
+ldl 2
+ldc 8
+shr
+ldl 1
+adc 1
+sb
+ldl 3
+ret

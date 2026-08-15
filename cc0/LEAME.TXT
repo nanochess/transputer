@@ -1,0 +1,8 @@
+Este directorio contiene el compilador de C (para G10) original.
+Incluye las siguientes modificaciones:
+
+* Color ANSI.
+* Entrada y salida con convenciones *NIX.
+* Más transportable. (todos los char fueron convertidos a unsigned char)
+
+

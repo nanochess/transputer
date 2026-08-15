@@ -18,6 +18,8 @@ Most recently I've added a Javascript version of the transputer emulator that ca
 
 Some lost files were added later, composing my CP/M Z80 emulator. Because CP/M still has licensing issues, I only have provided a copy of the public domain Li-chen Wang's Tiny BASIC for testing it. You can add the CP/M files manually if you want to test it.
 
+Also I've found in my disks an extra 1998 version of the transputer C compiler adapted to compile with DJGPP in MS-DOS. The first one in the directory _cc0_ has been adapted to the standard C input/output libraries. And the second one in the directory _cc1_ uses malloc/free to allocate expression trees, and also uses _struct_ for the nodes instead of numeric arrays.
+
 Matt Gumbley is in the process of adapting my Small-C port to the Parachute IServer system, a modern transputer emulation project [https://github.com/devzendo/transputer-k-r-c-compiler](https://github.com/devzendo/transputer-k-r-c-compiler)
 
 
