@@ -5,4 +5,5 @@ tasm
 *.o
 os/buildboot
 os/bin2c
+os_final/extractimage
 

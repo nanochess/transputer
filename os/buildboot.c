@@ -320,7 +320,6 @@ int main(int argc, char *argv[])
     else
         memset(fat, 0, max_blocks);
     
-
     /*
      ** Put the boot sector (1 sector)
      */

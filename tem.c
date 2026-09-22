@@ -20,6 +20,15 @@
 #define FPU_TEST    0
 
 /*
+ ** 262144 is for emulating my old system with 128K SRAM. The upper 124K are unused.
+ ** 524288 is for an improved system able to run my portable C compiler. The upper 252K are unused.
+ */
+#define MEMORY_SIZE  262144     /* Valid values 262144 and 524288 */
+
+#define MEMORY_MASK  (MEMORY_SIZE - 1)
+unsigned char memory[MEMORY_SIZE];
+
+/*
  ** The supported machine is a T805 homebrew board made by Oscar Toledo E. circa 1992
  **
  ** It connected to a host machine based on the Zilog Z280 processor.
@@ -279,8 +288,6 @@ int getkey(int fd)
     return len;
 }
 
-unsigned char memory[0x40000];
-
 unsigned char channel0[0x10000];
 int output_channel0;
 int offset_channel0;
@@ -296,7 +303,11 @@ int bytes_channel0;
  */
 unsigned char boot_image[] = {
     0x24, 0xf2,                     /* mint */
+#if MEMORY_SIZE<=262144
     0x22, 0x20, 0x2f, 0x2f, 0x88,   /* adc 0x20ff8 */
+#else   /* For compiling the improved portable C compiler */
+    0x24, 0x20, 0x2f, 0x2f, 0x88,   /* adc 0x40ff8 */
+#endif
     0x23, 0xfc,                     /* gajw */
     0x22, 0xf9,                     /* testerr */
     0x25, 0xf7,                     /* clrhalterr */
@@ -598,8 +609,6 @@ void debug_memory(unsigned int Areg, unsigned int Breg, unsigned int Creg, unsig
 }
 
 #define debug_data() debug_memory(Areg, Breg, Creg, Iptr, Wptr);
-
-#define MEMORY_MASK  0x0003ffff
 
 #define not_handled(a)  fprintf(stderr, "Unhandled instruction %04x at %08x\n", Oreg, Iptr);return
 #define undocumented(a)  fprintf(stderr, "Undocumented instruction %04x at %08x\n", Oreg, Iptr);return
