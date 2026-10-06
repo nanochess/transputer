@@ -934,7 +934,7 @@ TERM.AnsiViewer = function (fontmap){
         this.draw(character);
         this.cursor.moveForward(1);
         
-        if(!this.cursor.infinitewidth && this.cursor.x + this.cursor.columnWidth > this.cursor.maxcolumnWidth * this.cursor.columnWidth){
+        if(!this.cursor.infinitewidth && this.cursor.x + this.cursor.columnWidth > this.cursor.maxColumnWidth * this.cursor.columnWidth){
             this.moveDown(1);
             this.cursor.carriageReturn();
         }
@@ -1021,35 +1021,35 @@ TERM.AnsiViewer = function (fontmap){
     this.displayCleared = function() {
         this.removeCursor();
         ctx.fillStyle = BLACK_NORMAL;
-        ctx.fillRect(0, 0, this.cursor.maxcolumnWidth * this.cursor.columnWidth, this.cursor.maxlineHeight * this.cursor.lineHeight);
+        ctx.fillRect(0, 0, this.cursor.maxColumnWidth * this.cursor.columnWidth, this.cursor.maxLineHeight * this.cursor.lineHeight);
         this.drawCursor();
     };
     
     this.eraseUp = function() {
         this.removeCursor();
         ctx.fillStyle = BLACK_NORMAL;
-        ctx.fillRect(0, 0, this.cursor.maxcolumnWidth * this.cursor.columnWidth, this.cursor.y);
+        ctx.fillRect(0, 0, this.cursor.maxColumnWidth * this.cursor.columnWidth, this.cursor.y);
         this.drawCursor();
     };
     
     this.eraseScreen = function() {
         this.removeCursor();
         ctx.fillStyle = this.cursor.backgroundColor;
-        ctx.fillRect(0, 0, this.cursor.maxcolumnWidth * this.cursor.columnWidth, this.cursor.maxlineHeight * this.cursor.lineHeight);
+        ctx.fillRect(0, 0, this.cursor.maxColumnWidth * this.cursor.columnWidth, this.cursor.maxLineHeight * this.cursor.lineHeight);
         this.drawCursor();
     };
     
     this.eraseDown = function() {
         this.removeCursor();
         ctx.fillStyle = BLACK_NORMAL;
-        ctx.fillRect(0, this.cursor.y, this.cursor.maxcolumnWidth * this.cursor.columnWidth, (this.cursor.maxlineHeight * this.cursor.lineHeight) - this.cursor.y);
+        ctx.fillRect(0, this.cursor.y, this.cursor.maxColumnWidth * this.cursor.columnWidth, (this.cursor.maxLineHeight * this.cursor.lineHeight) - this.cursor.y);
         this.drawCursor();
     };
     
     this.eraseEndOfLine = function() {
         this.removeCursor();
         ctx.fillStyle = BLACK_NORMAL;
-        var w = (this.cursor.maxcolumnWidth * this.cursor.columnWidth) - (this.cursor.x - this.cursor.columnWidth);
+        var w = (this.cursor.maxColumnWidth * this.cursor.columnWidth) - (this.cursor.x - this.cursor.columnWidth);
         ctx.fillRect(this.cursor.x, this.cursor.y, w, this.cursor.lineHeight);
         this.drawCursor();
     };
@@ -1064,7 +1064,7 @@ TERM.AnsiViewer = function (fontmap){
     this.eraseLine = function() {
         this.removeCursor();
         ctx.fillStyle = BLACK_NORMAL;
-        ctx.fillRect(0, this.cursor.y, this.cursor.maxcolumnWidth * this.cursor.columnWidth, this.cursor.lineHeight);
+        ctx.fillRect(0, this.cursor.y, this.cursor.maxColumnWidth * this.cursor.columnWidth, this.cursor.lineHeight);
         this.drawCursor();
     };
     
@@ -1079,7 +1079,7 @@ TERM.AnsiViewer = function (fontmap){
     this.home = function() {
         this.removeCursor();
         this.cursor.x = 0;
-        this.cursor.y = (topMargin-1) * this.cursor.maxlineHeight;
+        this.cursor.y = (topMargin-1) * this.cursor.maxLineHeight;
         this.drawCursor();
     };
     
@@ -1094,7 +1094,7 @@ TERM.AnsiViewer = function (fontmap){
     
     this.scrollUp = function(val) {
         this.removeCursor();
-        var canvasData = ctx.getImageData(0, topMargin * this.cursor.lineHeight, this.cursor.maxcolumnWidth*this.cursor.columnWidth, this.cursor.lineHeight * (botMargin-topMargin));
+        var canvasData = ctx.getImageData(0, topMargin * this.cursor.lineHeight, this.cursor.maxColumnWidth*this.cursor.columnWidth, this.cursor.lineHeight * (botMargin-topMargin));
         this.displayCleared();
         ctx.putImageData(canvasData, 0, this.cursor.lineHeight*(topMargin-1));
         this.drawCursor();
