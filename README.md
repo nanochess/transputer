@@ -115,7 +115,7 @@ To execute it:
     
 Although originally the image was displayed directly on the screen using a different "driver" program, I considered the complications of adding the libSDL library to handle display weren't worth it, and instead I've adapted the code as necessary to avoid making yet another emulator executable, so a BMP image file named image001.bmp will appear on your directory.
 
-I did a few demos and animations. I still haven't found the animations.
+I did a few demos and animations over time. I found only a robot animation using files named OSCAR1 to OSCAR15, the animation is composed of files 1 to 14 designed to run in a loop, while 15 is a standing position. By the way, while the legs are right, the arms do a jump.
 
 You can also find a Julia demo as pascal/julia.pas ported from the same book.
 
